@@ -10,19 +10,32 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 2;
+  bool _logedIn;
   PageController _pageController;
   final double _iconSize = 30;
-  final List<Widget> _pages = [
-    ProfileWrapper(),
-    ProfileWrapper(),
-    HomeWrapper(),
-    ProfileWrapper(),
-    ProfileWrapper(),
-  ];
+  List<Widget> _pages = [];
 
   @override
   void initState() {
     super.initState();
+    //TODO: There will be a logged in checker to set this bool value. Which will be a Future method requests to server.
+    _logedIn = false;
+    if (_logedIn) {
+      _pages = [
+        ProfileWrapper(),
+        ProfileWrapper(),
+        HomeWrapper(),
+        ProfileWrapper(),
+        ProfileWrapper(),
+      ];
+    } else {
+      _pages = [
+        ProfileWrapper(),
+        ProfileWrapper(),
+        HomeWrapper(),
+        ProfileWrapper(),
+      ];
+    }
     _pageController = PageController(initialPage: 2);
   }
 
@@ -39,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: PageView(
           controller: _pageController,
           onPageChanged: (index) {
-            if (index == 4) {
+            if (index == 4 && !_logedIn) {
               return;
             }
             setState(() => _selectedIndex = index);
@@ -99,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onItemTapped(int index) {
-    if (index == 4) {
+    print(_logedIn);
+    if (index == 4 && !_logedIn) {
       Navigator.of(context).pushNamed(LoginScreen.routeName);
       return;
     }
