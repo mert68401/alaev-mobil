@@ -1,3 +1,4 @@
+import 'package:alaev/screens/login_screen.dart';
 import 'package:alaev/wrappers/home_wrapper.dart';
 import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: PageView(
           controller: _pageController,
           onPageChanged: (index) {
+            if (index == 4) {
+              return;
+            }
             setState(() => _selectedIndex = index);
           },
           children: _pages,
@@ -95,6 +99,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onItemTapped(int index) {
+    if (index == 4) {
+      Navigator.of(context).pushNamed(LoginScreen.routeName);
+      return;
+    }
     setState(() {
       _selectedIndex = index;
       //
