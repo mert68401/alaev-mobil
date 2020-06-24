@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _pages = [];
 
   @override
+  
   void initState() {
     super.initState();
     //TODO: There will be a logged in checker to set this bool value. Which will be a Future method requests to server.
