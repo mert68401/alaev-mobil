@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = "/login-page";
 
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   Widget _profileImage() {
     return Center(
       child: Container(
@@ -22,7 +27,6 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-  
 
   Widget _textFieldUsername(context) {
     final _username = TextEditingController();

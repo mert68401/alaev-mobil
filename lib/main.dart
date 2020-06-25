@@ -1,6 +1,8 @@
-import 'package:alaev/screens/home_screen.dart';
-import 'package:alaev/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+
+import './screens/home_screen.dart';
+import './screens/login_screen.dart';
+import './screens/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +21,10 @@ class MyApp extends StatelessWidget {
         accentColor: Color.fromRGBO(238, 124, 0, 1),
       ),
       home: HomeScreen(),
-      routes: {LoginScreen.routeName: (context) => LoginScreen()},
+      routes: {
+        LoginScreen.routeName: (context) => LoginScreen(),
+        ProfilePage.routeName: (context) => ProfilePage(),
+      },
     );
   }
 }
