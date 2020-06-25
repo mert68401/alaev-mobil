@@ -1,7 +1,10 @@
-import 'package:alaev/screens/login_screen.dart';
-import 'package:alaev/wrappers/home_wrapper.dart';
-import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';
+
+import '../screens/login_screen.dart';
+import '../wrappers/home_wrapper.dart';
+import '../wrappers/profile_wrapper.dart';
+import '../screens/profile_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ProfileWrapper(),
         ProfileWrapper(),
         HomeWrapper(),
-        ProfileWrapper(),
+        ProfilePage(), // GEÇİCİ
         ProfileWrapper(),
       ];
     } else {
@@ -33,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ProfileWrapper(),
         ProfileWrapper(),
         HomeWrapper(),
-        ProfileWrapper(),
+        ProfilePage(), // GEÇİCİ
       ];
     }
     _pageController = PageController(initialPage: 2);
