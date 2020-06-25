@@ -1,10 +1,9 @@
+import 'package:alaev/wrappers/adv_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/login_screen.dart';
 import '../wrappers/home_wrapper.dart';
 import '../wrappers/profile_wrapper.dart';
-import '../screens/profile_screen.dart';
-
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,18 +24,18 @@ class _HomeScreenState extends State<HomeScreen> {
     _loggedIn = false;
     if (_loggedIn) {
       _pages = [
-        ProfileWrapper(),
-        ProfileWrapper(),
+        AdvertisementWrapper(),
+        AdvertisementWrapper(),
         HomeWrapper(),
-        ProfilePage(), // GEÇİCİ
+        AdvertisementWrapper(), // GEÇİCİ
         ProfileWrapper(),
       ];
     } else {
       _pages = [
-        ProfileWrapper(),
-        ProfileWrapper(),
+        AdvertisementWrapper(),
+        AdvertisementWrapper(),
         HomeWrapper(),
-        ProfilePage(), // GEÇİCİ
+        AdvertisementWrapper(), // GEÇİCİ
       ];
     }
     _pageController = PageController(initialPage: 2);
@@ -67,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).accentColor,
         onTap: _onItemTapped,
-        type: BottomNavigationBarType.shifting,
+        backgroundColor: Theme.of(context).primaryColor,
+        type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             title: Text('Item One'),
@@ -94,15 +94,15 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Item One'),
+            title: Text('İlanlar'),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
-              Icons.settings,
+              Icons.sort,
               size: _iconSize,
             ),
           ),
           BottomNavigationBarItem(
-            title: Text('Item One'),
+            title: _loggedIn ? Text('Profilim') : Text("Giriş Yap"),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.person,

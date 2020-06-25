@@ -41,15 +41,15 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         controller: _username,
         decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: BorderSide(width: 10),
+            borderRadius: BorderRadius.circular(10),
+          ),
           filled: true,
           fillColor: Colors.white,
           hintText: 'Kullanıcı adı',
           hintStyle: TextStyle(
             color: Colors.blueGrey,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Theme.of(context).accentColor),
           ),
         ),
       ),
@@ -63,21 +63,22 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
       height: 60,
       child: TextField(
+        obscureText: true,
         textAlign: TextAlign.start,
         style: TextStyle(
           fontSize: 14,
         ),
         controller: _password,
         decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: BorderSide(width: 10),
+            borderRadius: BorderRadius.circular(10),
+          ),
           filled: true,
           fillColor: Colors.white,
           hintText: 'Şifre',
           hintStyle: TextStyle(
             color: Colors.blueGrey,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Theme.of(context).accentColor),
           ),
         ),
       ),
@@ -118,30 +119,19 @@ class _LoginScreenState extends State<LoginScreen> {
               //SizedBox(width: 10.0),
             ],
           ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: InkWell(
-                  onTap: () => print("forgot"), // ----
-                  child: Card(
-                    color: Theme.of(context).primaryColor,
-                    margin: EdgeInsets.only(
-                      left: 250,
-                      top: 10,
-                    ),
-                    elevation: 0,
-                    child: Text(
-                      "Şifremi Unuttum",
-                      style: TextStyle(
-                        //fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            width: double.infinity,
+            child: InkWell(
+              onTap: () {
+                print("tapped" + DateTime.now().toString());
+              },
+              child: Text(
+                "Şifremi Unuttum",
+                textAlign: TextAlign.end,
+                style: TextStyle(color: Colors.white),
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -159,20 +149,17 @@ class _LoginScreenState extends State<LoginScreen> {
         children: <Widget>[
           SafeArea(
             child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: screenSize.height / 50),
-                  _profileImage(),
-                  SizedBox(height: 20.0),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    color: Theme.of(context).primaryColor,
-                    margin: EdgeInsets.all(20),
-                    elevation: 5,
-                    borderOnForeground: false,
-                    child: Column(
+              physics: BouncingScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.top,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: screenSize.height * 0.1),
+                    _profileImage(),
+                    SizedBox(height: 20.0),
+                    Column(
                       children: <Widget>[
                         SizedBox(height: 15.0),
                         _textFieldUsername(context),
@@ -183,8 +170,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 5.0),
                       ],
                     ),
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Hesabınız yok mu? "),
+                        GestureDetector(
+                          child: Text(
+                            "Kayıt ol.",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

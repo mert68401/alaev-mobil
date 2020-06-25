@@ -1,8 +1,8 @@
+import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import './screens/home_screen.dart';
 import './screens/login_screen.dart';
-import './screens/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       home: HomeScreen(),
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
-        ProfilePage.routeName: (context) => ProfilePage(),
+        ProfileWrapper.routeName: (context) => ProfileWrapper(),
       },
     );
   }

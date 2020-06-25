@@ -7,6 +7,7 @@ class HomeWrapper extends StatelessWidget {
       child: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
+            elevation: 10,
             leading: Icon(Icons.menu),
             floating: true,
             pinned: true,
@@ -50,7 +51,9 @@ class HomeWrapper extends StatelessWidget {
             ),
           ),
           SliverFillRemaining(
-            child: Text("data"),
+            child: Container(
+              color: Theme.of(context).accentColor,
+            ),
           )
         ],
       ),
