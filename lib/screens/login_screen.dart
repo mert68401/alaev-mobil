@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import './register_screen.dart';
+
+
 class LoginScreen extends StatefulWidget {
   static const routeName = "/login-page";
 
@@ -138,6 +141,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _pushNamedPage() {
+    Navigator.of(context).pushNamed(RegisterScreen.routeName);
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -175,6 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         Text("Hesabınız yok mu? "),
                         GestureDetector(
+                          onTap: _pushNamedPage,
                           child: Text(
                             "Kayıt ol.",
                             style: TextStyle(
