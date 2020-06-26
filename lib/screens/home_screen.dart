@@ -1,9 +1,10 @@
-import 'package:alaev/wrappers/adv_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/login_screen.dart';
 import '../wrappers/home_wrapper.dart';
 import '../wrappers/profile_wrapper.dart';
+import '../wrappers/adv_wrapper.dart';
+import '../wrappers/news_wrapper.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -21,11 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     //TODO: There will be a logged in checker to set this bool value. Which will be a Future method requests to server.
-    _loggedIn = false;
+    _loggedIn = true;
     if (_loggedIn) {
       _pages = [
         AdvertisementWrapper(),
-        AdvertisementWrapper(),
+        NewsWrapper(),
         HomeWrapper(),
         AdvertisementWrapper(), // GEÇİCİ
         ProfileWrapper(),
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       _pages = [
         AdvertisementWrapper(),
-        AdvertisementWrapper(),
+        NewsWrapper(),
         HomeWrapper(),
         AdvertisementWrapper(), // GEÇİCİ
       ];
