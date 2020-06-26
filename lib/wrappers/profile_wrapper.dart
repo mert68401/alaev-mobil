@@ -14,7 +14,6 @@ class MapScreenState extends State<ProfileWrapper>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -210,8 +209,6 @@ class MapScreenState extends State<ProfileWrapper>
     myFocusNode.dispose();
     super.dispose();
   }
-
-  Widget _getPasswordField() {}
 
   Widget _getActionButtons() {
     return Container(
