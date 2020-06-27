@@ -14,24 +14,24 @@ class _HomeWrapperState extends State<HomeWrapper> {
     super.initState();
     Future<void> fetchAlbum() async {
       Map<String, String> headers = {"Content-type": "application/json"};
-      final response = await http.post(
-        'http://alaev.org.tr:2000/api/posts',
-        headers: headers,
-        body: jsonEncode(
-          <String, dynamic>{
-            "filter": {},
-            "params": {
-              "sort": {"createdAt": -1}
-            }
-          },
-        ),
-      );
+      // final response = await http.post(
+      //   'http://alaev.org.tr:2000/api/posts',
+      //   headers: headers,
+      //   body: jsonEncode(
+      //     <String, dynamic>{
+      //       "filter": {},
+      //       "params": {
+      //         "sort": {"createdAt": -1}
+      //       }
+      //     },
+      //   ),
+      // );
 
-      if (response.statusCode == 200) {
-        print(response.body);
-      } else {
-        throw Exception('Failed to load album');
-      }
+      // if (response.statusCode == 200) {
+      //   print(response.body);
+      // } else {
+      //   throw Exception('Failed to load album');
+      // }
     }
 
     fetchAlbum();
