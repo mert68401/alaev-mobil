@@ -43,16 +43,17 @@ class MapScreenState extends State<ProfileWrapper>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-128.png'), // dynamic yaz
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )),
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-128.png'), // dynamic yaz
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                             Container(
