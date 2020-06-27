@@ -1,6 +1,42 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class HomeWrapper extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class HomeWrapper extends StatefulWidget {
+  @override
+  _HomeWrapperState createState() => _HomeWrapperState();
+}
+
+class _HomeWrapperState extends State<HomeWrapper> {
+  @override
+  void initState() {
+    super.initState();
+    Future<void> fetchAlbum() async {
+      Map<String, String> headers = {"Content-type": "application/json"};
+      final response = await http.post(
+        'http://alaev.org.tr:2000/api/posts',
+        headers: headers,
+        body: jsonEncode(
+          <String, dynamic>{
+            "filter": {},
+            "params": {
+              "sort": {"createdAt": -1}
+            }
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        print(response.body);
+      } else {
+        throw Exception('Failed to load album');
+      }
+    }
+
+    fetchAlbum();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
