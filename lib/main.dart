@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import './screens/home_screen.dart';
 import './screens/login_screen.dart';
 import './screens/register_screen.dart';
+import './screens/company_adv_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Alaev',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Color.fromRGBO(60, 42, 152, 1),
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (context) => LoginScreen(),
         ProfileWrapper.routeName: (context) => ProfileWrapper(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
+        CompanyAdvertisement.routeName: (context) => CompanyAdvertisement(),
       },
     );
   }
