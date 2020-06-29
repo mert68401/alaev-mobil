@@ -1,3 +1,4 @@
+import 'package:alaev/screens/add_new_adv_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/company_adv_screen.dart';
@@ -23,8 +24,8 @@ class AdvertisementWrapper extends StatelessWidget {
     }
   ];
 
-   void _pushNamedPage(context) {
-    Navigator.of(context).pushNamed(CompanyAdvertisement.routeName);
+  void _pushNamedPage(context, routeName) {
+    Navigator.of(context).pushNamed(routeName);
     return;
   }
 
@@ -32,6 +33,12 @@ class AdvertisementWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () =>
+                  _pushNamedPage(context, AddNewAdvScreen.routeName)),
+        ],
         title: Text('Firma İlanlar'),
       ),
       body: Container(
@@ -40,7 +47,8 @@ class AdvertisementWrapper extends StatelessWidget {
           itemCount: advList.length,
           itemBuilder: (BuildContext context, int i) {
             return InkWell(
-              onTap: () => _pushNamedPage(context),
+              onTap: () =>
+                  _pushNamedPage(context, CompanyAdvertisement.routeName),
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),

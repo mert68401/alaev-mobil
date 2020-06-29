@@ -1,3 +1,4 @@
+import 'package:alaev/screens/add_new_adv_screen.dart';
 import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ProfileWrapper.routeName: (context) => ProfileWrapper(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
         CompanyAdvertisement.routeName: (context) => CompanyAdvertisement(),
+        AddNewAdvScreen.routeName: (context) => AddNewAdvScreen(),
       },
     );
   }

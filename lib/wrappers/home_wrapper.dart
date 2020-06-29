@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class HomeWrapper extends StatefulWidget {
   @override
@@ -13,7 +10,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
   void initState() {
     super.initState();
     Future<void> fetchAlbum() async {
-      Map<String, String> headers = {"Content-type": "application/json"};
       // final response = await http.post(
       //   'http://alaev.org.tr:2000/api/posts',
       //   headers: headers,
