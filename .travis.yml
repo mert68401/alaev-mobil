@@ -3,7 +3,7 @@ os: osx
 language: generic
 osx_image: xcode8.3
 before_script:
-  - pip3 install six
+  - pip2 install six
   - brew update
   - brew install --HEAD libimobiledevice
   - brew install ideviceinstaller
