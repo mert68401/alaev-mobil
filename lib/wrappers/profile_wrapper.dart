@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/cv_screen.dart';
 
 class ProfileWrapper extends StatefulWidget {
   static const routeName = "/profile-page";
@@ -192,7 +193,12 @@ class MapScreenState extends State<ProfileWrapper>
                               ],
                             ),
                           ),
-                          !_status ? _getActionButtons() : Container(),
+                          !_status
+                              ? _getActionButtons()
+                              : Container(
+                                  child: _cvButton(),
+                                  padding: EdgeInsets.only(right: 65),
+                                ),
                         ],
                       ),
                     ),
@@ -209,6 +215,38 @@ class MapScreenState extends State<ProfileWrapper>
     // Clean up the controller when the Widget is disposed
     myFocusNode.dispose();
     super.dispose();
+  }
+
+  Widget _cvButton() {
+    return Container(
+      margin: EdgeInsets.only(top: 25, left:15, right:50),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: 100.0),
+              child: Container(
+                  child: RaisedButton(
+                child: Text("CV Ekle/Düzenle"),
+                textColor: Colors.white,
+                color: Colors.green,
+                onPressed: () {
+                  setState(() {
+                    Navigator.of(context).pushNamed(CvScreen.routeName);
+                    return;
+                  });
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+              )),
+            ),
+            flex: 2,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _getActionButtons() {
