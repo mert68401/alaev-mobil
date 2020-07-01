@@ -76,14 +76,8 @@ router.post("/register", function (req, res) {
             success: false,
             message: "Some parameters are missing!",
         });
+        throw new Error("Some parameters not found!");
     }
-    if (!userObj) {
-        res.status(401).send({
-            success: false,
-            message: "Some parameters are missing!",
-        });
-    }
-
     database.collection("userAccounts").insertOne(userObj, function (err, result) {
         if (err) {
             console.log(err);

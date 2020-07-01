@@ -59,6 +59,10 @@ class _NewsWrapperState extends State<NewsWrapper> {
     fetchNews();
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

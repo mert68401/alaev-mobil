@@ -1,11 +1,6 @@
-import 'dart:convert';
-
-import 'package:alaev/functions/functions.dart';
-import 'package:alaev/screens/home_screen.dart';
-import 'package:crypto/crypto.dart';
+import 'package:alaev/providers/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import './register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,63 +14,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _password = TextEditingController();
   final _email = TextEditingController();
   bool _isLoading = false;
-
-  Future<void> loginRequest(
-      BuildContext context, String email, String password) async {
-    if (password.length == 0 || email.length == 0) {
-      Fluttertoast.showToast(
-          msg: "Email adresinizi ve şifrenizi girmelisiniz.",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return -1;
-    }
-    if (!validateEmail(email)) {
-      Fluttertoast.showToast(
-          msg: "Email adresinizi doğru yazdığınızdan emin olun.",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return -1;
-    }
-    var passwordMd5 = md5.convert(utf8.encode(password));
-    Map<String, String> headers = {"Content-type": "application/json"};
-    setState(() {
-      _isLoading = true;
-    });
-    final response = await http.post(
-      'http://10.0.2.2:2000/api/login',
-      headers: headers,
-      body: jsonEncode(
-        <String, String>{"email": email, "password": passwordMd5.toString()},
-      ),
-    );
-    setState(() {
-      _isLoading = false;
-    });
-
-    if (response.statusCode == 200) {
-      Map<dynamic, dynamic> body = jsonDecode(response.body);
-      await setToken(body['token']);
-      
-    } else {
-      Fluttertoast.showToast(
-          msg: "Email adresiniz veya şifreniz uyuşmamaktadır",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return -1;
-    }
-  }
 
   Widget _profileImage() {
     return Center(
@@ -160,9 +98,17 @@ class _LoginScreenState extends State<LoginScreen> {
               Expanded(
                 child: InkWell(
                   onTap: _isLoading
-                      ? () => print("asdasd")
-                      : () => loginRequest(
-                          context, _email.text, _password.text), // ----
+                      ? () => null
+                      : () {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          Provider.of<Auth>(context, listen: false)
+                              .login(_email.text, _password.text);
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        }, // ----
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

@@ -7,13 +7,15 @@ import '../wrappers/adv_wrapper.dart';
 import '../wrappers/news_wrapper.dart';
 
 class HomeScreen extends StatefulWidget {
+  final bool loggedIn;
+
+  HomeScreen({@required this.loggedIn});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 2;
-  bool _loggedIn;
   PageController _pageController;
   final double _iconSize = 30;
   List<Widget> _pages = [];
@@ -22,8 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     //TODO: There will be a logged in checker to set this bool value. Which will be a Future method requests to server.
-    _loggedIn = false;
-    if (_loggedIn) {
+    if (widget.loggedIn) {
       _pages = [
         AdvertisementWrapper(),
         NewsWrapper(),
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: PageView(
           controller: _pageController,
           onPageChanged: (index) {
-            if (index == 4 && !_loggedIn) {
+            if (index == 4 && !widget.loggedIn) {
               return;
             }
             setState(() => _selectedIndex = index);
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            title: _loggedIn ? Text('Profilim') : Text("Giriş Yap"),
+            title: widget.loggedIn ? Text('Profilim') : Text("Giriş Yap"),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.person,
@@ -116,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onItemTapped(int index) {
-    if (index == 4 && !_loggedIn) {
+    if (index == 4 && !widget.loggedIn) {
       Navigator.of(context).pushNamed(LoginScreen.routeName);
       return;
     }

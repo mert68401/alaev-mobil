@@ -9,6 +9,15 @@ class Auth with ChangeNotifier {
   String _token;
   String _userId;
 
+  bool get isAuth {
+    _token = getToken().toString();
+    if (_token == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   Future<void> signup(String fullName, String email, String password) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     var passwordMd5 = md5.convert(utf8.encode(password));
@@ -29,7 +38,35 @@ class Auth with ChangeNotifier {
       print("üyeik oluşturuldu");
     } else {
       showToastError("Email adresiniz veya şifreniz uyuşmamaktadır");
+    }
+  }
+
+  Future<void> login(String email, String password) async {
+    print(email + password);
+    if (password.length == 0 || email.length == 0) {
+      showToastError("Email adresinizi ve şifrenizi girmelisiniz.");
       return -1;
+    }
+    if (!validateEmail(email)) {
+      showToastError("Email adresinizi doğru yazdığınızdan emin olun.");
+      return -1;
+    }
+    var passwordMd5 = md5.convert(utf8.encode(password));
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://10.0.2.2:2000/api/login',
+      headers: headers,
+      body: jsonEncode(
+        <String, String>{"email": email, "password": passwordMd5.toString()},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> body = jsonDecode(response.body);
+      print(body['token']);
+      await setToken(body['token']);
+    } else {
+      showToastError("Email adresiniz veya şifreniz uyuşmamaktadır");
     }
   }
 }

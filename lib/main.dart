@@ -24,22 +24,30 @@ class MyApp extends StatelessWidget {
           value: Auth(),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Alaev',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color.fromRGBO(60, 42, 152, 1),
-          accentColor: Color.fromRGBO(238, 124, 0, 1),
+      child: Consumer<Auth>(
+        builder: (context, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Alaev',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            primaryColor: Color.fromRGBO(60, 42, 152, 1),
+            accentColor: Color.fromRGBO(238, 124, 0, 1),
+          ),
+          home: auth.isAuth
+              ? HomeScreen(
+                  loggedIn: true,
+                )
+              : HomeScreen(
+                  loggedIn: false,
+                ),
+          routes: {
+            LoginScreen.routeName: (context) => LoginScreen(),
+            ProfileWrapper.routeName: (context) => ProfileWrapper(),
+            RegisterScreen.routeName: (context) => RegisterScreen(),
+            CompanyAdvertisement.routeName: (context) => CompanyAdvertisement(),
+            AddNewAdvScreen.routeName: (context) => AddNewAdvScreen(),
+          },
         ),
-        home: HomeScreen(),
-        routes: {
-          LoginScreen.routeName: (context) => LoginScreen(),
-          ProfileWrapper.routeName: (context) => ProfileWrapper(),
-          RegisterScreen.routeName: (context) => RegisterScreen(),
-          CompanyAdvertisement.routeName: (context) => CompanyAdvertisement(),
-          AddNewAdvScreen.routeName: (context) => AddNewAdvScreen(),
-        },
       ),
     );
   }
