@@ -1,7 +1,14 @@
+import 'package:alaev/providers/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatelessWidget {
   static const routeName = '/register-page';
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final password2Controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +58,8 @@ class RegisterScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                           ),
-                          controller: null, //--------------------------------
+                          controller:
+                              fullNameController, //--------------------------------
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 10),
@@ -81,7 +89,8 @@ class RegisterScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                           ),
-                          controller: null, //--------------------------------
+                          controller:
+                              emailController, //--------------------------------
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 10),
@@ -111,7 +120,8 @@ class RegisterScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                           ),
-                          controller: null, //--------------------------------
+                          controller:
+                              passwordController, //--------------------------------
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 10),
@@ -141,7 +151,8 @@ class RegisterScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                           ),
-                          controller: null, //--------------------------------
+                          controller:
+                              password2Controller, //--------------------------------
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 10),
@@ -155,7 +166,24 @@ class RegisterScreen extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(top: 40, left: 40, right: 40),
                         child: InkWell(
-                          onTap: () => print("kayıt"), // ----
+                          onTap: () {
+                            if (passwordController.text ==
+                                password2Controller.text) {
+                              Provider.of<Auth>(context, listen: false).signup(
+                                  fullNameController.text,
+                                  emailController.text,
+                                  passwordController.text);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Şifreleriniz eşleşmemektedir!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.TOP,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            }
+                          }, // ----
                           child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

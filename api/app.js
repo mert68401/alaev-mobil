@@ -56,27 +56,78 @@ app.get("/", function (req, res) {
 var router = express.Router();
 
 router.post("/register", function (req, res) {
-    const user = {
-        _id: "B13n1Nu2u3Nksksk21o",
-        uName: "meroo36",
-        email: "meroo36@gmail.com",
-    };
+    const body = req.body;
+    console.log(body);
+    var userObj;
+    if (body.email.length > 0 && body.fullName.length > 0 && body.password.length > 0 && body.role.length > 0) {
+        userObj = {
+            _id: makeid(),
+            email: {
+                str: body.email,
+                verified: false,
+            },
+            fullName: body.fullName,
+            password: body.password,
+            role: body.role,
+            createdAt: new Date(),
+        };
+    } else {
+        res.status(401).send({
+            success: false,
+            message: "Some parameters are missing!",
+        });
+    }
+    if (!userObj) {
+        res.status(401).send({
+            success: false,
+            message: "Some parameters are missing!",
+        });
+    }
 
-    jwt.sign({ user }, "şsşsşsşsşsşs", function (err, token) {
-        res.json({ token });
+    database.collection("userAccounts").insertOne(userObj, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.status(401).send({
+                success: false,
+                message: "An error occured!",
+            });
+            return;
+        }
+        res.json({
+            success: true,
+        });
     });
 });
 
 router.post("/login", function (req, res) {
-    const user = {
-        _id: "B13n1Nu2u3Nksksk21o",
-        uName: "meroo36",
-        email: "meroo36@gmail.com",
+    const body = req.body;
+    const userFilter = {
+        "email.str": body.email,
+        password: body.password,
     };
 
-    jwt.sign({ user }, "şsşsşsşsşsşs", function (err, token) {
-        res.json({ token });
-    });
+    database
+        .collection("userAccounts")
+        .findOne(userFilter)
+        .then(function (doc) {
+            if (!doc) {
+                res.status(404).send({
+                    success: false,
+                    message: "User not found!",
+                });
+                return false;
+            }
+            jwt.sign({ _id: doc._id, email: doc.email.str }, "mERoo36mM?", function (err, token) {
+                if (err) {
+                    res.status(401).send({
+                        succes: false,
+                        message: "Some error has occured!",
+                    });
+                }
+                res.json({ token });
+            });
+            return;
+        });
 });
 
 /*

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:alaev/functions/functions.dart';
+import 'package:alaev/screens/home_screen.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import './register_screen.dart';
-
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/login-page";
@@ -11,6 +16,67 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _password = TextEditingController();
+  final _email = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> loginRequest(
+      BuildContext context, String email, String password) async {
+    if (password.length == 0 || email.length == 0) {
+      Fluttertoast.showToast(
+          msg: "Email adresinizi ve şifrenizi girmelisiniz.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return -1;
+    }
+    if (!validateEmail(email)) {
+      Fluttertoast.showToast(
+          msg: "Email adresinizi doğru yazdığınızdan emin olun.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return -1;
+    }
+    var passwordMd5 = md5.convert(utf8.encode(password));
+    Map<String, String> headers = {"Content-type": "application/json"};
+    setState(() {
+      _isLoading = true;
+    });
+    final response = await http.post(
+      'http://10.0.2.2:2000/api/login',
+      headers: headers,
+      body: jsonEncode(
+        <String, String>{"email": email, "password": passwordMd5.toString()},
+      ),
+    );
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> body = jsonDecode(response.body);
+      await setToken(body['token']);
+      
+    } else {
+      Fluttertoast.showToast(
+          msg: "Email adresiniz veya şifreniz uyuşmamaktadır",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return -1;
+    }
+  }
+
   Widget _profileImage() {
     return Center(
       child: Container(
@@ -32,8 +98,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _textFieldUsername(context) {
-    final _username = TextEditingController();
-
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
       height: 60,
@@ -42,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
         style: TextStyle(
           fontSize: 14,
         ),
-        controller: _username,
+        controller: _email,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide(width: 10),
@@ -60,8 +124,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _textFieldPassword(context) {
-    final _password = TextEditingController();
-
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
       height: 60,
@@ -97,7 +159,10 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Expanded(
                 child: InkWell(
-                  onTap: () => print("login"), // ----
+                  onTap: _isLoading
+                      ? () => print("asdasd")
+                      : () => loginRequest(
+                          context, _email.text, _password.text), // ----
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -106,14 +171,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Center(
                       child: Padding(
                         padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Giriş Yap",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
+                        child: _isLoading
+                            ? Text(
+                                "Giriş yapılıyor..",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              )
+                            : Text(
+                                "Giriş Yap",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
                       ),
                     ),
                   ),
