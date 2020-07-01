@@ -1,27 +1,37 @@
 import 'package:alaev/widgets/cv_tf_widget.dart';
 import 'package:flutter/material.dart';
 
-class CvScreen extends StatelessWidget {
+class CvScreen extends StatefulWidget {
   static const routeName = '/cv-screen';
 
-  final cvNameSurname = TextEditingController();
-  final cvAge = TextEditingController();
-  final cvMail = TextEditingController();
-  final cvPhone = TextEditingController();
-  final cvPersonalInfo = TextEditingController();
+  @override
+  _CvScreenState createState() => _CvScreenState();
+}
 
-  final cvSchool1 = TextEditingController();
-  final cvSchool2 = TextEditingController();
-  final cvExperience1 = TextEditingController();
-  final cvExperience2 = TextEditingController();
-  final cvExperienceInfo = TextEditingController();
+class _CvScreenState extends State<CvScreen> {
+  final _cvNameSurname = TextEditingController();
+  final _cvAge = TextEditingController();
+  final _cvMail = TextEditingController();
+  final _cvPhone = TextEditingController();
+  final _cvPersonalInfo = TextEditingController();
 
-  final cvReference1 = TextEditingController();
-  final cvReference2 = TextEditingController();
-  final cvLanguage = TextEditingController();
-  final cvSkillInfo = TextEditingController();
+  final _cvSchool1 = TextEditingController();
+  final _cvSchool2 = TextEditingController();
+  final _cvExperience1 = TextEditingController();
+  final _cvExperience2 = TextEditingController();
+  final _cvExperienceInfo = TextEditingController();
 
-  Widget personalInfoTab(context) {
+  final _cvReference1 = TextEditingController();
+  final _cvReference2 = TextEditingController();
+  final _cvLanguage = TextEditingController();
+  final _cvSkillInfo = TextEditingController();
+
+  void _pushNamedPage(context, routeName) {
+    Navigator.of(context).pushNamed(routeName);
+    return;
+  }
+
+  Widget _personalInfoTab(context) {
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
@@ -66,8 +76,9 @@ class CvScreen extends StatelessWidget {
                                     backgroundColor:
                                         Theme.of(context).accentColor,
                                     radius: 20.0,
-                                    child: InkWell(
-                                      onTap: null,
+                                    child: GestureDetector(
+                                      onTap: () =>
+                                          _pushNamedPage(context, null),
                                       child: Icon(
                                         Icons.add_a_photo,
                                         color: Colors.white,
@@ -84,35 +95,35 @@ class CvScreen extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     CvTextFieldWidget(
-                      controller: cvNameSurname,
+                      controller: _cvNameSurname,
                       height: 50,
                       maxLines: 1,
                       maxLength: 20,
                       labelText: 'İsim Soyisim',
                     ),
                     CvTextFieldWidget(
-                      controller: cvAge,
+                      controller: _cvAge,
                       height: 50,
                       maxLines: 1,
                       maxLength: 2,
                       labelText: 'Yaşınız',
                     ),
                     CvTextFieldWidget(
-                      controller: cvMail,
+                      controller: _cvMail,
                       height: 50,
                       maxLines: 1,
                       maxLength: 30,
                       labelText: 'Mail',
                     ),
                     CvTextFieldWidget(
-                      controller: cvPhone,
+                      controller: _cvPhone,
                       height: 50,
                       maxLines: 1,
                       maxLength: 12,
                       labelText: 'Telefon',
                     ),
                     CvTextFieldWidget(
-                      controller: cvPersonalInfo,
+                      controller: _cvPersonalInfo,
                       height: 150,
                       maxLines: 5,
                       maxLength: 200,
@@ -129,7 +140,7 @@ class CvScreen extends StatelessWidget {
     );
   }
 
-  Widget experienceTab(context) {
+  Widget _experienceTab(context) {
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
@@ -145,14 +156,14 @@ class CvScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20),
                     )),
                 CvTextFieldWidget(
-                  controller: cvSchool1,
+                  controller: _cvSchool1,
                   height: 75,
                   maxLines: 2,
                   maxLength: 70,
                   labelText: 'Okul Adı, Bölüm, Mezuniyet Tarihi',
                 ),
                 CvTextFieldWidget(
-                  controller: cvSchool2,
+                  controller: _cvSchool2,
                   height: 75,
                   maxLines: 2,
                   maxLength: 70,
@@ -167,21 +178,21 @@ class CvScreen extends StatelessWidget {
                   ),
                 ),
                 CvTextFieldWidget(
-                  controller: cvExperience1,
+                  controller: _cvExperience1,
                   height: 75,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
                 ),
                 CvTextFieldWidget(
-                  controller: cvExperience2,
+                  controller: _cvExperience2,
                   height: 75,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
                 ),
                 CvTextFieldWidget(
-                  controller: cvExperienceInfo,
+                  controller: _cvExperienceInfo,
                   height: 130,
                   maxLines: 7,
                   maxLength: 199,
@@ -196,7 +207,7 @@ class CvScreen extends StatelessWidget {
     );
   }
 
-  Widget skillTab(context) {
+  Widget _skillTab(context) {
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
@@ -212,14 +223,14 @@ class CvScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20),
                     )),
                 CvTextFieldWidget(
-                  controller: cvReference1,
+                  controller: _cvReference1,
                   height: 55,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Ad Soyad, Meslek, İletişim',
                 ),
                 CvTextFieldWidget(
-                  controller: cvReference2,
+                  controller: _cvReference2,
                   height: 55,
                   maxLines: 1,
                   maxLength: 70,
@@ -234,13 +245,13 @@ class CvScreen extends StatelessWidget {
                   ),
                 ),
                 CvTextFieldWidget(
-                  controller: cvLanguage,
+                  controller: _cvLanguage,
                   maxLines: 2,
                   maxLength: 79,
                   labelText: 'Diller',
                 ),
                 CvTextFieldWidget(
-                  controller: cvSkillInfo,
+                  controller: _cvSkillInfo,
                   height: 150,
                   maxLines: 7,
                   maxLength: 200,
@@ -286,9 +297,9 @@ class CvScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            personalInfoTab(context),
-            experienceTab(context),
-            skillTab(context),
+            _personalInfoTab(context),
+            _experienceTab(context),
+            _skillTab(context),
           ],
         ),
       ),
