@@ -8,6 +8,7 @@ import './screens/home_screen.dart';
 import './screens/login_screen.dart';
 import './screens/register_screen.dart';
 import './screens/company_adv_screen.dart';
+import './screens/cv_screen.dart';
 
 Future<void> main() async {
   runApp(MyApp());
