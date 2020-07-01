@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CvTextFieldWidget extends StatelessWidget {
+class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final int maxLines;
   final int maxLength;
@@ -8,7 +8,7 @@ class CvTextFieldWidget extends StatelessWidget {
   final String labelText;
   final dynamic counterText;
 
-  CvTextFieldWidget(
+  TextFieldWidget(
       {@required this.controller,
       this.maxLines,
       this.counterText = '',

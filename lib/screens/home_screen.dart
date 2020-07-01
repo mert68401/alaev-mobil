@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     //TODO: There will be a logged in checker to set this bool value. Which will be a Future method requests to server.
-    _loggedIn = true;
+    _loggedIn = false;
     if (_loggedIn) {
       _pages = [
         AdvertisementWrapper(),

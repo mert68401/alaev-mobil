@@ -1,4 +1,4 @@
-import 'package:alaev/widgets/cv_tf_widget.dart';
+import 'package:alaev/widgets/textField_widget.dart';
 import 'package:flutter/material.dart';
 
 class CvScreen extends StatefulWidget {
@@ -94,35 +94,35 @@ class _CvScreenState extends State<CvScreen> {
                 ),
                 Column(
                   children: <Widget>[
-                    CvTextFieldWidget(
+                    TextFieldWidget(
                       controller: _cvNameSurname,
                       height: 50,
                       maxLines: 1,
                       maxLength: 20,
                       labelText: 'İsim Soyisim',
                     ),
-                    CvTextFieldWidget(
+                    TextFieldWidget(
                       controller: _cvAge,
                       height: 50,
                       maxLines: 1,
                       maxLength: 2,
                       labelText: 'Yaşınız',
                     ),
-                    CvTextFieldWidget(
+                    TextFieldWidget(
                       controller: _cvMail,
                       height: 50,
                       maxLines: 1,
                       maxLength: 30,
                       labelText: 'Mail',
                     ),
-                    CvTextFieldWidget(
+                    TextFieldWidget(
                       controller: _cvPhone,
                       height: 50,
                       maxLines: 1,
                       maxLength: 12,
                       labelText: 'Telefon',
                     ),
-                    CvTextFieldWidget(
+                    TextFieldWidget(
                       controller: _cvPersonalInfo,
                       height: 150,
                       maxLines: 5,
@@ -155,14 +155,14 @@ class _CvScreenState extends State<CvScreen> {
                       'Eğitim Bilgileri',
                       style: TextStyle(fontSize: 20),
                     )),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvSchool1,
                   height: 75,
                   maxLines: 2,
                   maxLength: 70,
                   labelText: 'Okul Adı, Bölüm, Mezuniyet Tarihi',
                 ),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvSchool2,
                   height: 75,
                   maxLines: 2,
@@ -177,21 +177,21 @@ class _CvScreenState extends State<CvScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvExperience1,
                   height: 75,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
                 ),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvExperience2,
                   height: 75,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
                 ),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvExperienceInfo,
                   height: 130,
                   maxLines: 7,
@@ -222,14 +222,14 @@ class _CvScreenState extends State<CvScreen> {
                       'Referanslar',
                       style: TextStyle(fontSize: 20),
                     )),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvReference1,
                   height: 55,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Ad Soyad, Meslek, İletişim',
                 ),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvReference2,
                   height: 55,
                   maxLines: 1,
@@ -244,13 +244,13 @@ class _CvScreenState extends State<CvScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvLanguage,
                   maxLines: 2,
                   maxLength: 79,
                   labelText: 'Diller',
                 ),
-                CvTextFieldWidget(
+                TextFieldWidget(
                   controller: _cvSkillInfo,
                   height: 150,
                   maxLines: 7,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/screens/forgot_password_screen.dart';
 import 'package:alaev/screens/home_screen.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> body = jsonDecode(response.body);
       await setToken(body['token']);
-      
     } else {
       Fluttertoast.showToast(
           msg: "Email adresiniz veya şifreniz uyuşmamaktadır",
@@ -196,27 +196,18 @@ class _LoginScreenState extends State<LoginScreen> {
               //SizedBox(width: 10.0),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            width: double.infinity,
-            child: InkWell(
-              onTap: () {
-                print("tapped" + DateTime.now().toString());
-              },
-              child: Text(
-                "Şifremi Unuttum",
-                textAlign: TextAlign.end,
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 
-  void _pushNamedPage() {
+  void _pushRegisterScreen() {
     Navigator.of(context).pushNamed(RegisterScreen.routeName);
+    return;
+  }
+
+  void _pushForgotPasswordScreen() {
+    Navigator.of(context).pushNamed(ForgotPasswordScreen.routeName);
     return;
   }
 
@@ -225,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Giriş'),
+        title: const Text('Giriş'),
       ),
       body: Stack(
         children: <Widget>[
@@ -257,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         Text("Hesabınız yok mu? "),
                         GestureDetector(
-                          onTap: _pushNamedPage,
+                          onTap: _pushRegisterScreen,
                           child: Text(
                             "Kayıt ol.",
                             style: TextStyle(
@@ -265,7 +256,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: _pushForgotPasswordScreen,
+                          child: Text(
+                            "Şifremi Unuttum",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
