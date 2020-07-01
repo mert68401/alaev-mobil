@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
           RegisterScreen.routeName: (context) => RegisterScreen(),
           CompanyAdvertisement.routeName: (context) => CompanyAdvertisement(),
           AddNewAdvScreen.routeName: (context) => AddNewAdvScreen(),
+          CvScreen.routeName: (context) => CvScreen(),
         },
       ),
     );

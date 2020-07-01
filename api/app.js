@@ -131,6 +131,83 @@ router.post("/login", function (req, res) {
 });
 
 /*
+//Get Cvs
+*/
+router.post("/cvPage", function (req, res) {
+    const body = req.body;
+    console.log(body);
+    var userObj;
+    database
+        .collection("userAccounts")
+        .findOne({ _id: body.userId })
+        .then(function (doc) {
+            if (!doc) {
+                res.status(404).send({
+                    success: false,
+                    message: "User not found!",
+                });
+                return false;
+            }
+            if (body.userId && body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
+                if (
+                    body.userId != "" &&
+                    body.cvNameSurname != "" &&
+                    body.cvAge != "" &&
+                    body.cvMail != "" &&
+                    body.cvPhone != "" &&
+                    body.cvSchool1 != ""
+                ) {
+                    userObj = {
+                        _id: makeid(),
+                        userId: body.userId,
+                        cvNameSurname: body.cvNameSurname,
+                        cvAge: body.cvAge,
+                        cvMail: body.cvMail,
+                        cvPhone: body.cvPhone,
+                        cvSchool1: body.cvSchool1,
+                        cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
+                        cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
+                        cvExperience2: body.cvExperience2 ? body.cvExperience2 : '',
+                        cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : '',
+                        cvReference1: body.cvReference1 ? body.cvReference1 : '',
+                        cvReference2: body.cvReference2 ? body.cvReference2 : '',
+                        cvLanguage: body.cvLanguage ? body.cvLanguage : '',
+                        cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : '',
+                    };
+                }
+            }
+
+            else {
+                res.status(401).send({
+                    success: false,
+                    message: "Some parameters are missing!",
+                });
+            }
+            if (!userObj) {
+                res.status(401).send({
+                    success: false,
+                    message: "Some parameters are missing!",
+                });
+            }
+
+            database.collection("cvForms").insertOne(userObj, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    res.status(401).send({
+                        success: false,
+                        message: "An error occured!",
+                    });
+                    return;
+                }
+                res.json({
+                    success: true,
+                });
+            });
+        });
+
+});
+
+/*
 //Get getAdversitements
 */
 router.post("/getAdvertisements", function (req, res) {
