@@ -131,6 +131,18 @@ router.post("/login", function (req, res) {
 });
 
 /*
+//Forgot Password
+*/
+router.post("/forgotPassword", function (req, res) {
+    const body = req.body;
+    const emailFilter = {
+        "email.str": body.email
+    };
+    database.collection("userAccounts").findOne(emailFilter).then(function (doc) {null
+        });
+});
+
+/*
 //Get Cvs
 */
 router.post("/cvPage", function (req, res) {
