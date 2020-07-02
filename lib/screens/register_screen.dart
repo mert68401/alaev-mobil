@@ -1,14 +1,25 @@
+import 'package:alaev/functions/functions.dart';
 import 'package:alaev/providers/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   static const routeName = '/register-page';
-  final fullNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final password2Controller = TextEditingController();
+
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _fullNameController = TextEditingController();
+
+  final _emailController = TextEditingController();
+
+  final _passwordController = TextEditingController();
+
+  final _password2Controller = TextEditingController();
+
+  bool _isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +70,7 @@ class RegisterScreen extends StatelessWidget {
                             fontSize: 14,
                           ),
                           controller:
-                              fullNameController, //--------------------------------
+                              _fullNameController, //--------------------------------
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 10),
@@ -90,7 +101,7 @@ class RegisterScreen extends StatelessWidget {
                             fontSize: 14,
                           ),
                           controller:
-                              emailController, //--------------------------------
+                              _emailController, //--------------------------------
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 10),
@@ -116,12 +127,13 @@ class RegisterScreen extends StatelessWidget {
                             vertical: 10.0, horizontal: 16.0),
                         height: 60,
                         child: TextField(
+                          obscureText: true,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14,
                           ),
                           controller:
-                              passwordController, //--------------------------------
+                              _passwordController, //--------------------------------
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 10),
@@ -147,12 +159,13 @@ class RegisterScreen extends StatelessWidget {
                             vertical: 10.0, horizontal: 16.0),
                         height: 60,
                         child: TextField(
+                          obscureText: true,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14,
                           ),
                           controller:
-                              password2Controller, //--------------------------------
+                              _password2Controller, //--------------------------------
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: BorderSide(width: 10),
@@ -167,22 +180,21 @@ class RegisterScreen extends StatelessWidget {
                         margin: EdgeInsets.only(top: 40, left: 40, right: 40),
                         child: InkWell(
                           onTap: () {
-                            if (passwordController.text ==
-                                password2Controller.text) {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            if (_passwordController.text ==
+                                _password2Controller.text) {
                               Provider.of<Auth>(context, listen: false).signup(
-                                  fullNameController.text,
-                                  emailController.text,
-                                  passwordController.text);
+                                  _fullNameController.text,
+                                  _emailController.text,
+                                  _passwordController.text);
                             } else {
-                              Fluttertoast.showToast(
-                                  msg: "Şifreleriniz eşleşmemektedir!",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.TOP,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
+                              showToastError("Şifreleriniz eşleşmemektedir!");
                             }
+                            setState(() {
+                              _isLoading = false;
+                            });
                           }, // ----
                           child: Card(
                             shape: RoundedRectangleBorder(

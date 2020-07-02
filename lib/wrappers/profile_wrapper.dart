@@ -1,5 +1,12 @@
+import 'dart:convert';
+
+import 'package:alaev/functions/functions.dart';
+import 'package:alaev/providers/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../screens/cv_screen.dart';
+
+import 'package:http/http.dart' as http;
 
 class ProfileWrapper extends StatefulWidget {
   static const routeName = "/profile-page";
@@ -16,6 +23,14 @@ class MapScreenState extends State<ProfileWrapper>
   @override
   void initState() {
     super.initState();
+
+    Future<void> getUserData() async {
+      getToken().then((value) {
+        print(value);
+      });
+    }
+
+    getUserData();
   }
 
   @override
@@ -183,6 +198,13 @@ class MapScreenState extends State<ProfileWrapper>
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
+                                IconButton(
+                                    icon: Icon(Icons.exit_to_app),
+                                    onPressed: () {
+                                      print("asd");
+                                      Provider.of<Auth>(context, listen: false)
+                                          .logout();
+                                    }),
                                 Flexible(
                                   child: TextField(
                                     decoration: const InputDecoration(
@@ -219,7 +241,7 @@ class MapScreenState extends State<ProfileWrapper>
 
   Widget _cvButton() {
     return Container(
-      margin: EdgeInsets.only(top: 25, left:15, right:50),
+      margin: EdgeInsets.only(top: 25, left: 15, right: 50),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
