@@ -1,4 +1,8 @@
-import 'package:alaev/widgets/textField_widget.dart';
+import 'dart:convert';
+import 'package:alaev/functions/functions.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:alaev/widgets/cv_tf_widget.dart';
 import 'package:flutter/material.dart';
 
 class CvScreen extends StatefulWidget {
@@ -26,9 +30,58 @@ class _CvScreenState extends State<CvScreen> {
   final _cvLanguage = TextEditingController();
   final _cvSkillInfo = TextEditingController();
 
-  void _pushNamedPage(context, routeName) {
-    Navigator.of(context).pushNamed(routeName);
-    return;
+  void initState() {
+    super.initState();
+
+    _cvNameSurname.text = "initalvalue";
+  }
+
+  Future<void> cvRequest(
+      {String cvNameSurname,
+      String cvAge,
+      String cvMail,
+      String cvPhone,
+      String cvPersonalInfo,
+      String cvSchool1,
+      String cvSchool2,
+      String cvExperience1,
+      String cvExperience2,
+      String cvExperienceInfo,
+      String cvReference1,
+      String cvReference2,
+      String cvLanguage,
+      String cvSkillInfo}) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String token = await getToken();
+    final response = await http.post(
+      'http://10.0.2.2:2000/api/cvPage',
+      headers: headers,
+      body: jsonEncode(
+        <String, String>{
+          "token": token.toString(),
+          "cvNameSurname": cvNameSurname,
+          "cvAge": cvAge,
+          "cvMail": cvMail,
+          "cvPhone": cvPhone,
+          "cvPersonalInfo": cvPersonalInfo,
+          "cvSchool1": cvSchool1,
+          "cvSchool2": cvSchool2,
+          "cvExperience1": cvExperience1,
+          "cvExperience2": cvExperience2,
+          "cvExperienceInfo": cvExperienceInfo,
+          "cvReference1": cvReference1,
+          "cvReference2": cvReference2,
+          "cvLanguage": cvLanguage,
+          "cvSkillInfo": cvSkillInfo,
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      showToastSuccess(jsonDecode(response.body)['message'].toString());
+      print("Cv oluşturuldu");
+    } else if (response.statusCode == 401) {
+      showToastError(jsonDecode(response.body)['message'].toString());
+    }
   }
 
   Widget _personalInfoTab(context) {
@@ -77,8 +130,7 @@ class _CvScreenState extends State<CvScreen> {
                                         Theme.of(context).accentColor,
                                     radius: 20.0,
                                     child: GestureDetector(
-                                      onTap: () =>
-                                          _pushNamedPage(context, null),
+                                      onTap: () => null,
                                       child: Icon(
                                         Icons.add_a_photo,
                                         color: Colors.white,
@@ -94,35 +146,35 @@ class _CvScreenState extends State<CvScreen> {
                 ),
                 Column(
                   children: <Widget>[
-                    TextFieldWidget(
+                    CvTextFieldWidget(
                       controller: _cvNameSurname,
                       height: 50,
                       maxLines: 1,
                       maxLength: 20,
                       labelText: 'İsim Soyisim',
                     ),
-                    TextFieldWidget(
+                    CvTextFieldWidget(
                       controller: _cvAge,
                       height: 50,
                       maxLines: 1,
                       maxLength: 2,
                       labelText: 'Yaşınız',
                     ),
-                    TextFieldWidget(
+                    CvTextFieldWidget(
                       controller: _cvMail,
                       height: 50,
                       maxLines: 1,
                       maxLength: 30,
                       labelText: 'Mail',
                     ),
-                    TextFieldWidget(
+                    CvTextFieldWidget(
                       controller: _cvPhone,
                       height: 50,
                       maxLines: 1,
                       maxLength: 12,
                       labelText: 'Telefon',
                     ),
-                    TextFieldWidget(
+                    CvTextFieldWidget(
                       controller: _cvPersonalInfo,
                       height: 150,
                       maxLines: 5,
@@ -155,14 +207,14 @@ class _CvScreenState extends State<CvScreen> {
                       'Eğitim Bilgileri',
                       style: TextStyle(fontSize: 20),
                     )),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvSchool1,
                   height: 75,
                   maxLines: 2,
                   maxLength: 70,
                   labelText: 'Okul Adı, Bölüm, Mezuniyet Tarihi',
                 ),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvSchool2,
                   height: 75,
                   maxLines: 2,
@@ -177,21 +229,21 @@ class _CvScreenState extends State<CvScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvExperience1,
                   height: 75,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
                 ),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvExperience2,
                   height: 75,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
                 ),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvExperienceInfo,
                   height: 130,
                   maxLines: 7,
@@ -222,14 +274,14 @@ class _CvScreenState extends State<CvScreen> {
                       'Referanslar',
                       style: TextStyle(fontSize: 20),
                     )),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvReference1,
                   height: 55,
                   maxLines: 1,
                   maxLength: 70,
                   labelText: 'Ad Soyad, Meslek, İletişim',
                 ),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvReference2,
                   height: 55,
                   maxLines: 1,
@@ -244,13 +296,13 @@ class _CvScreenState extends State<CvScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvLanguage,
                   maxLines: 2,
                   maxLength: 79,
                   labelText: 'Diller',
                 ),
-                TextFieldWidget(
+                CvTextFieldWidget(
                   controller: _cvSkillInfo,
                   height: 150,
                   maxLines: 7,
@@ -265,7 +317,21 @@ class _CvScreenState extends State<CvScreen> {
                         child: Text("Hepsini Kaydet"),
                         textColor: Colors.white,
                         color: Colors.green,
-                        onPressed: () {},
+                        onPressed: () => cvRequest(
+                            cvAge: _cvAge.text,
+                            cvExperience1: _cvExperience1.text,
+                            cvExperience2: _cvExperience2.text,
+                            cvExperienceInfo: _cvExperienceInfo.text,
+                            cvLanguage: _cvLanguage.text,
+                            cvMail: _cvMail.text,
+                            cvNameSurname: _cvNameSurname.text,
+                            cvPersonalInfo: _cvPersonalInfo.text,
+                            cvPhone: _cvPhone.text,
+                            cvReference1: _cvReference1.text,
+                            cvReference2: _cvReference2.text,
+                            cvSchool1: _cvSchool1.text,
+                            cvSchool2: _cvSchool2.text,
+                            cvSkillInfo: _cvSkillInfo.text),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)),
                       ),
