@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'package:alaev/functions/functions.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:alaev/widgets/cv_tf_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -26,9 +30,58 @@ class _CvScreenState extends State<CvScreen> {
   final _cvLanguage = TextEditingController();
   final _cvSkillInfo = TextEditingController();
 
-  void _pushNamedPage(context, routeName) {
-    Navigator.of(context).pushNamed(routeName);
-    return;
+  void initState() {
+    super.initState();
+
+    _cvNameSurname.text = "initalvalue";
+  }
+
+  Future<void> cvRequest(
+      {String cvNameSurname,
+      String cvAge,
+      String cvMail,
+      String cvPhone,
+      String cvPersonalInfo,
+      String cvSchool1,
+      String cvSchool2,
+      String cvExperience1,
+      String cvExperience2,
+      String cvExperienceInfo,
+      String cvReference1,
+      String cvReference2,
+      String cvLanguage,
+      String cvSkillInfo}) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String token = await getToken();
+    final response = await http.post(
+      'http://10.0.2.2:2000/api/cvPage',
+      headers: headers,
+      body: jsonEncode(
+        <String, String>{
+          "token": token.toString(),
+          "cvNameSurname": cvNameSurname,
+          "cvAge": cvAge,
+          "cvMail": cvMail,
+          "cvPhone": cvPhone,
+          "cvPersonalInfo": cvPersonalInfo,
+          "cvSchool1": cvSchool1,
+          "cvSchool2": cvSchool2,
+          "cvExperience1": cvExperience1,
+          "cvExperience2": cvExperience2,
+          "cvExperienceInfo": cvExperienceInfo,
+          "cvReference1": cvReference1,
+          "cvReference2": cvReference2,
+          "cvLanguage": cvLanguage,
+          "cvSkillInfo": cvSkillInfo,
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      showToastSuccess(jsonDecode(response.body)['message'].toString());
+      print("Cv oluşturuldu");
+    } else if (response.statusCode == 401) {
+      showToastError(jsonDecode(response.body)['message'].toString());
+    }
   }
 
   Widget _personalInfoTab(context) {
@@ -77,8 +130,7 @@ class _CvScreenState extends State<CvScreen> {
                                         Theme.of(context).accentColor,
                                     radius: 20.0,
                                     child: GestureDetector(
-                                      onTap: () =>
-                                          _pushNamedPage(context, null),
+                                      onTap: () => null,
                                       child: Icon(
                                         Icons.add_a_photo,
                                         color: Colors.white,
@@ -265,7 +317,21 @@ class _CvScreenState extends State<CvScreen> {
                         child: Text("Hepsini Kaydet"),
                         textColor: Colors.white,
                         color: Colors.green,
-                        onPressed: () {},
+                        onPressed: () => cvRequest(
+                            cvAge: _cvAge.text,
+                            cvExperience1: _cvExperience1.text,
+                            cvExperience2: _cvExperience2.text,
+                            cvExperienceInfo: _cvExperienceInfo.text,
+                            cvLanguage: _cvLanguage.text,
+                            cvMail: _cvMail.text,
+                            cvNameSurname: _cvNameSurname.text,
+                            cvPersonalInfo: _cvPersonalInfo.text,
+                            cvPhone: _cvPhone.text,
+                            cvReference1: _cvReference1.text,
+                            cvReference2: _cvReference2.text,
+                            cvSchool1: _cvSchool1.text,
+                            cvSchool2: _cvSchool2.text,
+                            cvSkillInfo: _cvSkillInfo.text),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)),
                       ),

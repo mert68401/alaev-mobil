@@ -104,7 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             _isLoading = true;
                           });
                           Provider.of<Auth>(context, listen: false)
-                              .login(_email.text, _password.text);
+                              .login(_email.text, _password.text)
+                              .then((value) => Navigator.pop(context));
                           setState(() {
                             _isLoading = false;
                           });

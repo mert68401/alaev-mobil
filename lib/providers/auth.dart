@@ -4,18 +4,30 @@ import 'package:alaev/functions/functions.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
   String _token;
   String _userId;
 
   bool get isAuth {
-    _token = getToken().toString();
-    if (_token == null) {
-      return false;
-    } else {
+    print(_token);
+    if (_token != null) {
       return true;
+    } else {
+      return false;
     }
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('token')) {
+      return false;
+    }
+    final extractedToken = prefs.getString('token').toString();
+    _token = extractedToken;
+    notifyListeners();
+    return true;
   }
 
   Future<void> signup(String fullName, String email, String password) async {
@@ -41,8 +53,13 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Future<void> logout() async {
+    removeToken();
+    _token = null;
+    notifyListeners();
+  }
+
   Future<void> login(String email, String password) async {
-    print(email + password);
     if (password.length == 0 || email.length == 0) {
       showToastError("Email adresinizi ve şifrenizi girmelisiniz.");
       return -1;
@@ -65,6 +82,9 @@ class Auth with ChangeNotifier {
       Map<dynamic, dynamic> body = jsonDecode(response.body);
       print(body['token']);
       await setToken(body['token']);
+      _token = await getToken();
+      notifyListeners();
+      print(_token);
     } else {
       showToastError("Email adresiniz veya şifreniz uyuşmamaktadır");
     }

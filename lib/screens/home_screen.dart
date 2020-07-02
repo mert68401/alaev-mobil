@@ -24,6 +24,19 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     //TODO: There will be a logged in checker to set this bool value. Which will be a Future method requests to server.
+
+    _pageController = PageController(initialPage: 2);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(widget.loggedIn);
     if (widget.loggedIn) {
       _pages = [
         AdvertisementWrapper(),
@@ -40,17 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
         AdvertisementWrapper(), // GEÇİCİ
       ];
     }
-    _pageController = PageController(initialPage: 2);
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox.expand(
         child: PageView(
@@ -80,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Item One'),
+            title: Text('Duyurular'),
             icon: Icon(
               Icons.apps,
               size: _iconSize,

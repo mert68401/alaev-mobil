@@ -37,15 +37,19 @@ class MyApp extends StatelessWidget {
               ? HomeScreen(
                   loggedIn: true,
                 )
-              : HomeScreen(
-                  loggedIn: false,
-                ),
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResult) =>
+                      authResult.connectionState == ConnectionState.waiting
+                          ? HomeScreen(loggedIn: true)
+                          : HomeScreen(loggedIn: false)),
           routes: {
             LoginScreen.routeName: (context) => LoginScreen(),
             ProfileWrapper.routeName: (context) => ProfileWrapper(),
             RegisterScreen.routeName: (context) => RegisterScreen(),
             CompanyAdvertisement.routeName: (context) => CompanyAdvertisement(),
             AddNewAdvScreen.routeName: (context) => AddNewAdvScreen(),
+            CvScreen.routeName: (context) => CvScreen(),
           },
         ),
       ),
