@@ -76,8 +76,14 @@ router.post("/register", function (req, res) {
             success: false,
             message: "Some parameters are missing!",
         });
-        throw new Error("Some parameters not found!");
     }
+    if (!userObj) {
+        res.status(401).send({
+            success: false,
+            message: "Some parameters are missing!",
+        });
+    }
+
     database.collection("userAccounts").insertOne(userObj, function (err, result) {
         if (err) {
             console.log(err);
@@ -125,66 +131,77 @@ router.post("/login", function (req, res) {
 });
 
 /*
+//Forgot Password
+*/
+router.post("/forgotPassword", function (req, res) {
+    const body = req.body;
+    const emailFilter = {
+        "email.str": body.email
+    };
+    database.collection("userAccounts").findOne(emailFilter).then(function (doc) {null
+        });
+});
+
+/*
 //Get Cvs
 */
 router.post("/cvPage", function (req, res) {
     const body = req.body;
-    const token = body.token;
-    console.log(token);
-    var id = null;
-    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
-        if (err) {
-            res.status(401).send({
-                success: false,
-                message: err.message,
-            });
-            throw new Error(err.message);
-        } else {
-            console.log(decoded);
-            id = decoded._id;
-        }
-    });
     console.log(body);
     var userObj;
-    console.log(id);
     database
         .collection("userAccounts")
-        .findOne({ _id: id })
+        .findOne({ _id: body.userId })
         .then(function (doc) {
             if (!doc) {
-                res.status(401).send({
+                res.status(404).send({
                     success: false,
                     message: "User not found!",
                 });
-                throw new Error("hata");
+                return false;
             }
-            if (id && body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
-                if (body.cvNameSurname != "" && body.cvAge != "" && body.cvMail != "" && body.cvPhone != "" && body.cvSchool1 != "") {
+            if (body.userId && body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
+                if (
+                    body.userId != "" &&
+                    body.cvNameSurname != "" &&
+                    body.cvAge != "" &&
+                    body.cvMail != "" &&
+                    body.cvPhone != "" &&
+                    body.cvSchool1 != ""
+                ) {
                     userObj = {
                         _id: makeid(),
-                        userId: id,
+                        userId: body.userId,
                         cvNameSurname: body.cvNameSurname,
                         cvAge: body.cvAge,
                         cvMail: body.cvMail,
                         cvPhone: body.cvPhone,
                         cvSchool1: body.cvSchool1,
-                        cvSchool2: body.cvSchool2 ? body.cvSchool2 : "",
-                        cvExperience1: body.cvExperience1 ? body.cvExperience1 : "",
-                        cvExperience2: body.cvExperience2 ? body.cvExperience2 : "",
-                        cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : "",
-                        cvReference1: body.cvReference1 ? body.cvReference1 : "",
-                        cvReference2: body.cvReference2 ? body.cvReference2 : "",
-                        cvLanguage: body.cvLanguage ? body.cvLanguage : "",
-                        cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : "",
+                        cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
+                        cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
+                        cvExperience2: body.cvExperience2 ? body.cvExperience2 : '',
+                        cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : '',
+                        cvReference1: body.cvReference1 ? body.cvReference1 : '',
+                        cvReference2: body.cvReference2 ? body.cvReference2 : '',
+                        cvLanguage: body.cvLanguage ? body.cvLanguage : '',
+                        cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : '',
                     };
                 }
-            } else {
+            }
+
+            else {
                 res.status(401).send({
                     success: false,
-                    message: "Lütfen herşeyi eksiksik girdiğinizden emin olun!",
+                    message: "Some parameters are missing!",
                 });
-                throw new Error("Some parameters are missing!");
             }
+            if (!userObj) {
+                res.status(401).send({
+                    success: false,
+                    message: "Some parameters are missing!",
+                });
+            }
+
             database.collection("cvForms").insertOne(userObj, function (err, result) {
                 if (err) {
                     console.log(err);
@@ -195,11 +212,11 @@ router.post("/cvPage", function (req, res) {
                     return;
                 }
                 res.json({
-                    message: "CVniz başarıyla kaydedildi",
                     success: true,
                 });
             });
         });
+
 });
 
 /*

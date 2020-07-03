@@ -1,5 +1,6 @@
 import 'package:alaev/providers/auth.dart';
 import 'package:alaev/screens/add_new_adv_screen.dart';
+import 'package:alaev/screens/forgot_password_screen.dart';
 import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
             CompanyAdvertisement.routeName: (context) => CompanyAdvertisement(),
             AddNewAdvScreen.routeName: (context) => AddNewAdvScreen(),
             CvScreen.routeName: (context) => CvScreen(),
+            ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen()
           },
         ),
       ),
