@@ -5,6 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:flutter/material.dart';
 
+import '../functions/functions.dart';
+import '../functions/requests.dart';
+import '../functions/requests.dart';
+
 class CvScreen extends StatefulWidget {
   static const routeName = '/cv-screen';
 
@@ -30,58 +34,46 @@ class _CvScreenState extends State<CvScreen> {
   final _cvLanguage = TextEditingController();
   final _cvSkillInfo = TextEditingController();
 
+  Map<String, dynamic> userData = {};
+
   void initState() {
     super.initState();
 
-    _cvNameSurname.text = "initalvalue";
-  }
-
-  Future<void> cvRequest(
-      {String cvNameSurname,
-      String cvAge,
-      String cvMail,
-      String cvPhone,
-      String cvPersonalInfo,
-      String cvSchool1,
-      String cvSchool2,
-      String cvExperience1,
-      String cvExperience2,
-      String cvExperienceInfo,
-      String cvReference1,
-      String cvReference2,
-      String cvLanguage,
-      String cvSkillInfo}) async {
-    Map<String, String> headers = {"Content-type": "application/json"};
-    String token = await getToken();
-    final response = await http.post(
-      'http://10.0.2.2:2000/api/cvPage',
-      headers: headers,
-      body: jsonEncode(
-        <String, String>{
-          "token": token.toString(),
-          "cvNameSurname": cvNameSurname,
-          "cvAge": cvAge,
-          "cvMail": cvMail,
-          "cvPhone": cvPhone,
-          "cvPersonalInfo": cvPersonalInfo,
-          "cvSchool1": cvSchool1,
-          "cvSchool2": cvSchool2,
-          "cvExperience1": cvExperience1,
-          "cvExperience2": cvExperience2,
-          "cvExperienceInfo": cvExperienceInfo,
-          "cvReference1": cvReference1,
-          "cvReference2": cvReference2,
-          "cvLanguage": cvLanguage,
-          "cvSkillInfo": cvSkillInfo,
-        },
-      ),
-    );
-    if (response.statusCode == 200) {
-      showToastSuccess(jsonDecode(response.body)['message'].toString());
-      print("Cv oluşturuldu");
-    } else if (response.statusCode == 401) {
-      showToastError(jsonDecode(response.body)['message'].toString());
+    Future<void> cvRequest() async {
+      getToken().then((value) async {
+        Map<String, String> headers = {"Content-type": "application/json"};
+        final response = await http.post(
+          'http://10.0.2.2:2000/api/getUserCvData',
+          headers: headers,
+          body: jsonEncode(
+            <String, String>{"token": value},
+          ),
+        );
+        if (response.statusCode == 200) {
+          print("Cv oluşturuldu");
+          userData = json.decode(response.body);
+          print(userData);
+          _cvNameSurname.text = userData['cvNameSurname'];
+          _cvAge.text = userData['cvAge'];
+          _cvMail.text = userData['cvMail'];
+          _cvPhone.text = userData['cvPhone'];
+          _cvPersonalInfo.text = userData['cvPersonalInfo'];
+          _cvSchool1.text = userData['cvSchool1'];
+          _cvSchool2.text = userData['cvSchool2'];
+          _cvExperience1.text = userData['cvExperience1'];
+          _cvExperience2.text = userData['cvExperience2'];
+          _cvExperienceInfo.text = userData['cvExperienceInfo'];
+          _cvReference1.text = userData['cvReference1'];
+          _cvReference2.text = userData['cvReference2'];
+          _cvLanguage.text = userData['cvLanguage'];
+          _cvSkillInfo.text = userData['cvSkillInfo'];
+        } else if (response.statusCode == 401) {
+          showToastError(jsonDecode(response.body)['message'].toString());
+        }
+      });
     }
+
+    cvRequest();
   }
 
   Widget _personalInfoTab(context) {
@@ -317,21 +309,24 @@ class _CvScreenState extends State<CvScreen> {
                         child: Text("Hepsini Kaydet"),
                         textColor: Colors.white,
                         color: Colors.green,
-                        onPressed: () => cvRequest(
+                        onPressed: () {
+                          addCvRequest(
+                            cvNameSurname: _cvNameSurname.text,
                             cvAge: _cvAge.text,
                             cvExperience1: _cvExperience1.text,
                             cvExperience2: _cvExperience2.text,
                             cvExperienceInfo: _cvExperienceInfo.text,
                             cvLanguage: _cvLanguage.text,
                             cvMail: _cvMail.text,
-                            cvNameSurname: _cvNameSurname.text,
                             cvPersonalInfo: _cvPersonalInfo.text,
                             cvPhone: _cvPhone.text,
                             cvReference1: _cvReference1.text,
                             cvReference2: _cvReference2.text,
                             cvSchool1: _cvSchool1.text,
                             cvSchool2: _cvSchool2.text,
-                            cvSkillInfo: _cvSkillInfo.text),
+                            cvSkillInfo: _cvSkillInfo.text,
+                          );
+                        },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)),
                       ),
