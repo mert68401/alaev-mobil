@@ -5,7 +5,6 @@ import 'package:alaev/providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens/cv_screen.dart';
-
 import 'package:http/http.dart' as http;
 
 class ProfileWrapper extends StatefulWidget {
@@ -18,15 +17,38 @@ class ProfileWrapper extends StatefulWidget {
 class MapScreenState extends State<ProfileWrapper>
     with SingleTickerProviderStateMixin {
   bool _status = true;
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final FocusNode myFocusNode = FocusNode();
-
+  Map<String, dynamic> userData = {};
   @override
   void initState() {
     super.initState();
 
     Future<void> getUserData() async {
-      getToken().then((value) {
+      getToken().then((value) async {
         print(value);
+        Map<String, String> headers = {"Content-type": "application/json"};
+
+        final response = await http.post(
+          'http://10.0.2.2:2000/api/getUserData',
+          headers: headers,
+          body: jsonEncode(
+            <String, String>{
+              "token": value,
+            },
+          ),
+        );
+
+        if (response.statusCode == 200) {
+          print(response.body);
+          userData = json.decode(response.body);
+          print(userData);
+          _emailController.text = userData['email']['str'];
+          _fullNameController.text = userData['fullName'];
+          _phoneController.text = userData['phone'];
+        }
       });
     }
 
@@ -128,6 +150,7 @@ class MapScreenState extends State<ProfileWrapper>
                                 children: <Widget>[
                                   Flexible(
                                     child: TextField(
+                                      controller: _fullNameController,
                                       decoration: const InputDecoration(
                                         hintText: "Ad ve Soyad Giriniz",
                                       ),
@@ -165,6 +188,7 @@ class MapScreenState extends State<ProfileWrapper>
                                 children: <Widget>[
                                   Flexible(
                                     child: TextField(
+                                      controller: _emailController,
                                       decoration: const InputDecoration(
                                           hintText: "Email Giriniz"),
                                       enabled: !_status,
@@ -201,12 +225,12 @@ class MapScreenState extends State<ProfileWrapper>
                                 IconButton(
                                     icon: Icon(Icons.exit_to_app),
                                     onPressed: () {
-                                      print("asd");
                                       Provider.of<Auth>(context, listen: false)
                                           .logout();
                                     }),
                                 Flexible(
                                   child: TextField(
+                                    controller: _phoneController,
                                     decoration: const InputDecoration(
                                         hintText: "Telefon Numarınızı Giriniz"),
                                     enabled: !_status,

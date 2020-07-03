@@ -300,6 +300,32 @@ router.post("/getCompanySupply", function (req, res) {
 });
 
 /*
+//Get getAdversitement
+*/
+router.post("/getUserData", function (req, res) {
+    var body = req.body;
+    var token = body.token;
+
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            console.log(decoded);
+            id = decoded._id;
+            database
+                .collection("userAccounts")
+                .findOne({ _id: id })
+                .then(function (docs) {
+                    res.json(docs);
+                });
+        }
+    });
+});
+/*
 //Get getSiteImageFolder
 */
 router.post("/getSiteImageFolder", isAuthenticated, function (req, res) {

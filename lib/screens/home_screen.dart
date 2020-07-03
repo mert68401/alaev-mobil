@@ -23,8 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    //TODO: There will be a logged in checker to set this bool value. Which will be a Future method requests to server.
-
     _pageController = PageController(initialPage: 2);
   }
 
@@ -36,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.loggedIn);
     if (widget.loggedIn) {
       _pages = [
         AdvertisementWrapper(),

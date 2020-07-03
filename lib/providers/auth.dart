@@ -8,10 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
   String _token;
-  String _userId;
 
   bool get isAuth {
-    print(_token);
     if (_token != null) {
       return true;
     } else {
@@ -59,14 +57,14 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     if (password.length == 0 || email.length == 0) {
       showToastError("Email adresinizi ve şifrenizi girmelisiniz.");
-      return -1;
+      return false;
     }
     if (!validateEmail(email)) {
       showToastError("Email adresinizi doğru yazdığınızdan emin olun.");
-      return -1;
+      return false;
     }
     var passwordMd5 = md5.convert(utf8.encode(password));
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -80,13 +78,13 @@ class Auth with ChangeNotifier {
 
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> body = jsonDecode(response.body);
-      print(body['token']);
       await setToken(body['token']);
       _token = await getToken();
       notifyListeners();
-      print(_token);
+      return true;
     } else {
       showToastError("Email adresiniz veya şifreniz uyuşmamaktadır");
+      return false;
     }
   }
 }

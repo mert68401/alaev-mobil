@@ -14,8 +14,8 @@ class _NewsWrapperState extends State<NewsWrapper> {
   Future<void> fetchNews() async {
     liste.clear();
 
-    print(liste.length);
     Map<String, String> headers = {"Content-type": "application/json"};
+    if (!mounted) return;
     final response = await http.post(
       'http://alaev.org.tr:2000/api/posts',
       headers: headers,
@@ -31,7 +31,6 @@ class _NewsWrapperState extends State<NewsWrapper> {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      print(body);
       setState(() {
         body.forEach((element) {
           liste.add({

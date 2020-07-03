@@ -90,74 +90,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildButtons(context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: InkWell(
-                  onTap: _isLoading
-                      ? () => null
-                      : () {
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          Provider.of<Auth>(context, listen: false)
-                              .login(_email.text, _password.text)
-                              .then((value) => Navigator.pop(context));
-                          setState(() {
-                            _isLoading = false;
-                          });
-                        }, // ----
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    color: Colors.green,
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: _isLoading
-                            ? Text(
-                                "Giriş yapılıyor..",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              )
-                            : Text(
-                                "Giriş Yap",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              //SizedBox(width: 10.0),
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            width: double.infinity,
-            child: InkWell(
-              onTap: () {
-                print("tapped" + DateTime.now().toString());
-              },
-              child: Text(
-                "Şifremi Unuttum",
-                textAlign: TextAlign.end,
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ],
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16.0),
+      child: Container(
+        width: double.infinity,
+        child: RaisedButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          elevation: 10,
+          child: Text("Giriş yap"),
+          onPressed: () {
+            setState(() {
+              _isLoading = true;
+            });
+            Provider.of<Auth>(context, listen: false)
+                .login(_email.text, _password.text)
+                .then((value) {
+              if (value) {
+                Navigator.pop(context);
+              }
+            });
+            setState(() {
+              _isLoading = false;
+            });
+          },
+          color: Colors.green,
+        ),
       ),
     );
   }
