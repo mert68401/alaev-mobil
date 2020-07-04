@@ -36,7 +36,7 @@ class Auth with ChangeNotifier {
       headers: headers,
       body: jsonEncode(
         <String, String>{
-          "email": email,
+          "email": email.trim(),
           "password": passwordMd5.toString(),
           "fullName": fullName,
           "role": "işveren"
@@ -62,7 +62,7 @@ class Auth with ChangeNotifier {
       showToastError("Email adresinizi ve şifrenizi girmelisiniz.");
       return false;
     }
-    if (!validateEmail(email)) {
+    if (!validateEmail(email.trim())) {
       showToastError("Email adresinizi doğru yazdığınızdan emin olun.");
       return false;
     }
