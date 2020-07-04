@@ -138,85 +138,140 @@ router.post("/forgotPassword", function (req, res) {
     const emailFilter = {
         "email.str": body.email
     };
-    database.collection("userAccounts").findOne(emailFilter).then(function (doc) {null
-        });
+    database.collection("userAccounts").findOne(emailFilter).then(function (doc) {
+        null
+    });
 });
 
+
 /*
-//Get Cvs
+// set Cv
 */
-router.post("/cvPage", function (req, res) {
+router.post("/setCvPage", function (req, res) {
     const body = req.body;
-    console.log(body);
-    var userObj;
-    database
-        .collection("userAccounts")
-        .findOne({ _id: body.userId })
-        .then(function (doc) {
-            if (!doc) {
-                res.status(404).send({
-                    success: false,
-                    message: "User not found!",
-                });
-                return false;
-            }
-            if (body.userId && body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
-                if (
-                    body.userId != "" &&
-                    body.cvNameSurname != "" &&
-                    body.cvAge != "" &&
-                    body.cvMail != "" &&
-                    body.cvPhone != "" &&
-                    body.cvSchool1 != ""
-                ) {
-                    userObj = {
-                        _id: makeid(),
-                        userId: body.userId,
-                        cvNameSurname: body.cvNameSurname,
-                        cvAge: body.cvAge,
-                        cvMail: body.cvMail,
-                        cvPhone: body.cvPhone,
-                        cvSchool1: body.cvSchool1,
-                        cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
-                        cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
-                        cvExperience2: body.cvExperience2 ? body.cvExperience2 : '',
-                        cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : '',
-                        cvReference1: body.cvReference1 ? body.cvReference1 : '',
-                        cvReference2: body.cvReference2 ? body.cvReference2 : '',
-                        cvLanguage: body.cvLanguage ? body.cvLanguage : '',
-                        cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : '',
-                    };
-                }
-            }
-
-            else {
-                res.status(401).send({
-                    success: false,
-                    message: "Some parameters are missing!",
-                });
-            }
-            if (!userObj) {
-                res.status(401).send({
-                    success: false,
-                    message: "Some parameters are missing!",
-                });
-            }
-
-            database.collection("cvForms").insertOne(userObj, function (err, result) {
-                if (err) {
-                    console.log(err);
-                    res.status(401).send({
-                        success: false,
-                        message: "An error occured!",
-                    });
-                    return;
-                }
-                res.json({
-                    success: true,
-                });
+    const token = body.token;
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
             });
-        });
+            throw new Error(err.message);
+        } else {
+            id = decoded._id;
+            cvObj = {
+                _id: makeid(),
+                userId: id,
+                cvNameSurname: body.cvNameSurname,
+                cvAge: body.cvAge,
+                cvMail: body.cvMail,
+                cvPhone: body.cvPhone,
+                cvSchool1: body.cvSchool1,
+                cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
+                cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
+                cvExperience2: body.cvExperience2 ? body.cvExperience2 : '',
+                cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : '',
+                cvReference1: body.cvReference1 ? body.cvReference1 : '',
+                cvReference2: body.cvReference2 ? body.cvReference2 : '',
+                cvLanguage: body.cvLanguage ? body.cvLanguage : '',
+                cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : '',
+            };
+            //console.log(cvObj);
+            database
+                .collection("cvForms")
+                .findOne({ userId: id })
+                .then(function (docs) {
+                    if (!docs) {
+                        if (body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
+                            if (
+                                body.cvNameSurname != "" &&
+                                body.cvAge != "" &&
+                                body.cvMail != "" &&
+                                body.cvPhone != "" &&
+                                body.cvSchool1 != ""
+                            ) {
+                                database.collection("cvForms").insertOne(cvObj, function (err, result) {
+                                    if (err) {
+                                        console.log(err);
+                                        res.status(401).send({
+                                            success: false,
+                                            message: "An error occured!",
+                                        });
+                                    }
+                                    res.json({
+                                        success: true,
+                                        message: "Cv Yaratıldı",
+                                    });
+                                });
+                            } else {
+                                console.log('Eksik bilgi')
+                            }
 
+                        } else {
+                            res.status(401).send({
+                                success: false,
+                                message: "Bilgileri Eksiksiz Giriniz!",
+                            });
+                        }
+                    }
+                    else {
+                        // const noId = ({ _id, ...rest }) => rest
+                        // cvObj = noId(cvObj)
+
+                        if (body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
+                            if (
+                                body.cvNameSurname != "" &&
+                                body.cvAge != "" &&
+                                body.cvMail != "" &&
+                                body.cvPhone != "" &&
+                                body.cvSchool1 != ""
+                            ) {
+                                database.collection("cvForms").updateOne({ _id: docs._id }, {
+                                    $set: {
+                                        //cvObj
+                                        cvNameSurname: body.cvNameSurname,
+                                        cvAge: body.cvAge,
+                                        cvMail: body.cvMail,
+                                        cvPhone: body.cvPhone,
+                                        cvSchool1: body.cvSchool1,
+                                        cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
+                                        cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
+                                        cvExperience2: body.cvExperience2 ? body.cvExperience2 : '',
+                                        cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : '',
+                                        cvReference1: body.cvReference1 ? body.cvReference1 : '',
+                                        cvReference2: body.cvReference2 ? body.cvReference2 : '',
+                                        cvLanguage: body.cvLanguage ? body.cvLanguage : '',
+                                        cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : '',
+                                    }
+                                }, function (error, result) {
+                                    if (error) {
+                                        console.log(error);
+                                        res.status(401).send({
+                                            success: false,
+                                            message: "An error occured!",
+                                        });
+                                        return;
+                                    } else {
+                                        res.json({
+                                            success: true,
+                                            message: "Cv Güncellendi!"
+                                        });
+                                    }
+
+                                });
+                            } else {
+                                console.log('Eksik bilgi');
+                            }
+                        } else {
+                            res.status(401).send({
+                                success: false,
+                                message: "Bilgileri Eksiksiz Giriniz!",
+                            });
+                        }
+                    }
+                });
+        }
+    });
 });
 
 /*
@@ -317,7 +372,7 @@ router.post("/getCompanySupply", function (req, res) {
 });
 
 /*
-//Get getAdversitement
+//Get User Data
 */
 router.post("/getUserData", function (req, res) {
     var body = req.body;
@@ -342,6 +397,40 @@ router.post("/getUserData", function (req, res) {
         }
     });
 });
+
+/*
+//Get User Cv Data
+*/
+router.post("/getUserCvData", function (req, res) {
+    var body = req.body;
+    var token = body.token;
+
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            console.log(decoded);
+            id = decoded._id;
+            database
+                .collection("cvForms")
+                .findOne({ userId: id })
+                .then(function (docs) {
+                    if (!docs) {
+                        res.status(401).send({
+                            message: "Kullanıcıya ait CV verisi bulunmamaktadır!"
+                        })
+                    } else {
+                        res.json(docs);
+                    }
+                });
+        }
+    });
+});
+
 /*
 //Get getSiteImageFolder
 */
