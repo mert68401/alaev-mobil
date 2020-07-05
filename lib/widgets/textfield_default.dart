@@ -5,6 +5,7 @@ class TextFieldWidget extends StatelessWidget {
   final int maxLines;
   final int maxLength;
   final double height;
+  final double width;
   final String labelText;
   final dynamic counterText;
 
@@ -13,18 +14,20 @@ class TextFieldWidget extends StatelessWidget {
       this.maxLines,
       this.counterText = '',
       this.height,
+      this.width,
       this.labelText,
       this.maxLength});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 7),
+      margin: EdgeInsets.only(top: 2),
       height: height,
+      width: width,
       child: TextField(
         controller: controller,
         maxLines: maxLines,
-        maxLength: 35,
+        maxLength: maxLength,
         decoration: InputDecoration(
           counterText: counterText == null ? null : '',
           border: OutlineInputBorder(),

@@ -73,47 +73,7 @@ class MapScreenState extends State<ProfileWrapper>
                     color: Colors.white,
                     child: Column(
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 20.0),
-                          child: Stack(fit: StackFit.loose, children: <Widget>[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-128.png'), // dynamic yaz
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                                height: 130,
-                                padding:
-                                    EdgeInsets.only(top: 60.0, right: 80.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      backgroundColor:
-                                          Theme.of(context).accentColor,
-                                      radius: 25.0,
-                                      child: Icon(
-                                        Icons.add_a_photo,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          ]),
-                        )
+                        
                       ],
                     ),
                   ),

@@ -324,6 +324,109 @@ router.post("/getAdvertisement", function (req, res) {
 });
 
 /*
+//Set Job Adversitement
+*/
+router.post("/setJobAdRequest", function (req, res) {
+    const body = req.body;
+    const token = body.token;
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            id = decoded._id;
+            jobAdObj = {
+                _id: makeid(),
+                userId: id,
+                imageUrl: body.imageUrl,
+                adTitle: body.adTitle,
+                adCompanyNumber: body.adCompanyNumber,
+                adPersonalNumber: body.adPersonalNumber,
+                adMail: body.adMail,
+                adDiplomaSelectedItem: body.adDiplomaSelectedItem,
+                adContent: body.adContent,
+            };
+            console.log(jobAdObj);
+            database.collection("jobAdForms").findOne({ adTitle: body.adTitle }).then(function (docs) {
+                if (!docs) {
+                    if (body.adTitle && body.adCompanyNumber && body.adContent) {
+                        if (body.adTitle != "" &&
+                            body.adCompanyNumber != "" &&
+                            body.adContent != ""
+                        ) {
+                            database.collection("jobAdForms").insertOne(jobAdObj, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+                                    res.status(401).send({
+                                        success: false,
+                                        message: "An error occured!",
+                                    });
+                                }
+                                res.json({
+                                    success: true,
+                                    message: "İş İlanı Yaratıldı"
+                                });
+                            });
+                        } else { console.log('Eksik bilgi') }
+                    } else {
+                        res.status(401).send({
+                            success: false,
+                            message: "Bilgileri Eksiksiz Giriniz!",
+                        });
+                    }
+                }
+                else {
+                    if (body.adTitle && body.adCompanyNumber && body.adContent) {
+                        if (body.adTitle != "" &&
+                            body.adCompanyNumber != "" &&
+                            body.adContent != "") {
+                            database.collection("jobAdForms").updateOne({ _id: docs._id },
+                                {
+                                    $set: {
+                                        imageUrl: body.imageUrl ? body.imageUrl : '',
+                                        adTitle: body.adTitle,
+                                        adCompanyNumber: body.adCompanyNumber,
+                                        adPersonalNumber: body.adPersonalNumber ? body.adPersonalNumber : '',
+                                        adMail: body.adMail ? body.adMail : '',
+                                        adDiplomaSelectedItem: body.adDiplomaSelectedItem,
+                                        adContent: body.adContent
+                                    }
+                                }, function (error, result) {
+                                    if (error) {
+                                        console.log(error);
+                                        res.status(401).send({
+                                            success: false,
+                                            message: "An error occured!",
+                                        });
+                                        return;
+                                    } else {
+                                        res.json({
+                                            success: true,
+                                            message: "İş İlanı Güncellendi!"
+                                        });
+                                    }
+                                }
+                            );
+                        } else {
+                            console.log('Eksik bilgi');
+                        }
+                    } else {
+                        res.status(401).send({
+                            success: false,
+                            message: "Bilgileri Eksiksiz Giriniz!",
+                        });
+                    }
+                }
+            });
+        }
+    });
+});
+
+
+/*
 //Get getCompanySupplies
 */
 router.post("/getCompanySupplies", function (req, res) {
