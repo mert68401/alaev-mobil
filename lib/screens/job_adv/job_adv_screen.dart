@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CompanyAdvertisement extends StatelessWidget {
-  static const routeName = '/companyadv-page';
+class JobAdvertisement extends StatelessWidget {
+  static const routeName = '/job-adv-page';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İlan'),
+        title: Text('İş İlanı Ayrıntıları'),
       ),
       body: Column(
         children: <Widget>[
