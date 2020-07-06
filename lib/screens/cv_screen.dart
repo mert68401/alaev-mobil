@@ -301,38 +301,6 @@ class _CvScreenState extends State<CvScreen> {
                   maxLength: 200,
                   labelText: 'Yetkinliklerinizden Kısaca Bahsedin',
                 ),
-                SizedBox(height: 20),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        child: Text("Hepsini Kaydet"),
-                        textColor: Colors.white,
-                        color: Colors.green,
-                        onPressed: () {
-                          addCvRequest(
-                            cvNameSurname: _cvNameSurname.text,
-                            cvAge: _cvAge.text,
-                            cvExperience1: _cvExperience1.text,
-                            cvExperience2: _cvExperience2.text,
-                            cvExperienceInfo: _cvExperienceInfo.text,
-                            cvLanguage: _cvLanguage.text,
-                            cvMail: _cvMail.text,
-                            cvPersonalInfo: _cvPersonalInfo.text,
-                            cvPhone: _cvPhone.text,
-                            cvReference1: _cvReference1.text,
-                            cvReference2: _cvReference2.text,
-                            cvSchool1: _cvSchool1.text,
-                            cvSchool2: _cvSchool2.text,
-                            cvSkillInfo: _cvSkillInfo.text,
-                          );
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           )
@@ -346,6 +314,28 @@ class _CvScreenState extends State<CvScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.save),
+          backgroundColor: Colors.green,
+          onPressed: () {
+            addCvRequest(
+              cvNameSurname: _cvNameSurname.text,
+              cvAge: _cvAge.text,
+              cvExperience1: _cvExperience1.text,
+              cvExperience2: _cvExperience2.text,
+              cvExperienceInfo: _cvExperienceInfo.text,
+              cvLanguage: _cvLanguage.text,
+              cvMail: _cvMail.text,
+              cvPersonalInfo: _cvPersonalInfo.text,
+              cvPhone: _cvPhone.text,
+              cvReference1: _cvReference1.text,
+              cvReference2: _cvReference2.text,
+              cvSchool1: _cvSchool1.text,
+              cvSchool2: _cvSchool2.text,
+              cvSkillInfo: _cvSkillInfo.text,
+            );
+          },
+        ),
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
