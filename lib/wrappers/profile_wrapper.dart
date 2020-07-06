@@ -59,6 +59,13 @@ class MapScreenState extends State<ProfileWrapper>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () {
+                  Provider.of<Auth>(context, listen: false).logout();
+                })
+          ],
           title: Text('Profil'),
         ),
         body: Container(
@@ -72,9 +79,7 @@ class MapScreenState extends State<ProfileWrapper>
                     height: 150,
                     color: Colors.white,
                     child: Column(
-                      children: <Widget>[
-                        
-                      ],
+                      children: <Widget>[],
                     ),
                   ),
                   Container(
@@ -182,12 +187,6 @@ class MapScreenState extends State<ProfileWrapper>
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                IconButton(
-                                    icon: Icon(Icons.exit_to_app),
-                                    onPressed: () {
-                                      Provider.of<Auth>(context, listen: false)
-                                          .logout();
-                                    }),
                                 Flexible(
                                   child: TextField(
                                     controller: _phoneController,
