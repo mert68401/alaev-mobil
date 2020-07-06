@@ -545,6 +545,40 @@ router.post("/getCompanyAdvs", function (req, res) {
         res.json(docs);
     });
 });
+
+/*
+//Get getUserCompanyAdvs
+*/
+router.post("/getUserCompanyAdvs", function (req, res) {
+    var body = req.body;
+    var token = body.token;
+    var id;
+
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            id = decoded._id;
+        }
+    });
+    var data = database.collection("companyAdForms").find({ userId: id });
+    data.toArray(function (err, docs) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: "An error occured!",
+            });
+            return;
+        }
+        res.json(docs);
+    });
+});
+
+
 /*
 //Get getCompanySupply
 */
