@@ -5,6 +5,7 @@ import '../wrappers/home_wrapper.dart';
 import '../wrappers/profile_wrapper.dart';
 import '../wrappers/job_adv_wrapper.dart';
 import '../wrappers/news_wrapper.dart';
+import '../wrappers/company_adv_wrapper.dart';
 
 class HomeScreen extends StatefulWidget {
   final bool loggedIn;
@@ -36,18 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     if (widget.loggedIn) {
       _pages = [
-        AdvertisementWrapper(),
+        CompanyAdvertisementWrapper(),
         NewsWrapper(),
         HomeWrapper(),
-        AdvertisementWrapper(), // GEÇİCİ
+        JobAdvertisementWrapper(), // GEÇİCİ
         ProfileWrapper(),
       ];
     } else {
       _pages = [
-        AdvertisementWrapper(),
+        CompanyAdvertisementWrapper(),
         NewsWrapper(),
         HomeWrapper(),
-        AdvertisementWrapper(), // GEÇİCİ
+        JobAdvertisementWrapper(), // GEÇİCİ
       ];
     }
     return Scaffold(
@@ -71,9 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            title: Text('Item One'),
+            title: Text('Firma İlanları'),
             icon: Icon(
-              Icons.home,
+              Icons.business,
               size: _iconSize,
             ),
             backgroundColor: Theme.of(context).primaryColor,
@@ -95,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('İlanlar'),
+            title: Text('İş İlanları'),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.sort,

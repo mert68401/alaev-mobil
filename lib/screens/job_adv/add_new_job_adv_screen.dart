@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'package:path/path.dart';
 
-class AddNewAdvScreen extends StatefulWidget {
+class AddNewJobAdvScreen extends StatefulWidget {
   static const routeName = "/add-new-advertisement";
 
   @override
-  _AddNewAdvScreenState createState() => _AddNewAdvScreenState();
+  _AddNewJobAdvScreenState createState() => _AddNewJobAdvScreenState();
 }
 
-class _AddNewAdvScreenState extends State<AddNewAdvScreen> {
+class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
   final String _adImageUrl = '';
   @required
   final _adTitle = TextEditingController();

@@ -1,26 +1,25 @@
-import 'package:alaev/screens/add_new_job_adv_screen.dart';
+import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
+import 'package:alaev/screens/job_adv/job_adv_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/company_adv_screen.dart';
-
-class AdvertisementWrapper extends StatelessWidget {
+class JobAdvertisementWrapper extends StatelessWidget {
   final List<Map<String, String>> advList = [
     {
-      'title': 'Firma Adı',
+      'title': 'İş İlanı Adı',
       'imageUrl': 'assets/images/logo.jpg',
-      'subTitle': 'Kısa açıklama'
+      'subTitle': 'İş İlanı Adı Kısa açıklama'
     },
     {
-      'title': 'Firma Adı',
+      'title': 'İş İlanı Adı',
       'imageUrl': 'assets/images/logo.jpg',
       'subTitle':
-          'Altyazıasddddddddddddddddddassadsadaaaaaaaaaaaaaadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsads'
+          'İş İlanı Adı Kısa açıklama'
     },
     {
-      'title': 'Firma Adı',
+      'title': 'İş İlanı Adı',
       'imageUrl': 'assets/images/logo.jpg',
       'subTitle':
-          'Altyazıasddddddddddddddddddassadsadaaaaaaaaaaaaaadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsads'
+          'İş İlanı Adı Kısa açıklama'
     }
   ];
 
@@ -37,9 +36,9 @@ class AdvertisementWrapper extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () =>
-                  _pushNamedPage(context, AddNewAdvScreen.routeName)),
+                  _pushNamedPage(context, AddNewJobAdvScreen.routeName)),
         ],
-        title: Text('Firma İlanlar'),
+        title: Text('İş İlanları'),
       ),
       body: Container(
         child: ListView.builder(
@@ -48,7 +47,7 @@ class AdvertisementWrapper extends StatelessWidget {
           itemBuilder: (BuildContext context, int i) {
             return InkWell(
               onTap: () =>
-                  _pushNamedPage(context, CompanyAdvertisement.routeName),
+                  _pushNamedPage(context, JobAdvertisement.routeName),
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
