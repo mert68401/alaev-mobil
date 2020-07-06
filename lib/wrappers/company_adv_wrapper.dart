@@ -1,28 +1,80 @@
+import 'dart:convert';
+
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
+import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
+import 'package:alaev/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import '../screens/company_adv/company_adv__detail_screen.dart';
 
-import '../screens/company_adv/company_adv_screen.dart';
+class CompanyAdvertisementWrapper extends StatefulWidget {
+  @override
+  _CompanyAdvertisementWrapperState createState() =>
+      _CompanyAdvertisementWrapperState();
+}
 
-class CompanyAdvertisementWrapper extends StatelessWidget {
+class _CompanyAdvertisementWrapperState
+    extends State<CompanyAdvertisementWrapper> {
   final List<Map<String, String>> advList = [
-    {
-      'title': 'Firma Adı',
-      'imageUrl': 'assets/images/logo.jpg',
-      'subTitle': 'Kısa açıklama'
-    },
-    {
-      'title': 'Firma Adı',
-      'imageUrl': 'assets/images/logo.jpg',
-      'subTitle':
-          'Altyazıasddddddddddddddddddassadsadaaaaaaaaaaaaaadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsads'
-    },
-    {
-      'title': 'Firma Adı',
-      'imageUrl': 'assets/images/logo.jpg',
-      'subTitle':
-          'Altyazıasddddddddddddddddddassadsadaaaaaaaaaaaaaadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsads'
-    }
+    // {
+    //   'title': 'Firma Adı',
+    //   'imageUrl': 'assets/images/logo.jpg',
+    //   'subTitle': 'Kısa açıklama'
+    // },
+    // {
+    //   'title': 'Firma Adı',
+    //   'imageUrl': 'assets/images/logo.jpg',
+    //   'subTitle':
+    //       'Altyazıasddddddddddddddddddassadsadaaaaaaaaaaaaaadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsads'
+    // },
+    // {
+    //   'title': 'Firma Adı',
+    //   'imageUrl': 'assets/images/logo.jpg',
+    //   'subTitle':
+    //       'Altyazıasddddddddddddddddddassadsadaaaaaaaaaaaaaadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsads'
+    // }
   ];
+
+  Future<void> fetchCompanyAdvs() async {
+    advList.clear();
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://10.0.2.2:2000/api/getCompanyAdvs',
+      headers: headers,
+      body: jsonEncode(
+        <String, dynamic>{
+          "filter": {},
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      print(body);
+      setState(() {
+        body.forEach((element) {
+          advList.add({
+            "id": element["_id"],
+            "title": element["companyAdTitle"],
+            "content": element["companyAdContent"],
+            "imageUrl": element["companyAdImageUrl"]
+          });
+        });
+      });
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  void initState() {
+    super.initState();
+    fetchCompanyAdvs();
+  }
+
+  void dispose() {
+    super.dispose();
+  }
 
   void _pushNamedPage(context, routeName) {
     Navigator.of(context).pushNamed(routeName);
@@ -32,99 +84,23 @@ class CompanyAdvertisementWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () =>
-                  _pushNamedPage(context, AddNewCompanyAdvScreen.routeName)),
-        ],
-        title: Text('Firma İlanları'),
-      ),
-      body: Container(
-        child: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: advList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return InkWell(
-              onTap: () =>
-                  _pushNamedPage(context, CompanyAdvertisement.routeName),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                elevation: 4,
-                margin: EdgeInsets.all(10),
-                child: Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(15),
-                              ),
-                              child: Image.asset(
-                                advList[i]['imageUrl'],
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                          bottom: 20,
-                          right: 10,
-                          child: Container(
-                            width: 270,
-                            color: Colors.black54,
-                            padding: EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 20,
-                            ),
-                            child: Text(
-                              advList[i]['title'],
-                              style: TextStyle(
-                                fontSize: 26,
-                                color: Colors.white,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Flexible(
-                            child: Text(
-                              advList[i]
-                                  ['subTitle'], //.substring(0, 95) + '...',
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                              maxLines: 3,
-                              softWrap: true,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.list),
+                onPressed: () =>
+                    _pushNamedPage(context, MyCompanyAdvsScreen.routeName)),
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () =>
+                    _pushNamedPage(context, AddNewCompanyAdvScreen.routeName)),
+          ],
+          title: Text('Firma İlanları'),
         ),
-      ),
-    );
+        body: CardWidget(
+          onRefresh: fetchCompanyAdvs,
+          items: advList,
+          isFirebase: true,
+        ));
   }
 }

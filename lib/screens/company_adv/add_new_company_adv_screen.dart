@@ -15,23 +15,15 @@ class AddNewCompanyAdvScreen extends StatefulWidget {
 }
 
 class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
-  final String _adImageUrl = '';
+  final String _companyAdImageUrl = '';
   @required
-  final _adTitle = TextEditingController();
-  final _adCompanyNumber = TextEditingController();
-  final _adPersonalNumber = TextEditingController();
-  final _adMail = TextEditingController();
-  String _adDiplomaSelectedItem = 'Üniversite';
-  final _adContent = TextEditingController();
-
-  final List<String> items = <String>[
-    'Üniversite',
-    'Üniversite(Mezun)',
-    'Önlisans',
-    'Önlisans(Mezun)',
-    'Lise',
-    'Lise(Mezun)',
-  ];
+  final _companyAdTitle = TextEditingController();
+  @required
+  final _companyAdCompanyNumber = TextEditingController();
+  final _companyAdPersonalNumber = TextEditingController();
+  final _companyAdMail = TextEditingController();
+  @required
+  final _companyAdContent = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,68 +41,40 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                     height: 65, width: 65, paddingTop: 30, paddingRight: 60),
                 Container(
                     child: TextFieldWidget(
-                  controller: _adTitle,
+                  controller: _companyAdTitle,
                   labelText: 'İlan Başlığı',
                   height: 60,
                 )),
                 Container(
                     child: TextFieldWidget(
-                  controller: _adCompanyNumber,
+                  keyboardType: TextInputType.number,
+                  controller: _companyAdCompanyNumber,
                   labelText: 'Firma Telefon Numarası',
                   height: 60,
+                  maxLength: 13,
                 )),
                 Container(
                     child: TextFieldWidget(
-                  controller: _adPersonalNumber,
+                  keyboardType: TextInputType.number,
+                  controller: _companyAdPersonalNumber,
                   labelText: 'Kişisel Telefon Numarası',
                   height: 60,
+                  maxLength: 13,
                 )),
                 Container(
                     child: TextFieldWidget(
-                  controller: _adMail,
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _companyAdMail,
                   labelText: 'Mail Adresi',
                   height: 60,
+                  maxLength: 30,
                 )),
                 Container(
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Eğitim Durumu : ',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: DropdownButton<String>(
-                          value: _adDiplomaSelectedItem,
-                          onChanged: (String string) => setState(() {
-                            _adDiplomaSelectedItem = string;
-                            print(_adDiplomaSelectedItem);
-                          }),
-                          selectedItemBuilder: (BuildContext context) {
-                            return items.map<Widget>((String item) {
-                              return Text(item);
-                            }).toList();
-                          },
-                          items: items.map((String item) {
-                            return DropdownMenuItem<String>(
-                              child: Text('$item'),
-                              value: item,
-                            );
-                          }).toList(),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
                     child: TextFieldWidget(
-                  controller: _adContent,
+                  controller: _companyAdContent,
                   labelText: 'İş İle İlgili Açıklama',
-                  height: 160,
-                  maxLines: 6,
+                  height: 200,
+                  maxLines: 8,
                   maxLength: 500,
                   counterText: null,
                 )),
@@ -120,14 +84,15 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                     textColor: Colors.white,
                     color: Colors.green,
                     onPressed: () {
-                      addAdvertisementRequest(
-                          adTitle: _adTitle.text,
-                          adImageUrl: _adImageUrl.toString(),
-                          adCompanyNumber: _adCompanyNumber.text,
-                          adPersonalNumber: _adPersonalNumber.text,
-                          adMail: _adMail.text,
-                          adDiplomaSelectedItem: _adDiplomaSelectedItem,
-                          adContent: _adContent.text);
+                      addCompanyAdvertisementRequest(
+                        filter: '',
+                        companyAdTitle: _companyAdTitle.text,
+                        companyAdImageUrl: _companyAdImageUrl.toString(),
+                        companyAdCompanyNumber: _companyAdCompanyNumber.text,
+                        companyAdPersonalNumber: _companyAdPersonalNumber.text,
+                        companyAdMail: _companyAdMail.text,
+                        companyAdContent: _companyAdContent.text,
+                      );
                     },
                   ),
                 )

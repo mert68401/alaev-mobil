@@ -427,20 +427,113 @@ router.post("/setJobAdRequest", function (req, res) {
 
 
 /*
-//Get getCompanySupplies
+//Set Company Adversitement
 */
-router.post("/getCompanySupplies", function (req, res) {
+router.post("/setCompanyAdRequest", function (req, res) {
+    const body = req.body;
+    const token = body.token;
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            id = decoded._id;
+            companyAdObj = {
+                _id: makeid(),
+                userId: id,
+                companyAdImageUrl: body.companyAdImageUrl,
+                companyAdTitle: body.companyAdTitle,
+                companyAdCompanyNumber: body.companyAdCompanyNumber,
+                companyAdPersonalNumber: body.companyAdPersonalNumber,
+                companyAdMail: body.companyAdMail,
+                companyAdContent: body.companyAdContent,
+            };
+            console.log(companyAdObj);
+            database.collection("companyAdForms").findOne({ companyAdTitle: body.companyAdTitle }).then(function (docs) {
+                if (!docs) {
+                    if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
+                        if (body.companyAdTitle != "" &&
+                            body.companyAdCompanyNumber != "" &&
+                            body.companyAdContent != ""
+                        ) {
+                            database.collection("companyAdForms").insertOne(companyAdObj, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+                                    res.status(401).send({
+                                        success: false,
+                                        message: "An error occured!",
+                                    });
+                                }
+                                res.json({
+                                    success: true,
+                                    message: "Firma İlanı Yaratıldı"
+                                });
+                            });
+                        } else { console.log('Eksik bilgi') }
+                    } else {
+                        res.status(401).send({
+                            success: false,
+                            message: "Firma Bilgileri Eksiksiz Giriniz!",
+                        });
+                    }
+                }
+                else {
+                    if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
+                        if (body.companyAdTitle != "" &&
+                            body.companyAdCompanyNumber != "" &&
+                            body.companyAdContent != "") {
+                            database.collection("companyAdForms").updateOne({ _id: docs._id },
+                                {
+                                    $set: {
+                                        companyAdImageUrl: body.companyAdImageUrl ? body.companyAdImageUrl : '',
+                                        companyAdTitle: body.companyAdTitle,
+                                        companyAdCompanyNumber: body.companyAdCompanyNumber,
+                                        companyAdPersonalNumber: body.companyAdPersonalNumber ? body.companyAdPersonalNumber : '',
+                                        companyAdMail: body.companyAdMail ? body.companyAdMail : '',
+                                        companyAdContent: body.companyAdContent
+                                    }
+                                }, function (error, result) {
+                                    if (error) {
+                                        console.log(error);
+                                        res.status(401).send({
+                                            success: false,
+                                            message: "An error occured!",
+                                        });
+                                        return;
+                                    } else {
+                                        res.json({
+                                            success: true,
+                                            message: "İş İlanı Güncellendi!"
+                                        });
+                                    }
+                                }
+                            );
+                        } else {
+                            console.log('Eksik bilgi');
+                        }
+                    } else {
+                        res.status(401).send({
+                            success: false,
+                            message: "Bilgileri Eksiksiz Giriniz!",
+                        });
+                    }
+                }
+            });
+        }
+    });
+});
+
+
+/*
+//Get getCompanyAdvs
+*/
+router.post("/getCompanyAdvs", function (req, res) {
     var body = req.body;
     var filter = body.filter;
-    var params = body.params;
-    var projection = params.projection ? { projection: params.projection } : {};
-    var data = database.collection("companySupplies").find(filter, projection);
-    if (params.sort) {
-        data = data.sort(params.sort);
-    }
-    if (params.limit) {
-        data = data.limit(params.limit);
-    }
+    var data = database.collection("companyAdForms").find(filter);
     data.toArray(function (err, docs) {
         if (err) {
             res.status(401).send({
