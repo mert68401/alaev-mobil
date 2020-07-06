@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../screens/login_screen.dart';
 import '../wrappers/home_wrapper.dart';
 import '../wrappers/profile_wrapper.dart';
-import '../wrappers/adv_wrapper.dart';
+import '../wrappers/job_adv_wrapper.dart';
 import '../wrappers/news_wrapper.dart';
 
 class HomeScreen extends StatefulWidget {

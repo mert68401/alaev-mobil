@@ -1,5 +1,5 @@
 import 'package:alaev/providers/auth.dart';
-import 'package:alaev/screens/add_new_adv_screen.dart';
+import 'package:alaev/screens/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/forgot_password_screen.dart';
 import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';

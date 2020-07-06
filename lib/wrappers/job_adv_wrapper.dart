@@ -1,4 +1,4 @@
-import 'package:alaev/screens/add_new_adv_screen.dart';
+import 'package:alaev/screens/add_new_job_adv_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/company_adv_screen.dart';
