@@ -22,7 +22,7 @@ class JobAdvertisementWrapper extends StatelessWidget {
           'İş İlanı Adı Kısa açıklama'
     }
   ];
-
+  
   void _pushNamedPage(context, routeName) {
     Navigator.of(context).pushNamed(routeName);
     return;
