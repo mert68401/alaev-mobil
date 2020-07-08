@@ -1,28 +1,64 @@
-import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
-import 'package:alaev/screens/job_adv/job_adv_screen.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class JobAdvertisementWrapper extends StatelessWidget {
-  final List<Map<String, String>> advList = [
-    {
-      'title': 'İş İlanı Adı',
-      'imageUrl': 'assets/images/logo.jpg',
-      'subTitle': 'İş İlanı Adı Kısa açıklama'
-    },
-    {
-      'title': 'İş İlanı Adı',
-      'imageUrl': 'assets/images/logo.jpg',
-      'subTitle':
-          'İş İlanı Adı Kısa açıklama'
-    },
-    {
-      'title': 'İş İlanı Adı',
-      'imageUrl': 'assets/images/logo.jpg',
-      'subTitle':
-          'İş İlanı Adı Kısa açıklama'
+import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
+import '../screens/job_adv/job_adv_detail_screen.dart';
+import 'package:alaev/widgets/card_widget.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'dart:async';
+
+class JobAdvertisementWrapper extends StatefulWidget {
+  @override
+  _JobAdvertisementWrapperState createState() =>
+      _JobAdvertisementWrapperState();
+}
+
+class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
+  final List<Map<String, String>> jobAdvList = [];
+
+  Future<void> fetchJobAdvs() async {
+    jobAdvList.clear();
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://10.0.2.2:2000/api/getJobAdvs',
+      headers: headers,
+      body: jsonEncode(
+        <String, dynamic>{
+          "filter": {},
+          "params": {
+            "sort": {"createdAt": -1}
+          },
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      print(body);
+      setState(() {
+        body.forEach((element) {
+          jobAdvList.add({
+            "id": element["_id"],
+            "title": element["adTitle"],
+            "content": element["adContent"],
+            "imageUrl": element["adImageUrl"]
+          });
+        });
+      });
+    } else {
+      throw Exception('Failed to load album');
     }
-  ];
-  
+  }
+
+  void initState() {
+    super.initState();
+    fetchJobAdvs();
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
   void _pushNamedPage(context, routeName) {
     Navigator.of(context).pushNamed(routeName);
     return;
@@ -34,95 +70,20 @@ class JobAdvertisementWrapper extends StatelessWidget {
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
+              icon: Icon(Icons.list),
+              onPressed: () => _pushNamedPage(context, null)),
+          IconButton(
               icon: Icon(Icons.add),
               onPressed: () =>
                   _pushNamedPage(context, AddNewJobAdvScreen.routeName)),
         ],
         title: Text('İş İlanları'),
       ),
-      body: Container(
-        child: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: advList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return InkWell(
-              onTap: () =>
-                  _pushNamedPage(context, JobAdvertisement.routeName),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                elevation: 4,
-                margin: EdgeInsets.all(10),
-                child: Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(15),
-                              ),
-                              child: Image.asset(
-                                advList[i]['imageUrl'],
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                          bottom: 20,
-                          right: 10,
-                          child: Container(
-                            width: 270,
-                            color: Colors.black54,
-                            padding: EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 20,
-                            ),
-                            child: Text(
-                              advList[i]['title'],
-                              style: TextStyle(
-                                fontSize: 26,
-                                color: Colors.white,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Flexible(
-                            child: Text(
-                              advList[i]
-                                  ['subTitle'], //.substring(0, 95) + '...',
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                              maxLines: 3,
-                              softWrap: true,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+      body: CardWidget(
+        onRefresh: fetchJobAdvs,
+        items: jobAdvList,
+        isFirebase: true,
+        routeName: JobAdvertisement.routeName,
       ),
     );
   }

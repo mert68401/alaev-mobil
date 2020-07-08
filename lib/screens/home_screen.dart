@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         CompanyAdvertisementWrapper(),
         NewsWrapper(),
         HomeWrapper(),
-        JobAdvertisementWrapper(), // GEÇİCİ
+        JobAdvertisementWrapper(),
         ProfileWrapper(),
       ];
     } else {
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         CompanyAdvertisementWrapper(),
         NewsWrapper(),
         HomeWrapper(),
-        JobAdvertisementWrapper(), // GEÇİCİ
+        JobAdvertisementWrapper(),
       ];
     }
     return Scaffold(

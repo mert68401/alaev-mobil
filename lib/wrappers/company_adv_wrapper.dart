@@ -6,7 +6,7 @@ import 'package:alaev/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-import '../screens/company_adv/company_adv__detail_screen.dart';
+import '../screens/company_adv/company_adv_detail_screen.dart';
 
 class CompanyAdvertisementWrapper extends StatefulWidget {
   @override
@@ -16,25 +16,7 @@ class CompanyAdvertisementWrapper extends StatefulWidget {
 
 class _CompanyAdvertisementWrapperState
     extends State<CompanyAdvertisementWrapper> {
-  final List<Map<String, String>> advList = [
-    // {
-    //   'title': 'Firma Adı',
-    //   'imageUrl': 'assets/images/logo.jpg',
-    //   'subTitle': 'Kısa açıklama'
-    // },
-    // {
-    //   'title': 'Firma Adı',
-    //   'imageUrl': 'assets/images/logo.jpg',
-    //   'subTitle':
-    //       'Altyazıasddddddddddddddddddassadsadaaaaaaaaaaaaaadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsads'
-    // },
-    // {
-    //   'title': 'Firma Adı',
-    //   'imageUrl': 'assets/images/logo.jpg',
-    //   'subTitle':
-    //       'Altyazıasddddddddddddddddddassadsadaaaaaaaaaaaaaadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsadsads'
-    // }
-  ];
+  final List<Map<String, String>> advList = [];
 
   Future<void> fetchCompanyAdvs() async {
     advList.clear();
@@ -45,6 +27,9 @@ class _CompanyAdvertisementWrapperState
       body: jsonEncode(
         <String, dynamic>{
           "filter": {},
+          "params": {
+            "sort": {"createdAt": -1}
+          },
         },
       ),
     );
@@ -84,23 +69,25 @@ class _CompanyAdvertisementWrapperState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.list),
-                onPressed: () =>
-                    _pushNamedPage(context, MyCompanyAdvsScreen.routeName)),
-            IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () =>
-                    _pushNamedPage(context, AddNewCompanyAdvScreen.routeName)),
-          ],
-          title: Text('Firma İlanları'),
-        ),
-        body: CardWidget(
-          onRefresh: fetchCompanyAdvs,
-          items: advList,
-          isFirebase: true,
-        ));
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.list),
+              onPressed: () =>
+                  _pushNamedPage(context, MyCompanyAdvsScreen.routeName)),
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () =>
+                  _pushNamedPage(context, AddNewCompanyAdvScreen.routeName)),
+        ],
+        title: Text('Firma İlanları'),
+      ),
+      body: CardWidget(
+        onRefresh: fetchCompanyAdvs,
+        items: advList,
+        isFirebase: true,
+        routeName: CompanyAdvertisement.routeName,
+      ),
+    );
   }
 }

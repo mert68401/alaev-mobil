@@ -40,7 +40,7 @@ class MapScreenState extends State<ProfileWrapper>
             },
           ),
         );
-
+  
         if (response.statusCode == 200) {
           print(response.body);
           userData = json.decode(response.body);
@@ -53,6 +53,7 @@ class MapScreenState extends State<ProfileWrapper>
     }
 
     getUserData();
+    
   }
 
   @override

@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:alaev/functions/requests.dart';
-import 'package:alaev/widgets/icon_widget.dart';
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -138,8 +137,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                           companyAdTitle: _companyAdTitle.text,
                           companyAdImageUrl: _companyAdImageUrl.toString(),
                           companyAdCompanyNumber: _companyAdCompanyNumber.text,
-                          companyAdPersonalNumber:
-                              _companyAdPersonalNumber.text,
+                          companyAdPersonalNumber: _companyAdPersonalNumber.text,
                           companyAdMail: _companyAdMail.text,
                           companyAdContent: _companyAdContent.text,
                         );

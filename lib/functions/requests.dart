@@ -113,3 +113,36 @@ Future<void> addCompanyAdvertisementRequest({
     }
   });
 }
+
+Future<void> addJobAdvertisementRequest({
+  dynamic filter,
+  String jobAdImageUrl,
+  String jobAdTitle,
+  String jobAdCompanyNumber,
+  String jobAdPersonalNumber,
+  String jobAdMail,
+  String jobAdContent,
+}) async {
+  getToken().then((value) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://10.0.2.2:2000/api/setCompanyAdRequest',
+      headers: headers,
+      body: jsonEncode(<String, String>{
+        "token": value,
+        "filter": filter,
+        "jobAdImageUrl": jobAdImageUrl,
+        "jobAdTitle": jobAdTitle,
+        "jobAdCompanyNumber": jobAdCompanyNumber,
+        "jobAdPersonalNumber": jobAdPersonalNumber,
+        "jobAdMail": jobAdMail,
+        "jobAdContent": jobAdContent
+      }),
+    );
+    if (response.statusCode == 200) {
+      showToastSuccess(jsonDecode(response.body)['message'].toString());
+    } else if (response.statusCode == 401) {
+      showToastError(jsonDecode(response.body)['message'].toString());
+    }
+  });
+}

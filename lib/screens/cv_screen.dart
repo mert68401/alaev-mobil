@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 import '../functions/functions.dart';
 import '../functions/requests.dart';
-import '../functions/requests.dart';
 
 class CvScreen extends StatefulWidget {
   static const routeName = '/cv-screen';

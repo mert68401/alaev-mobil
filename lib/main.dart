@@ -3,7 +3,7 @@ import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/forgot_password_screen.dart';
-import 'package:alaev/screens/job_adv/job_adv_screen.dart';
+import 'package:alaev/screens/job_adv/job_adv_detail_screen.dart';
 import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import './screens/home_screen.dart';
 import './screens/login_screen.dart';
 import './screens/register_screen.dart';
-import 'screens/company_adv/company_adv__detail_screen.dart';
+import 'screens/company_adv/company_adv_detail_screen.dart';
 import './screens/cv_screen.dart';
 
 Future<void> main() async {

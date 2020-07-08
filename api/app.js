@@ -340,6 +340,7 @@ router.post("/setJobAdRequest", function (req, res) {
             id = decoded._id;
             jobAdObj = {
                 _id: makeid(),
+                createdAt: new Date(),
                 userId: id,
                 imageUrl: body.imageUrl,
                 adTitle: body.adTitle,
@@ -425,6 +426,34 @@ router.post("/setJobAdRequest", function (req, res) {
     });
 });
 
+/*
+//Get getJobAdvs
+*/
+router.post("/getJobAdvs", function (req, res) {
+    var body = req.body;
+    var filter = body.filter;
+    var params = body.params;
+    var projection = params.projection ? { projection: params.projection } : {};
+    var data = database.collection("jobAdForms").find(filter, projection);
+    if (params.sort) {
+        data = data.sort(params.sort);
+    }
+    if (params.limit) {
+        data = data.limit(params.limit);
+    }
+    data.toArray(function (err, docs) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: "An error occured!",
+            });
+            return;
+        }
+        res.json(docs);
+    });
+});
+
+
 
 /*
 //Set Company Adversitement
@@ -443,6 +472,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
             id = decoded._id;
             companyAdObj = {
                 _id: makeid(),
+                createdAt: new Date(),
                 userId: id,
                 companyAdImageUrl: body.companyAdImageUrl,
                 companyAdTitle: body.companyAdTitle,
@@ -533,7 +563,15 @@ router.post("/setCompanyAdRequest", function (req, res) {
 router.post("/getCompanyAdvs", function (req, res) {
     var body = req.body;
     var filter = body.filter;
-    var data = database.collection("companyAdForms").find(filter);
+    var params = body.params;
+    var projection = params.projection ? { projection: params.projection } : {};
+    var data = database.collection("companyAdForms").find(filter, projection);
+    if (params.sort) {
+        data = data.sort(params.sort);
+    }
+    if (params.limit) {
+        data = data.limit(params.limit);
+    }
     data.toArray(function (err, docs) {
         if (err) {
             res.status(401).send({
@@ -552,6 +590,8 @@ router.post("/getCompanyAdvs", function (req, res) {
 router.post("/getUserCompanyAdvs", function (req, res) {
     var body = req.body;
     var token = body.token;
+    var filter = body.filter;
+    var params = body.params;
     var id;
 
     jwt.verify(token, "mERoo36mM?", function (err, decoded) {
@@ -565,7 +605,10 @@ router.post("/getUserCompanyAdvs", function (req, res) {
             id = decoded._id;
         }
     });
-    var data = database.collection("companyAdForms").find({ userId: id });
+    var data = database.collection("companyAdForms").find(filter, { userId: id });
+    if (params.sort) {
+        data = data.sort(params.sort);
+    }
     data.toArray(function (err, docs) {
         if (err) {
             res.status(401).send({

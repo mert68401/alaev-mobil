@@ -17,7 +17,7 @@ class CardWidget extends StatelessWidget {
     if (!isFirebase) {
       if (items[i]['imageUrl'].length > 1) {
         return Image.network(
-          "http://statik.wiki.com.tr/assets/alaev/img/" + items[i]['imageUrl'],
+          items[i]['imageUrl'],
           height: 250,
           width: double.infinity,
           fit: BoxFit.cover,

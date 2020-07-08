@@ -41,12 +41,6 @@ class _NewsWrapperState extends State<NewsWrapper> {
             "imageUrl": element["image"]
           });
         });
-
-        new Timer(Duration(milliseconds: 200), () {
-          setState(() {
-            _currentOpacity = 1;
-          });
-        });
       });
     } else {
       throw Exception('Failed to load album');
