@@ -453,6 +453,42 @@ router.post("/getJobAdvs", function (req, res) {
     });
 });
 
+/*
+//Get getUserJobAdvs
+*/
+router.post("/getUserJobAdvs", function (req, res) {
+    var body = req.body;
+    var token = body.token;
+    var filter = body.filter;
+    var params = body.params;
+    var id;
+
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            id = decoded._id;
+        }
+    });
+    var data = database.collection("jobAdForms").find(filter, { userId: id });
+    if (params.sort) {
+        data = data.sort(params.sort);
+    }
+    data.toArray(function (err, docs) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: "An error occured!",
+            });
+            return;
+        }
+        res.json(docs);
+    });
+});
 
 
 /*

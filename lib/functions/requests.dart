@@ -48,39 +48,6 @@ Future<void> addCvRequest(
   });
 }
 
-Future<void> addAdvertisementRequest({
-  String adImageUrl,
-  String adTitle,
-  String adCompanyNumber,
-  String adPersonalNumber,
-  String adMail,
-  String adDiplomaSelectedItem,
-  String adContent,
-}) async {
-  getToken().then((value) async {
-    Map<String, String> headers = {"Content-type": "application/json"};
-    final response = await http.post(
-      'http://10.0.2.2:2000/api/setJobAdRequest',
-      headers: headers,
-      body: jsonEncode(<String, String>{
-        "token": value,
-        "adImageUrl": adImageUrl,
-        "adTitle": adTitle,
-        "adCompanyNumber": adCompanyNumber,
-        "adPersonalNumber": adPersonalNumber,
-        "adMail": adMail,
-        "adDiplomaSelectedItem": adDiplomaSelectedItem,
-        "adContent": adContent
-      }),
-    );
-    if (response.statusCode == 200) {
-      showToastSuccess(jsonDecode(response.body)['message'].toString());
-    } else if (response.statusCode == 401) {
-      showToastError(jsonDecode(response.body)['message'].toString());
-    }
-  });
-}
-
 Future<void> addCompanyAdvertisementRequest({
   dynamic filter,
   String companyAdImageUrl,
@@ -126,7 +93,7 @@ Future<void> addJobAdvertisementRequest({
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/setCompanyAdRequest',
+      'http://10.0.2.2:2000/api/setJobAdRequest',
       headers: headers,
       body: jsonEncode(<String, String>{
         "token": value,
