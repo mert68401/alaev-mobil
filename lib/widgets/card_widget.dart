@@ -1,3 +1,4 @@
+import 'package:alaev/screens/news_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class CardWidget extends StatelessWidget {
@@ -5,19 +6,21 @@ class CardWidget extends StatelessWidget {
   final List items;
   final String routeName;
   final bool isFirebase;
+  final bool isNews;
 
-  CardWidget({
-    @required this.onRefresh,
-    @required this.items,
-    this.routeName,
-    @required this.isFirebase,
-  });
+  CardWidget(
+      {@required this.onRefresh,
+      @required this.items,
+      this.routeName,
+      @required this.isFirebase,
+      @required this.isNews});
 
   Widget firebaseCheck(i) {
     if (!isFirebase) {
+      print("asd");
       if (items[i]['imageUrl'].length > 1) {
         return Image.network(
-          items[i]['imageUrl'],
+          "http://statik.wiki.com.tr/assets/alaev/img/" + items[i]['imageUrl'],
           height: 250,
           width: double.infinity,
           fit: BoxFit.cover,
@@ -60,7 +63,19 @@ class CardWidget extends StatelessWidget {
           itemBuilder: (BuildContext context, int i) {
             return InkWell(
               onTap: () {
-                Navigator.of(context).pushNamed(routeName);
+                if (isNews) {
+                  Navigator.of(context).pushNamed(routeName, arguments: {
+                    "_id": items[i]["_id"],
+                    "title": items[i]["title"],
+                    "content": items[i]["content"]
+                  });
+                } else {
+                  Navigator.of(context).pushNamed(routeName, arguments: {
+                    "_id": items[i]["_id"],
+                    "title": items[i]["title"],
+                    "content": items[i]["content"]
+                  });
+                }
               },
               child: Card(
                 shape: RoundedRectangleBorder(

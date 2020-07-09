@@ -4,6 +4,7 @@ import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/forgot_password_screen.dart';
 import 'package:alaev/screens/job_adv/job_adv_detail_screen.dart';
+import 'package:alaev/screens/news_detail_screen.dart';
 import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,12 +53,14 @@ class MyApp extends StatelessWidget {
             ProfileWrapper.routeName: (context) => ProfileWrapper(),
             RegisterScreen.routeName: (context) => RegisterScreen(),
             CompanyAdvertisement.routeName: (context) => CompanyAdvertisement(),
-            AddNewCompanyAdvScreen.routeName: (context) => AddNewCompanyAdvScreen(),
+            AddNewCompanyAdvScreen.routeName: (context) =>
+                AddNewCompanyAdvScreen(),
             JobAdvertisement.routeName: (context) => JobAdvertisement(),
             AddNewJobAdvScreen.routeName: (context) => AddNewJobAdvScreen(),
             CvScreen.routeName: (context) => CvScreen(),
             ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
-            MyCompanyAdvsScreen.routeName: (context) => MyCompanyAdvsScreen()
+            MyCompanyAdvsScreen.routeName: (context) => MyCompanyAdvsScreen(),
+            NewsDetailScreen.routeName: (context) => NewsDetailScreen()
           },
         ),
       ),

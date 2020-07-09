@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
@@ -22,7 +23,7 @@ class _CompanyAdvertisementWrapperState
     advList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/getCompanyAdvs',
+      'http://' + ServerIP().other + ':2000/api/getCompanyAdvs',
       headers: headers,
       body: jsonEncode(
         <String, dynamic>{
@@ -86,6 +87,7 @@ class _CompanyAdvertisementWrapperState
         onRefresh: fetchCompanyAdvs,
         items: advList,
         isFirebase: true,
+        isNews: false,
         routeName: CompanyAdvertisement.routeName,
       ),
     );

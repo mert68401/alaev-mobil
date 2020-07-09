@@ -26,7 +26,6 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
   final _companyAdMail = TextEditingController();
   final _companyAdContent = TextEditingController();
   File _image;
-  String _uploadedImgUrl;
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -137,7 +136,8 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                           companyAdTitle: _companyAdTitle.text,
                           companyAdImageUrl: _companyAdImageUrl.toString(),
                           companyAdCompanyNumber: _companyAdCompanyNumber.text,
-                          companyAdPersonalNumber: _companyAdPersonalNumber.text,
+                          companyAdPersonalNumber:
+                              _companyAdPersonalNumber.text,
                           companyAdMail: _companyAdMail.text,
                           companyAdContent: _companyAdContent.text,
                         );

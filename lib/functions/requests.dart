@@ -1,3 +1,4 @@
+import 'package:alaev/functions/server_ip.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'functions.dart';
@@ -20,7 +21,7 @@ Future<void> addCvRequest(
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/setCvPage',
+      'http://' + ServerIP().other + ':2000/api/setCvPage',
       headers: headers,
       body: jsonEncode(<String, String>{
         "token": value,
@@ -60,7 +61,7 @@ Future<void> addAdvertisementRequest({
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/setJobAdRequest',
+      'http://' + ServerIP().other + ':2000/api/setJobAdRequest',
       headers: headers,
       body: jsonEncode(<String, String>{
         "token": value,
@@ -93,7 +94,7 @@ Future<void> addCompanyAdvertisementRequest({
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/setCompanyAdRequest',
+      'http://' + ServerIP().other + ':2000/api/setCompanyAdRequest',
       headers: headers,
       body: jsonEncode(<String, String>{
         "token": value,
@@ -126,7 +127,7 @@ Future<void> addJobAdvertisementRequest({
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/setCompanyAdRequest',
+      'http://' + ServerIP().other + ':2000/api/setCompanyAdRequest',
       headers: headers,
       body: jsonEncode(<String, String>{
         "token": value,

@@ -26,7 +26,6 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
   final _jobAdMail = TextEditingController();
   final _jobAdContent = TextEditingController();
   File _image;
-  String _uploadedImgUrl;
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -38,6 +37,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   Future uploadPicture(BuildContext ctx) async {
     String fileName = basename(_image.path);
+    print(fileName);
     StorageReference firebaseStorageRef =
         FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);

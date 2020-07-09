@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/functions/server_ip.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:alaev/widgets/textfield_default.dart';
@@ -42,7 +43,7 @@ class _CvScreenState extends State<CvScreen> {
       getToken().then((value) async {
         Map<String, String> headers = {"Content-type": "application/json"};
         final response = await http.post(
-          'http://10.0.2.2:2000/api/getUserCvData',
+          'http://' + ServerIP().other + ':2000/api/getUserCvData',
           headers: headers,
           body: jsonEncode(
             <String, String>{"token": value},

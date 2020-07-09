@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class MapScreenState extends State<ProfileWrapper>
         Map<String, String> headers = {"Content-type": "application/json"};
 
         final response = await http.post(
-          'http://10.0.2.2:2000/api/getUserData',
+          'http://' + ServerIP().other + ':2000/api/getUserData',
           headers: headers,
           body: jsonEncode(
             <String, String>{
@@ -40,7 +41,7 @@ class MapScreenState extends State<ProfileWrapper>
             },
           ),
         );
-  
+
         if (response.statusCode == 200) {
           print(response.body);
           userData = json.decode(response.body);
@@ -53,7 +54,6 @@ class MapScreenState extends State<ProfileWrapper>
     }
 
     getUserData();
-    
   }
 
   @override

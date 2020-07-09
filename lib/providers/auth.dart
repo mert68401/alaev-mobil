@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/functions/server_ip.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
@@ -32,7 +33,7 @@ class Auth with ChangeNotifier {
     Map<String, String> headers = {"Content-type": "application/json"};
     var passwordMd5 = md5.convert(utf8.encode(password));
     final response = await http.post(
-      'http://10.0.2.2:2000/api/register',
+      'http://' + ServerIP().other + ':2000/api/register',
       headers: headers,
       body: jsonEncode(
         <String, String>{
@@ -69,7 +70,7 @@ class Auth with ChangeNotifier {
     var passwordMd5 = md5.convert(utf8.encode(password));
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/login',
+      'http://' + ServerIP().other + ':2000/api/login',
       headers: headers,
       body: jsonEncode(
         <String, String>{"email": email, "password": passwordMd5.toString()},

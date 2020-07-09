@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 2;
   PageController _pageController;
-  final double _iconSize = 30;
+  final double _iconSize = 20;
   List<Widget> _pages = [];
 
   @override

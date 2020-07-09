@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import '../screens/job_adv/job_adv_detail_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
@@ -20,7 +21,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
     jobAdvList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/getJobAdvs',
+      'http://' + ServerIP().other + ':2000/api/getJobAdvs',
       headers: headers,
       body: jsonEncode(
         <String, dynamic>{
@@ -83,6 +84,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         onRefresh: fetchJobAdvs,
         items: jobAdvList,
         isFirebase: true,
+        isNews: false,
         routeName: JobAdvertisement.routeName,
       ),
     );
