@@ -67,6 +67,7 @@ class _MyCompanyAdvsScreenState extends State<MyCompanyAdvsScreen> {
     return Scaffold(
         appBar: AppBar(title: Text('Mevcut Firma İlanlarım')),
         body: CardWidget(
+          isNews: false,
           onRefresh: fetchUserCompanyAdvs,
           items: myAdvList,
           isFirebase: false,

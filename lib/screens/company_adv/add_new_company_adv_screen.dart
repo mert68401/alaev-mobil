@@ -40,10 +40,8 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
     StorageReference firebaseStorageRef =
         FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    print(uploadTask);
-    print(await firebaseStorageRef.getDownloadURL());
-    _companyAdImageUrl = await firebaseStorageRef.getDownloadURL();
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    _companyAdImageUrl = await taskSnapshot.ref.getDownloadURL();
   }
 
   @override
