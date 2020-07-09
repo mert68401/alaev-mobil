@@ -35,7 +35,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
     });
   }
 
- Future uploadPicture(BuildContext ctx) async {
+  Future uploadPicture(BuildContext ctx) async {
     String fileName = basename(_image.path);
     StorageReference firebaseStorageRef =
         FirebaseStorage.instance.ref().child(fileName);
@@ -128,7 +128,19 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                     textColor: Colors.white,
                     color: Colors.green,
                     onPressed: () {
-                      uploadPicture(context).then((value) {
+                      if (_jobAdImageUrl != '') {
+                        uploadPicture(context).then((value) {
+                          addJobAdvertisementRequest(
+                            filter: '',
+                            jobAdTitle: _jobAdTitle.text,
+                            jobAdImageUrl: _jobAdImageUrl.toString(),
+                            jobAdCompanyNumber: _jobAdCompanyNumber.text,
+                            jobAdPersonalNumber: _jobAdPersonalNumber.text,
+                            jobAdMail: _jobAdMail.text,
+                            jobAdContent: _jobAdContent.text,
+                          );
+                        });
+                      } else {
                         addJobAdvertisementRequest(
                           filter: '',
                           jobAdTitle: _jobAdTitle.text,
@@ -138,7 +150,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           jobAdMail: _jobAdMail.text,
                           jobAdContent: _jobAdContent.text,
                         );
-                      });
+                      }
                     },
                   ),
                 )

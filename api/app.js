@@ -131,6 +131,64 @@ router.post("/login", function (req, res) {
 });
 
 /*
+// Update User Info
+*/
+router.post("/updateUserInfo", function (req, res) {
+    const body = req.body;
+    const token = body.token;
+    const email = {
+        "email.str": body.email
+    };
+
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else { id = decoded._id; }
+        database.collection("userAccounts").findOne({ userId: id }).then(function (docs) {
+            if (body.fullName && email) {
+                if (body.fullName != '' && email != '') {
+                    database.collection("userAccounts").updateOne({ _id: id },
+                        {
+                            $set: {
+                                fullName: body.fullName,
+                                email: email,
+                                personalNumber: body.personalNumber ? body.personalNumber : '',
+                            }
+                        }, function (error, result) {
+                            if (error) {
+                                console.log(error);
+                                res.status(401).send({
+                                    success: false,
+                                    message: "An error occured!",
+                                });
+                                return;
+                            } else {
+                                res.json({
+                                    success: true,
+                                    message: "Hesabınız Güncellendi!"
+                                });
+                            }
+                        }
+                    );
+                } else {
+                    console.log('Eksik bilgi');
+                }
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: "Bilgileri Eksiksiz Giriniz!",
+                });
+            }
+        });
+    });
+
+});
+
+/*
 //Forgot Password
 */
 router.post("/forgotPassword", function (req, res) {

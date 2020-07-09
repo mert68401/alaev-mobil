@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens/cv_screen.dart';
 import 'package:http/http.dart' as http;
+import '../functions/requests.dart';
 
 class ProfileWrapper extends StatefulWidget {
   static const routeName = "/profile-page";
@@ -275,6 +276,10 @@ class MapScreenState extends State<ProfileWrapper>
                   setState(() {
                     _status = true;
                     FocusScope.of(context).requestFocus(FocusNode());
+                    updateUserInfo(
+                        fullName: _fullNameController.text,
+                        email: _emailController.text,
+                        personalNumber: _phoneController.text);
                   });
                 },
                 shape: RoundedRectangleBorder(

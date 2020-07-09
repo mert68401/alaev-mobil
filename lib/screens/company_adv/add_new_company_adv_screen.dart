@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:alaev/functions/requests.dart';
 import 'package:alaev/widgets/textfield_default.dart';
+import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -128,7 +129,21 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                     textColor: Colors.white,
                     color: Colors.green,
                     onPressed: () {
-                      uploadPicture(context).then((value) {
+                      if (_companyAdImageUrl != '') {
+                        uploadPicture(context).then((value) {
+                          addCompanyAdvertisementRequest(
+                            filter: '',
+                            companyAdTitle: _companyAdTitle.text,
+                            companyAdImageUrl: _companyAdImageUrl.toString(),
+                            companyAdCompanyNumber:
+                                _companyAdCompanyNumber.text,
+                            companyAdPersonalNumber:
+                                _companyAdPersonalNumber.text,
+                            companyAdMail: _companyAdMail.text,
+                            companyAdContent: _companyAdContent.text,
+                          );
+                        });
+                      } else {
                         addCompanyAdvertisementRequest(
                           filter: '',
                           companyAdTitle: _companyAdTitle.text,
@@ -139,7 +154,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                           companyAdMail: _companyAdMail.text,
                           companyAdContent: _companyAdContent.text,
                         );
-                      });
+                      }
                     },
                   ),
                 )
