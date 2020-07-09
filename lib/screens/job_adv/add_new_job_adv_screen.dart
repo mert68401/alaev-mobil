@@ -35,16 +35,13 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
     });
   }
 
-  Future uploadPicture(BuildContext ctx) async {
+ Future uploadPicture(BuildContext ctx) async {
     String fileName = basename(_image.path);
-    print(fileName);
     StorageReference firebaseStorageRef =
         FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    print(uploadTask);
-    print(await firebaseStorageRef.getDownloadURL());
-    _jobAdImageUrl = await firebaseStorageRef.getDownloadURL();
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    _jobAdImageUrl = await taskSnapshot.ref.getDownloadURL();
   }
 
   @override

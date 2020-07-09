@@ -1,4 +1,3 @@
-import 'package:alaev/screens/news_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class CardWidget extends StatelessWidget {

@@ -95,7 +95,7 @@ Future<void> addJobAdvertisementRequest({
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://' + ServerIP().other + ':2000/api/setCompanyAdRequest',
+      'http://' + ServerIP().other + ':2000/api/setJobAdRequest',
       headers: headers,
       body: jsonEncode(<String, String>{
         "token": value,

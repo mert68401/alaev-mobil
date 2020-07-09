@@ -342,21 +342,20 @@ router.post("/setJobAdRequest", function (req, res) {
                 _id: makeid(),
                 createdAt: new Date(),
                 userId: id,
-                imageUrl: body.imageUrl,
-                adTitle: body.adTitle,
-                adCompanyNumber: body.adCompanyNumber,
-                adPersonalNumber: body.adPersonalNumber,
-                adMail: body.adMail,
-                adDiplomaSelectedItem: body.adDiplomaSelectedItem,
-                adContent: body.adContent,
+                jobAdImageUrl: body.jobAdImageUrl,
+                jobAdTitle: body.jobAdTitle,
+                jobAdCompanyNumber: body.jobAdCompanyNumber,
+                jobAdPersonalNumber: body.jobAdPersonalNumber,
+                jobAdMail: body.jobAdMail,
+                jobAdContent: body.jobAdContent,
             };
             console.log(jobAdObj);
-            database.collection("jobAdForms").findOne({ adTitle: body.adTitle }).then(function (docs) {
+            database.collection("jobAdForms").findOne({ jobAdTitle: body.jobAdTitle }).then(function (docs) {
                 if (!docs) {
-                    if (body.adTitle && body.adCompanyNumber && body.adContent) {
-                        if (body.adTitle != "" &&
-                            body.adCompanyNumber != "" &&
-                            body.adContent != ""
+                    if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
+                        if (body.jobAdTitle != "" &&
+                            body.jobAdCompanyNumber != "" &&
+                            body.jobAdContent != ""
                         ) {
                             database.collection("jobAdForms").insertOne(jobAdObj, function (err, result) {
                                 if (err) {
@@ -380,20 +379,19 @@ router.post("/setJobAdRequest", function (req, res) {
                     }
                 }
                 else {
-                    if (body.adTitle && body.adCompanyNumber && body.adContent) {
-                        if (body.adTitle != "" &&
-                            body.adCompanyNumber != "" &&
-                            body.adContent != "") {
+                    if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
+                        if (body.jobAdTitle != "" &&
+                            body.jobAdCompanyNumber != "" &&
+                            body.jobAdContent != "") {
                             database.collection("jobAdForms").updateOne({ _id: docs._id },
                                 {
                                     $set: {
-                                        imageUrl: body.imageUrl ? body.imageUrl : '',
-                                        adTitle: body.adTitle,
-                                        adCompanyNumber: body.adCompanyNumber,
-                                        adPersonalNumber: body.adPersonalNumber ? body.adPersonalNumber : '',
-                                        adMail: body.adMail ? body.adMail : '',
-                                        adDiplomaSelectedItem: body.adDiplomaSelectedItem,
-                                        adContent: body.adContent
+                                        jobAdImageUrl: body.jobAdImageUrl ? body.jobAdImageUrl : '',
+                                        jobAdTitle: body.jobAdTitle,
+                                        jobAdCompanyNumber: body.jobAdCompanyNumber,
+                                        jobAdPersonalNumber: body.jobAdPersonalNumber ? body.jobAdPersonalNumber : '',
+                                        jobAdMail: body.jobAdMail ? body.jobAdMail : '',
+                                        jobAdContent: body.jobAdContent
                                     }
                                 }, function (error, result) {
                                     if (error) {
