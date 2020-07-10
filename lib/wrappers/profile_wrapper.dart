@@ -23,7 +23,9 @@ class MapScreenState extends State<ProfileWrapper>
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final FocusNode myFocusNode = FocusNode();
+
   Map<String, dynamic> userData = {};
+
   @override
   void initState() {
     super.initState();
@@ -37,19 +39,19 @@ class MapScreenState extends State<ProfileWrapper>
           'http://' + ServerIP().other + ':2000/api/getUserData',
           headers: headers,
           body: jsonEncode(
-            <String, String>{
-              "token": value,
+            <String, String>{"token": value,
             },
           ),
         );
 
         if (response.statusCode == 200) {
-          print(response.body);
           userData = json.decode(response.body);
-          print(userData);
           _emailController.text = userData['email']['str'];
+          print(userData);
           _fullNameController.text = userData['fullName'];
-          _phoneController.text = userData['phone'];
+          _phoneController.text = userData['personalNumber'];
+        } else if (response.statusCode == 401) {
+          showToastError(jsonDecode(response.body)['message'].toString());
         }
       });
     }
@@ -158,7 +160,7 @@ class MapScreenState extends State<ProfileWrapper>
                                       controller: _emailController,
                                       decoration: const InputDecoration(
                                           hintText: "Email Giriniz"),
-                                      enabled: !_status,
+                                      enabled: false,
                                     ),
                                   ),
                                 ],

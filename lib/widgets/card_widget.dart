@@ -98,27 +98,6 @@ class CardWidget extends StatelessWidget {
                           ),
                           child: firebaseCheck(i),
                         ),
-                        Positioned(
-                          bottom: 20,
-                          right: 10,
-                          child: Container(
-                            width: 300,
-                            color: Colors.black54,
-                            padding: EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 20,
-                            ),
-                            child: Text(
-                              items[i]['title'],
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        )
                       ],
                     ),
                     Container(
@@ -128,7 +107,7 @@ class CardWidget extends StatelessWidget {
                         children: <Widget>[
                           Flexible(
                             child: Text(
-                              items[i]['content'], //.substring(0, 95) + '...',
+                              items[i]['title'], //.substring(0, 95) + '...',
                               style: TextStyle(fontSize: 15),
                               maxLines: 3,
                               softWrap: true,
