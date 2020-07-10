@@ -136,9 +136,8 @@ router.post("/login", function (req, res) {
 router.post("/updateUserInfo", function (req, res) {
     const body = req.body;
     const token = body.token;
-    const email = {
-        "email.str": body.email
-    };
+    const email = body.email;
+    
 
     jwt.verify(token, "mERoo36mM?", function (err, decoded) {
         if (err) {
@@ -155,7 +154,7 @@ router.post("/updateUserInfo", function (req, res) {
                         {
                             $set: {
                                 fullName: body.fullName,
-                                email: email,
+                                "email.str": email,
                                 personalNumber: body.personalNumber ? body.personalNumber : '',
                             }
                         }, function (error, result) {
