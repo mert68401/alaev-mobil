@@ -131,6 +131,64 @@ router.post("/login", function (req, res) {
 });
 
 /*
+// Update User Info
+*/
+router.post("/updateUserInfo", function (req, res) {
+    const body = req.body;
+    const token = body.token;
+    const email = {
+        "email.str": body.email
+    };
+
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else { id = decoded._id; }
+        database.collection("userAccounts").findOne({ userId: id }).then(function (docs) {
+            if (body.fullName && email) {
+                if (body.fullName != '' && email != '') {
+                    database.collection("userAccounts").updateOne({ _id: id },
+                        {
+                            $set: {
+                                fullName: body.fullName,
+                                email: email,
+                                personalNumber: body.personalNumber ? body.personalNumber : '',
+                            }
+                        }, function (error, result) {
+                            if (error) {
+                                console.log(error);
+                                res.status(401).send({
+                                    success: false,
+                                    message: "An error occured!",
+                                });
+                                return;
+                            } else {
+                                res.json({
+                                    success: true,
+                                    message: "Hesabınız Güncellendi!"
+                                });
+                            }
+                        }
+                    );
+                } else {
+                    console.log('Eksik bilgi');
+                }
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: "Bilgileri Eksiksiz Giriniz!",
+                });
+            }
+        });
+    });
+
+});
+
+/*
 //Forgot Password
 */
 router.post("/forgotPassword", function (req, res) {
@@ -342,21 +400,20 @@ router.post("/setJobAdRequest", function (req, res) {
                 _id: makeid(),
                 createdAt: new Date(),
                 userId: id,
-                imageUrl: body.imageUrl,
-                adTitle: body.adTitle,
-                adCompanyNumber: body.adCompanyNumber,
-                adPersonalNumber: body.adPersonalNumber,
-                adMail: body.adMail,
-                adDiplomaSelectedItem: body.adDiplomaSelectedItem,
-                adContent: body.adContent,
+                jobAdImageUrl: body.jobAdImageUrl,
+                jobAdTitle: body.jobAdTitle,
+                jobAdCompanyNumber: body.jobAdCompanyNumber,
+                jobAdPersonalNumber: body.jobAdPersonalNumber,
+                jobAdMail: body.jobAdMail,
+                jobAdContent: body.jobAdContent,
             };
             console.log(jobAdObj);
-            database.collection("jobAdForms").findOne({ adTitle: body.adTitle }).then(function (docs) {
+            database.collection("jobAdForms").findOne({ jobAdTitle: body.jobAdTitle }).then(function (docs) {
                 if (!docs) {
-                    if (body.adTitle && body.adCompanyNumber && body.adContent) {
-                        if (body.adTitle != "" &&
-                            body.adCompanyNumber != "" &&
-                            body.adContent != ""
+                    if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
+                        if (body.jobAdTitle != "" &&
+                            body.jobAdCompanyNumber != "" &&
+                            body.jobAdContent != ""
                         ) {
                             database.collection("jobAdForms").insertOne(jobAdObj, function (err, result) {
                                 if (err) {
@@ -380,20 +437,19 @@ router.post("/setJobAdRequest", function (req, res) {
                     }
                 }
                 else {
-                    if (body.adTitle && body.adCompanyNumber && body.adContent) {
-                        if (body.adTitle != "" &&
-                            body.adCompanyNumber != "" &&
-                            body.adContent != "") {
+                    if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
+                        if (body.jobAdTitle != "" &&
+                            body.jobAdCompanyNumber != "" &&
+                            body.jobAdContent != "") {
                             database.collection("jobAdForms").updateOne({ _id: docs._id },
                                 {
                                     $set: {
-                                        imageUrl: body.imageUrl ? body.imageUrl : '',
-                                        adTitle: body.adTitle,
-                                        adCompanyNumber: body.adCompanyNumber,
-                                        adPersonalNumber: body.adPersonalNumber ? body.adPersonalNumber : '',
-                                        adMail: body.adMail ? body.adMail : '',
-                                        adDiplomaSelectedItem: body.adDiplomaSelectedItem,
-                                        adContent: body.adContent
+                                        jobAdImageUrl: body.jobAdImageUrl ? body.jobAdImageUrl : '',
+                                        jobAdTitle: body.jobAdTitle,
+                                        jobAdCompanyNumber: body.jobAdCompanyNumber,
+                                        jobAdPersonalNumber: body.jobAdPersonalNumber ? body.jobAdPersonalNumber : '',
+                                        jobAdMail: body.jobAdMail ? body.jobAdMail : '',
+                                        jobAdContent: body.jobAdContent
                                     }
                                 }, function (error, result) {
                                     if (error) {

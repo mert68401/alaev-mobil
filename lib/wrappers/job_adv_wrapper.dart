@@ -40,9 +40,9 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         body.forEach((element) {
           jobAdvList.add({
             "id": element["_id"],
-            "title": element["adTitle"],
-            "content": element["adContent"],
-            "imageUrl": element["adImageUrl"]
+            "title": element["jobAdTitle"],
+            "content": element["jobAdContent"],
+            "imageUrl": element["jobAdImageUrl"]
           });
         });
       });
