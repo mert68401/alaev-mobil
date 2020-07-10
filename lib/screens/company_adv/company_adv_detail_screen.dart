@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CompanyAdvertisement extends StatelessWidget {
   static const routeName = '/company-adv-page';
@@ -7,6 +8,18 @@ class CompanyAdvertisement extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     print(arguments);
+
+    String clickableCompanyNumber = arguments['companyNumber'];
+    String clickablePersonalNumber = arguments['personalNumber'];
+
+    void customLaunch(command) async {
+      if (await canLaunch(command)) {
+        await launch(command);
+      } else {
+        print(' could not launch $command');
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('İlan Ayrıntıları'),
@@ -47,21 +60,35 @@ class CompanyAdvertisement extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(width: 10),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.phone),
-                        Text(
-                          arguments['companyNumber'],
-                        )
-                      ],
+                    GestureDetector(
+                      onTap: () {
+                        customLaunch('tel:$clickableCompanyNumber');
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.phone),
+                          Text(
+                            arguments['companyNumber'],
+                            style: TextStyle(
+                              color: Colors.indigo[800],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.phone_android),
-                        Text(
-                          arguments['personalNumber'],
-                        )
-                      ],
+                    FlatButton(
+                      onPressed: () {
+                        customLaunch('tel:$clickablePersonalNumber');
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.phone_android),
+                          Text(
+                            arguments['personalNumber'],
+                            style: TextStyle(color: Colors.indigo[800]),
+                          )
+                        ],
+                      ),
                     ),
                     Row(
                       children: <Widget>[

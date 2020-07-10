@@ -527,9 +527,10 @@ router.post("/getUserJobAdvs", function (req, res) {
             throw new Error(err.message);
         } else {
             id = decoded._id;
+            filter = { userId: id }
         }
     });
-    var data = database.collection("jobAdForms").find(filter, { userId: id });
+    var data = database.collection("jobAdForms").find(filter);
     if (params.sort) {
         data = data.sort(params.sort);
     }
@@ -718,24 +719,24 @@ router.post("/getUserCompanyAdvs", function (req, res) {
 /*
 //Get getCompanySupply
 */
-router.post("/getCompanySupply", function (req, res) {
-    var body = req.body;
-    var filter = body.filter;
-    database
-        .collection("companySupplies")
-        .findOne(filter)
-        .then(function (doc) {
-            if (!doc) {
-                res.status(404).send({
-                    success: false,
-                    message: "Post not found!",
-                });
-                return false;
-            }
-            res.json(doc);
-            return;
-        });
-});
+// router.post("/getCompanySupply", function (req, res) {
+//     var body = req.body;
+//     var filter = body.filter;
+//     database
+//         .collection("companySupplies")
+//         .findOne(filter)
+//         .then(function (doc) {
+//             if (!doc) {
+//                 res.status(404).send({
+//                     success: false,
+//                     message: "Post not found!",
+//                 });
+//                 return false;
+//             }
+//             res.json(doc);
+//             return;
+//         });
+// });
 
 /*
 //Get User Data

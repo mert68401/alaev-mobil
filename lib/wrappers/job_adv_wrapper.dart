@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
+import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
 import '../screens/job_adv/job_adv_detail_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
 import 'package:http/http.dart' as http;
@@ -75,7 +76,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.list),
-              onPressed: () => _pushNamedPage(context, null)),
+              onPressed: () =>
+                  _pushNamedPage(context, MyJobAdvsScreen.routeName)),
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () =>

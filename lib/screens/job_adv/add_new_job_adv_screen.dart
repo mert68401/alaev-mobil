@@ -128,7 +128,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                     textColor: Colors.white,
                     color: Colors.green,
                     onPressed: () {
-                      if (_jobAdImageUrl != '') {
+                      if (_image != null) {
                         uploadPicture(context).then((value) {
                           addJobAdvertisementRequest(
                             filter: '',

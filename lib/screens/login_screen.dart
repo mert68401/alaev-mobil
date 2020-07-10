@@ -108,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
           fontSize: 14,
         ),
         controller: _email,
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide(width: 10),
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           filled: true,
           fillColor: Colors.white,
-          hintText: 'Kullanıcı adı',
+          labelText: 'Email Adresi',
           hintStyle: TextStyle(
             color: Colors.blueGrey,
           ),
@@ -142,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           filled: true,
           fillColor: Colors.white,
-          hintText: 'Şifre',
+          labelText: 'Şifre',
           hintStyle: TextStyle(
             color: Colors.blueGrey,
           ),
