@@ -68,7 +68,6 @@ class _NewsWrapperState extends State<NewsWrapper> {
           items: newsList,
           onRefresh: fetchNews,
           isFirebase: false,
-          isNews: true,
           routeName: NewsDetailScreen.routeName,
         ));
   }

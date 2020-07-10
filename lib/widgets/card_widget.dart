@@ -5,14 +5,12 @@ class CardWidget extends StatelessWidget {
   final List items;
   final String routeName;
   final bool isFirebase;
-  final bool isNews;
 
   CardWidget(
       {@required this.onRefresh,
       @required this.items,
       this.routeName,
-      @required this.isFirebase,
-      @required this.isNews});
+      @required this.isFirebase});
 
   Widget firebaseCheck(i) {
     if (!isFirebase) {
@@ -62,19 +60,26 @@ class CardWidget extends StatelessWidget {
           itemBuilder: (BuildContext context, int i) {
             return InkWell(
               onTap: () {
-                if (isNews) {
-                  Navigator.of(context).pushNamed(routeName, arguments: {
-                    "_id": items[i]["_id"],
-                    "title": items[i]["title"],
-                    "content": items[i]["content"]
-                  });
-                } else {
-                  Navigator.of(context).pushNamed(routeName, arguments: {
-                    "_id": items[i]["_id"],
-                    "title": items[i]["title"],
-                    "content": items[i]["content"]
-                  });
-                }
+                Navigator.of(context).pushNamed(routeName, arguments: {
+                  "_id": items[i]["_id"],
+                  "title": items[i]["title"],
+                  "content": items[i]["content"],
+                  "imageUrl": items[i]['imageUrl'].isNotEmpty
+                      ? items[i]['imageUrl']
+                      : '',
+                  "personalNumber": items[i]["personalNumber"] != null &&
+                          items[i]["personalNumber"].isNotEmpty
+                      ? items[i]["personalNumber"]
+                      : "",
+                  "companyNumber": items[i]["companyNumber"] != null &&
+                          items[i]["companyNumber"].isNotEmpty
+                      ? items[i]["companyNumber"]
+                      : "",
+                  "email":
+                      items[i]["email"] != null && items[i]["email"].isNotEmpty
+                          ? items[i]["email"]
+                          : "",
+                });
               },
               child: Card(
                 shape: RoundedRectangleBorder(

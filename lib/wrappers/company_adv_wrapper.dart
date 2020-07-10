@@ -41,10 +41,13 @@ class _CompanyAdvertisementWrapperState
       setState(() {
         body.forEach((element) {
           advList.add({
-            "id": element["_id"],
+            "_id": element["_id"],
             "title": element["companyAdTitle"],
             "content": element["companyAdContent"],
-            "imageUrl": element["companyAdImageUrl"]
+            "imageUrl": element["companyAdImageUrl"],
+            "personalNumber": element["companyAdPersonalNumber"],
+            "companyNumber": element["companyAdCompanyNumber"],
+            "email": element["companyAdMail"],
           });
         });
       });
@@ -87,7 +90,6 @@ class _CompanyAdvertisementWrapperState
         onRefresh: fetchCompanyAdvs,
         items: advList,
         isFirebase: true,
-        isNews: false,
         routeName: CompanyAdvertisement.routeName,
       ),
     );

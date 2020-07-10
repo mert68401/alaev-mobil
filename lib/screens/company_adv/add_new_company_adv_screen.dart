@@ -1,5 +1,6 @@
 // import 'dart:io';
 // import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:alaev/functions/requests.dart';
@@ -129,7 +130,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                     textColor: Colors.white,
                     color: Colors.green,
                     onPressed: () {
-                      if (_companyAdImageUrl != '') {
+                      if (_image != null) {
                         uploadPicture(context).then((value) {
                           addCompanyAdvertisementRequest(
                             filter: '',

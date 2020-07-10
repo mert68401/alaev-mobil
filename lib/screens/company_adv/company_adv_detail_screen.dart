@@ -5,71 +5,87 @@ class CompanyAdvertisement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    print(arguments);
     return Scaffold(
       appBar: AppBar(
         title: Text('İlan Ayrıntıları'),
       ),
-      body: Column(
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 20),
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-128.png'), // dynamic yaz
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                height: 200,
+                width: double.infinity,
+                child: arguments['imageUrl'].toString().length > 1
+                    ? Image.network(
+                        arguments['imageUrl'],
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                        fit: BoxFit.cover,
+                      ),
               ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
               Container(
-                margin: EdgeInsets.only(top: 30),
-                alignment: Alignment.center,
                 child: Text(
-                  'Firma Adı asdsaaaaaaaaaaaaasdadsadsadssdadsaaasdaa'
-                      .substring(0, 26),
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
-                  maxLines: 2,
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
+                  arguments['title'],
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
               Container(
-                margin: EdgeInsets.only(top: 60, left: 20),
-                alignment: Alignment.center,
-                child: Text(
-                  'Açıklama',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  maxLines: 2,
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(width: 10),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.phone),
+                        Text(
+                          arguments['companyNumber'],
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.phone_android),
+                        Text(
+                          arguments['personalNumber'],
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.mail),
+                        Text(
+                          arguments['email'],
+                        )
+                      ],
+                    ),
+                    SizedBox(width: 10),
+                  ],
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                child: Text(
+                  arguments['content'],
+                ),
+              )
             ],
           ),
-        ],
+        ),
       ),
     );
   }

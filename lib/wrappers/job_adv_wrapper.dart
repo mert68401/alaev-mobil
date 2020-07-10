@@ -42,7 +42,10 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
             "id": element["_id"],
             "title": element["jobAdTitle"],
             "content": element["jobAdContent"],
-            "imageUrl": element["jobAdImageUrl"]
+            "imageUrl": element["jobAdImageUrl"],
+            "personalNumber": element["jobAdPersonalNumber"],
+            "companyNumber": element["jobAdCompanyNumber"],
+            "email": element["jobAdMail"],
           });
         });
       });
@@ -84,7 +87,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         onRefresh: fetchJobAdvs,
         items: jobAdvList,
         isFirebase: true,
-        isNews: false,
         routeName: JobAdvertisement.routeName,
       ),
     );

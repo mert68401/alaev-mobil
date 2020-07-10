@@ -672,6 +672,7 @@ router.post("/getCompanyAdvs", function (req, res) {
             });
             return;
         }
+        console.log(docs)
         res.json(docs);
     });
 });
@@ -695,9 +696,10 @@ router.post("/getUserCompanyAdvs", function (req, res) {
             throw new Error(err.message);
         } else {
             id = decoded._id;
+            filter = { userId: id }
         }
     });
-    var data = database.collection("companyAdForms").find(filter, { userId: id });
+    var data = database.collection("companyAdForms").find(filter);
     if (params.sort) {
         data = data.sort(params.sort);
     }
