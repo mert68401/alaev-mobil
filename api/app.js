@@ -55,6 +55,9 @@ app.get("/", function (req, res) {
 });
 var router = express.Router();
 
+/*
+// Register
+*/
 router.post("/register", function (req, res) {
     const body = req.body;
     console.log(body);
