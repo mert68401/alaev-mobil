@@ -11,14 +11,14 @@ import 'package:image_picker/image_picker.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'package:path/path.dart';
 
-class AddNewJobAdvScreen extends StatefulWidget {
-  static const routeName = "/add-new-job-advertisement";
+class EditMyJobAdvScreen extends StatefulWidget {
+  static const routeName = '/edit-my-job-adv-screen';
 
   @override
-  _AddNewJobAdvScreenState createState() => _AddNewJobAdvScreenState();
+  _EditMyJobAdvScreenState createState() => _EditMyJobAdvScreenState();
 }
 
-class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
+class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
   String _jobAdImageUrl = '';
   final _jobAdTitle = TextEditingController();
   final _jobAdCompanyNumber = TextEditingController();
@@ -49,9 +49,24 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+
+    void fetchUserData() async {
+      setState(() {
+        _jobAdImageUrl = arguments['imageUrl'].toString();
+        _jobAdTitle.text = arguments['title'];
+        _jobAdCompanyNumber.text = arguments['companyNumber'];
+        _jobAdPersonalNumber.text = arguments['personalNumber'];
+        _jobAdMail.text = arguments['email'];
+        _jobAdContent.text = arguments['content'];
+      });
+    }
+
+    fetchUserData();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yeni İş İlanı'),
+        title: Text('İş İlanını Düzenle'),
       ),
       body: ListView(
         children: <Widget>[
@@ -98,6 +113,9 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                         Container(
                             child: TextFieldWidget(
                           controller: _jobAdTitle,
+                          onChanged: (text) {
+                            _jobAdTitle.text = text;
+                          },
                           labelText: 'İlan Başlığı',
                           height: 60,
                         )),

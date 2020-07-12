@@ -1,6 +1,5 @@
 import 'package:alaev/widgets/carousel_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeWrapper extends StatefulWidget {
   @override

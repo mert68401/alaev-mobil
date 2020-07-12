@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/screens/job_adv/edit_my_job_advs_screen.dart';
 import 'package:alaev/screens/job_adv/job_adv_detail_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
           onRefresh: fetchUserJobAdvs,
           items: myJobAdvList,
           isFirebase: true,
-          routeName: JobAdvertisement.routeName,
+          routeName: EditMyJobAdvScreen.routeName,
         ));
   }
 }
