@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
@@ -76,13 +77,33 @@ class _CompanyAdvertisementWrapperState
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.list),
-              onPressed: () =>
-                  _pushNamedPage(context, MyCompanyAdvsScreen.routeName)),
+            icon: Icon(Icons.list),
+            onPressed: () {
+              getUserRole().then((role) {
+                print(role);
+                if (role == "firma") {
+                  _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
+                } else {
+                  showToastError(
+                      "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                }
+              });
+            },
+          ),
           IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () =>
-                  _pushNamedPage(context, AddNewCompanyAdvScreen.routeName)),
+            icon: Icon(Icons.add),
+            onPressed: () {
+              getUserRole().then((role) {
+                print(role);
+                if (role == "firma") {
+                  _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
+                } else {
+                  showToastError(
+                      "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                }
+              });
+            },
+          )
         ],
         title: Text('Firma İlanları'),
       ),

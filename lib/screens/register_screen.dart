@@ -11,11 +11,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _password2Controller = TextEditingController();
+  String _dropDownVal = "Varsayılan";
 
   bool _isLoading;
 
@@ -77,6 +77,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             filled: true,
                             fillColor: Colors.white,
                           ),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(left: 60, bottom: 5),
+                        child: Text(
+                          'Kullanıcı Tipi',
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                      ),
+                      Container(
+                        width: 300,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 16.0),
+                        height: 60,
+                        child: DropdownButton(
+                          value: 1,
+                          items: [
+                            DropdownMenuItem(
+                              child: Text("_dropDownVal"),
+                            ),
+                            DropdownMenuItem(
+                              child: Text("İş Veren"),
+                            )
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              _dropDownVal = value;
+                            });
+                          },
                         ),
                       ),
                       Container(

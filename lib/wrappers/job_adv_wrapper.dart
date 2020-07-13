@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
@@ -76,12 +77,30 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.list),
-              onPressed: () =>
-                  _pushNamedPage(context, MyJobAdvsScreen.routeName)),
+              onPressed: () {
+                getUserRole().then((role) {
+                  print(role);
+                  if (role == "firma") {
+                    _pushNamedPage(context, MyJobAdvsScreen.routeName);
+                  } else {
+                    showToastError(
+                        "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                  }
+                });
+              }),
           IconButton(
               icon: Icon(Icons.add),
-              onPressed: () =>
-                  _pushNamedPage(context, AddNewJobAdvScreen.routeName)),
+              onPressed: () {
+                getUserRole().then((role) {
+                  print(role);
+                  if (role == "firma") {
+                    _pushNamedPage(context, AddNewJobAdvScreen.routeName);
+                  } else {
+                    showToastError(
+                        "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                  }
+                });
+              }),
         ],
         title: Text('İş İlanları'),
       ),

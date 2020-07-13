@@ -80,6 +80,7 @@ class Auth with ChangeNotifier {
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> body = jsonDecode(response.body);
       await setToken(body['token']);
+      await setUserRole(body['role']);
       _token = await getToken();
       notifyListeners();
       return true;

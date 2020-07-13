@@ -124,7 +124,11 @@ router.post("/login", function (req, res) {
                         message: "Some error has occured!",
                     });
                 }
-                res.json({ token });
+                console.log(doc.role)
+                res.json({
+                    token: token,
+                    role: doc.role
+                });
             });
             return;
         });
@@ -137,7 +141,7 @@ router.post("/updateUserInfo", function (req, res) {
     const body = req.body;
     const token = body.token;
     const email = body.email;
-    
+
 
     jwt.verify(token, "mERoo36mM?", function (err, decoded) {
         if (err) {
