@@ -7,8 +7,10 @@ class TextFieldWidget extends StatelessWidget {
   final double height;
   final double width;
   final String labelText;
+  final String hintText;
   final dynamic counterText;
   final dynamic keyboardType;
+  final dynamic onChanged;
 
   TextFieldWidget(
       {@required this.controller,
@@ -17,8 +19,10 @@ class TextFieldWidget extends StatelessWidget {
       this.height,
       this.width,
       this.labelText,
+      this.hintText,
       this.maxLength,
-      this.keyboardType});
+      this.keyboardType,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +31,7 @@ class TextFieldWidget extends StatelessWidget {
       height: height,
       width: width,
       child: TextField(
+        onChanged: onChanged,
         keyboardType: keyboardType,
         controller: controller,
         maxLines: maxLines,
@@ -35,6 +40,7 @@ class TextFieldWidget extends StatelessWidget {
           counterText: counterText == null ? null : '',
           border: OutlineInputBorder(),
           labelText: labelText,
+          hintText: hintText,
         ),
         autofocus: false,
       ),

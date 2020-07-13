@@ -29,6 +29,7 @@ dependencies:
     crypto: ^2.1.4
     provider: ^4.1.3
     url_launcher: ^5.5.0
+    carousel_slider: ^2.2.1
     shared_preferences: ^0.5.7+3
     fluttertoast: ^4.0.1
     flutter:
@@ -56,6 +57,9 @@ flutter:
     assets:
         - assets/images/slide04.jpg
         - assets/images/logo.jpg
+        - assets/images/slide01.jpg
+        - assets/images/2.jpg
+        - assets/images/1.jpg
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see
