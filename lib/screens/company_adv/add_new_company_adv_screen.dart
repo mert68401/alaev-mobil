@@ -27,6 +27,9 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
   final _companyAdMail = TextEditingController();
   final _companyAdContent = TextEditingController();
   File _image;
+
+  bool _showProgress = false;
+
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -47,6 +50,46 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Bilgileri Eksiksiz Giriniz!'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Tamam'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    // final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+
+    // void fetchUserData() async {
+    //   setState(() {
+    //     _companyAdImageUrl = arguments['imageUrl'].toString();
+    //     _companyAdTitle.text = arguments['title'];
+    //     _companyAdCompanyNumber.text = arguments['companyNumber'];
+    //     _companyAdPersonalNumber.text = arguments['personalNumber'];
+    //     _companyAdMail.text = arguments['email'];
+    //     _companyAdContent.text = arguments['content'];
+    //   });
+    // }
+
+    // fetchUserData();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Yeni Firma İlanı'),
@@ -55,110 +98,135 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Column(
-              children: <Widget>[
-                Stack(
-                  alignment: Alignment.bottomRight,
-                  children: <Widget>[
-                    Container(
-                      height: 150,
-                      width: double.infinity,
-                      child: _image == null
-                          ? Image.network(
-                              "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(
-                              _image,
-                              fit: BoxFit.cover,
-                            ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
-                      child: FloatingActionButton(
-                        onPressed: () => getImage(),
-                        elevation: 10,
-                        backgroundColor: Colors.green,
-                        child: Icon(Icons.add_a_photo),
-                      ),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              child: _showProgress
+                  ? Center(
+                      child: CircularProgressIndicator(),
                     )
-                  ],
-                ),
-                Container(
-                    child: TextFieldWidget(
-                  controller: _companyAdTitle,
-                  labelText: 'İlan Başlığı',
-                  height: 60,
-                )),
-                Container(
-                    child: TextFieldWidget(
-                  keyboardType: TextInputType.number,
-                  controller: _companyAdCompanyNumber,
-                  labelText: 'Firma Telefon Numarası',
-                  height: 60,
-                  maxLength: 13,
-                )),
-                Container(
-                    child: TextFieldWidget(
-                  keyboardType: TextInputType.number,
-                  controller: _companyAdPersonalNumber,
-                  labelText: 'Kişisel Telefon Numarası',
-                  height: 60,
-                  maxLength: 13,
-                )),
-                Container(
-                    child: TextFieldWidget(
-                  keyboardType: TextInputType.emailAddress,
-                  controller: _companyAdMail,
-                  labelText: 'Mail Adresi',
-                  height: 60,
-                  maxLength: 30,
-                )),
-                Container(
-                    child: TextFieldWidget(
-                  controller: _companyAdContent,
-                  labelText: 'İş İle İlgili Açıklama',
-                  height: 200,
-                  maxLines: 8,
-                  maxLength: 500,
-                  counterText: null,
-                )),
-                Container(
-                  child: RaisedButton(
-                    child: Text("İlanı Kaydet"),
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: () {
-                      if (_image != null) {
-                        uploadPicture(context).then((value) {
-                          addCompanyAdvertisementRequest(
-                            filter: '',
-                            companyAdTitle: _companyAdTitle.text,
-                            companyAdImageUrl: _companyAdImageUrl.toString(),
-                            companyAdCompanyNumber:
-                                _companyAdCompanyNumber.text,
-                            companyAdPersonalNumber:
-                                _companyAdPersonalNumber.text,
-                            companyAdMail: _companyAdMail.text,
-                            companyAdContent: _companyAdContent.text,
-                          );
-                        });
-                      } else {
-                        addCompanyAdvertisementRequest(
-                          filter: '',
-                          companyAdTitle: _companyAdTitle.text,
-                          companyAdImageUrl: _companyAdImageUrl.toString(),
-                          companyAdCompanyNumber: _companyAdCompanyNumber.text,
-                          companyAdPersonalNumber:
-                              _companyAdPersonalNumber.text,
-                          companyAdMail: _companyAdMail.text,
-                          companyAdContent: _companyAdContent.text,
-                        );
-                      }
-                    },
-                  ),
-                )
-              ],
+                  : Column(
+                      children: <Widget>[
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: <Widget>[
+                            Container(
+                              height: 150,
+                              width: double.infinity,
+                              child: _image == null
+                                  ? Image.network(
+                                      "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.file(
+                                      _image,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
+                              child: FloatingActionButton(
+                                onPressed: () => getImage(),
+                                elevation: 10,
+                                backgroundColor: Colors.green,
+                                child: Icon(Icons.add_a_photo),
+                              ),
+                            )
+                          ],
+                        ),
+                        Container(
+                            child: TextFieldWidget(
+                          controller: _companyAdTitle,
+                          labelText: 'İlan Başlığı',
+                          height: 60,
+                        )),
+                        Container(
+                            child: TextFieldWidget(
+                          keyboardType: TextInputType.number,
+                          controller: _companyAdCompanyNumber,
+                          labelText: 'Firma Telefon Numarası',
+                          height: 60,
+                          maxLength: 13,
+                        )),
+                        Container(
+                            child: TextFieldWidget(
+                          keyboardType: TextInputType.number,
+                          controller: _companyAdPersonalNumber,
+                          labelText: 'Kişisel Telefon Numarası',
+                          height: 60,
+                          maxLength: 13,
+                        )),
+                        Container(
+                            child: TextFieldWidget(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _companyAdMail,
+                          labelText: 'Mail Adresi',
+                          height: 60,
+                          maxLength: 30,
+                        )),
+                        Container(
+                            child: TextFieldWidget(
+                          controller: _companyAdContent,
+                          labelText: 'İş İle İlgili Açıklama',
+                          height: 200,
+                          maxLines: 8,
+                          maxLength: 500,
+                          counterText: null,
+                        )),
+                        Container(
+                          child: RaisedButton(
+                            child: Text("İlanı Kaydet"),
+                            textColor: Colors.white,
+                            color: Colors.green,
+                            onPressed: () {
+                              if (_companyAdTitle.text != '' &&
+                                  _companyAdCompanyNumber.text != '' &&
+                                  _companyAdContent.text != '') {
+                                setState(() {
+                                  _showProgress = !_showProgress;
+                                });
+                                if (_image != null) {
+                                  uploadPicture(context).then((value) {
+                                    addCompanyAdvertisementRequest(
+                                      filter: '',
+                                      companyAdTitle: _companyAdTitle.text,
+                                      companyAdImageUrl:
+                                          _companyAdImageUrl.toString(),
+                                      companyAdCompanyNumber:
+                                          _companyAdCompanyNumber.text,
+                                      companyAdPersonalNumber:
+                                          _companyAdPersonalNumber.text,
+                                      companyAdMail: _companyAdMail.text,
+                                      companyAdContent: _companyAdContent.text,
+                                    );
+                                  });
+                                } else {
+                                  addCompanyAdvertisementRequest(
+                                    filter: '',
+                                    companyAdTitle: _companyAdTitle.text,
+                                    companyAdImageUrl:
+                                        _companyAdImageUrl.toString(),
+                                    companyAdCompanyNumber:
+                                        _companyAdCompanyNumber.text,
+                                    companyAdPersonalNumber:
+                                        _companyAdPersonalNumber.text,
+                                    companyAdMail: _companyAdMail.text,
+                                    companyAdContent: _companyAdContent.text,
+                                  );
+                                }
+                                Future.delayed(
+                                    const Duration(milliseconds: 2000), () {
+                                  setState(() {
+                                    _showProgress = !_showProgress;
+                                  });
+                                });
+                              } else {
+                                _showMyDialog();
+                              }
+                            },
+                          ),
+                        )
+                      ],
+                    ),
             ),
           )
         ],

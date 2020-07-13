@@ -599,6 +599,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
                             });
                         } else { console.log('Eksik bilgi') }
                     } else {
+                        console.log('boşşş');
                         res.status(401).send({
                             success: false,
                             message: "Firma Bilgileri Eksiksiz Giriniz!",
@@ -640,6 +641,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
                             console.log('Eksik bilgi');
                         }
                     } else {
+                        console.log('boşşş')
                         res.status(401).send({
                             success: false,
                             message: "Bilgileri Eksiksiz Giriniz!",

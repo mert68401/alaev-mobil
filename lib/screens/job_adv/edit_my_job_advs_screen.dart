@@ -64,6 +64,32 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
 
     fetchUserData();
 
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Bilgileri Eksiksiz Giriniz!'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Tamam'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('İş İlanını Düzenle'),
@@ -162,7 +188,8 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             color: Colors.green,
                             onPressed: () {
                               if (_jobAdTitle.text != '' &&
-                                  _jobAdCompanyNumber.text != '') {
+                                  _jobAdCompanyNumber.text != '' &&
+                                  _jobAdContent.text != '') {
                                 setState(() {
                                   _showProgress = !_showProgress;
                                 });
@@ -193,13 +220,15 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                                     jobAdContent: _jobAdContent.text,
                                   );
                                 }
-                              }
-                              Future.delayed(const Duration(milliseconds: 2000),
-                                  () {
-                                setState(() {
-                                  _showProgress = !_showProgress;
+                                Future.delayed(
+                                    const Duration(milliseconds: 2000), () {
+                                  setState(() {
+                                    _showProgress = !_showProgress;
+                                  });
                                 });
-                              });
+                              } else {
+                                _showMyDialog();
+                              }
                             },
                           ),
                         )
