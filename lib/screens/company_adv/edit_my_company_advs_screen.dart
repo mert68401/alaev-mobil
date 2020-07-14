@@ -121,7 +121,6 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Container(
-              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Colors.white,
               ),

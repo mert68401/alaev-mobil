@@ -39,7 +39,8 @@ class MapScreenState extends State<ProfileWrapper>
           'http://' + ServerIP().other + ':2000/api/getUserData',
           headers: headers,
           body: jsonEncode(
-            <String, String>{"token": value,
+            <String, String>{
+              "token": value,
             },
           ),
         );
@@ -228,7 +229,7 @@ class MapScreenState extends State<ProfileWrapper>
 
   Widget _cvButton() {
     return Container(
-      margin: EdgeInsets.only(top: 25, left: 15, right: 50),
+      margin: EdgeInsets.only(top: 25, left: 15,),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -243,8 +244,16 @@ class MapScreenState extends State<ProfileWrapper>
                 color: Colors.green,
                 onPressed: () {
                   setState(() {
-                    Navigator.of(context).pushNamed(CvScreen.routeName);
-                    return;
+                    getUserRole().then((role) {
+                      print(role);
+                      if (role == "firma") {
+                        showToastError(
+                            "Bu özellik normal kullanıcılar içindir.");
+                      } else {
+                        Navigator.of(context).pushNamed(CvScreen.routeName);
+                        return;
+                      }
+                    });
                   });
                 },
                 shape: RoundedRectangleBorder(

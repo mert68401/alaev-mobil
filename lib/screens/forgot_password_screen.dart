@@ -1,23 +1,14 @@
-import 'dart:convert';
-
-import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
+import '../functions/requests.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   static const routeName = '/forgotPassword';
 
   final email = TextEditingController();
 
-  Future<void> forgotPasswordRequest(BuildContext context, String email) async {
-    Map<String, String> headers = {"Content-type": "application/json"};
-    final response = await http.post(
-      'http://' + ServerIP().other + ':2000/api/login',
-      headers: headers,
-      body: jsonEncode(<String, String>{"email": email}),
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +47,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       textColor: Colors.white,
                       color: Colors.green,
                       onPressed: () {
-                        print(email);
+                        forgotPasswordRequest(email: email.text);
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0)),
