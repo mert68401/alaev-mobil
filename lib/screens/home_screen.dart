@@ -72,43 +72,53 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            title: Text('Firma İlanları'),
+            title: Text(
+              'Firma İlanları',
+              style: TextStyle(color: _selectedIndex == 0 ? Theme.of(context).accentColor : Colors.white),
+            ),
             icon: Icon(
               Icons.business,
               size: _iconSize,
+              color: _selectedIndex == 0 ? Theme.of(context).accentColor : Colors.white,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Duyurular'),
+            title: Text('Duyurular', style: TextStyle(color:_selectedIndex == 1 ? Theme.of(context).accentColor : Colors.white)),
             icon: Icon(
               Icons.apps,
               size: _iconSize,
+              color: _selectedIndex == 1 ? Theme.of(context).accentColor : Colors.white,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Anasayfa'),
+            title: Text('Anasayfa', style: TextStyle(color: _selectedIndex == 2 ? Theme.of(context).accentColor : Colors.white)),
             icon: Icon(
               Icons.home,
               size: _iconSize,
+              color: _selectedIndex == 2 ? Theme.of(context).accentColor : Colors.white,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('İş İlanları'),
+            title: Text('İş İlanları', style: TextStyle(color: _selectedIndex == 3 ? Theme.of(context).accentColor : Colors.white)),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.sort,
               size: _iconSize,
+              color: _selectedIndex == 3 ? Theme.of(context).accentColor : Colors.white,
             ),
           ),
           BottomNavigationBarItem(
-            title: widget.loggedIn ? Text('Profilim') : Text("Giriş Yap"),
+            title: widget.loggedIn
+                ? Text('Profilim', style: TextStyle(color: _selectedIndex == 4 ? Theme.of(context).accentColor : Colors.white))
+                : Text("Giriş Yap", style: TextStyle(color: _selectedIndex == 4 ? Theme.of(context).accentColor : Colors.white)),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.person,
               size: _iconSize,
+              color: _selectedIndex == 4 ? Theme.of(context).accentColor : Colors.white,
             ),
           ),
         ],

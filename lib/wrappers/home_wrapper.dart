@@ -37,7 +37,9 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: CustomScrollView(slivers: <Widget>[
+        child: CustomScrollView(
+          // physics: BouncingScrollPhysics(),
+          slivers: <Widget>[
       SliverAppBar(
         elevation: 10,
         leading: Icon(Icons.menu),
@@ -82,71 +84,46 @@ class _HomeWrapperState extends State<HomeWrapper> {
           ),
         ),
       ),
-      SliverFillRemaining(
-          child: Container(
-        alignment: Alignment.topCenter,
-        color: Theme.of(context).accentColor,
-        child: Column(
-          children: <Widget>[
-            CarouselWidget(),
-            // CarouselSlider(
-            //   options: CarouselOptions(
-            //     height: 200.0,
-            //     autoPlay: true,
-            //     autoPlayInterval: Duration(seconds: 3),
-            //     autoPlayAnimationDuration: Duration(milliseconds: 800),
-            //     autoPlayCurve: Curves.fastOutSlowIn,
-            //     aspectRatio: 2.0,
-            //   ),
-            //   items: [
-            //     'assets/images/slide04.jpg',
-            //     'assets/images/slide01.jpg',
-            //     'assets/images/1.jpg',
-            //     'assets/images/2.jpg',
-            //   ].map((i) {
-            //     return Builder(
-            //       builder: (BuildContext context) {
-            //         return Container(
-            //           width: MediaQuery.of(context).size.width,
-            //           child: Image.asset(i),
-            //         );
-            //       },
-            //     );
-            //   }).toList(),
-            // ),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    'ALAEV Hakkında',
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(' ALA\'lı olmak, bir ömür boyu beraber olmaktır.',
-                          style: TextStyle(fontSize: 18))
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 10),
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Column(
+      SliverList(
+          delegate: SliverChildListDelegate([
+        Container(
+          alignment: Alignment.topCenter,
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 80),
+              CarouselWidget(),
+              SizedBox(height: 50),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                            "         Adana Anadolu Lisesinin bir eğitim kurumu kimliği ile devamlılığını, gelişimini sağlayarak, mezunlar, öğrenciler ve mezun olmasalar dahi Adana Anadolu Lisesi’nde öğrenim görmüş tüm kişilerin sosyal dayanışmasını geliştirmek ve insanımızın kültürel, bilimsel ve sosyal gelişimine yüksek kalitede, etkin ve çağdaş eğitim hizmetleri ile katkıda bulunmak amacıyla kurulmuş bir vakıftır. ",
-                            textAlign: TextAlign.left),
+                        Text(' ALA\'lı olmak, bir ömür boyu beraber olmaktır.',
+                            style: TextStyle(fontSize: 18))
                       ],
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
-      )),
+              SizedBox(height: 60),
+              Container(
+                  child: Text(
+                'ALAEV Hakkında',
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+              )),
+              SizedBox(height: 10),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                    '       Adana Anadolu Lisesinin bir eğitim kurumu kimliği ile devamlılığını, gelişimini sağlayarak, mezunlar, öğrenciler ve mezun olmasalar dahi Adana Anadolu Lisesi’nde öğrenim görmüş tüm kişilerin sosyal dayanışmasını geliştirmek ve insanımızın kültürel, bilimsel ve sosyal gelişimine yüksek kalitede, etkin ve çağdaş eğitim hizmetleri ile katkıda bulunmak amacıyla kurulmuş bir vakıftır.', style: TextStyle(fontSize: 16)),
+              ),
+              SizedBox(height: 15),
+            ],
+          ),
+        )
+      ])),
     ]));
   }
 }
