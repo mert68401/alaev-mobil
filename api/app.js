@@ -511,6 +511,7 @@ router.post("/getJobAdvs", function (req, res) {
             });
             return;
         }
+        console.log(docs)
         res.json(docs);
     });
 });
@@ -570,7 +571,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
         } else {
             id = decoded._id;
             companyAdObj = {
-                _id: makeid(),
+                _id: body._id ? body._id : makeid(),
                 createdAt: new Date(),
                 userId: id,
                 companyAdImageUrl: body.companyAdImageUrl,
@@ -581,7 +582,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
                 companyAdContent: body.companyAdContent,
             };
             console.log(companyAdObj);
-            database.collection("companyAdForms").findOne({ companyAdTitle: body.companyAdTitle }).then(function (docs) {
+            database.collection("companyAdForms").findOne({ _id: body._id }).then(function (docs) {
                 if (!docs) {
                     if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
                         if (body.companyAdTitle != "" &&
@@ -683,6 +684,42 @@ router.post("/getCompanyAdvs", function (req, res) {
         }
         console.log(docs)
         res.json(docs);
+    });
+});
+
+/*
+//Get getUserAdv
+*/
+router.post("/getUserAdv", function (req, res) {
+    var body = req.body;
+    var token = body.token;
+    var userId;
+    var filter = body.filter;
+    var params = body.params;
+    var projection = params.projection ? { projection: params.projection } : {};
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            console.log(decoded)
+            userId = decoded._id;
+            filter = {
+                userId: userId,
+                _id: body._id
+            }
+            console.log(filter)
+            database
+                .collection("companyAdForms")
+                .findOne(filter)
+                .then(function (docs) {
+                    console.log(docs)
+                    res.json(docs);
+                });
+        }
     });
 });
 

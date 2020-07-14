@@ -39,9 +39,11 @@ class _NewsWrapperState extends State<NewsWrapper> {
             "_id": element["_id"],
             "title": element["title"],
             "content": element["content"],
-            "imageUrl": element["image"]
+            "imageUrl": element["image"],
+            "createdAt": element['createdAt']
           });
         });
+        print(newsList);
       });
     } else {
       throw Exception('Failed to load album');

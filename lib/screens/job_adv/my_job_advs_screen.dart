@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/job_adv/edit_my_job_advs_screen.dart';
-import 'package:alaev/screens/job_adv/job_adv_detail_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +21,7 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
       myJobAdvList.clear();
       Map<String, String> headers = {"Content-type": "application/json"};
       final response = await http.post(
-        'http://10.0.2.2:2000/api/getUserJobAdvs',
+        'http://' + ServerIP().other + ':2000/api/getUserJobAdvs',
         headers: headers,
         body: jsonEncode(
           <String, dynamic>{
@@ -40,7 +40,8 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
         setState(() {
           body.forEach((element) {
             myJobAdvList.add({
-              "id": element["_id"],
+              "_id": element["_id"],
+              "createdAt": element['createdAt'],
               "title": element["jobAdTitle"],
               "content": element["jobAdContent"],
               "imageUrl": element["jobAdImageUrl"]

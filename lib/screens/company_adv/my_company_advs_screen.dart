@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
-import 'package:alaev/screens/company_adv/company_adv_detail_screen.dart';
 import 'package:alaev/screens/company_adv/edit_my_company_advs_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +40,7 @@ class _MyCompanyAdvsScreenState extends State<MyCompanyAdvsScreen> {
         setState(() {
           body.forEach((element) {
             myAdvList.add({
-              "id": element["_id"],
+              "_id": element["_id"],
               "title": element["companyAdTitle"],
               "content": element["companyAdContent"],
               "imageUrl": element["companyAdImageUrl"]

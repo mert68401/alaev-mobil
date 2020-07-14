@@ -43,6 +43,7 @@ class _CompanyAdvertisementWrapperState
         body.forEach((element) {
           advList.add({
             "_id": element["_id"],
+            "createdAt": element['createdAt'],
             "title": element["companyAdTitle"],
             "content": element["companyAdContent"],
             "imageUrl": element["companyAdImageUrl"],
@@ -52,6 +53,7 @@ class _CompanyAdvertisementWrapperState
           });
         });
       });
+      print(advList[0]);
     } else {
       throw Exception('Failed to load album');
     }

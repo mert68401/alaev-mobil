@@ -41,7 +41,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       setState(() {
         body.forEach((element) {
           jobAdvList.add({
-            "id": element["_id"],
+            "_id": element["_id"],
+            "createdAt": element['createdAt'],
             "title": element["jobAdTitle"],
             "content": element["jobAdContent"],
             "imageUrl": element["jobAdImageUrl"],
@@ -51,6 +52,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
           });
         });
       });
+      print(jobAdvList[0]);
     } else {
       throw Exception('Failed to load album');
     }

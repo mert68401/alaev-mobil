@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardWidget extends StatelessWidget {
   final dynamic onRefresh;
   final List items;
   final String routeName;
   final bool isFirebase;
-
+  final f = new DateFormat('yyyy-MM-dd hh:mm');
   CardWidget(
       {@required this.onRefresh,
       @required this.items,
@@ -101,17 +102,37 @@ class CardWidget extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(10),
                       child: Row(
+                        mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Flexible(
-                            child: Text(
-                              items[i]['title'], //.substring(0, 95) + '...',
-                              style: TextStyle(fontSize: 15),
-                              maxLines: 3,
-                              softWrap: true,
-                              overflow: TextOverflow.fade,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Text(
+                                  items[i]
+                                      ['title'], //.substring(0, 95) + '...',
+                                  style: TextStyle(fontSize: 15),
+                                  maxLines: 3,
+                                  textAlign: TextAlign.center,
+                                  softWrap: true,
+                                  overflow: TextOverflow.fade,
+                                ),
+                                Container(
+                                  width: double.infinity,
+                                  child: items[i]['createdAt'] != null &&
+                                          items[i]['createdAt'].length > 1
+                                      ? Text(
+                                          f.format(DateTime.parse(
+                                              items[i]['createdAt'])),
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(color: Colors.grey),
+                                        )
+                                      : null,
+                                ),
+                              ],
                             ),
                           ),
                         ],

@@ -1,12 +1,16 @@
 // import 'dart:io';
 // import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/requests.dart';
+import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'package:path/path.dart';
@@ -47,22 +51,40 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
     _companyAdImageUrl = await taskSnapshot.ref.getDownloadURL();
   }
 
+  Future<void> getAdv(String _id, String token) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://' + ServerIP().other + ':2000/api/getUserAdv',
+      headers: headers,
+      body: jsonEncode(
+        <String, dynamic>{
+          "_id": _id,
+          "token": token,
+          "filter": {},
+          "params": {
+            "sort": {"createdAt": -1}
+          }
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      dynamic body = jsonDecode(response.body);
+      print(body);
+      _companyAdTitle.text = body['companyAdTitle'];
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
+    print(arguments);
 
-    void fetchUserData() async {
-      setState(() {
-        _companyAdImageUrl = arguments['imageUrl'].toString();
-        _companyAdTitle.text = arguments['title'];
-        _companyAdCompanyNumber.text = arguments['companyNumber'];
-        _companyAdPersonalNumber.text = arguments['personalNumber'];
-        _companyAdMail.text = arguments['email'];
-        _companyAdContent.text = arguments['content'];
-      });
-    }
-
-    fetchUserData();
+    getToken().then((token) {
+      getAdv(arguments['_id'], token);
+    });
 
     Future<void> _showMyDialog() async {
       return showDialog<void>(
@@ -198,7 +220,8 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                                     addCompanyAdvertisementRequest(
                                       filter: '',
                                       companyAdTitle: _companyAdTitle.text,
-                                      companyAdImageUrl: _companyAdImageUrl.toString(),
+                                      companyAdImageUrl:
+                                          _companyAdImageUrl.toString(),
                                       companyAdCompanyNumber:
                                           _companyAdCompanyNumber.text,
                                       companyAdPersonalNumber:
@@ -211,7 +234,8 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                                   addCompanyAdvertisementRequest(
                                     filter: '',
                                     companyAdTitle: _companyAdTitle.text,
-                                    companyAdImageUrl: _companyAdImageUrl.toString(),
+                                    companyAdImageUrl:
+                                        _companyAdImageUrl.toString(),
                                     companyAdCompanyNumber:
                                         _companyAdCompanyNumber.text,
                                     companyAdPersonalNumber:
