@@ -23,23 +23,26 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       children: <Widget>[
         CarouselSlider(
           options: CarouselOptions(
+            enlargeCenterPage: true,
             height: 200.0,
             autoPlay: true,
             autoPlayInterval: Duration(seconds: 3),
             autoPlayAnimationDuration: Duration(milliseconds: 800),
             autoPlayCurve: Curves.fastOutSlowIn,
-            
           ),
           items: cardList.map((card) {
             return Builder(builder: (BuildContext context) {
               return Container(
-                decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(),
+                // border: Border.all(),
+                // borderRadius: BorderRadius.circular(10)),
                 width: MediaQuery.of(context).size.width,
                 child: Card(
                   color: Theme.of(context).accentColor,
-                  child: Image.asset(card, fit: BoxFit.cover,),
+                  child: Image.asset(
+                    card,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               );
             });
