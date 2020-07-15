@@ -29,7 +29,8 @@ class Auth with ChangeNotifier {
     return true;
   }
 
-  Future<void> signup(String fullName, String email, String password) async {
+  Future<void> signup(
+      String fullName, String email, String password, String role) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     var passwordMd5 = md5.convert(utf8.encode(password));
     final response = await http.post(
@@ -40,7 +41,7 @@ class Auth with ChangeNotifier {
           "email": email,
           "password": passwordMd5.toString(),
           "fullName": fullName,
-          "role": "işveren"
+          "role": role
         },
       ),
     );
@@ -48,7 +49,7 @@ class Auth with ChangeNotifier {
     if (response.statusCode == 200) {
       print("üyeik oluşturuldu");
     } else {
-      showToastError("Email adresiniz veya şifreniz uyuşmamaktadır");
+      showToastError(jsonDecode(response.body)['message']);
     }
   }
 

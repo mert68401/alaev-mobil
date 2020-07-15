@@ -19,6 +19,7 @@ class ProfileWrapper extends StatefulWidget {
 class MapScreenState extends State<ProfileWrapper>
     with SingleTickerProviderStateMixin {
   bool _status = true;
+  bool _isFirma = false;
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -30,6 +31,13 @@ class MapScreenState extends State<ProfileWrapper>
   void initState() {
     super.initState();
 
+    getUserRole().then((value) {
+      if (value == "Firma") {
+        setState(() {
+          _isFirma = true;
+        });
+      }
+    });
     Future<void> getUserData() async {
       getToken().then((value) async {
         print(value);
@@ -39,7 +47,8 @@ class MapScreenState extends State<ProfileWrapper>
           'http://' + ServerIP().other + ':2000/api/getUserData',
           headers: headers,
           body: jsonEncode(
-            <String, String>{"token": value,
+            <String, String>{
+              "token": value,
             },
           ),
         );
@@ -227,35 +236,37 @@ class MapScreenState extends State<ProfileWrapper>
   }
 
   Widget _cvButton() {
-    return Container(
-      margin: EdgeInsets.only(top: 25, left: 15, right: 50),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 100.0),
-              child: Container(
-                  child: RaisedButton(
-                child: Text("CV Ekle/Düzenle"),
-                textColor: Colors.white,
-                color: Colors.green,
-                onPressed: () {
-                  setState(() {
-                    Navigator.of(context).pushNamed(CvScreen.routeName);
-                    return;
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
-              )),
+    return _isFirma
+        ? null
+        : Container(
+            margin: EdgeInsets.only(top: 25, left: 15, right: 50),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 100.0),
+                    child: Container(
+                        child: RaisedButton(
+                      child: Text("CV Ekle/Düzenle"),
+                      textColor: Colors.white,
+                      color: Colors.green,
+                      onPressed: () {
+                        setState(() {
+                          Navigator.of(context).pushNamed(CvScreen.routeName);
+                          return;
+                        });
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                    )),
+                  ),
+                  flex: 2,
+                ),
+              ],
             ),
-            flex: 2,
-          ),
-        ],
-      ),
-    );
+          );
   }
 
   Widget _getActionButtons() {

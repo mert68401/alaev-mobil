@@ -197,7 +197,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Provider.of<Auth>(context, listen: false).signup(
                                   _fullNameController.text,
                                   _emailController.text,
-                                  _passwordController.text);
+                                  _passwordController.text,
+                                  _selectedItem);
                             } else {
                               showToastError("Şifreleriniz eşleşmemektedir!");
                             }

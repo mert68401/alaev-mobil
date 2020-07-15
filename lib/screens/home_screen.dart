@@ -74,51 +74,84 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             title: Text(
               'Firma İlanları',
-              style: TextStyle(color: _selectedIndex == 0 ? Theme.of(context).accentColor : Colors.white),
+              style: TextStyle(
+                  color: _selectedIndex == 0
+                      ? Theme.of(context).accentColor
+                      : Colors.grey),
             ),
             icon: Icon(
               Icons.business,
               size: _iconSize,
-              color: _selectedIndex == 0 ? Theme.of(context).accentColor : Colors.white,
+              color: _selectedIndex == 0
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Duyurular', style: TextStyle(color:_selectedIndex == 1 ? Theme.of(context).accentColor : Colors.white)),
+            title: Text('Duyurular',
+                style: TextStyle(
+                    color: _selectedIndex == 1
+                        ? Theme.of(context).accentColor
+                        : Colors.grey)),
             icon: Icon(
               Icons.apps,
               size: _iconSize,
-              color: _selectedIndex == 1 ? Theme.of(context).accentColor : Colors.white,
+              color: _selectedIndex == 1
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Anasayfa', style: TextStyle(color: _selectedIndex == 2 ? Theme.of(context).accentColor : Colors.white)),
+            title: Text('Anasayfa',
+                style: TextStyle(
+                    color: _selectedIndex == 2
+                        ? Theme.of(context).accentColor
+                        : Colors.grey)),
             icon: Icon(
               Icons.home,
               size: _iconSize,
-              color: _selectedIndex == 2 ? Theme.of(context).accentColor : Colors.white,
+              color: _selectedIndex == 2
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('İş İlanları', style: TextStyle(color: _selectedIndex == 3 ? Theme.of(context).accentColor : Colors.white)),
+            title: Text('İş İlanları',
+                style: TextStyle(
+                    color: _selectedIndex == 3
+                        ? Theme.of(context).accentColor
+                        : Colors.grey)),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.sort,
               size: _iconSize,
-              color: _selectedIndex == 3 ? Theme.of(context).accentColor : Colors.white,
+              color: _selectedIndex == 3
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
           ),
           BottomNavigationBarItem(
             title: widget.loggedIn
-                ? Text('Profilim', style: TextStyle(color: _selectedIndex == 4 ? Theme.of(context).accentColor : Colors.white))
-                : Text("Giriş Yap", style: TextStyle(color: _selectedIndex == 4 ? Theme.of(context).accentColor : Colors.white)),
+                ? Text('Profilim',
+                    style: TextStyle(
+                        color: _selectedIndex == 4
+                            ? Theme.of(context).accentColor
+                            : Colors.grey))
+                : Text("Giriş Yap",
+                    style: TextStyle(
+                        color: _selectedIndex == 4
+                            ? Theme.of(context).accentColor
+                            : Colors.grey)),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.person,
               size: _iconSize,
-              color: _selectedIndex == 4 ? Theme.of(context).accentColor : Colors.white,
+              color: _selectedIndex == 4
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
           ),
         ],
