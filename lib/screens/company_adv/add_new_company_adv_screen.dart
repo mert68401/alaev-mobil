@@ -99,7 +99,6 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Container(
-              height: MediaQuery.of(context).size.height,
               child: _showProgress
                   ? Center(
                       child: CircularProgressIndicator(),

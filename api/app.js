@@ -116,7 +116,7 @@ router.post("/login", function (req, res) {
             if (!doc) {
                 res.status(404).send({
                     success: false,
-                    message: "User not found!",
+                    message: "Kullanıcı Bulunamadı!",
                 });
                 return false;
             }
@@ -202,8 +202,9 @@ router.post("/forgotPassword", function (req, res) {
     const emailFilter = {
         "email.str": body.email
     };
+
     database.collection("userAccounts").findOne(emailFilter).then(function (doc) {
-        null
+        sendEmail("SMTP.office365.com", 587, "eren68401@hotmail.com", "edogruca159++123", 'Eroo', "edogruca@hotmail.com", 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', 'DENEME HTML');
     });
 });
 

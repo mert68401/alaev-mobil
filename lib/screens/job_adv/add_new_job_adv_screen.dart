@@ -84,7 +84,6 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Container(
-              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
@@ -92,90 +91,104 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : Column(
-                      children: <Widget>[
-                        Stack(
-                          alignment: Alignment.bottomRight,
-                          children: <Widget>[
-                            Container(
-                              height: 150,
-                              width: double.infinity,
-                              child: _image == null
-                                  ? Image.network(
-                                      "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.file(
-                                      _image,
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
-                              child: FloatingActionButton(
-                                onPressed: () => getImage(),
-                                elevation: 10,
-                                backgroundColor: Colors.green,
-                                child: Icon(Icons.add_a_photo),
+                  : Container(
+                    child: Column(
+                        children: <Widget>[
+                          Stack(
+                            alignment: Alignment.bottomRight,
+                            children: <Widget>[
+                              Container(
+                                height: 150,
+                                width: double.infinity,
+                                child: _image == null
+                                    ? Image.network(
+                                        "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.file(
+                                        _image,
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
-                            )
-                          ],
-                        ),
-                        Container(
-                            child: TextFieldWidget(
-                          controller: _jobAdTitle,
-                          labelText: 'İlan Başlığı',
-                          height: 60,
-                        )),
-                        Container(
-                            child: TextFieldWidget(
-                          keyboardType: TextInputType.number,
-                          controller: _jobAdCompanyNumber,
-                          labelText: 'Firma Telefon Numarası',
-                          height: 60,
-                          maxLength: 13,
-                        )),
-                        Container(
-                            child: TextFieldWidget(
-                          keyboardType: TextInputType.number,
-                          controller: _jobAdPersonalNumber,
-                          labelText: 'Kişisel Telefon Numarası',
-                          height: 60,
-                          maxLength: 13,
-                        )),
-                        Container(
-                            child: TextFieldWidget(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _jobAdMail,
-                          labelText: 'Mail Adresi',
-                          height: 60,
-                          maxLength: 30,
-                        )),
-                        Container(
-                            child: TextFieldWidget(
-                          controller: _jobAdContent,
-                          labelText: 'İş İle İlgili Açıklama',
-                          height: 200,
-                          maxLines: 8,
-                          maxLength: 500,
-                          counterText: null,
-                        )),
-                        Container(
-                          child: RaisedButton(
-                            child: Text("İlanı Kaydet"),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
-                            ),
-                            textColor: Colors.white,
-                            color: Colors.green,
-                            onPressed: () {
-                              if (_jobAdTitle.text != '' &&
-                                  _jobAdCompanyNumber.text != '') {
-                                setState(() {
-                                  _showProgress = !_showProgress;
-                                });
-                                if (_image != null) {
-                                  uploadPicture(context).then((value) {
+                              Container(
+                                margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
+                                child: FloatingActionButton(
+                                  onPressed: () => getImage(),
+                                  elevation: 10,
+                                  backgroundColor: Colors.green,
+                                  child: Icon(Icons.add_a_photo),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                              child: TextFieldWidget(
+                            controller: _jobAdTitle,
+                            labelText: 'İlan Başlığı',
+                            height: 60,
+                          )),
+                          Container(
+                              child: TextFieldWidget(
+                            keyboardType: TextInputType.number,
+                            controller: _jobAdCompanyNumber,
+                            labelText: 'Firma Telefon Numarası',
+                            height: 60,
+                            maxLength: 13,
+                          )),
+                          Container(
+                              child: TextFieldWidget(
+                            keyboardType: TextInputType.number,
+                            controller: _jobAdPersonalNumber,
+                            labelText: 'Kişisel Telefon Numarası',
+                            height: 60,
+                            maxLength: 13,
+                          )),
+                          Container(
+                              child: TextFieldWidget(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _jobAdMail,
+                            labelText: 'Mail Adresi',
+                            height: 60,
+                            maxLength: 30,
+                          )),
+                          Container(
+                              child: TextFieldWidget(
+                            controller: _jobAdContent,
+                            labelText: 'İş İle İlgili Açıklama',
+                            height: 200,
+                            maxLines: 8,
+                            maxLength: 500,
+                            counterText: null,
+                          )),
+                          Container(
+                            child: RaisedButton(
+                              child: Text("İlanı Kaydet"),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              textColor: Colors.white,
+                              color: Colors.green,
+                              onPressed: () {
+                                if (_jobAdTitle.text != '' &&
+                                    _jobAdCompanyNumber.text != '') {
+                                  setState(() {
+                                    _showProgress = !_showProgress;
+                                  });
+                                  if (_image != null) {
+                                    uploadPicture(context).then((value) {
+                                      addJobAdvertisementRequest(
+                                        filter: '',
+                                        jobAdTitle: _jobAdTitle.text,
+                                        jobAdImageUrl: _jobAdImageUrl.toString(),
+                                        jobAdCompanyNumber:
+                                            _jobAdCompanyNumber.text,
+                                        jobAdPersonalNumber:
+                                            _jobAdPersonalNumber.text,
+                                        jobAdMail: _jobAdMail.text,
+                                        jobAdContent: _jobAdContent.text,
+                                      );
+                                    });
+                                  } else {
                                     addJobAdvertisementRequest(
                                       filter: '',
                                       jobAdTitle: _jobAdTitle.text,
@@ -187,34 +200,22 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                       jobAdMail: _jobAdMail.text,
                                       jobAdContent: _jobAdContent.text,
                                     );
+                                  }
+                                  Future.delayed(
+                                      const Duration(milliseconds: 2000), () {
+                                    setState(() {
+                                      _showProgress = !_showProgress;
+                                    });
                                   });
                                 } else {
-                                  addJobAdvertisementRequest(
-                                    filter: '',
-                                    jobAdTitle: _jobAdTitle.text,
-                                    jobAdImageUrl: _jobAdImageUrl.toString(),
-                                    jobAdCompanyNumber:
-                                        _jobAdCompanyNumber.text,
-                                    jobAdPersonalNumber:
-                                        _jobAdPersonalNumber.text,
-                                    jobAdMail: _jobAdMail.text,
-                                    jobAdContent: _jobAdContent.text,
-                                  );
+                                  _showMyDialog();
                                 }
-                                Future.delayed(
-                                    const Duration(milliseconds: 2000), () {
-                                  setState(() {
-                                    _showProgress = !_showProgress;
-                                  });
-                                });
-                              } else {
-                                _showMyDialog();
-                              }
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                  ),
             ),
           )
         ],

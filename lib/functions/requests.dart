@@ -139,3 +139,12 @@ Future<void> updateUserInfo({
     }
   });
 }
+
+Future<void> forgotPasswordRequest({String email}) async {
+  Map<String, String> headers = {"Content-type": "application/json"};
+  final response = await http.post(
+    'http://' + ServerIP().other + ':2000/api/forgotPassword',
+    headers: headers,
+    body: jsonEncode(<String, String>{"email": email}),
+  );
+}
