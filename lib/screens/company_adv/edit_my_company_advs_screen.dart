@@ -24,11 +24,13 @@ class EditMyCompanyAdvScreen extends StatefulWidget {
 
 class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
   String _companyAdImageUrl = '';
+  String _companyAdId = "";
   final _companyAdTitle = TextEditingController();
   final _companyAdCompanyNumber = TextEditingController();
   final _companyAdPersonalNumber = TextEditingController();
   final _companyAdMail = TextEditingController();
   final _companyAdContent = TextEditingController();
+  bool _isRendered = false;
   File _image;
 
   bool _showProgress = false;
@@ -72,6 +74,16 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
       dynamic body = jsonDecode(response.body);
       print(body);
       _companyAdTitle.text = body['companyAdTitle'];
+      _companyAdCompanyNumber.text = body['companyAdCompanyNumber'];
+      _companyAdPersonalNumber.text = body['companyAdPersonalNumber'];
+      _companyAdMail.text = body['companyAdMail'];
+      _companyAdContent.text = body['companyAdContent'];
+      setState(() {
+        _companyAdId = body['_id'];
+      });
+      setState(() {
+        _companyAdImageUrl = body['companyAdImageUrl'];
+      });
     } else {
       throw Exception('Failed to load album');
     }
@@ -81,10 +93,12 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     print(arguments);
-
-    getToken().then((token) {
-      getAdv(arguments['_id'], token);
-    });
+    if (_isRendered == false) {
+      getToken().then((token) {
+        getAdv(arguments['_id'], token);
+      });
+      _isRendered = true;
+    }
 
     Future<void> _showMyDialog() async {
       return showDialog<void>(
@@ -137,10 +151,15 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                               height: 150,
                               width: double.infinity,
                               child: _image == null
-                                  ? Image.network(
-                                      "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
-                                      fit: BoxFit.cover,
-                                    )
+                                  ? _companyAdImageUrl == ""
+                                      ? Image.network(
+                                          "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.network(
+                                          _companyAdImageUrl,
+                                          fit: BoxFit.cover,
+                                        )
                                   : Image.file(
                                       _image,
                                       fit: BoxFit.cover,
@@ -158,38 +177,39 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                           ],
                         ),
                         Container(
+                            margin: EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFieldWidget(
-                          controller: _companyAdTitle,
-                          onChanged: (text) {
-                            _companyAdTitle.text = text;
-                          },
-                          labelText: 'İlan Başlığı',
-                          height: 60,
-                        )),
+                              controller: _companyAdTitle,
+                              labelText: 'İlan Başlığı',
+                              height: 60,
+                            )),
                         Container(
+                            margin: EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFieldWidget(
-                          keyboardType: TextInputType.number,
-                          controller: _companyAdCompanyNumber,
-                          labelText: 'Firma Telefon Numarası',
-                          height: 60,
-                          maxLength: 13,
-                        )),
+                              keyboardType: TextInputType.number,
+                              controller: _companyAdCompanyNumber,
+                              labelText: 'Firma Telefon Numarası',
+                              height: 60,
+                              maxLength: 13,
+                            )),
                         Container(
+                            margin: EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFieldWidget(
-                          keyboardType: TextInputType.number,
-                          controller: _companyAdPersonalNumber,
-                          labelText: 'Kişisel Telefon Numarası',
-                          height: 60,
-                          maxLength: 13,
-                        )),
+                              keyboardType: TextInputType.number,
+                              controller: _companyAdPersonalNumber,
+                              labelText: 'Kişisel Telefon Numarası',
+                              height: 60,
+                              maxLength: 13,
+                            )),
                         Container(
+                            margin: EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFieldWidget(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _companyAdMail,
-                          labelText: 'Mail Adresi',
-                          height: 60,
-                          maxLength: 30,
-                        )),
+                              keyboardType: TextInputType.emailAddress,
+                              controller: _companyAdMail,
+                              labelText: 'Mail Adresi',
+                              height: 60,
+                              maxLength: 30,
+                            )),
                         Container(
                             child: TextFieldWidget(
                           controller: _companyAdContent,
@@ -218,6 +238,7 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                                   uploadPicture(context).then((value) {
                                     addCompanyAdvertisementRequest(
                                       filter: '',
+                                      companyAdId: _companyAdId,
                                       companyAdTitle: _companyAdTitle.text,
                                       companyAdImageUrl:
                                           _companyAdImageUrl.toString(),
@@ -232,6 +253,7 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                                 } else {
                                   addCompanyAdvertisementRequest(
                                     filter: '',
+                                    companyAdId: _companyAdId,
                                     companyAdTitle: _companyAdTitle.text,
                                     companyAdImageUrl:
                                         _companyAdImageUrl.toString(),
