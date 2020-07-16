@@ -68,6 +68,7 @@ router.post("/register", function (req, res) {
             email: {
                 str: body.email,
                 verified: false,
+                token: makeid() + makeid() + makeid()
             },
             fullName: body.fullName,
             password: body.password,
@@ -96,6 +97,7 @@ router.post("/register", function (req, res) {
             });
             return;
         }
+        sendEmail("smtp.yandex.com.tr", 587, "alaev.wiki.com.tr", "fm9fytmf7q", 'alaev.wiki.com.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/sifremi-unuttum/" + userObj.email.token);
         res.json({
             success: true,
         });
@@ -120,19 +122,28 @@ router.post("/login", function (req, res) {
                 });
                 return false;
             }
-            jwt.sign({ _id: doc._id, email: doc.email.str }, "mERoo36mM?", function (err, token) {
-                if (err) {
-                    res.status(401).send({
-                        succes: false,
-                        message: "Some error has occured!",
+            if (doc.email.verified == true) {
+                jwt.sign({ _id: doc._id, email: doc.email.str }, "mERoo36mM?", function (err, token) {
+                    if (err) {
+                        res.status(401).send({
+                            succes: false,
+                            message: "Some error has occured!",
+                        });
+                    }
+                    console.log(doc.role)
+                    res.json({
+                        token: token,
+                        role: doc.role
                     });
-                }
-                console.log(doc.role)
-                res.json({
-                    token: token,
-                    role: doc.role
                 });
-            });
+            }
+            else {
+                res.status(404).send({
+                    success: false,
+                    message: "Lütfen hesabınızı mailinizden aktive ediniz.",
+                });
+                return false;
+            }
             return;
         });
 });
@@ -204,10 +215,10 @@ router.post("/forgotPassword", function (req, res) {
     };
 
     database.collection("userAccounts").findOne(emailFilter).then(function (doc) {
-        if (!doc) {
+        if (!doc || doc.email.verified == false) {
             res.status(401).send({
                 success: false,
-                message: "An error occured!",
+                message: "Bu emaile ait bir hesap yok veya email aktive edilmemiş!",
             });
         } else {
             var token = makeid() + makeid() + makeid();
