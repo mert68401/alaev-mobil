@@ -97,7 +97,7 @@ router.post("/register", function (req, res) {
             });
             return;
         }
-        sendEmail("smtp.yandex.com.tr", 587, "alaev.wiki.com.tr", "fm9fytmf7q", 'alaev.wiki.com.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/sifremi-unuttum/" + userObj.email.token);
+        sendEmail("smtp.yandex.com.tr", 587, "alaev.wiki.com.tr", "fm9fytmf7q", 'alaev.wiki.com.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/email-dogrulama/" + userObj.email.token);
         res.json({
             success: true,
         });
