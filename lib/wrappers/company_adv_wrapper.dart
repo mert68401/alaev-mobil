@@ -113,6 +113,7 @@ class _CompanyAdvertisementWrapperState
         onRefresh: fetchCompanyAdvs,
         items: advList,
         isFirebase: true,
+        isMyPage: false,
         routeName: CompanyAdvertisement.routeName,
       ),
     );

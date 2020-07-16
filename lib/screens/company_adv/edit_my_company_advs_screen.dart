@@ -89,6 +89,10 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
     }
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;

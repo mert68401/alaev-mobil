@@ -47,6 +47,10 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
     _jobAdImageUrl = await taskSnapshot.ref.getDownloadURL();
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<void> _showMyDialog() async {

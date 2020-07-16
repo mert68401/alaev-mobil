@@ -67,11 +67,12 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Mevcut Firma İlanlarım')),
+        appBar: AppBar(title: Text('Mevcut İş İlanlarım')),
         body: CardWidget(
           onRefresh: fetchUserJobAdvs,
           items: myJobAdvList,
           isFirebase: true,
+          isMyPage: true,
           routeName: EditMyJobAdvScreen.routeName,
         ));
   }

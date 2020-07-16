@@ -6,12 +6,14 @@ class CardWidget extends StatelessWidget {
   final List items;
   final String routeName;
   final bool isFirebase;
+  final bool isMyPage;
   final f = new DateFormat('yyyy-MM-dd hh:mm');
   CardWidget(
       {@required this.onRefresh,
       @required this.items,
       this.routeName,
-      @required this.isFirebase});
+      @required this.isFirebase,
+      @required this.isMyPage});
 
   Widget firebaseCheck(i) {
     if (!isFirebase) {
@@ -50,6 +52,29 @@ class CardWidget extends StatelessWidget {
     }
   }
 
+  Widget editButton(BuildContext context, int i) {
+    if (isMyPage == false) {
+      return SizedBox(height: 0);
+    } else {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+              decoration: BoxDecoration(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(50)),
+              margin: EdgeInsets.only(top: 15, right: 15),
+              child: IconButton(
+                  icon: Icon(
+                    Icons.view_list,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  onPressed: null)),
+        ],
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -59,89 +84,93 @@ class CardWidget extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           itemCount: items.length,
           itemBuilder: (BuildContext context, int i) {
-            return InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(routeName, arguments: {
-                  "_id": items[i]["_id"],
-                  "title": items[i]["title"],
-                  "content": items[i]["content"],
-                  "imageUrl": items[i]['imageUrl'].isNotEmpty
-                      ? items[i]['imageUrl']
-                      : '',
-                  "personalNumber": items[i]["personalNumber"] != null &&
-                          items[i]["personalNumber"].isNotEmpty
-                      ? items[i]["personalNumber"]
-                      : "",
-                  "companyNumber": items[i]["companyNumber"] != null &&
-                          items[i]["companyNumber"].isNotEmpty
-                      ? items[i]["companyNumber"]
-                      : "",
-                  "email":
-                      items[i]["email"] != null && items[i]["email"].isNotEmpty
-                          ? items[i]["email"]
-                          : "",
-                });
-              },
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                elevation: 4,
-                margin: EdgeInsets.all(10),
-                child: Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                          child: firebaseCheck(i),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+            return Stack(children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(routeName, arguments: {
+                    "_id": items[i]["_id"],
+                    "title": items[i]["title"],
+                    "content": items[i]["content"],
+                    "imageUrl": items[i]['imageUrl'].isNotEmpty
+                        ? items[i]['imageUrl']
+                        : '',
+                    "personalNumber": items[i]["personalNumber"] != null &&
+                            items[i]["personalNumber"].isNotEmpty
+                        ? items[i]["personalNumber"]
+                        : "",
+                    "companyNumber": items[i]["companyNumber"] != null &&
+                            items[i]["companyNumber"].isNotEmpty
+                        ? items[i]["companyNumber"]
+                        : "",
+                    "email": items[i]["email"] != null &&
+                            items[i]["email"].isNotEmpty
+                        ? items[i]["email"]
+                        : "",
+                  });
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  elevation: 4,
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    children: <Widget>[
+                      Stack(
                         children: <Widget>[
-                          Flexible(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Text(
-                                  items[i]
-                                      ['title'], //.substring(0, 95) + '...',
-                                  style: TextStyle(fontSize: 15),
-                                  maxLines: 3,
-                                  textAlign: TextAlign.center,
-                                  softWrap: true,
-                                  overflow: TextOverflow.fade,
-                                ),
-                                Container(
-                                  width: double.infinity,
-                                  child: items[i]['createdAt'] != null &&
-                                          items[i]['createdAt'].length > 1
-                                      ? Text(
-                                          f.format(DateTime.parse(
-                                              items[i]['createdAt'])),
-                                          textAlign: TextAlign.end,
-                                          style: TextStyle(color: Colors.grey),
-                                        )
-                                      : null,
-                                ),
-                              ],
+                          ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
                             ),
+                            child: firebaseCheck(i),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Flexible(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Text(
+                                    items[i]
+                                        ['title'], //.substring(0, 95) + '...',
+                                    style: TextStyle(fontSize: 15),
+                                    maxLines: 3,
+                                    textAlign: TextAlign.center,
+                                    softWrap: true,
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    child: items[i]['createdAt'] != null &&
+                                            items[i]['createdAt'].length > 1
+                                        ? Text(
+                                            f.format(DateTime.parse(
+                                                items[i]['createdAt'])),
+                                            textAlign: TextAlign.end,
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          )
+                                        : null,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            );
+              editButton(context, i),
+            ]);
           },
         ),
       ),

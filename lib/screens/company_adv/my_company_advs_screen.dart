@@ -71,6 +71,7 @@ class _MyCompanyAdvsScreenState extends State<MyCompanyAdvsScreen> {
           onRefresh: fetchUserCompanyAdvs,
           items: myAdvList,
           isFirebase: true,
+          isMyPage: true,
           routeName: EditMyCompanyAdvScreen.routeName,
         ));
   }
