@@ -89,7 +89,7 @@ class MapScreenState extends State<ProfileWrapper>
               Column(
                 children: <Widget>[
                   Container(
-                    height: 150,
+                    height: 50,
                     color: Colors.white,
                     child: Column(
                       children: <Widget>[],
@@ -239,7 +239,7 @@ class MapScreenState extends State<ProfileWrapper>
     return _isFirma
         ? null
         : Container(
-            margin: EdgeInsets.only(top: 25, left: 15, right: 50),
+            margin: EdgeInsets.only(top: 25, left: 15),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,

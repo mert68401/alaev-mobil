@@ -110,6 +110,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         onRefresh: fetchJobAdvs,
         items: jobAdvList,
         isFirebase: true,
+        isMyPage: false,
         routeName: JobAdvertisement.routeName,
       ),
     );

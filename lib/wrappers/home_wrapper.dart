@@ -34,6 +34,10 @@ class _HomeWrapperState extends State<HomeWrapper> {
     fetchAlbum();
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -98,7 +102,8 @@ class _HomeWrapperState extends State<HomeWrapper> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 15),
                     child: Text(
-                        'ALA\'lı olmak, bir ömür boyu beraber olmaktır.',textAlign: TextAlign.center,
+                        'ALA\'lı olmak, bir ömür boyu beraber olmaktır.',
+                        textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 18)),
                   ),
                   SizedBox(height: 60),

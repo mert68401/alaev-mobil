@@ -204,7 +204,19 @@ router.post("/forgotPassword", function (req, res) {
     };
 
     database.collection("userAccounts").findOne(emailFilter).then(function (doc) {
-        sendEmail("SMTP.office365.com", 587, "eren68401@hotmail.com", "edogruca159++123", 'Eroo', "edogruca@hotmail.com", 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', 'DENEME HTML');
+        const token = jwt.sign({ _id: doc._id }, "mERoo36mM?", { expiresIn: '20m' });
+        if (doc) {
+            sendEmail("smtp.gmail.com", 587, "edogruca@gmail.com", "trgamer01wick", 'Eroo', body.email, 'DENEME', 'DENEMESUBJEXT', `localhost/authentication/activate/${token}`, `asd = localhost/authentication/activate/${token}`);
+            res.json({
+                success: true,
+                message: 'Sıfırlama Maili Gönderildi!'
+            });
+        } else {
+            res.status(401).send({
+                success: false,
+                message: err.message
+            });
+        }
     });
 });
 

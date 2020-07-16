@@ -76,6 +76,10 @@ class _CvScreenState extends State<CvScreen> {
     cvRequest();
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   Widget _personalInfoTab(context) {
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,

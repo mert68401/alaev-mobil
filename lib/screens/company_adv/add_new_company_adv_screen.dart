@@ -48,6 +48,10 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
     _companyAdImageUrl = await taskSnapshot.ref.getDownloadURL();
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<void> _showMyDialog() async {

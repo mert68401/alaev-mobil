@@ -47,6 +47,10 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
     _jobAdImageUrl = await taskSnapshot.ref.getDownloadURL();
   }
 
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
