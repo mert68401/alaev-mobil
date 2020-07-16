@@ -238,7 +238,7 @@ router.post("/forgotPassword", function (req, res) {
                     sendEmail("smtp.yandex.com.tr", 587, "alaev.wiki.com.tr", "fm9fytmf7q", 'alaev.wiki.com.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/sifremi-unuttum/" + token);
                     res.send({
                         success: true,
-                        message: "Lütfen emailinizi kontrol ediniz.",
+                        message: "Lütfen emailinizde gelen kutunuzu kontrol ediniz.",
                     });
                 }
             })
