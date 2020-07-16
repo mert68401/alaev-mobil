@@ -204,19 +204,35 @@ router.post("/forgotPassword", function (req, res) {
     };
 
     database.collection("userAccounts").findOne(emailFilter).then(function (doc) {
-        const token = jwt.sign({ _id: doc._id }, "mERoo36mM?", { expiresIn: '20m' });
-        if (doc) {
-            sendEmail("smtp.gmail.com", 587, "edogruca@gmail.com", "trgamer01wick", 'Eroo', body.email, 'DENEME', 'DENEMESUBJEXT', `localhost/authentication/activate/${token}`, `asd = localhost/authentication/activate/${token}`);
-            res.json({
-                success: true,
-                message: 'Sıfırlama Maili Gönderildi!'
-            });
-        } else {
+        if (!doc) {
             res.status(401).send({
                 success: false,
-                message: err.message
+                message: "An error occured!",
             });
+        } else {
+            var token = makeid() + makeid() + makeid();
+            database.collection('userAccounts').updateOne({ _id: doc._id }, {
+                $set: {
+                    "email.token": token,
+                }
+            }, function (error, result) {
+                if (error) {
+                    console.log(error);
+                    res.status(401).send({
+                        success: false,
+                        message: "An error occured!",
+                    });
+                    return;
+                } else {
+                    sendEmail("smtp.yandex.com.tr", 587, "alaev.wiki.com.tr", "fm9fytmf7q", 'alaev.wiki.com.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/sifremi-unuttum/" + token);
+                    res.send({
+                        success: true,
+                        message: "Lütfen emailinizi kontrol ediniz.",
+                    });
+                }
+            })
         }
+        //sendEmail("SMTP.office365.com", 587, "eren68401@hotmail.com", "edogruca159++123", 'Eroo', "edogruca@hotmail.com", 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', 'DENEME HTML');
     });
 });
 
@@ -416,7 +432,7 @@ router.post("/setJobAdRequest", function (req, res) {
         } else {
             id = decoded._id;
             jobAdObj = {
-                _id: makeid(),
+                _id: body._id ? body._id : makeid(),
                 createdAt: new Date(),
                 userId: id,
                 jobAdImageUrl: body.jobAdImageUrl,
@@ -427,7 +443,7 @@ router.post("/setJobAdRequest", function (req, res) {
                 jobAdContent: body.jobAdContent,
             };
             console.log(jobAdObj);
-            database.collection("jobAdForms").findOne({ jobAdTitle: body.jobAdTitle }).then(function (docs) {
+            database.collection("jobAdForms").findOne({ _id: body._id }).then(function (docs) {
                 if (!docs) {
                     if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
                         if (body.jobAdTitle != "" &&
@@ -566,7 +582,41 @@ router.post("/getUserJobAdvs", function (req, res) {
         res.json(docs);
     });
 });
-
+/*
+//Get getUserJob
+*/
+router.post("/getUserJob", function (req, res) {
+    var body = req.body;
+    var token = body.token;
+    var userId;
+    var filter = body.filter;
+    var params = body.params;
+    var projection = params.projection ? { projection: params.projection } : {};
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            console.log(decoded)
+            userId = decoded._id;
+            filter = {
+                userId: userId,
+                _id: body._id
+            }
+            console.log(filter)
+            database
+                .collection("jobAdForms")
+                .findOne(filter)
+                .then(function (docs) {
+                    console.log(docs)
+                    res.json(docs);
+                });
+        }
+    });
+});
 
 /*
 //Set Company Adversitement
@@ -574,6 +624,8 @@ router.post("/getUserJobAdvs", function (req, res) {
 router.post("/setCompanyAdRequest", function (req, res) {
     const body = req.body;
     const token = body.token;
+
+    console.log(body._id)
     jwt.verify(token, "mERoo36mM?", function (err, decoded) {
         if (err) {
             res.status(401).send({
@@ -596,6 +648,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
             };
             console.log(companyAdObj);
             database.collection("companyAdForms").findOne({ _id: body._id }).then(function (docs) {
+                console.log(docs)
                 if (!docs) {
                     if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
                         if (body.companyAdTitle != "" &&

@@ -51,6 +51,7 @@ Future<void> addCvRequest(
 
 Future<void> addCompanyAdvertisementRequest({
   dynamic filter,
+  String companyAdId,
   String companyAdImageUrl,
   String companyAdTitle,
   String companyAdCompanyNumber,
@@ -66,6 +67,7 @@ Future<void> addCompanyAdvertisementRequest({
       body: jsonEncode(<String, String>{
         "token": value,
         "filter": filter,
+        "_id": companyAdId,
         "companyAdImageUrl": companyAdImageUrl,
         "companyAdTitle": companyAdTitle,
         "companyAdCompanyNumber": companyAdCompanyNumber,
@@ -84,6 +86,7 @@ Future<void> addCompanyAdvertisementRequest({
 
 Future<void> addJobAdvertisementRequest({
   dynamic filter,
+  String jobAdId,
   String jobAdImageUrl,
   String jobAdTitle,
   String jobAdCompanyNumber,
@@ -99,6 +102,7 @@ Future<void> addJobAdvertisementRequest({
       body: jsonEncode(<String, String>{
         "token": value,
         "filter": filter,
+        "_id": jobAdId,
         "jobAdImageUrl": jobAdImageUrl,
         "jobAdTitle": jobAdTitle,
         "jobAdCompanyNumber": jobAdCompanyNumber,
