@@ -1,3 +1,4 @@
+import 'package:alaev/functions/functions.dart';
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,6 @@ class ForgotPasswordScreen extends StatelessWidget {
   static const routeName = '/forgotPassword';
 
   final email = TextEditingController();
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                       textColor: Colors.white,
                       color: Colors.green,
                       onPressed: () {
-                        forgotPasswordRequest(email: email.text);
+                        if (email.text != '') {
+                          forgotPasswordRequest(email: email.text);
+                        } else {
+                          showToastError('Lütfen Mailinizi giriniz!');
+                        }
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0)),

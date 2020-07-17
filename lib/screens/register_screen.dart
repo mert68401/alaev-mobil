@@ -34,10 +34,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       body: Container(
         child: ListView(
-          physics: BouncingScrollPhysics(),
           children: <Widget>[
             Container(
-              margin: EdgeInsets.symmetric(vertical: 60, horizontal: 25),
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -186,21 +185,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ],
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 40, left: 40, right: 40),
+                        margin: EdgeInsets.only(top: 20, left: 40, right: 40),
                         child: InkWell(
                           onTap: () {
                             setState(() {
                               _isLoading = true;
                             });
-                            if (_passwordController.text ==
-                                _password2Controller.text) {
+                            if (_fullNameController.text != '' &&
+                                _emailController.text != '' &&
+                                _passwordController.text.length > 5 &&
+                                _passwordController.text ==
+                                    _password2Controller.text) {
                               Provider.of<Auth>(context, listen: false).signup(
                                   _fullNameController.text,
                                   _emailController.text,
                                   _passwordController.text,
                                   _selectedItem);
+                              showToastSuccess(
+                                  'Mail Gelen Kutunuzu Kontrol Ediniz!');
                             } else {
-                              showToastError("Şifreleriniz eşleşmemektedir!");
+                              showToastError(
+                                  "Şifreniz en az 6 karakter olmalıdır ve bilgiler eksiksiz girilmelidir!");
                             }
                             setState(() {
                               _isLoading = false;

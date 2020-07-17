@@ -97,7 +97,7 @@ router.post("/register", function (req, res) {
             });
             return;
         }
-        sendEmail("smtp.yandex.com.tr", 587, "alaev.wiki.com.tr", "fm9fytmf7q", 'alaev.wiki.com.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/email-dogrulama/" + userObj.email.token);
+        sendEmail("smtp.yandex.com.tr", 587, "info@alaev.org.tr", "txjtzpiqgpvwxltn", 'info@alaev.org.tr', body.email, 'DENEME', 'ALAEV Mail Aktivasyonu', 'CONTENTDENEME', "localhost:3000/email-dogrulama/" + userObj.email.token);
         res.json({
             success: true,
         });
@@ -235,7 +235,7 @@ router.post("/forgotPassword", function (req, res) {
                     });
                     return;
                 } else {
-                    sendEmail("smtp.yandex.com.tr", 587, "alaev.wiki.com.tr", "fm9fytmf7q", 'alaev.wiki.com.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/sifremi-unuttum/" + token);
+                    sendEmail("smtp.yandex.com.tr", 587, "info@alaev.org.tr", "txjtzpiqgpvwxltn", 'info@alaev.org.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/sifremi-unuttum/" + token);
                     res.send({
                         success: true,
                         message: "Lütfen emailinizde gelen kutunuzu kontrol ediniz.",
@@ -246,6 +246,7 @@ router.post("/forgotPassword", function (req, res) {
         //sendEmail("SMTP.office365.com", 587, "eren68401@hotmail.com", "edogruca159++123", 'Eroo', "edogruca@hotmail.com", 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', 'DENEME HTML');
     });
 });
+
 
 
 /*
