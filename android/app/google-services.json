@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "455642511583",
-    "firebase_url": "https://alaev-mobile.firebaseio.com",
-    "project_id": "alaev-mobile",
-    "storage_bucket": "alaev-mobile.appspot.com"
+    "project_number": "636648851719",
+    "firebase_url": "https://alaev-mobile-75d17.firebaseio.com",
+    "project_id": "alaev-mobile-75d17",
+    "storage_bucket": "alaev-mobile-75d17.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:455642511583:android:5ea09b2260d1926633116a",
+        "mobilesdk_app_id": "1:636648851719:android:f5bad9486be63533b75da2",
         "android_client_info": {
           "package_name": "com.example.alaev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "455642511583-ldjcbo7v9ipnekqo1frcg361qqsmur8d.apps.googleusercontent.com",
+          "client_id": "636648851719-es1qd4tmjmcls8unc5riluubr1pb0hdh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDentZ-fS7lCN0h2HLrXvqUpo__Xs_UeUk"
+          "current_key": "AIzaSyDjE5X7th-nGC0EfJGI95xgpb0oXnxeb8g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "455642511583-ldjcbo7v9ipnekqo1frcg361qqsmur8d.apps.googleusercontent.com",
+              "client_id": "636648851719-es1qd4tmjmcls8unc5riluubr1pb0hdh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

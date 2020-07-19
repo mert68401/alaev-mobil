@@ -1,4 +1,5 @@
 import 'package:alaev/providers/auth.dart';
+import 'package:alaev/push_nofitications.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/edit_my_company_advs_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
@@ -22,6 +23,8 @@ import 'screens/company_adv/company_adv_detail_screen.dart';
 import './screens/cv_screen.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  PushNotificationsManager().init();
   runApp(MyApp());
 }
 
