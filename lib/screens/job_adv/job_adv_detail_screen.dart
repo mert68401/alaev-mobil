@@ -1,14 +1,26 @@
+import 'package:alaev/functions/functions.dart';
+import 'package:alaev/functions/requests.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class JobAdvertisement extends StatelessWidget {
+class JobAdvertisement extends StatefulWidget {
   static const routeName = '/job-adv-page';
+
+  @override
+  _JobAdvertisementState createState() => _JobAdvertisementState();
+}
+
+class _JobAdvertisementState extends State<JobAdvertisement> {
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     String clickableCompanyNumber = arguments['companyNumber'];
     String clickablePersonalNumber = arguments['personalNumber'];
+    String jobAdId = arguments['_id'];
     print(arguments);
 
     void customLaunch(command) async {
@@ -20,6 +32,20 @@ class JobAdvertisement extends StatelessWidget {
     }
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        child: Text("Başvur"),
+        onPressed: () {
+          getUserRole().then((role) {
+            print(role);
+            role == "firma"
+                ? showToastError(
+                    'Firma tipi kullanıcılar iş başvurusu yapamaz!')
+                : applyJobRequest(jobAdId: jobAdId);
+          });
+        },
+      ),
       appBar: AppBar(
         title: Text('İlan Ayrıntıları'),
       ),
@@ -30,7 +56,7 @@ class JobAdvertisement extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                height: 200,
+                height: 150,
                 width: double.infinity,
                 child: arguments['imageUrl'].toString().length > 1
                     ? Image.network(
@@ -106,7 +132,10 @@ class JobAdvertisement extends StatelessWidget {
                 child: Text(
                   arguments['content'],
                 ),
-              )
+              ),
+              SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),

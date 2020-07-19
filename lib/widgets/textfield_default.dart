@@ -11,6 +11,7 @@ class TextFieldWidget extends StatelessWidget {
   final dynamic counterText;
   final dynamic keyboardType;
   final dynamic onChanged;
+  final bool enabled;
 
   TextFieldWidget(
       {@required this.controller,
@@ -22,7 +23,8 @@ class TextFieldWidget extends StatelessWidget {
       this.hintText,
       this.maxLength,
       this.keyboardType,
-      this.onChanged});
+      this.onChanged,
+      this.enabled});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class TextFieldWidget extends StatelessWidget {
         controller: controller,
         maxLines: maxLines,
         maxLength: maxLength,
+        enabled: enabled,
         decoration: InputDecoration(
           counterText: counterText == null ? null : '',
           border: OutlineInputBorder(),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
+import 'package:alaev/screens/job_adv/applied_user_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/edit_my_job_advs_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class MyJobAdvsScreen extends StatefulWidget {
 }
 
 class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
-  final List<Map<String, String>> myJobAdvList = [];
+  final List<Map<String, dynamic>> myJobAdvList = [];
 
   Future<void> fetchUserJobAdvs() async {
     getToken().then((value) async {
@@ -33,10 +34,9 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
           },
         ),
       );
-      print(response.body);
       if (response.statusCode == 200) {
+        print(jsonDecode(response.body));
         List<dynamic> body = jsonDecode(response.body);
-        print(body);
         setState(() {
           body.forEach((element) {
             myJobAdvList.add({
@@ -44,7 +44,10 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
               "createdAt": element['createdAt'],
               "title": element["jobAdTitle"],
               "content": element["jobAdContent"],
-              "imageUrl": element["jobAdImageUrl"]
+              "imageUrl": element["jobAdImageUrl"],
+              "appliedUsers": element["appliedUsers"] != null
+                  ? element["appliedUsers"].toList()
+                  : null,
             });
           });
         });
@@ -58,6 +61,7 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
     super.initState();
 
     fetchUserJobAdvs();
+
   }
 
   void dispose() {
@@ -73,7 +77,8 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
           items: myJobAdvList,
           isFirebase: true,
           isMyPage: true,
-          routeName: EditMyJobAdvScreen.routeName,
+          isMyJobPage: true,
+          routeName: AppliedUsersJobAdvScreen.routeName,
         ));
   }
 }

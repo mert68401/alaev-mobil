@@ -157,3 +157,25 @@ Future<void> forgotPasswordRequest({String email}) async {
     showToastError(jsonDecode(response.body)['message'].toString());
   }
 }
+
+Future<void> applyJobRequest({
+  String jobAdId,
+  String userId,
+}) async {
+  getToken().then((token) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://' + ServerIP().other + ':2000/api/applyJobAd',
+      headers: headers,
+      body: jsonEncode(<String, String>{
+        "token": token,
+        "_id": jobAdId,
+      }),
+    );
+    if (response.statusCode == 200) {
+      showToastSuccess(jsonDecode(response.body)['message'].toString());
+    } else if (response.statusCode == 401) {
+      showToastError(jsonDecode(response.body)['message'].toString());
+    }
+  });
+}
