@@ -43,7 +43,6 @@ class _NewsWrapperState extends State<NewsWrapper> {
             "createdAt": element['createdAt']
           });
         });
-        print(newsList);
       });
     } else {
       throw Exception('Failed to load album');

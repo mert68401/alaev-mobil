@@ -15,7 +15,8 @@ class AppliedUsersJobAdvScreen extends StatefulWidget {
 class AppState extends State<AppliedUsersJobAdvScreen> {
   List<dynamic> appliedUsersList = [];
 
-  Future<void> fetchAppliedUserData({String jobAdId, String cvNameSurname}) async {
+  Future<void> fetchAppliedUserData(
+      {String jobAdId, String cvNameSurname}) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
       'http://' + ServerIP().other + ':2000/api/getAppliedUserData',
@@ -29,20 +30,18 @@ class AppState extends State<AppliedUsersJobAdvScreen> {
     );
 
     if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body);
-      setState(() {
-        appliedUsersList = body;
-      });
+      final List<dynamic> body = jsonDecode(response.body);
+      if (mounted) {
+        setState(() {
+          appliedUsersList = body;
+        });
+      }
     }
   }
 
   void initState() {
     super.initState();
     fetchAppliedUserData();
-  }
-
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -63,23 +62,32 @@ class AppState extends State<AppliedUsersJobAdvScreen> {
               child: Card(
                 child: ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed(AppliedUserJobAdvCvScreen.routeName, arguments: {
-                      "_id": appliedUsersList[index]["_id"],
-                      "cvNameSurname": appliedUsersList[index]['cvNameSurname'],
-                      "cvAge": appliedUsersList[index]['cvAge'],
-                      "cvMail": appliedUsersList[index]['cvMail'],
-                      "cvPhone": appliedUsersList[index]['cvPhone'],
-                      "cvPersonalInfo": appliedUsersList[index]['cvPersonalInfo'],
-                      "cvSchool1": appliedUsersList[index]['cvSchool1'],
-                      "cvSchool2": appliedUsersList[index]['cvSchool2'],
-                      "cvExperience1": appliedUsersList[index]['cvExperience1'],
-                      "cvExperience2": appliedUsersList[index]['cvExperience2'],
-                      "cvExperienceInfo": appliedUsersList[index]['cvExperienceInfo'],
-                      "cvReference1": appliedUsersList[index]['cvReference1'],
-                      "cvReference2": appliedUsersList[index]['cvReference2'],
-                      "cvLanguage": appliedUsersList[index]['cvLanguage'],
-                      "cvSkillInfo": appliedUsersList[index]['cvSkillInfo'],
-                    });
+                    Navigator.of(context).pushNamed(
+                        AppliedUserJobAdvCvScreen.routeName,
+                        arguments: {
+                          "_id": appliedUsersList[index]["_id"],
+                          "cvNameSurname": appliedUsersList[index]
+                              ['cvNameSurname'],
+                          "cvAge": appliedUsersList[index]['cvAge'],
+                          "cvMail": appliedUsersList[index]['cvMail'],
+                          "cvPhone": appliedUsersList[index]['cvPhone'],
+                          "cvPersonalInfo": appliedUsersList[index]
+                              ['cvPersonalInfo'],
+                          "cvSchool1": appliedUsersList[index]['cvSchool1'],
+                          "cvSchool2": appliedUsersList[index]['cvSchool2'],
+                          "cvExperience1": appliedUsersList[index]
+                              ['cvExperience1'],
+                          "cvExperience2": appliedUsersList[index]
+                              ['cvExperience2'],
+                          "cvExperienceInfo": appliedUsersList[index]
+                              ['cvExperienceInfo'],
+                          "cvReference1": appliedUsersList[index]
+                              ['cvReference1'],
+                          "cvReference2": appliedUsersList[index]
+                              ['cvReference2'],
+                          "cvLanguage": appliedUsersList[index]['cvLanguage'],
+                          "cvSkillInfo": appliedUsersList[index]['cvSkillInfo'],
+                        });
                   },
                   title: Text(appliedUsersList[index]['cvNameSurname']),
                 ),
@@ -90,5 +98,9 @@ class AppState extends State<AppliedUsersJobAdvScreen> {
         ),
       ),
     );
+  }
+
+  void dispose() {
+    super.dispose();
   }
 }

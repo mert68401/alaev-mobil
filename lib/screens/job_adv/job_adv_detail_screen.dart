@@ -21,7 +21,6 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
     String clickableCompanyNumber = arguments['companyNumber'];
     String clickablePersonalNumber = arguments['personalNumber'];
     String jobAdId = arguments['_id'];
-    print(arguments);
 
     void customLaunch(command) async {
       if (await canLaunch(command)) {
@@ -38,7 +37,6 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
         child: Text("Başvur"),
         onPressed: () {
           getUserRole().then((role) {
-            print(role);
             role == "firma"
                 ? showToastError(
                     'Firma tipi kullanıcılar iş başvurusu yapamaz!')
@@ -129,6 +127,8 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                 height: 20,
               ),
               Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                alignment: Alignment.centerLeft,
                 child: Text(
                   arguments['content'],
                 ),

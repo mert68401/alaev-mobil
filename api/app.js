@@ -140,7 +140,7 @@ router.post("/login", function (req, res) {
                             message: "Some error has occured!",
                         });
                     }
-                    console.log(doc.role)
+                    console.log(doc.role);
                     res.json({
                         token: token,
                         role: doc.role

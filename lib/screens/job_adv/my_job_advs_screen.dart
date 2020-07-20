@@ -35,7 +35,6 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
         ),
       );
       if (response.statusCode == 200) {
-        print(jsonDecode(response.body));
         List<dynamic> body = jsonDecode(response.body);
         setState(() {
           body.forEach((element) {
@@ -61,11 +60,6 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
     super.initState();
 
     fetchUserJobAdvs();
-
-  }
-
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -78,7 +72,12 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
           isFirebase: true,
           isMyPage: true,
           isMyJobPage: true,
-          routeName: AppliedUsersJobAdvScreen.routeName,
+          appliedRouteName: AppliedUsersJobAdvScreen.routeName,
+          routeName: EditMyJobAdvScreen.routeName,
         ));
+  }
+
+  void dispose() {
+    super.dispose();
   }
 }

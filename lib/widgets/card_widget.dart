@@ -8,19 +8,19 @@ class CardWidget extends StatelessWidget {
   final bool isFirebase;
   final bool isMyPage;
   final bool isMyJobPage;
+  final String appliedRouteName;
   final f = new DateFormat('yyyy-MM-dd hh:mm');
-  CardWidget({
-    @required this.onRefresh,
-    @required this.items,
-    this.routeName,
-    @required this.isFirebase,
-    @required this.isMyPage,
-    this.isMyJobPage,
-  });
+  CardWidget(
+      {@required this.onRefresh,
+      @required this.items,
+      this.routeName,
+      @required this.isFirebase,
+      @required this.isMyPage,
+      this.isMyJobPage,
+      this.appliedRouteName});
 
   Widget firebaseCheck(i) {
     if (!isFirebase) {
-      print("asd");
       if (items[i]['imageUrl'].length > 1) {
         return Image.network(
           "http://statik.wiki.com.tr/assets/alaev/img/" + items[i]['imageUrl'],
@@ -55,8 +55,9 @@ class CardWidget extends StatelessWidget {
     }
   }
 
+  
+
   Widget appliedUsersButton(BuildContext context, String a, int i) {
-    print(a);
     if (isMyPage == false) {
       return SizedBox(height: 0);
     } else {
@@ -76,7 +77,8 @@ class CardWidget extends StatelessWidget {
                     color: Theme.of(context).accentColor,
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(routeName, arguments: {
+                    Navigator.of(context)
+                        .pushNamed(appliedRouteName, arguments: {
                       "_id": items[i]["_id"],
                       "appliedUsers": items[i]["appliedUsers"],
                     });

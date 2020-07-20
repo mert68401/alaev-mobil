@@ -168,7 +168,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               value: _selectedItem,
                               onChanged: (String string) => setState(() {
                                 _selectedItem = string;
-                                print(_selectedItem);
                               }),
                               selectedItemBuilder: (BuildContext context) {
                                 return items.map<Widget>((String item) {

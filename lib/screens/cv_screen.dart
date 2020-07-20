@@ -50,9 +50,7 @@ class _CvScreenState extends State<CvScreen> {
           ),
         );
         if (response.statusCode == 200) {
-          print("Cv oluşturuldu");
           userData = json.decode(response.body);
-          print(userData);
           _cvNameSurname.text = userData['cvNameSurname'];
           _cvAge.text = userData['cvAge'];
           _cvMail.text = userData['cvMail'];

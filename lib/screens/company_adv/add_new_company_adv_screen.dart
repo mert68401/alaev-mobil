@@ -35,7 +35,6 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
 
     setState(() {
       _image = image;
-      print(_image);
     });
   }
 
@@ -79,20 +78,6 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
         },
       );
     }
-    // final Map arguments = ModalRoute.of(context).settings.arguments as Map;
-
-    // void fetchUserData() async {
-    //   setState(() {
-    //     _companyAdImageUrl = arguments['imageUrl'].toString();
-    //     _companyAdTitle.text = arguments['title'];
-    //     _companyAdCompanyNumber.text = arguments['companyNumber'];
-    //     _companyAdPersonalNumber.text = arguments['personalNumber'];
-    //     _companyAdMail.text = arguments['email'];
-    //     _companyAdContent.text = arguments['content'];
-    //   });
-    // }
-
-    // fetchUserData();
 
     return Scaffold(
       appBar: AppBar(
@@ -105,6 +90,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
             child: Container(
               child: _showProgress
                   ? Center(
+                    heightFactor: 25,
                       child: CircularProgressIndicator(),
                     )
                   : Column(
@@ -220,6 +206,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                                     const Duration(milliseconds: 2000), () {
                                   setState(() {
                                     _showProgress = !_showProgress;
+                                    Navigator.pop(context);
                                   });
                                 });
                               } else {

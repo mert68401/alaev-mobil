@@ -40,7 +40,6 @@ class MapScreenState extends State<ProfileWrapper>
     });
     Future<void> getUserData() async {
       getToken().then((value) async {
-        print(value);
         Map<String, String> headers = {"Content-type": "application/json"};
 
         final response = await http.post(
@@ -56,7 +55,6 @@ class MapScreenState extends State<ProfileWrapper>
         if (response.statusCode == 200) {
           userData = json.decode(response.body);
           _emailController.text = userData['email']['str'];
-          print(userData);
           _fullNameController.text = userData['fullName'];
           _phoneController.text = userData['personalNumber'];
         } else if (response.statusCode == 401) {
