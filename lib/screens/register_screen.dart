@@ -88,8 +88,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           style: TextStyle(
                             fontSize: 14,
                           ),
+                          keyboardType: TextInputType.emailAddress,
                           controller:
-                              _emailController, //--------------------------------
+                              _emailController,
                           decoration: InputDecoration(
                             labelText: 'Email',
                             border: OutlineInputBorder(
@@ -167,7 +168,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               value: _selectedItem,
                               onChanged: (String string) => setState(() {
                                 _selectedItem = string;
-                                print(_selectedItem);
                               }),
                               selectedItemBuilder: (BuildContext context) {
                                 return items.map<Widget>((String item) {
@@ -191,21 +191,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             setState(() {
                               _isLoading = true;
                             });
-                            if (_fullNameController.text != '' &&
-                                _emailController.text != '' &&
-                                _passwordController.text.length > 5 &&
-                                _passwordController.text ==
-                                    _password2Controller.text) {
-                              Provider.of<Auth>(context, listen: false).signup(
-                                  _fullNameController.text,
-                                  _emailController.text,
-                                  _passwordController.text,
-                                  _selectedItem);
-                              showToastSuccess(
-                                  'Mail Gelen Kutunuzu Kontrol Ediniz!');
-                            } else {
+                            if (_fullNameController.text == '' ||
+                                _emailController.text == '') {
+                              showToastError("Bilgiler eksiksiz girilmelidir!");
+                              return;
+                            }
+                            if (!validateEmail(_emailController.text)) {
                               showToastError(
-                                  "Şifreniz en az 6 karakter olmalıdır ve bilgiler eksiksiz girilmelidir!");
+                                  "Doğru bir mail adresi girdiğinizden emin olun!");
+                            }
+                            if (_passwordController.text.length < 5) {
+                              showToastError(
+                                  "Şifreniz en az 6 karakter olmalıdır");
+                              return;
+                            }
+                            if (_passwordController.text ==
+                                _password2Controller.text) {
+                              Provider.of<Auth>(context, listen: false)
+                                  .signup(
+                                      _fullNameController.text,
+                                      _emailController.text,
+                                      _passwordController.text,
+                                      _selectedItem)
+                                  .then((value) {
+                                if (value) {
+                                  Navigator.pop(context);
+                                }
+                              });
+                            } else {
+                              showToastError("Şifreler eşleşmemektedir!");
                             }
                             setState(() {
                               _isLoading = false;

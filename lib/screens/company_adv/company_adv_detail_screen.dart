@@ -7,7 +7,6 @@ class CompanyAdvertisement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
-    print(arguments);
 
     String clickableCompanyNumber = arguments['companyNumber'];
     String clickablePersonalNumber = arguments['personalNumber'];
@@ -106,6 +105,8 @@ class CompanyAdvertisement extends StatelessWidget {
                 height: 20,
               ),
               Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                alignment: Alignment.centerLeft,
                 child: Text(
                   arguments['content'],
                 ),

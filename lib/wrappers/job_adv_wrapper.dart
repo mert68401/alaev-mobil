@@ -37,7 +37,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      print(body);
       setState(() {
         body.forEach((element) {
           jobAdvList.add({
@@ -52,7 +51,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
           });
         });
       });
-      print(jobAdvList[0]);
     } else {
       throw Exception('Failed to load album');
     }
@@ -81,7 +79,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
               icon: Icon(Icons.list),
               onPressed: () {
                 getUserRole().then((role) {
-                  print(role);
                   if (role == "firma") {
                     _pushNamedPage(context, MyJobAdvsScreen.routeName);
                   } else {
@@ -94,7 +91,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
               icon: Icon(Icons.add),
               onPressed: () {
                 getUserRole().then((role) {
-                  print(role);
                   if (role == "firma") {
                     _pushNamedPage(context, AddNewJobAdvScreen.routeName);
                   } else {

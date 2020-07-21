@@ -40,7 +40,6 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
 
     setState(() {
       _image = image;
-      print(_image);
     });
   }
 
@@ -72,7 +71,6 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
 
     if (response.statusCode == 200) {
       dynamic body = jsonDecode(response.body);
-      print(body);
       _companyAdTitle.text = body['companyAdTitle'];
       _companyAdCompanyNumber.text = body['companyAdCompanyNumber'];
       _companyAdPersonalNumber.text = body['companyAdPersonalNumber'];
@@ -96,7 +94,6 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
-    print(arguments);
     if (_isRendered == false) {
       getToken().then((token) {
         getAdv(arguments['_id'], token);
@@ -144,6 +141,7 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
               ),
               child: _showProgress
                   ? Center(
+                      heightFactor: 25,
                       child: CircularProgressIndicator(),
                     )
                   : Column(
@@ -273,6 +271,7 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                                     const Duration(milliseconds: 2000), () {
                                   setState(() {
                                     _showProgress = !_showProgress;
+                                    Navigator.of(context).pop();
                                   });
                                 });
                               } else {

@@ -38,7 +38,6 @@ class _CompanyAdvertisementWrapperState
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      print(body);
       setState(() {
         body.forEach((element) {
           advList.add({
@@ -53,7 +52,6 @@ class _CompanyAdvertisementWrapperState
           });
         });
       });
-      print(advList[0]);
     } else {
       throw Exception('Failed to load album');
     }
@@ -82,7 +80,6 @@ class _CompanyAdvertisementWrapperState
             icon: Icon(Icons.list),
             onPressed: () {
               getUserRole().then((role) {
-                print(role);
                 if (role == "firma") {
                   _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
                 } else {
@@ -96,7 +93,6 @@ class _CompanyAdvertisementWrapperState
             icon: Icon(Icons.add),
             onPressed: () {
               getUserRole().then((role) {
-                print(role);
                 if (role == "firma") {
                   _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
                 } else {

@@ -29,7 +29,7 @@ class Auth with ChangeNotifier {
     return true;
   }
 
-  Future<void> signup(
+  Future<bool> signup(
       String fullName, String email, String password, String role) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     var passwordMd5 = md5.convert(utf8.encode(password));
@@ -47,9 +47,11 @@ class Auth with ChangeNotifier {
     );
 
     if (response.statusCode == 200) {
-      print("üyeik oluşturuldu");
+      showToastSuccess('Mail Kutunuzu Kontrol Ediniz!');
+      return true;
     } else {
       showToastError(jsonDecode(response.body)['message']);
+      return false;
     }
   }
 
@@ -86,7 +88,7 @@ class Auth with ChangeNotifier {
       notifyListeners();
       return true;
     } else {
-      showToastError("Email adresiniz veya şifreniz uyuşmamaktadır");
+      showToastError(jsonDecode(response.body)['message']);
       return false;
     }
   }

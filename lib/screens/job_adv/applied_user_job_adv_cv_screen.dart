@@ -1,22 +1,14 @@
-import 'dart:convert';
-import 'package:alaev/functions/functions.dart';
-import 'package:alaev/functions/server_ip.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:flutter/material.dart';
 
-import '../functions/functions.dart';
-import '../functions/requests.dart';
-
-class CvScreen extends StatefulWidget {
-  static const routeName = '/cv-screen';
+class AppliedUserJobAdvCvScreen extends StatefulWidget {
+  static const routeName = '/applied-user-job-adv-cv-screen';
 
   @override
-  _CvScreenState createState() => _CvScreenState();
+  _AppliedUserJobAdvCvScreen createState() => _AppliedUserJobAdvCvScreen();
 }
 
-class _CvScreenState extends State<CvScreen> {
+class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
   final _cvNameSurname = TextEditingController();
   final _cvAge = TextEditingController();
   final _cvMail = TextEditingController();
@@ -34,51 +26,12 @@ class _CvScreenState extends State<CvScreen> {
   final _cvLanguage = TextEditingController();
   final _cvSkillInfo = TextEditingController();
 
-  Map<String, dynamic> userData = {};
-
-  void initState() {
-    super.initState();
-
-    Future<void> cvRequest() async {
-      getToken().then((value) async {
-        Map<String, String> headers = {"Content-type": "application/json"};
-        final response = await http.post(
-          'http://' + ServerIP().other + ':2000/api/getUserCvData',
-          headers: headers,
-          body: jsonEncode(
-            <String, String>{"token": value},
-          ),
-        );
-        if (response.statusCode == 200) {
-          userData = json.decode(response.body);
-          _cvNameSurname.text = userData['cvNameSurname'];
-          _cvAge.text = userData['cvAge'];
-          _cvMail.text = userData['cvMail'];
-          _cvPhone.text = userData['cvPhone'];
-          _cvPersonalInfo.text = userData['cvPersonalInfo'];
-          _cvSchool1.text = userData['cvSchool1'];
-          _cvSchool2.text = userData['cvSchool2'];
-          _cvExperience1.text = userData['cvExperience1'];
-          _cvExperience2.text = userData['cvExperience2'];
-          _cvExperienceInfo.text = userData['cvExperienceInfo'];
-          _cvReference1.text = userData['cvReference1'];
-          _cvReference2.text = userData['cvReference2'];
-          _cvLanguage.text = userData['cvLanguage'];
-          _cvSkillInfo.text = userData['cvSkillInfo'];
-        } else if (response.statusCode == 401) {
-          showToastError(jsonDecode(response.body)['message'].toString());
-        }
-      });
-    }
-
-    cvRequest();
-  }
-
   void dispose() {
     super.dispose();
   }
 
   Widget _personalInfoTab(context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
@@ -113,26 +66,6 @@ class _CvScreenState extends State<CvScreen> {
                               ),
                             ],
                           ),
-                          Container(
-                              height: 120,
-                              padding: EdgeInsets.only(top: 60.0, right: 80.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    backgroundColor:
-                                        Theme.of(context).accentColor,
-                                    radius: 20.0,
-                                    child: GestureDetector(
-                                      onTap: () => null,
-                                      child: Icon(
-                                        Icons.add_a_photo,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )),
                         ]),
                       )
                     ],
@@ -145,35 +78,40 @@ class _CvScreenState extends State<CvScreen> {
                       height: 50,
                       maxLines: 1,
                       maxLength: 20,
-                      labelText: 'İsim Soyisim',
+                      labelText: arguments['cvNameSurname'],
+                      enabled: false,
                     ),
                     TextFieldWidget(
                       controller: _cvAge,
                       height: 50,
                       maxLines: 1,
                       maxLength: 2,
-                      labelText: 'Yaşınız',
+                      labelText: arguments['cvAge'],
+                      enabled: false,
                     ),
                     TextFieldWidget(
                       controller: _cvMail,
                       height: 50,
                       maxLines: 1,
                       maxLength: 30,
-                      labelText: 'Mail',
+                      labelText: arguments['cvMail'],
+                      enabled: false,
                     ),
                     TextFieldWidget(
                       controller: _cvPhone,
                       height: 50,
                       maxLines: 1,
                       maxLength: 12,
-                      labelText: 'Telefon',
+                      labelText: arguments['cvPhone'],
+                      enabled: false,
                     ),
                     TextFieldWidget(
                       controller: _cvPersonalInfo,
                       height: 150,
                       maxLines: 5,
                       maxLength: 200,
-                      labelText: 'Kısaca Kendinizden Bahsedin',
+                      labelText: arguments['cvPersonalInfo'],
+                      enabled: false,
                       counterText: null,
                     ),
                   ],
@@ -187,6 +125,7 @@ class _CvScreenState extends State<CvScreen> {
   }
 
   Widget _experienceTab(context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
@@ -206,14 +145,16 @@ class _CvScreenState extends State<CvScreen> {
                   height: 75,
                   maxLines: 2,
                   maxLength: 70,
-                  labelText: 'Okul Adı, Bölüm, Mezuniyet Tarihi',
+                  labelText: arguments['cvSchool1'],
+                  enabled: false,
                 ),
                 TextFieldWidget(
                   controller: _cvSchool2,
                   height: 75,
                   maxLines: 2,
                   maxLength: 70,
-                  labelText: 'Okul Adı, Bölüm, Mezuniyet Tarihi',
+                  labelText: arguments['cvSchool2'],
+                  enabled: false,
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 15),
@@ -228,21 +169,24 @@ class _CvScreenState extends State<CvScreen> {
                   height: 75,
                   maxLines: 1,
                   maxLength: 70,
-                  labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
+                  labelText: arguments['cvExperience1'],
+                  enabled: false,
                 ),
                 TextFieldWidget(
                   controller: _cvExperience2,
                   height: 75,
                   maxLines: 1,
                   maxLength: 70,
-                  labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
+                  labelText: arguments['cvExperience2'],
+                  enabled: false,
                 ),
                 TextFieldWidget(
                   controller: _cvExperienceInfo,
                   height: 130,
                   maxLines: 7,
                   maxLength: 199,
-                  labelText: 'Kısaca Tecrübelerinizden Bahsediniz',
+                  labelText: arguments['cvExperienceInfo'],
+                  enabled: false,
                   counterText: null,
                 ),
               ],
@@ -254,6 +198,7 @@ class _CvScreenState extends State<CvScreen> {
   }
 
   Widget _skillTab(context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
@@ -273,14 +218,16 @@ class _CvScreenState extends State<CvScreen> {
                   height: 55,
                   maxLines: 1,
                   maxLength: 70,
-                  labelText: 'Ad Soyad, Meslek, İletişim',
+                  labelText: arguments['cvReference1'],
+                  enabled: false,
                 ),
                 TextFieldWidget(
                   controller: _cvReference2,
                   height: 55,
                   maxLines: 1,
                   maxLength: 70,
-                  labelText: 'Ad Soyad, Meslek, İletişim',
+                  labelText: arguments['cvReference2'],
+                  enabled: false,
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 20),
@@ -294,14 +241,16 @@ class _CvScreenState extends State<CvScreen> {
                   controller: _cvLanguage,
                   maxLines: 2,
                   maxLength: 79,
-                  labelText: 'Diller',
+                  labelText: arguments['cvLanguage'],
+                  enabled: false,
                 ),
                 TextFieldWidget(
                   controller: _cvSkillInfo,
                   height: 150,
                   maxLines: 7,
                   maxLength: 200,
-                  labelText: 'Yetkinliklerinizden Kısaca Bahsedin',
+                  labelText: arguments['cvSkillInfo'],
+                  enabled: false,
                 ),
               ],
             ),
@@ -313,31 +262,10 @@ class _CvScreenState extends State<CvScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.save),
-          backgroundColor: Colors.green,
-          onPressed: () {
-            addCvRequest(
-              cvNameSurname: _cvNameSurname.text,
-              cvAge: _cvAge.text,
-              cvExperience1: _cvExperience1.text,
-              cvExperience2: _cvExperience2.text,
-              cvExperienceInfo: _cvExperienceInfo.text,
-              cvLanguage: _cvLanguage.text,
-              cvMail: _cvMail.text,
-              cvPersonalInfo: _cvPersonalInfo.text,
-              cvPhone: _cvPhone.text,
-              cvReference1: _cvReference1.text,
-              cvReference2: _cvReference2.text,
-              cvSchool1: _cvSchool1.text,
-              cvSchool2: _cvSchool2.text,
-              cvSkillInfo: _cvSkillInfo.text,
-            );
-          },
-        ),
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
@@ -346,7 +274,7 @@ class _CvScreenState extends State<CvScreen> {
               Tab(text: 'Yetkinlikler'),
             ],
           ),
-          title: Text('CV Ekle/Düzenle'),
+          title: Text(arguments['cvNameSurname'] + ' Cv'),
         ),
         body: TabBarView(
           children: [

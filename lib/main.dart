@@ -5,6 +5,8 @@ import 'package:alaev/screens/company_adv/edit_my_company_advs_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/forgot_password_screen.dart';
+import 'package:alaev/screens/job_adv/applied_user_job_adv_cv_screen.dart';
+import 'package:alaev/screens/job_adv/applied_user_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/edit_my_job_advs_screen.dart';
 import 'package:alaev/screens/job_adv/job_adv_detail_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
@@ -71,7 +73,11 @@ class MyApp extends StatelessWidget {
             NewsDetailScreen.routeName: (context) => NewsDetailScreen(),
             EditMyJobAdvScreen.routeName: (context) => EditMyJobAdvScreen(),
             EditMyCompanyAdvScreen.routeName: (context) =>
-                EditMyCompanyAdvScreen()
+                EditMyCompanyAdvScreen(),
+            AppliedUsersJobAdvScreen.routeName: (context) =>
+                AppliedUsersJobAdvScreen(),
+            AppliedUserJobAdvCvScreen.routeName: (context) =>
+                AppliedUserJobAdvCvScreen()
           },
         ),
       ),

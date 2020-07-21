@@ -7,17 +7,20 @@ class CardWidget extends StatelessWidget {
   final String routeName;
   final bool isFirebase;
   final bool isMyPage;
+  final bool isMyJobPage;
+  final String appliedRouteName;
   final f = new DateFormat('yyyy-MM-dd hh:mm');
   CardWidget(
       {@required this.onRefresh,
       @required this.items,
       this.routeName,
       @required this.isFirebase,
-      @required this.isMyPage});
+      @required this.isMyPage,
+      this.isMyJobPage,
+      this.appliedRouteName});
 
   Widget firebaseCheck(i) {
     if (!isFirebase) {
-      print("asd");
       if (items[i]['imageUrl'].length > 1) {
         return Image.network(
           "http://statik.wiki.com.tr/assets/alaev/img/" + items[i]['imageUrl'],
@@ -52,14 +55,18 @@ class CardWidget extends StatelessWidget {
     }
   }
 
-  Widget editButton(BuildContext context, int i) {
+  
+
+  Widget appliedUsersButton(BuildContext context, String a, int i) {
     if (isMyPage == false) {
       return SizedBox(height: 0);
     } else {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Container(
+          Stack(alignment: Alignment.bottomRight, children: <Widget>[
+            Container(
+              width: 50,
               decoration: BoxDecoration(
                   color: Colors.black87,
                   borderRadius: BorderRadius.circular(50)),
@@ -69,7 +76,31 @@ class CardWidget extends StatelessWidget {
                     Icons.view_list,
                     color: Theme.of(context).accentColor,
                   ),
-                  onPressed: null)),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(appliedRouteName, arguments: {
+                      "_id": items[i]["_id"],
+                      "appliedUsers": items[i]["appliedUsers"],
+                    });
+                  }),
+            ),
+            Container(
+                height: 23,
+                width: 23,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25), color: Colors.red),
+                margin: EdgeInsets.only(
+                  right: 16,
+                ),
+                child: Text(
+                  a,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ))
+          ]),
         ],
       );
     }
@@ -169,7 +200,10 @@ class CardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              editButton(context, i),
+              items[i]['appliedUsers'] == null
+                  ? SizedBox(height: 0)
+                  : appliedUsersButton(
+                      context, items[i]['appliedUsers'].length.toString(), i),
             ]);
           },
         ),

@@ -33,10 +33,8 @@ class _MyCompanyAdvsScreenState extends State<MyCompanyAdvsScreen> {
           },
         ),
       );
-      print(response.body);
       if (response.statusCode == 200) {
         List<dynamic> body = jsonDecode(response.body);
-        print(body);
         setState(() {
           body.forEach((element) {
             myAdvList.add({

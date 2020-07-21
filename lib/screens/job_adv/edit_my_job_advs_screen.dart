@@ -40,7 +40,6 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
 
     setState(() {
       _image = image;
-      print(_image);
     });
   }
 
@@ -72,7 +71,6 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
 
     if (response.statusCode == 200) {
       dynamic body = jsonDecode(response.body);
-      print(body);
       _jobAdTitle.text = body['jobAdTitle'];
       _jobAdjobNumber.text = body['jobAdCompanyNumber'];
       _jobAdPersonalNumber.text = body['jobAdPersonalNumber'];
@@ -132,127 +130,111 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: _showProgress
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Column(
-                      children: <Widget>[
-                        Stack(
-                          alignment: Alignment.bottomRight,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(bottom: 10),
-                              height: 150,
-                              width: double.infinity,
-                              child: _image == null
-                                  ? _jobAdImageUrl == ""
-                                      ? Image.network(
-                                          "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.network(
-                                          _jobAdImageUrl,
-                                          fit: BoxFit.cover,
-                                        )
-                                  : Image.file(
-                                      _image,
-                                      fit: BoxFit.cover,
-                                    ),
+            child: _showProgress
+                ? Center(
+                  heightFactor: 25,
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
+                    children: <Widget>[
+                      Stack(
+                        alignment: Alignment.bottomRight,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            height: 150,
+                            width: double.infinity,
+                            child: _image == null
+                                ? _jobAdImageUrl == ""
+                                    ? Image.network(
+                                        "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.network(
+                                        _jobAdImageUrl,
+                                        fit: BoxFit.cover,
+                                      )
+                                : Image.file(
+                                    _image,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 10, 20),
+                            child: FloatingActionButton(
+                              onPressed: () => getImage(),
+                              elevation: 10,
+                              backgroundColor: Colors.green,
+                              child: Icon(Icons.add_a_photo),
                             ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 10, 20),
-                              child: FloatingActionButton(
-                                onPressed: () => getImage(),
-                                elevation: 10,
-                                backgroundColor: Colors.green,
-                                child: Icon(Icons.add_a_photo),
-                              ),
-                            )
-                          ],
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: TextFieldWidget(
-                              controller: _jobAdTitle,
-                              onChanged: (text) {
-                                _jobAdTitle.text = text;
-                              },
-                              labelText: 'İlan Başlığı',
-                              height: 60,
-                            )),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: TextFieldWidget(
-                              keyboardType: TextInputType.number,
-                              controller: _jobAdjobNumber,
-                              labelText: 'Firma Telefon Numarası',
-                              height: 60,
-                              maxLength: 13,
-                            )),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: TextFieldWidget(
-                              keyboardType: TextInputType.number,
-                              controller: _jobAdPersonalNumber,
-                              labelText: 'Kişisel Telefon Numarası',
-                              height: 60,
-                              maxLength: 13,
-                            )),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: TextFieldWidget(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _jobAdMail,
-                              labelText: 'Mail Adresi',
-                              height: 60,
-                              maxLength: 30,
-                            )),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: TextFieldWidget(
-                              controller: _jobAdContent,
-                              labelText: 'İş İle İlgili Açıklama',
-                              height: 200,
-                              maxLines: 8,
-                              maxLength: 500,
-                              counterText: null,
-                            )),
-                        Container(
+                          )
+                        ],
+                      ),
+                      Container(
                           margin: EdgeInsets.only(bottom: 10),
-                          child: RaisedButton(
-                            child: Text("İlanı Kaydet"),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
-                            ),
-                            textColor: Colors.white,
-                            color: Colors.green,
-                            onPressed: () {
-                              if (_jobAdTitle.text != '' &&
-                                  _jobAdjobNumber.text != '' &&
-                                  _jobAdContent.text != '') {
-                                setState(() {
-                                  _showProgress = !_showProgress;
-                                });
-                                if (_image != null) {
-                                  uploadPicture(context).then((value) {
-                                    addJobAdvertisementRequest(
-                                      filter: '',
-                                      jobAdId: _jobAdId,
-                                      jobAdTitle: _jobAdTitle.text,
-                                      jobAdImageUrl: _jobAdImageUrl.toString(),
-                                      jobAdCompanyNumber: _jobAdjobNumber.text,
-                                      jobAdPersonalNumber:
-                                          _jobAdPersonalNumber.text,
-                                      jobAdMail: _jobAdMail.text,
-                                      jobAdContent: _jobAdContent.text,
-                                    );
-                                  });
-                                } else {
+                          child: TextFieldWidget(
+                            controller: _jobAdTitle,
+                            onChanged: (text) {
+                              _jobAdTitle.text = text;
+                            },
+                            labelText: 'İlan Başlığı',
+                            height: 60,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          child: TextFieldWidget(
+                            keyboardType: TextInputType.number,
+                            controller: _jobAdjobNumber,
+                            labelText: 'Firma Telefon Numarası',
+                            height: 60,
+                            maxLength: 13,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          child: TextFieldWidget(
+                            keyboardType: TextInputType.number,
+                            controller: _jobAdPersonalNumber,
+                            labelText: 'Kişisel Telefon Numarası',
+                            height: 60,
+                            maxLength: 13,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          child: TextFieldWidget(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _jobAdMail,
+                            labelText: 'Mail Adresi',
+                            height: 60,
+                            maxLength: 30,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          child: TextFieldWidget(
+                            controller: _jobAdContent,
+                            labelText: 'İş İle İlgili Açıklama',
+                            height: 200,
+                            maxLines: 8,
+                            maxLength: 500,
+                            counterText: null,
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: RaisedButton(
+                          child: Text("İlanı Kaydet"),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0),
+                          ),
+                          textColor: Colors.white,
+                          color: Colors.green,
+                          onPressed: () {
+                            if (_jobAdTitle.text != '' &&
+                                _jobAdjobNumber.text != '' &&
+                                _jobAdContent.text != '') {
+                              setState(() {
+                                _showProgress = !_showProgress;
+                              });
+                              if (_image != null) {
+                                uploadPicture(context).then((value) {
                                   addJobAdvertisementRequest(
                                     filter: '',
                                     jobAdId: _jobAdId,
@@ -264,22 +246,35 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                                     jobAdMail: _jobAdMail.text,
                                     jobAdContent: _jobAdContent.text,
                                   );
-                                }
-                                Future.delayed(
-                                    const Duration(milliseconds: 2000), () {
-                                  setState(() {
-                                    _showProgress = !_showProgress;
-                                  });
                                 });
                               } else {
-                                _showMyDialog();
+                                addJobAdvertisementRequest(
+                                  filter: '',
+                                  jobAdId: _jobAdId,
+                                  jobAdTitle: _jobAdTitle.text,
+                                  jobAdImageUrl: _jobAdImageUrl.toString(),
+                                  jobAdCompanyNumber: _jobAdjobNumber.text,
+                                  jobAdPersonalNumber:
+                                      _jobAdPersonalNumber.text,
+                                  jobAdMail: _jobAdMail.text,
+                                  jobAdContent: _jobAdContent.text,
+                                );
                               }
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-            ),
+                              Future.delayed(
+                                  const Duration(milliseconds: 2000), () {
+                                setState(() {
+                                  _showProgress = !_showProgress;
+                                  // Navigator.of(context).pop();
+                                });
+                              });
+                            } else {
+                              _showMyDialog();
+                            }
+                          },
+                        ),
+                      )
+                    ],
+                  ),
           )
         ],
       ),
