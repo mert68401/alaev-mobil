@@ -74,12 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            title: Text(
-              'İhaleler',
-              style: TextStyle(
-                  color: _selectedIndex == 0
-                      ? Theme.of(context).accentColor
-                      : Colors.grey),
+            title: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text(
+                'İhaleler',
+                style: TextStyle(
+                    color: _selectedIndex == 0
+                        ? Theme.of(context).accentColor
+                        : Colors.grey),
+              ),
             ),
             icon: Icon(
               Icons.business,
@@ -91,11 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Duyurular',
-                style: TextStyle(
-                    color: _selectedIndex == 1
-                        ? Theme.of(context).accentColor
-                        : Colors.grey)),
+            title: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text('Duyurular',
+                  style: TextStyle(
+                      color: _selectedIndex == 1
+                          ? Theme.of(context).accentColor
+                          : Colors.grey)),
+            ),
             icon: Icon(
               Icons.apps,
               size: _iconSize,
@@ -106,11 +112,14 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Anasayfa',
-                style: TextStyle(
-                    color: _selectedIndex == 2
-                        ? Theme.of(context).accentColor
-                        : Colors.grey)),
+            title: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text('Anasayfa',
+                  style: TextStyle(
+                      color: _selectedIndex == 2
+                          ? Theme.of(context).accentColor
+                          : Colors.grey)),
+            ),
             icon: Icon(
               Icons.home,
               size: _iconSize,
@@ -121,11 +130,14 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('İş İlanları',
-                style: TextStyle(
-                    color: _selectedIndex == 3
-                        ? Theme.of(context).accentColor
-                        : Colors.grey)),
+            title: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text('İş İlanları',
+                  style: TextStyle(
+                      color: _selectedIndex == 3
+                          ? Theme.of(context).accentColor
+                          : Colors.grey)),
+            ),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.sort,
@@ -137,16 +149,22 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             title: widget.loggedIn
-                ? Text('Profilim',
-                    style: TextStyle(
-                        color: _selectedIndex == 4
-                            ? Theme.of(context).accentColor
-                            : Colors.grey))
-                : Text("Giriş Yap",
-                    style: TextStyle(
-                        color: _selectedIndex == 4
-                            ? Theme.of(context).accentColor
-                            : Colors.grey)),
+                ? MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text('Profilim',
+                        style: TextStyle(
+                            color: _selectedIndex == 4
+                                ? Theme.of(context).accentColor
+                                : Colors.grey)),
+                  )
+                : MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text("Giriş Yap",
+                        style: TextStyle(
+                            color: _selectedIndex == 4
+                                ? Theme.of(context).accentColor
+                                : Colors.grey)),
+                  ),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.person,

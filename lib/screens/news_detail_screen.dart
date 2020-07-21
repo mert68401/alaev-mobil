@@ -23,7 +23,10 @@ class NewsDetailScreen extends StatelessWidget {
               ),
             ),
             Container(
-              child: Html(data: arguments['content']),
+              child: MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: Html(data: arguments['content']),
+              ),
             ),
           ],
         ),
