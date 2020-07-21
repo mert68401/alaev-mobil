@@ -82,7 +82,6 @@ class MapScreenState extends State<ProfileWrapper>
           title: Text('Profil'),
         ),
         body: Container(
-          color: Colors.white,
           child: ListView(
             physics: BouncingScrollPhysics(),
             children: <Widget>[
@@ -96,7 +95,6 @@ class MapScreenState extends State<ProfileWrapper>
                     ),
                   ),
                   Container(
-                    color: Color(0xffFFFFFF),
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 25.0),
                       child: Column(

@@ -27,6 +27,7 @@ dependencies:
     firebase_storage: ^3.1.6
     firebase_messaging: ^6.0.16
     image_picker: ^0.6.7+2
+    barcode_scan: ^3.0.1
     crypto: ^2.1.4
     intl: ^0.16.1
     provider: ^4.1.3
@@ -62,6 +63,7 @@ flutter:
         - assets/images/slide01.jpg
         - assets/images/2.jpg
         - assets/images/1.jpg
+        - assets/images/alaevLogoClean.png
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see

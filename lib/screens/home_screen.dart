@@ -1,3 +1,4 @@
+import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/login_screen.dart';
@@ -52,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ];
     }
     return Scaffold(
+      drawer: DrawerWidget(),
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
@@ -73,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             title: Text(
-              'Firma İlanları',
+              'İhaleler',
               style: TextStyle(
                   color: _selectedIndex == 0
                       ? Theme.of(context).accentColor
