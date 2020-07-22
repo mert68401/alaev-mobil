@@ -5,6 +5,7 @@ import 'functions.dart';
 
 Future<void> addCvRequest(
     {String cvNameSurname,
+    String cvImageUrl,
     String cvAge,
     String cvMail,
     String cvPhone,
@@ -25,6 +26,7 @@ Future<void> addCvRequest(
       headers: headers,
       body: jsonEncode(<String, String>{
         "token": value,
+        "cvImageUrl": cvImageUrl,
         "cvNameSurname": cvNameSurname,
         "cvAge": cvAge,
         "cvMail": cvMail,
@@ -93,6 +95,7 @@ Future<void> addJobAdvertisementRequest({
   String jobAdPersonalNumber,
   String jobAdMail,
   String jobAdContent,
+  String jobAdType,
 }) async {
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -108,7 +111,8 @@ Future<void> addJobAdvertisementRequest({
         "jobAdCompanyNumber": jobAdCompanyNumber,
         "jobAdPersonalNumber": jobAdPersonalNumber,
         "jobAdMail": jobAdMail,
-        "jobAdContent": jobAdContent
+        "jobAdContent": jobAdContent,
+        "jobAdType": jobAdType
       }),
     );
     if (response.statusCode == 200) {

@@ -25,6 +25,14 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
   final _jobAdPersonalNumber = TextEditingController();
   final _jobAdMail = TextEditingController();
   final _jobAdContent = TextEditingController();
+
+  String _selectedItem = 'Bilişim';
+  final List<String> items = <String>[
+    'Bilişim',
+    'Hizmet',
+    'Gıda',
+  ];
+
   File _image;
 
   bool _showProgress = false;
@@ -151,6 +159,32 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           height: 60,
                           maxLength: 30,
                         )),
+                        Row(
+                          children: <Widget>[
+                            Text('İlan Tipi : '),
+                            SizedBox(width: 40),
+                            Container(
+                              child: DropdownButton<String>(
+                                icon: Icon(Icons.arrow_drop_down),
+                                value: _selectedItem,
+                                onChanged: (String string) => setState(() {
+                                  _selectedItem = string;
+                                }),
+                                selectedItemBuilder: (BuildContext context) {
+                                  return items.map<Widget>((String item) {
+                                    return Text(item);
+                                  }).toList();
+                                },
+                                items: items.map((String item) {
+                                  return DropdownMenuItem<String>(
+                                    child: Text('$item'),
+                                    value: item,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ],
+                        ),
                         Container(
                             child: TextFieldWidget(
                           controller: _jobAdContent,
@@ -164,7 +198,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           child: RaisedButton(
                             child: Text("İlanı Kaydet"),
                             shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
+                              borderRadius: BorderRadius.circular(30.0),
                             ),
                             textColor: Colors.white,
                             color: Colors.green,
@@ -186,6 +220,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                           _jobAdPersonalNumber.text,
                                       jobAdMail: _jobAdMail.text,
                                       jobAdContent: _jobAdContent.text,
+                                      jobAdType: _selectedItem,
                                     );
                                   });
                                 } else {
@@ -199,6 +234,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                         _jobAdPersonalNumber.text,
                                     jobAdMail: _jobAdMail.text,
                                     jobAdContent: _jobAdContent.text,
+                                    jobAdType: _selectedItem,
                                   );
                                 }
                                 Future.delayed(

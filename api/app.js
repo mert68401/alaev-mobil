@@ -140,7 +140,6 @@ router.post("/login", function (req, res) {
                             message: "Some error has occured!",
                         });
                     }
-                    console.log(doc.role);
                     res.json({
                         token: token,
                         role: doc.role
@@ -277,10 +276,12 @@ router.post("/setCvPage", function (req, res) {
             cvObj = {
                 _id: makeid(),
                 userId: id,
+                cvImageUrl: body.cvImageUrl,
                 cvNameSurname: body.cvNameSurname,
                 cvAge: body.cvAge,
                 cvMail: body.cvMail,
                 cvPhone: body.cvPhone,
+                cvPersonalInfo: body.cvPersonalInfo,
                 cvSchool1: body.cvSchool1,
                 cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
                 cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
@@ -344,10 +345,12 @@ router.post("/setCvPage", function (req, res) {
                                 database.collection("cvForms").updateOne({ _id: docs._id }, {
                                     $set: {
                                         //cvObj
+                                        cvImageUrl: body.cvImageUrl ? body.cvImageUrl : '',
                                         cvNameSurname: body.cvNameSurname,
                                         cvAge: body.cvAge,
                                         cvMail: body.cvMail,
                                         cvPhone: body.cvPhone,
+                                        cvPersonalInfo: body.cvPersonalInfo,
                                         cvSchool1: body.cvSchool1,
                                         cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
                                         cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
@@ -463,6 +466,7 @@ router.post("/setJobAdRequest", function (req, res) {
                 jobAdPersonalNumber: body.jobAdPersonalNumber,
                 jobAdMail: body.jobAdMail,
                 jobAdContent: body.jobAdContent,
+                jobAdType: body.jobAdType,
             };
             console.log(jobAdObj);
             database.collection("jobAdForms").findOne({ _id: body._id }).then(function (docs) {
@@ -506,7 +510,8 @@ router.post("/setJobAdRequest", function (req, res) {
                                         jobAdCompanyNumber: body.jobAdCompanyNumber,
                                         jobAdPersonalNumber: body.jobAdPersonalNumber ? body.jobAdPersonalNumber : '',
                                         jobAdMail: body.jobAdMail ? body.jobAdMail : '',
-                                        jobAdContent: body.jobAdContent
+                                        jobAdContent: body.jobAdContent,
+                                        jobAdType: body.jobAdType,
                                     }
                                 }, function (error, result) {
                                     if (error) {
@@ -925,7 +930,7 @@ router.post("/getAppliedUserData", function (req, res) {
                             }
                             res.json(result);
                         });
-                    } 
+                    }
                 });
             } else {
                 console.log('ads1');

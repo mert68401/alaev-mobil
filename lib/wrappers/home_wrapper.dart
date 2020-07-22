@@ -73,7 +73,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                   alignment: Alignment.topCenter,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 80),
+                      SizedBox(height: 20),
                       CarouselWidget(),
                       SizedBox(height: 50),
                       Container(

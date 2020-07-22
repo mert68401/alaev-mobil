@@ -19,6 +19,16 @@ class JobAdvertisementWrapper extends StatefulWidget {
 class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   final List<Map<String, String>> jobAdvList = [];
 
+  String _selectedItem = 'Hepsi';
+  final List<String> items = [
+    'Hepsi',
+    'Bilişim',
+    'Hizmet',
+    'Gıda',
+    'asd',
+    'Bilişdsaim',
+  ];
+
   Future<void> fetchJobAdvs() async {
     jobAdvList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -48,6 +58,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
             "personalNumber": element["jobAdPersonalNumber"],
             "companyNumber": element["jobAdCompanyNumber"],
             "email": element["jobAdMail"],
+            "type": element["jobAdType"],
           });
         });
       });
@@ -70,11 +81,38 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
     return;
   }
 
+  void popupButtonSelected(String value) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
+          Theme(
+            data: ThemeData.dark(),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: DropdownButton<String>(
+                isDense: true,
+                value: _selectedItem,
+                onChanged: (String string) => setState(() {
+                  _selectedItem = string;
+                }),
+                selectedItemBuilder: (BuildContext context) {
+                  return items.map<Widget>((String item) {
+                    return Text(item);
+                  }).toList();
+                },
+                items: items.map((String item) {
+                  return DropdownMenuItem<String>(
+                    child: Text('$item'),
+                    value: item,
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+          SizedBox(width: 15),
           IconButton(
               icon: Icon(Icons.list),
               onPressed: () {

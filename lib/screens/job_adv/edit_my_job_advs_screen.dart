@@ -31,6 +31,14 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
   final _jobAdMail = TextEditingController();
   final _jobAdContent = TextEditingController();
   bool _isRendered = false;
+
+  String _selectedItem = 'Bilişim';
+  final List<String> items = <String>[
+    'Bilişim',
+    'Hizmet',
+    'Gıda',
+  ];
+
   File _image;
 
   bool _showProgress = false;
@@ -132,7 +140,7 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: _showProgress
                 ? Center(
-                  heightFactor: 25,
+                    heightFactor: 25,
                     child: CircularProgressIndicator(),
                   )
                 : Column(
@@ -145,7 +153,7 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             height: 150,
                             width: double.infinity,
                             child: _image == null
-                                ? _jobAdImageUrl == ""
+                                ? _jobAdImageUrl == "" || _jobAdImageUrl == null
                                     ? Image.network(
                                         "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
                                         fit: BoxFit.cover,
@@ -207,6 +215,32 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             height: 60,
                             maxLength: 30,
                           )),
+                      Row(
+                        children: <Widget>[
+                          Text('İlan Tipi : '),
+                          SizedBox(width: 40),
+                          Container(
+                            child: DropdownButton<String>(
+                              icon: Icon(Icons.arrow_drop_down),
+                              value: _selectedItem,
+                              onChanged: (String string) => setState(() {
+                                _selectedItem = string;
+                              }),
+                              selectedItemBuilder: (BuildContext context) {
+                                return items.map<Widget>((String item) {
+                                  return Text(item);
+                                }).toList();
+                              },
+                              items: items.map((String item) {
+                                return DropdownMenuItem<String>(
+                                  child: Text('$item'),
+                                  value: item,
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
                       Container(
                           margin: EdgeInsets.only(bottom: 10),
                           child: TextFieldWidget(
@@ -245,6 +279,7 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                                         _jobAdPersonalNumber.text,
                                     jobAdMail: _jobAdMail.text,
                                     jobAdContent: _jobAdContent.text,
+                                    jobAdType: _selectedItem,
                                   );
                                 });
                               } else {
@@ -258,13 +293,14 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                                       _jobAdPersonalNumber.text,
                                   jobAdMail: _jobAdMail.text,
                                   jobAdContent: _jobAdContent.text,
+                                  jobAdType: _selectedItem,
                                 );
                               }
-                              Future.delayed(
-                                  const Duration(milliseconds: 2000), () {
+                              Future.delayed(const Duration(milliseconds: 2000),
+                                  () {
                                 setState(() {
                                   _showProgress = !_showProgress;
-                                  // Navigator.of(context).pop();
+                                  Navigator.pop(context);
                                 });
                               });
                             } else {

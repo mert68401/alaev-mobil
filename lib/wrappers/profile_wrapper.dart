@@ -19,6 +19,7 @@ class ProfileWrapper extends StatefulWidget {
 class MapScreenState extends State<ProfileWrapper>
     with SingleTickerProviderStateMixin {
   bool _status = true;
+  bool _isLoading = false;
   bool _isFirma = false;
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -74,154 +75,172 @@ class MapScreenState extends State<ProfileWrapper>
             IconButton(
                 icon: Icon(Icons.exit_to_app),
                 onPressed: () {
-                  Provider.of<Auth>(context, listen: false).logout();
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  Future.delayed(const Duration(milliseconds: 1500), () {
+                    Provider.of<Auth>(context, listen: false).logout();
+                    showToastSuccess('Başarı ile Çıkış Yapıldı!');
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  });
                 })
           ],
           title: Text('Profil'),
         ),
-        body: Container(
-          child: ListView(
-            physics: BouncingScrollPhysics(),
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    color: Colors.white,
-                    child: Column(
-                      children: <Widget>[],
-                    ),
-                  ),
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 25.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.only(top: 20),
-                              padding: EdgeInsets.only(left: 25.0, right: 25.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'Ad Soyad',
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  _status ? _getEditIcon() : Container(),
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Flexible(
-                                    child: TextField(
-                                      controller: _fullNameController,
-                                      decoration: const InputDecoration(
-                                        hintText: "Ad ve Soyad Giriniz",
-                                      ),
-                                      enabled: !_status,
-                                      autofocus: !_status,
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Text(
-                                        'Email',
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 2.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Flexible(
-                                    child: TextField(
-                                      controller: _emailController,
-                                      decoration: const InputDecoration(
-                                          hintText: "Email Giriniz"),
-                                      enabled: false,
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Text(
-                                        'Telefon',
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
+        body: _isLoading
+            ? Center(
+                heightFactor: 25,
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          height: 50,
+                          color: Colors.white,
+                          child: Column(
+                            children: <Widget>[],
+                          ),
+                        ),
+                        Container(
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 25.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Flexible(
-                                  child: TextField(
-                                    controller: _phoneController,
-                                    decoration: const InputDecoration(
-                                        hintText: "Telefon Numarınızı Giriniz"),
-                                    enabled: !_status,
+                                Container(
+                                    margin: EdgeInsets.only(top: 20),
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          'Ad Soyad',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        _status ? _getEditIcon() : Container(),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 2.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: TextField(
+                                            controller: _fullNameController,
+                                            decoration: const InputDecoration(
+                                              hintText: "Ad ve Soyad Giriniz",
+                                            ),
+                                            enabled: !_status,
+                                            autofocus: !_status,
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 25.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              'Email',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 2.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: TextField(
+                                            controller: _emailController,
+                                            decoration: const InputDecoration(
+                                                hintText: "Email Giriniz"),
+                                            enabled: false,
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 25.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              'Telefon',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 25.0, right: 25.0, top: 2.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      Flexible(
+                                        child: TextField(
+                                          controller: _phoneController,
+                                          decoration: const InputDecoration(
+                                              hintText:
+                                                  "Telefon Numarınızı Giriniz"),
+                                          enabled: !_status,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                !_status
+                                    ? _getActionButtons()
+                                    : Container(
+                                        child: _cvButton(),
+                                        padding: EdgeInsets.only(right: 65),
+                                      ),
                               ],
                             ),
                           ),
-                          !_status
-                              ? _getActionButtons()
-                              : Container(
-                                  child: _cvButton(),
-                                  padding: EdgeInsets.only(right: 65),
-                                ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ));
+                  ],
+                ),
+              ));
   }
 
   @override

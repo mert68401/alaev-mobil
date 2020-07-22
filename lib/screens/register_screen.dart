@@ -15,7 +15,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _password2Controller = TextEditingController();
-  String _dropDownVal = "Varsayılan";
 
   String _selectedItem = 'Varsayılan';
 
