@@ -80,7 +80,7 @@ class _CompanyAdvertisementWrapperState
             icon: Icon(Icons.list),
             onPressed: () {
               getUserRole().then((role) {
-                if (role == "firma") {
+                if (role == "Firma") {
                   _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
                 } else {
                   showToastError(
@@ -93,7 +93,7 @@ class _CompanyAdvertisementWrapperState
             icon: Icon(Icons.add),
             onPressed: () {
               getUserRole().then((role) {
-                if (role == "firma") {
+                if (role == "Firma") {
                   _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
                 } else {
                   showToastError(

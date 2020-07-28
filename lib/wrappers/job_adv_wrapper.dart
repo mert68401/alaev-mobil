@@ -19,17 +19,10 @@ class JobAdvertisementWrapper extends StatefulWidget {
 class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   final List<Map<String, String>> jobAdvList = [];
 
-  String _selectedItem = 'Hepsi';
-  final List<String> items = [
-    'Hepsi',
-    'Bilişim',
-    'Hizmet',
-    'Gıda',
-    'asd',
-    'Bilişdsaim',
-  ];
+  String _diplomaSelectedItem = 'Hepsi';
+  String _categorySelectedItem = 'Hepsi';
 
-  Future<void> fetchJobAdvs() async {
+  Future<void> fetchJobAdvs(String jobAdType, String jobAdDiploma) async {
     jobAdvList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
@@ -59,6 +52,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
             "companyNumber": element["jobAdCompanyNumber"],
             "email": element["jobAdMail"],
             "type": element["jobAdType"],
+            "diploma": element["jobAdDiploma"],
           });
         });
       });
@@ -67,11 +61,13 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
     }
   }
 
+  @override
   void initState() {
     super.initState();
-    fetchJobAdvs();
+    fetchJobAdvs("Hepsi", "Hepsi");
   }
 
+  @override
   void dispose() {
     super.dispose();
   }
@@ -81,43 +77,129 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
     return;
   }
 
-  void popupButtonSelected(String value) {}
-
   @override
   Widget build(BuildContext context) {
+    List<String> diplomaItems = ['Hepsi', 'Lise', 'Üniversite', 'Önlisans'];
+    List<String> categoryItems = ['Hepsi', 'Bilişim', 'Gıda', 'Sağlık'];
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          Theme(
-            data: ThemeData.dark(),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: DropdownButton<String>(
-                isDense: true,
-                value: _selectedItem,
-                onChanged: (String string) => setState(() {
-                  _selectedItem = string;
-                }),
-                selectedItemBuilder: (BuildContext context) {
-                  return items.map<Widget>((String item) {
-                    return Text(item);
-                  }).toList();
-                },
-                items: items.map((String item) {
-                  return DropdownMenuItem<String>(
-                    child: Text('$item'),
-                    value: item,
-                  );
-                }).toList(),
-              ),
+      drawer: SafeArea(
+        child: Drawer(
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: ListView(
+              children: <Widget>[
+                Text(
+                  'Detaylı Arama',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25),
+                ),
+                SizedBox(height: 35),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Diploma',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey,
+                          fontSize: 17),
+                    ),
+                    SizedBox(height: 4),
+                    DropdownButton<String>(
+                      isDense: true,
+                      icon: Icon(Icons.arrow_drop_down),
+                      value: _diplomaSelectedItem,
+                      isExpanded: true,
+                      onChanged: (String diplomaString) => setState(() {
+                        _diplomaSelectedItem = diplomaString;
+                      }),
+                      selectedItemBuilder: (BuildContext context) {
+                        return diplomaItems.map<Widget>((String diplomaItem) {
+                          return Text(
+                            diplomaItem,
+                            style: TextStyle(fontSize: 17),
+                          );
+                        }).toList();
+                      },
+                      items: diplomaItems.map((String item) {
+                        return DropdownMenuItem<String>(
+                          child: Text('$item'),
+                          value: item,
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 35),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Kategori',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey,
+                          fontSize: 17),
+                    ),
+                    SizedBox(height: 4),
+                    DropdownButton<String>(
+                      isDense: true,
+                      icon: Icon(Icons.arrow_drop_down),
+                      value: _categorySelectedItem,
+                      isExpanded: true,
+                      onChanged: (String categoryItemstring) => setState(() {
+                        _categorySelectedItem = categoryItemstring;
+                      }),
+                      selectedItemBuilder: (BuildContext context) {
+                        return categoryItems.map<Widget>((String categoryItem) {
+                          return Text(
+                            categoryItem,
+                            style: TextStyle(fontSize: 17),
+                          );
+                        }).toList();
+                      },
+                      items: categoryItems.map((String categoryItem) {
+                        return DropdownMenuItem<String>(
+                          child: Text('$categoryItem'),
+                          value: categoryItem,
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 200),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text("Filtrele"),
+                      textColor: Colors.white,
+                      color: Colors.green,
+                      onPressed: () {
+                        setState(() {
+                          fetchJobAdvs(
+                              _categorySelectedItem, _diplomaSelectedItem);
+                        });
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                    )
+                  ],
+                )
+              ],
             ),
           ),
+        ),
+      ),
+      appBar: AppBar(
+        actions: <Widget>[
           SizedBox(width: 15),
           IconButton(
               icon: Icon(Icons.list),
               onPressed: () {
                 getUserRole().then((role) {
-                  if (role == "firma") {
+                  if (role == "Firma") {
                     _pushNamedPage(context, MyJobAdvsScreen.routeName);
                   } else {
                     showToastError(
@@ -129,7 +211,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
               icon: Icon(Icons.add),
               onPressed: () {
                 getUserRole().then((role) {
-                  if (role == "firma") {
+                  print(role);
+                  if (role == "Firma") {
                     _pushNamedPage(context, AddNewJobAdvScreen.routeName);
                   } else {
                     showToastError(

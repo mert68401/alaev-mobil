@@ -37,7 +37,7 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
         child: Text("Başvur"),
         onPressed: () {
           getUserRole().then((role) {
-            role == "firma"
+            role == "Firma"
                 ? showToastError(
                     'Firma tipi kullanıcılar iş başvurusu yapamaz!')
                 : applyJobRequest(jobAdId: jobAdId);

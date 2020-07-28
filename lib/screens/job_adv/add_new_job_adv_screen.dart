@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:alaev/functions/requests.dart';
 import 'package:alaev/widgets/textfield_default.dart';
+import 'package:alaev/wrappers/job_adv_wrapper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -27,10 +28,17 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
   final _jobAdContent = TextEditingController();
 
   String _selectedItem = 'Bilişim';
+  String _diplomaItem = 'Hepsi';
   final List<String> items = <String>[
     'Bilişim',
     'Hizmet',
     'Gıda',
+  ];
+  final List<String> diplomaItems = <String>[
+    'Hepsi',
+    'Lise',
+    'Üniversite',
+    'Önlisans',
   ];
 
   File _image;
@@ -129,12 +137,14 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                             )
                           ],
                         ),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           controller: _jobAdTitle,
                           labelText: 'İlan Başlığı',
                           height: 60,
                         )),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           keyboardType: TextInputType.number,
@@ -143,6 +153,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           height: 60,
                           maxLength: 13,
                         )),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           keyboardType: TextInputType.number,
@@ -151,6 +162,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           height: 60,
                           maxLength: 13,
                         )),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           keyboardType: TextInputType.emailAddress,
@@ -159,32 +171,68 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           height: 60,
                           maxLength: 30,
                         )),
+                        SizedBox(height: 10),
                         Row(
                           children: <Widget>[
                             Text('İlan Tipi : '),
-                            SizedBox(width: 40),
-                            Container(
-                              child: DropdownButton<String>(
-                                icon: Icon(Icons.arrow_drop_down),
-                                value: _selectedItem,
-                                onChanged: (String string) => setState(() {
-                                  _selectedItem = string;
-                                }),
-                                selectedItemBuilder: (BuildContext context) {
-                                  return items.map<Widget>((String item) {
-                                    return Text(item);
-                                  }).toList();
-                                },
-                                items: items.map((String item) {
-                                  return DropdownMenuItem<String>(
-                                    child: Text('$item'),
-                                    value: item,
-                                  );
-                                }).toList(),
-                              ),
+                            SizedBox(width: 30),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  child: DropdownButton<String>(
+                                    isDense: true,
+                                    icon: Icon(Icons.arrow_drop_down),
+                                    value: _selectedItem,
+                                    onChanged: (String string) => setState(() {
+                                      _selectedItem = string;
+                                    }),
+                                    selectedItemBuilder:
+                                        (BuildContext context) {
+                                      return items.map<Widget>((String item) {
+                                        return Text(item);
+                                      }).toList();
+                                    },
+                                    items: items.map((String item) {
+                                      return DropdownMenuItem<String>(
+                                        child: Text('$item'),
+                                        value: item,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                                SizedBox(width: 20),
+                                Text('Diploma : '),
+                                SizedBox(width: 30),
+                                Container(
+                                  child: DropdownButton<String>(
+                                    isDense: true,
+                                    icon: Icon(Icons.arrow_drop_down),
+                                    value: _diplomaItem,
+                                    onChanged: (String diplomaString) =>
+                                        setState(() {
+                                      _diplomaItem = diplomaString;
+                                    }),
+                                    selectedItemBuilder:
+                                        (BuildContext context) {
+                                      return diplomaItems
+                                          .map<Widget>((String diplomaItem) {
+                                        return Text(diplomaItem);
+                                      }).toList();
+                                    },
+                                    items:
+                                        diplomaItems.map((String diplomaItem) {
+                                      return DropdownMenuItem<String>(
+                                        child: Text('$diplomaItem'),
+                                        value: diplomaItem,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           controller: _jobAdContent,
@@ -211,6 +259,21 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                 if (_image != null) {
                                   uploadPicture(context).then((value) {
                                     addJobAdvertisementRequest(
+                                        filter: '',
+                                        jobAdTitle: _jobAdTitle.text,
+                                        jobAdImageUrl:
+                                            _jobAdImageUrl.toString(),
+                                        jobAdCompanyNumber:
+                                            _jobAdCompanyNumber.text,
+                                        jobAdPersonalNumber:
+                                            _jobAdPersonalNumber.text,
+                                        jobAdMail: _jobAdMail.text,
+                                        jobAdContent: _jobAdContent.text,
+                                        jobAdType: _selectedItem,
+                                        jobAdDiploma: _diplomaItem);
+                                  });
+                                } else {
+                                  addJobAdvertisementRequest(
                                       filter: '',
                                       jobAdTitle: _jobAdTitle.text,
                                       jobAdImageUrl: _jobAdImageUrl.toString(),
@@ -221,21 +284,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                       jobAdMail: _jobAdMail.text,
                                       jobAdContent: _jobAdContent.text,
                                       jobAdType: _selectedItem,
-                                    );
-                                  });
-                                } else {
-                                  addJobAdvertisementRequest(
-                                    filter: '',
-                                    jobAdTitle: _jobAdTitle.text,
-                                    jobAdImageUrl: _jobAdImageUrl.toString(),
-                                    jobAdCompanyNumber:
-                                        _jobAdCompanyNumber.text,
-                                    jobAdPersonalNumber:
-                                        _jobAdPersonalNumber.text,
-                                    jobAdMail: _jobAdMail.text,
-                                    jobAdContent: _jobAdContent.text,
-                                    jobAdType: _selectedItem,
-                                  );
+                                      jobAdDiploma: _diplomaItem);
                                 }
                                 Future.delayed(
                                     const Duration(milliseconds: 2000), () {

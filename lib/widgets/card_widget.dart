@@ -55,8 +55,6 @@ class CardWidget extends StatelessWidget {
     }
   }
 
-  
-
   Widget appliedUsersButton(BuildContext context, String a, int i) {
     if (isMyPage == false) {
       return SizedBox(height: 0);
@@ -109,7 +107,7 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: onRefresh,
+      onRefresh: () => onRefresh,
       child: Container(
         child: ListView.builder(
           physics: BouncingScrollPhysics(),
@@ -136,6 +134,10 @@ class CardWidget extends StatelessWidget {
                     "email": items[i]["email"] != null &&
                             items[i]["email"].isNotEmpty
                         ? items[i]["email"]
+                        : "",
+                    "diploma": items[i]["diploma"] != null &&
+                            items[i]["diploma"].isNotEmpty
+                        ? items[i]["diploma"]
                         : "",
                   });
                 },

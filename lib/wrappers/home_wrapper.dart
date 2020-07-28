@@ -1,4 +1,5 @@
 import 'package:alaev/widgets/carousel_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomeWrapper extends StatefulWidget {
@@ -73,34 +74,69 @@ class _HomeWrapperState extends State<HomeWrapper> {
                   alignment: Alignment.topCenter,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 20),
-                      CarouselWidget(),
-                      SizedBox(height: 50),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                            'ALA\'lı olmak, bir ömür boyu beraber olmaktır.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18)),
-                      ),
-                      SizedBox(height: 60),
-                      Container(
-                          child: Text(
-                        'ALAEV Hakkında',
-                        style: TextStyle(
-                            fontSize: 21, fontWeight: FontWeight.bold),
-                      )),
                       SizedBox(height: 10),
+                      CarouselWidget(),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                            '       Adana Anadolu Lisesinin bir eğitim kurumu kimliği ile devamlılığını, gelişimini sağlayarak, mezunlar, öğrenciler ve mezun olmasalar dahi Adana Anadolu Lisesi’nde öğrenim görmüş tüm kişilerin sosyal dayanışmasını geliştirmek ve insanımızın kültürel, bilimsel ve sosyal gelişimine yüksek kalitede, etkin ve çağdaş eğitim hizmetleri ile katkıda bulunmak amacıyla kurulmuş bir vakıftır.',
-                            style: TextStyle(fontSize: 16)),
-                      ),
-                      SizedBox(height: 15),
+                        height: 230,
+                        width: MediaQuery.of(context).size.width / 1.3,
+                        child: GridView.count(
+                          childAspectRatio: 3/2,
+                          primary: false,
+                          crossAxisSpacing: 10.0,
+                          crossAxisCount: 2,
+                          children: <Widget>[
+                            Card(
+                              margin: EdgeInsets.only(bottom: 10),
+                              color: Colors.blueAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 4,
+                              child: Column(
+                                children: <Widget>[],
+                              ),
+                            ),
+                            Card(
+                              margin: EdgeInsets.only(bottom: 10),
+                              color: Colors.blueAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 4,
+                              child: Column(
+                                children: <Widget>[
+                                  
+                                ],
+                              ),
+                            ),
+                            Card(
+                              margin: EdgeInsets.only(bottom: 10),
+                              color: Colors.blueAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 4,
+                              child: Column(
+                                children: <Widget>[],
+                              ),
+                            ),
+                            Card(
+                              margin: EdgeInsets.only(bottom: 10),
+                              color: Colors.blueAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 4,
+                              child: Column(
+                                children: <Widget>[],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

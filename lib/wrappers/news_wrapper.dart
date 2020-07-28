@@ -33,17 +33,19 @@ class _NewsWrapperState extends State<NewsWrapper> {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      setState(() {
-        body.forEach((element) {
-          newsList.add({
-            "_id": element["_id"],
-            "title": element["title"],
-            "content": element["content"],
-            "imageUrl": element["image"],
-            "createdAt": element['createdAt']
+      if (mounted) {
+        setState(() {
+          body.forEach((element) {
+            newsList.add({
+              "_id": element["_id"],
+              "title": element["title"],
+              "content": element["content"],
+              "imageUrl": element["image"],
+              "createdAt": element['createdAt']
+            });
           });
         });
-      });
+      }
     } else {
       throw Exception('Failed to load album');
     }
@@ -55,6 +57,7 @@ class _NewsWrapperState extends State<NewsWrapper> {
     fetchNews();
   }
 
+  @override
   void dispose() {
     super.dispose();
   }

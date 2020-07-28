@@ -90,7 +90,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
             child: Container(
               child: _showProgress
                   ? Center(
-                    heightFactor: 25,
+                      heightFactor: 25,
                       child: CircularProgressIndicator(),
                     )
                   : Column(
@@ -122,12 +122,14 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                             )
                           ],
                         ),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           controller: _companyAdTitle,
                           labelText: 'İlan Başlığı',
                           height: 60,
                         )),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           keyboardType: TextInputType.number,
@@ -136,6 +138,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                           height: 60,
                           maxLength: 13,
                         )),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           keyboardType: TextInputType.number,
@@ -144,6 +147,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                           height: 60,
                           maxLength: 13,
                         )),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           keyboardType: TextInputType.emailAddress,
@@ -152,6 +156,7 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                           height: 60,
                           maxLength: 30,
                         )),
+                        SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
                           controller: _companyAdContent,

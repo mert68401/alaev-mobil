@@ -24,7 +24,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
         CarouselSlider(
           options: CarouselOptions(
             enlargeCenterPage: true,
-            height: 200.0,
+            height: 170.0,
             autoPlay: true,
             autoPlayInterval: Duration(seconds: 3),
             autoPlayAnimationDuration: Duration(milliseconds: 800),
@@ -36,7 +36,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
                 decoration: BoxDecoration(),
                 // border: Border.all(),
                 // borderRadius: BorderRadius.circular(10)),
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width - 100,
                 child: Card(
                   color: Theme.of(context).accentColor,
                   child: Image.asset(

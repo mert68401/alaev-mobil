@@ -1,3 +1,4 @@
+import 'package:alaev/screens/about_screen.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +58,9 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(AboutScreen.routeName);
+              },
               child: ListTile(
                 title: Text("Hakkımızda"),
                 trailing: Icon(Icons.person),

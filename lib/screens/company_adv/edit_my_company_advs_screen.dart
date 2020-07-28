@@ -178,6 +178,7 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                             )
                           ],
                         ),
+                        SizedBox(height: 10),
                         Container(
                             margin: EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFieldWidget(

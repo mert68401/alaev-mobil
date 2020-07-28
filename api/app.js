@@ -4,7 +4,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const mongoClient = require("mongodb").MongoClient;
-var url = "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
+var url = "mongodb://localhost:27017/alaev";
 var database = null;
 const nodemailer = require("nodemailer");
 const fs = require("fs");
@@ -104,7 +104,7 @@ router.post("/register", function (req, res) {
                     });
                     return;
                 }
-                sendEmail("smtp.yandex.com.tr", 587, "info@alaev.org.tr", "txjtzpiqgpvwxltn", 'info@alaev.org.tr', body.email, 'DENEME', 'ALAEV Mail Aktivasyonu', 'CONTENTDENEME', "localhost:3000/email-dogrulama/" + userObj.email.token);
+                sendEmail("smtp.yandex.com.tr", 587, "info@alaev.org.tr", "txjtzpiqgpvwxltn", 'info@alaev.org.tr', body.email, 'DENEME', 'ALAEV Mail Aktivasyonu', 'CONTENTDENEME', "<a href='yonetim.alaev.org.tr/email-dogrulama/" + userObj.email.token +"'>Emailinizi aktive etmek için tıklayın!</a>");
                 res.json({
                     success: true,
                 });
@@ -467,6 +467,7 @@ router.post("/setJobAdRequest", function (req, res) {
                 jobAdMail: body.jobAdMail,
                 jobAdContent: body.jobAdContent,
                 jobAdType: body.jobAdType,
+                jobAdDiploma: body.jobAdDiploma
             };
             console.log(jobAdObj);
             database.collection("jobAdForms").findOne({ _id: body._id }).then(function (docs) {
@@ -512,6 +513,7 @@ router.post("/setJobAdRequest", function (req, res) {
                                         jobAdMail: body.jobAdMail ? body.jobAdMail : '',
                                         jobAdContent: body.jobAdContent,
                                         jobAdType: body.jobAdType,
+                                        jobAdDiploma: body.jobAdDiploma,
                                     }
                                 }, function (error, result) {
                                     if (error) {
