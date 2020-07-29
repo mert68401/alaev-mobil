@@ -1,10 +1,20 @@
 import 'package:alaev/screens/about_screen.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    void customLaunch(command) async {
+      if (await canLaunch(command)) {
+        await launch(command);
+      } else {
+        print(' could not launch $command');
+      }
+    }
+
     return SafeArea(
       child: Drawer(
         child: ListView(
@@ -64,6 +74,24 @@ class DrawerWidget extends StatelessWidget {
               child: ListTile(
                 title: Text("Hakkımızda"),
                 trailing: Icon(Icons.person),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                customLaunch('http:alaev.org.tr/burslarimiz');
+              },
+              child: ListTile(
+                title: Text("Burs Başvuruları"),
+                trailing: Icon(Icons.school),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                customLaunch('http:alaev.org.tr');
+              },
+              child: ListTile(
+                title: Text("Web Sitemiz"),
+                trailing: Icon(Icons.web_asset),
               ),
             ),
           ],

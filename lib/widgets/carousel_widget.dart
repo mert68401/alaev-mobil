@@ -24,7 +24,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
         CarouselSlider(
           options: CarouselOptions(
             enlargeCenterPage: true,
-            height: 170.0,
+            aspectRatio: 3/1.15,
             autoPlay: true,
             autoPlayInterval: Duration(seconds: 3),
             autoPlayAnimationDuration: Duration(milliseconds: 800),

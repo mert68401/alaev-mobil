@@ -43,7 +43,7 @@ class CompanyAdvertisement extends StatelessWidget {
                       ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Container(
                 child: Text(
@@ -52,11 +52,11 @@ class CompanyAdvertisement extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     SizedBox(width: 10),
                     GestureDetector(
@@ -89,17 +89,18 @@ class CompanyAdvertisement extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.mail),
-                        Text(
-                          arguments['email'],
-                        )
-                      ],
-                    ),
                     SizedBox(width: 10),
                   ],
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.mail),
+                  Text(
+                    arguments['email'],
+                  )
+                ],
               ),
               SizedBox(
                 height: 20,
@@ -110,7 +111,7 @@ class CompanyAdvertisement extends StatelessWidget {
                 child: Text(
                   arguments['content'],
                 ),
-              )
+              ),
             ],
           ),
         ),

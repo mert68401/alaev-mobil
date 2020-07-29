@@ -12,10 +12,12 @@ import 'package:alaev/screens/job_adv/edit_my_job_advs_screen.dart';
 import 'package:alaev/screens/job_adv/job_adv_detail_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
 import 'package:alaev/screens/news_detail_screen.dart';
+import 'package:alaev/wrappers/news_wrapper.dart';
 
 import 'package:alaev/wrappers/profile_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import './screens/home_screen.dart';
 import './screens/login_screen.dart';
@@ -41,6 +43,16 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(
         builder: (context, auth, _) => MaterialApp(
+          localizationsDelegates: [
+            // ... app-specific localization delegate[s] here
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en', ''), // English, no country code
+            const Locale('tr'), // Turkish, no country code
+          ],
           debugShowCheckedModeBanner: false,
           title: 'Alaev',
           theme: ThemeData(
@@ -71,6 +83,7 @@ class MyApp extends StatelessWidget {
             ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
             MyCompanyAdvsScreen.routeName: (context) => MyCompanyAdvsScreen(),
             MyJobAdvsScreen.routeName: (context) => MyJobAdvsScreen(),
+            NewsWrapper.routeName: (context) => NewsWrapper(),
             NewsDetailScreen.routeName: (context) => NewsDetailScreen(),
             EditMyJobAdvScreen.routeName: (context) => EditMyJobAdvScreen(),
             EditMyCompanyAdvScreen.routeName: (context) =>

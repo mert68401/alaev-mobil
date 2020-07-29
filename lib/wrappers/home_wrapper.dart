@@ -1,5 +1,5 @@
 import 'package:alaev/widgets/carousel_widget.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:alaev/wrappers/news_wrapper.dart';
 import 'package:flutter/material.dart';
 
 class HomeWrapper extends StatefulWidget {
@@ -49,7 +49,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
             ),
             floating: true,
             pinned: true,
-            expandedHeight: 195,
+            expandedHeight: 175,
             flexibleSpace: SafeArea(
               child: FlexibleSpaceBar(
                 background: AspectRatio(
@@ -74,17 +74,55 @@ class _HomeWrapperState extends State<HomeWrapper> {
                   alignment: Alignment.topCenter,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       CarouselWidget(),
                       Container(
-                        height: 230,
-                        width: MediaQuery.of(context).size.width / 1.3,
+                        height: 240,
+                        width: MediaQuery.of(context).size.width / 1.2,
                         child: GridView.count(
-                          childAspectRatio: 3/2,
+                          padding: EdgeInsets.only(top:5),
+                          childAspectRatio: 3 / 2,
                           primary: false,
                           crossAxisSpacing: 10.0,
                           crossAxisCount: 2,
                           children: <Widget>[
+                            Card(
+                                semanticContainer: true,
+                                margin: EdgeInsets.only(bottom: 5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                elevation: 4,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: InkWell(
+                                  onTap: () {Navigator.of(context).pushNamed(NewsWrapper.routeName);},
+                                  child: Stack(
+                                    alignment: Alignment.bottomCenter,
+                                    fit: StackFit.expand,
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        child: Image.asset(
+                                          'assets/images/news.jpg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Text(
+                                        'DUYURULAR',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: 'Nunito',
+                                            color: Colors.white,
+                                            shadows: <Shadow>[
+                                              Shadow(
+                                                offset: Offset(1.0, 4.0),
+                                                blurRadius: 5.0,
+                                                color: Colors.black87,
+                                              ),
+                                            ]),
+                                      )
+                                    ],
+                                  ),
+                                )),
                             Card(
                               margin: EdgeInsets.only(bottom: 10),
                               color: Colors.blueAccent,
@@ -94,19 +132,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
                               elevation: 4,
                               child: Column(
                                 children: <Widget>[],
-                              ),
-                            ),
-                            Card(
-                              margin: EdgeInsets.only(bottom: 10),
-                              color: Colors.blueAccent,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              elevation: 4,
-                              child: Column(
-                                children: <Widget>[
-                                  
-                                ],
                               ),
                             ),
                             Card(
