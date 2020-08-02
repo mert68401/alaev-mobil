@@ -43,7 +43,7 @@ class CompanyAdvertisement extends StatelessWidget {
                       ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Container(
                 child: Text(
@@ -52,32 +52,27 @@ class CompanyAdvertisement extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          customLaunch('tel:$clickableCompanyNumber');
-                        },
-                        child: Container(
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.phone),
-                              Text(
-                                arguments['companyNumber'],
-                                style: TextStyle(
-                                  color: Colors.indigo[800],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        customLaunch('tel:$clickableCompanyNumber');
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.phone),
+                          Text(
+                            arguments['companyNumber'],
+                            style: TextStyle(
+                              color: Colors.indigo[800],
+                            ),
+                          )
+                        ],
                       ),
                       FlatButton(
                         onPressed: () {
@@ -108,6 +103,15 @@ class CompanyAdvertisement extends StatelessWidget {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.mail),
+                  Text(
+                    arguments['email'],
+                  )
+                ],
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -117,7 +121,7 @@ class CompanyAdvertisement extends StatelessWidget {
                 child: Text(
                   arguments['content'],
                 ),
-              )
+              ),
             ],
           ),
         ),

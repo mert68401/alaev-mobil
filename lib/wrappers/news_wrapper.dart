@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class NewsWrapper extends StatefulWidget {
+  static const routeName = '/news';
   @override
   _NewsWrapperState createState() => _NewsWrapperState();
 }

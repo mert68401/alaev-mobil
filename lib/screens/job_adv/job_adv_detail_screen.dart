@@ -50,7 +50,7 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8),
           child: Column(
             children: <Widget>[
               Container(
@@ -80,9 +80,8 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
               ),
               Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    SizedBox(width: 10),
                     GestureDetector(
                       onTap: () {
                         customLaunch('tel:$clickableCompanyNumber');
@@ -91,7 +90,8 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                         children: <Widget>[
                           Icon(Icons.phone),
                           Text(
-                            arguments['companyNumber'],
+                            '05357839185',
+                            // arguments['companyNumber'],
                             style: TextStyle(color: Colors.indigo[800]),
                           )
                         ],
@@ -111,17 +111,29 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                         ],
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.mail),
-                        Text(
-                          arguments['email'],
-                        )
-                      ],
-                    ),
-                    SizedBox(width: 10),
                   ],
                 ),
+              ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Row(children: <Widget>[
+                    Icon(Icons.assignment_ind),
+                    Text(
+                      arguments['diploma'],
+                    ),
+                  ]),
+                  Row(
+                    children: <Widget>[
+                      Icon(Icons.mail),
+                      Text(
+                        'edogrucaqe@gmail.com',
+                        // arguments['email'],
+                      )
+                    ],
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,
