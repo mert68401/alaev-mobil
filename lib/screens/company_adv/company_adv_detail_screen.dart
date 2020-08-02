@@ -54,51 +54,58 @@ class CompanyAdvertisement extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () {
-                        customLaunch('tel:$clickableCompanyNumber');
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.phone),
-                          Text(
-                            arguments['companyNumber'],
-                            style: TextStyle(
-                              color: Colors.indigo[800],
-                            ),
-                          )
-                        ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          customLaunch('tel:$clickableCompanyNumber');
+                        },
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.phone),
+                              Text(
+                                arguments['companyNumber'],
+                                style: TextStyle(
+                                  color: Colors.indigo[800],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        customLaunch('tel:$clickablePersonalNumber');
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.phone_android),
-                          Text(
-                            arguments['personalNumber'],
-                            style: TextStyle(color: Colors.indigo[800]),
-                          )
-                        ],
+                      FlatButton(
+                        onPressed: () {
+                          customLaunch('tel:$clickablePersonalNumber');
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.phone_android),
+                            Text(
+                              arguments['personalNumber'],
+                              style: TextStyle(color: Colors.indigo[800]),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.mail),
-                        Text(
-                          arguments['email'],
-                        )
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                  ],
+                      Container(
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.mail),
+                            Text(
+                              arguments['email'],
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

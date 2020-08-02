@@ -34,12 +34,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
         slivers: <Widget>[
           SliverAppBar(
             title: Text("Anasayfa"),
-            shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(100 - appBarRadius * 4),
-                bottomRight: Radius.circular(100 - appBarRadius * 4),
-              ),
-            ),
             elevation: 10,
             leading: GestureDetector(
               onTap: () {
@@ -80,7 +74,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                         height: 230,
                         width: MediaQuery.of(context).size.width / 1.3,
                         child: GridView.count(
-                          childAspectRatio: 3/2,
+                          childAspectRatio: 3 / 2,
                           primary: false,
                           crossAxisSpacing: 10.0,
                           crossAxisCount: 2,
@@ -104,9 +98,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                               ),
                               elevation: 4,
                               child: Column(
-                                children: <Widget>[
-                                  
-                                ],
+                                children: <Widget>[],
                               ),
                             ),
                             Card(

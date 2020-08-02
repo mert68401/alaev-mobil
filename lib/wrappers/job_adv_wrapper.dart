@@ -25,12 +25,23 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   Future<void> fetchJobAdvs(String jobAdType, String jobAdDiploma) async {
     jobAdvList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
+    Map<String, dynamic> filter;
+    filter = {
+      "jobAdType": jobAdType,
+      "jobAdDiploma": jobAdDiploma,
+    };
+    if (jobAdType == "Hepsi") {
+      filter.remove("jobAdType");
+    }
+    if (jobAdDiploma == "Hepsi") {
+      filter.remove("jobAdDiploma");
+    }
     final response = await http.post(
       'http://' + ServerIP().other + ':2000/api/getJobAdvs',
       headers: headers,
       body: jsonEncode(
         <String, dynamic>{
-          "filter": {},
+          "filter": filter,
           "params": {
             "sort": {"createdAt": -1}
           },
@@ -77,11 +88,14 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
     return;
   }
 
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     List<String> diplomaItems = ['Hepsi', 'Lise', 'Üniversite', 'Önlisans'];
     List<String> categoryItems = ['Hepsi', 'Bilişim', 'Gıda', 'Sağlık'];
     return Scaffold(
+      key: _drawerKey,
       drawer: SafeArea(
         child: Drawer(
           child: Padding(
@@ -193,6 +207,11 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         ),
       ),
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.filter_list),
+            onPressed: () {
+              _drawerKey.currentState.openDrawer();
+            }),
         actions: <Widget>[
           SizedBox(width: 15),
           IconButton(
