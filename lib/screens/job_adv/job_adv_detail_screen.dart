@@ -119,7 +119,7 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Row(children: <Widget>[
-                    Icon(Icons.assignment_ind),
+                    Icon(Icons.library_books),
                     Text(
                       arguments['diploma'],
                     ),
@@ -128,13 +128,20 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                     children: <Widget>[
                       Icon(Icons.mail),
                       Text(
-                        'edogrucaqe@gmail.com',
-                        // arguments['email'],
+                        arguments['email'],
                       )
                     ],
                   ),
                 ],
               ),
+              // Row(
+              //   children: <Widget>[
+              //     Icon(Icons.fiber_manual_record),
+              //     Text(
+              //       arguments['type'],
+              //     )
+              //   ],
+              // ),
               SizedBox(
                 height: 20,
               ),

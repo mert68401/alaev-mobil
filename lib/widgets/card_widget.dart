@@ -24,6 +24,21 @@ class CardWidget extends StatelessWidget {
       if (items[i]['imageUrl'].length > 1) {
         return Image.network(
           "http://statik.wiki.com.tr/assets/alaev/img/" + items[i]['imageUrl'],
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              height: 250,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
+              ),
+            );
+          },
           height: 250,
           width: double.infinity,
           fit: BoxFit.cover,
@@ -40,6 +55,21 @@ class CardWidget extends StatelessWidget {
       if (items[i]['imageUrl'].length > 1) {
         return Image.network(
           items[i]['imageUrl'],
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              height: 250,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
+              ),
+            );
+          },
           height: 250,
           width: double.infinity,
           fit: BoxFit.cover,
@@ -107,7 +137,7 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => onRefresh,
+      onRefresh: () => onRefresh(),
       child: Container(
         child: ListView.builder(
           physics: BouncingScrollPhysics(),

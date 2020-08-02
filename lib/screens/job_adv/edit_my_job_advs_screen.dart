@@ -38,6 +38,13 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
     'Hizmet',
     'Gıda',
   ];
+  String _diplomaItem = 'Hepsi';
+  final List<String> diplomaItems = <String>[
+    'Hepsi',
+    'Lise',
+    'Üniversite',
+    'Önlisans',
+  ];
 
   File _image;
 
@@ -84,6 +91,8 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
       _jobAdPersonalNumber.text = body['jobAdPersonalNumber'];
       _jobAdMail.text = body['jobAdMail'];
       _jobAdContent.text = body['jobAdContent'];
+      _selectedItem = body['jobAdType'];
+      _diplomaItem = body['jobAdDiploma'];
       setState(() {
         _jobAdId = body['_id'];
       });
@@ -181,10 +190,8 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                       Container(
                           margin: EdgeInsets.only(bottom: 10),
                           child: TextFieldWidget(
+                            keyboardType: TextInputType.text,
                             controller: _jobAdTitle,
-                            onChanged: (text) {
-                              _jobAdTitle.text = text;
-                            },
                             labelText: 'İlan Başlığı',
                             height: 60,
                           )),
@@ -216,11 +223,12 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             maxLength: 30,
                           )),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text('İlan Tipi : '),
-                          SizedBox(width: 40),
                           Container(
                             child: DropdownButton<String>(
+                              isDense: true,
                               icon: Icon(Icons.arrow_drop_down),
                               value: _selectedItem,
                               onChanged: (String string) => setState(() {
@@ -239,8 +247,32 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                               }).toList(),
                             ),
                           ),
+                          Text('Diploma : '),
+                          Container(
+                            child: DropdownButton<String>(
+                              isDense: true,
+                              icon: Icon(Icons.arrow_drop_down),
+                              value: _diplomaItem,
+                              onChanged: (String diplomaString) => setState(() {
+                                _diplomaItem = diplomaString;
+                              }),
+                              selectedItemBuilder: (BuildContext context) {
+                                return diplomaItems
+                                    .map<Widget>((String diplomaItem) {
+                                  return Text(diplomaItem);
+                                }).toList();
+                              },
+                              items: diplomaItems.map((String diplomaItem) {
+                                return DropdownMenuItem<String>(
+                                  child: Text('$diplomaItem'),
+                                  value: diplomaItem,
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ],
                       ),
+                      SizedBox(height: 10),
                       Container(
                           margin: EdgeInsets.only(bottom: 10),
                           child: TextFieldWidget(
@@ -252,7 +284,6 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             counterText: null,
                           )),
                       Container(
-                        margin: EdgeInsets.only(bottom: 10),
                         child: RaisedButton(
                           child: Text("İlanı Kaydet"),
                           shape: RoundedRectangleBorder(
@@ -280,6 +311,7 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                                     jobAdMail: _jobAdMail.text,
                                     jobAdContent: _jobAdContent.text,
                                     jobAdType: _selectedItem,
+                                    jobAdDiploma: _diplomaItem
                                   );
                                 });
                               } else {
@@ -294,6 +326,7 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                                   jobAdMail: _jobAdMail.text,
                                   jobAdContent: _jobAdContent.text,
                                   jobAdType: _selectedItem,
+                                  jobAdDiploma: _diplomaItem
                                 );
                               }
                               Future.delayed(const Duration(milliseconds: 2000),

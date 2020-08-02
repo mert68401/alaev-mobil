@@ -36,9 +36,8 @@ class _CarouselWidgetState extends State<CarouselWidget> {
                 decoration: BoxDecoration(),
                 // border: Border.all(),
                 // borderRadius: BorderRadius.circular(10)),
-                width: MediaQuery.of(context).size.width - 100,
+                width: MediaQuery.of(context).size.width - 80,
                 child: Card(
-                  color: Theme.of(context).accentColor,
                   child: Image.asset(
                     card,
                     fit: BoxFit.cover,

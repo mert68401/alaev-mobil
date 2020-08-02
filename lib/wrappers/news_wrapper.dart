@@ -69,12 +69,19 @@ class _NewsWrapperState extends State<NewsWrapper> {
         appBar: AppBar(
           title: Text('Duyurular'),
         ),
-        body: CardWidget(
-          items: newsList,
-          onRefresh: fetchNews,
-          isFirebase: false,
-          isMyPage: false,
-          routeName: NewsDetailScreen.routeName,
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage("assets/images/background.jpg"),
+            fit: BoxFit.fill,
+          )),
+          child: CardWidget(
+            items: newsList,
+            onRefresh: fetchNews,
+            isFirebase: false,
+            isMyPage: false,
+            routeName: NewsDetailScreen.routeName,
+          ),
         ));
   }
 }

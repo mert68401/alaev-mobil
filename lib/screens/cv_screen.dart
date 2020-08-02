@@ -10,7 +10,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../functions/functions.dart';
 import '../functions/requests.dart';

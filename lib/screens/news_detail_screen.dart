@@ -14,6 +14,17 @@ class NewsDetailScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
+                padding: EdgeInsets.all(10),
+                height: 150,
+                width: double.infinity,
+                child: arguments['imageUrl'].toString().length > 1
+                    ? Image.network(
+                        "http://statik.wiki.com.tr/assets/alaev/img/" +
+                            arguments['imageUrl'],
+                        fit: BoxFit.cover,
+                      )
+                    : SizedBox(height: 0)),
+            Container(
               padding: EdgeInsets.all(10),
               child: Text(
                 arguments['title'],

@@ -29,6 +29,11 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage("assets/images/background.jpg"),
+        fit: BoxFit.fill,
+      )),
       child: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
@@ -80,7 +85,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                         height: 240,
                         width: MediaQuery.of(context).size.width / 1.2,
                         child: GridView.count(
-                          padding: EdgeInsets.only(top:5),
+                          padding: EdgeInsets.only(top: 5),
                           childAspectRatio: 3 / 2,
                           primary: false,
                           crossAxisSpacing: 10.0,
@@ -95,7 +100,10 @@ class _HomeWrapperState extends State<HomeWrapper> {
                                 elevation: 4,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 child: InkWell(
-                                  onTap: () {Navigator.of(context).pushNamed(NewsWrapper.routeName);},
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed(NewsWrapper.routeName);
+                                  },
                                   child: Stack(
                                     alignment: Alignment.bottomCenter,
                                     fit: StackFit.expand,
@@ -110,7 +118,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
                                         'DUYURULAR',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontFamily: 'Nunito',
                                             color: Colors.white,
                                             shadows: <Shadow>[
                                               Shadow(

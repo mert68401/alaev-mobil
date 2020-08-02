@@ -40,22 +40,24 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      setState(() {
-        body.forEach((element) {
-          jobAdvList.add({
-            "_id": element["_id"],
-            "createdAt": element['createdAt'],
-            "title": element["jobAdTitle"],
-            "content": element["jobAdContent"],
-            "imageUrl": element["jobAdImageUrl"],
-            "personalNumber": element["jobAdPersonalNumber"],
-            "companyNumber": element["jobAdCompanyNumber"],
-            "email": element["jobAdMail"],
-            "type": element["jobAdType"],
-            "diploma": element["jobAdDiploma"],
+      if (mounted) {
+        setState(() {
+          body.forEach((element) {
+            jobAdvList.add({
+              "_id": element["_id"],
+              "createdAt": element['createdAt'],
+              "title": element["jobAdTitle"],
+              "content": element["jobAdContent"],
+              "imageUrl": element["jobAdImageUrl"],
+              "personalNumber": element["jobAdPersonalNumber"],
+              "companyNumber": element["jobAdCompanyNumber"],
+              "email": element["jobAdMail"],
+              "type": element["jobAdType"],
+              "diploma": element["jobAdDiploma"],
+            });
           });
         });
-      });
+      }
     } else {
       throw Exception('Failed to load album');
     }
@@ -84,7 +86,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
     return Scaffold(
       drawer: SafeArea(
         child: Drawer(
-          child: Padding(
+          child: Container(
             padding: EdgeInsets.all(10),
             child: ListView(
               children: <Widget>[
@@ -223,12 +225,19 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         ],
         title: Text('İş İlanları'),
       ),
-      body: CardWidget(
-        onRefresh: fetchJobAdvs,
-        items: jobAdvList,
-        isFirebase: true,
-        isMyPage: false,
-        routeName: JobAdvertisement.routeName,
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/images/background.jpg"),
+          fit: BoxFit.fill,
+        )),
+        child: CardWidget(
+          onRefresh: fetchJobAdvs,
+          items: jobAdvList,
+          isFirebase: true,
+          isMyPage: false,
+          routeName: JobAdvertisement.routeName,
+        ),
       ),
     );
   }

@@ -105,12 +105,20 @@ class _CompanyAdvertisementWrapperState
         ],
         title: Text('Firma İlanları'),
       ),
-      body: CardWidget(
-        onRefresh: fetchCompanyAdvs,
-        items: advList,
-        isFirebase: true,
-        isMyPage: false,
-        routeName: CompanyAdvertisement.routeName,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.jpg"),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: CardWidget(
+          onRefresh: fetchCompanyAdvs,
+          items: advList,
+          isFirebase: true,
+          isMyPage: false,
+          routeName: CompanyAdvertisement.routeName,
+        ),
       ),
     );
   }

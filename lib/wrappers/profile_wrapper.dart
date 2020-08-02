@@ -95,6 +95,11 @@ class MapScreenState extends State<ProfileWrapper>
                 child: CircularProgressIndicator(),
               )
             : Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: AssetImage("assets/images/background.jpg"),
+                  fit: BoxFit.fill,
+                )),
                 child: ListView(
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[

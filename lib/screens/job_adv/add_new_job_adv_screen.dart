@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:alaev/functions/requests.dart';
 import 'package:alaev/widgets/textfield_default.dart';
-import 'package:alaev/wrappers/job_adv_wrapper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -173,9 +172,9 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                         )),
                         SizedBox(height: 10),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text('İlan Tipi : '),
-                            SizedBox(width: 30),
+                            Text('İlan Tipi :'),
                             Row(
                               children: <Widget>[
                                 Container(
@@ -200,9 +199,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                     }).toList(),
                                   ),
                                 ),
-                                SizedBox(width: 20),
                                 Text('Diploma : '),
-                                SizedBox(width: 30),
                                 Container(
                                   child: DropdownButton<String>(
                                     isDense: true,
