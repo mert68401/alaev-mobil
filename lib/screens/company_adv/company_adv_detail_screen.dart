@@ -74,23 +74,33 @@ class CompanyAdvertisement extends StatelessWidget {
                           )
                         ],
                       ),
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        customLaunch('tel:$clickablePersonalNumber');
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.phone_android),
-                          Text(
-                            arguments['personalNumber'],
-                            style: TextStyle(color: Colors.indigo[800]),
-                          )
-                        ],
+                      FlatButton(
+                        onPressed: () {
+                          customLaunch('tel:$clickablePersonalNumber');
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.phone_android),
+                            Text(
+                              arguments['personalNumber'],
+                              style: TextStyle(color: Colors.indigo[800]),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 10),
-                  ],
+                      Container(
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.mail),
+                            Text(
+                              arguments['email'],
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                    ],
+                  ),
                 ),
               ),
               Row(

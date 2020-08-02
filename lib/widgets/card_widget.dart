@@ -136,6 +136,24 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (items.length == 0) {
+      return Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Burda hiçbirşey yok :(",
+              style: TextStyle(color: Colors.grey),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CircularProgressIndicator(),
+          ],
+        ),
+      );
+    }
     return RefreshIndicator(
       onRefresh: () => onRefresh(),
       child: Container(

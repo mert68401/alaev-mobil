@@ -39,12 +39,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
         slivers: <Widget>[
           SliverAppBar(
             title: Text("Anasayfa"),
-            shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(100 - appBarRadius * 4),
-                bottomRight: Radius.circular(100 - appBarRadius * 4),
-              ),
-            ),
             elevation: 10,
             leading: GestureDetector(
               onTap: () {
