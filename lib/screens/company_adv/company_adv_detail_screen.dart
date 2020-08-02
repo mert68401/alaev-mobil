@@ -31,7 +31,7 @@ class CompanyAdvertisement extends StatelessWidget {
             children: <Widget>[
               Container(
                 height: 200,
-                width: double.infinity,
+                width: double.infinity - 1,
                 child: arguments['imageUrl'].toString().length > 1
                     ? Image.network(
                         arguments['imageUrl'],
@@ -57,10 +57,10 @@ class CompanyAdvertisement extends StatelessWidget {
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () {
+                    FlatButton(
+                      onPressed: () {
                         customLaunch('tel:$clickableCompanyNumber');
                       },
                       child: Row(
@@ -74,33 +74,22 @@ class CompanyAdvertisement extends StatelessWidget {
                           )
                         ],
                       ),
-                      FlatButton(
-                        onPressed: () {
-                          customLaunch('tel:$clickablePersonalNumber');
-                        },
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.phone_android),
-                            Text(
-                              arguments['personalNumber'],
-                              style: TextStyle(color: Colors.indigo[800]),
-                            )
-                          ],
-                        ),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        customLaunch('tel:$clickablePersonalNumber');
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.phone_android),
+                          Text(
+                            arguments['personalNumber'],
+                            style: TextStyle(color: Colors.indigo[800]),
+                          )
+                        ],
                       ),
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.mail),
-                            Text(
-                              arguments['email'],
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Row(

@@ -187,6 +187,10 @@ class CardWidget extends StatelessWidget {
                             items[i]["diploma"].isNotEmpty
                         ? items[i]["diploma"]
                         : "",
+                    "type":
+                        items[i]["type"] != null && items[i]["type"].isNotEmpty
+                            ? items[i]["type"]
+                            : "",
                   });
                 },
                 child: Card(

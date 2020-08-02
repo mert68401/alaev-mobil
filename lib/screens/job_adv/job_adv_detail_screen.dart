@@ -80,7 +80,7 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
               ),
               Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
@@ -116,14 +116,8 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
               ),
               SizedBox(height: 5),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Row(children: <Widget>[
-                    Icon(Icons.library_books),
-                    Text(
-                      arguments['diploma'],
-                    ),
-                  ]),
                   Row(
                     children: <Widget>[
                       Icon(Icons.mail),
@@ -132,16 +126,24 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                       )
                     ],
                   ),
+                  Row(children: <Widget>[
+                    Icon(Icons.library_books),
+                    Text(
+                      arguments['diploma'],
+                    ),
+                  ]),
                 ],
               ),
-              // Row(
-              //   children: <Widget>[
-              //     Icon(Icons.fiber_manual_record),
-              //     Text(
-              //       arguments['type'],
-              //     )
-              //   ],
-              // ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.fiber_manual_record),
+                  Text(
+                    arguments['type'],
+                  )
+                ],
+              ),
               SizedBox(
                 height: 20,
               ),

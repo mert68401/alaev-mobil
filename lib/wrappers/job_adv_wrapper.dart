@@ -95,7 +95,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   @override
   Widget build(BuildContext context) {
     List<String> diplomaItems = ['Hepsi', 'Lise', 'Üniversite', 'Önlisans'];
-    List<String> categoryItems = ['Hepsi', 'Bilişim', 'Gıda', 'Sağlık'];
+    List<String> categoryItems = ['Hepsi', 'Bilişim', 'Gıda', 'Sağlık', 'Hizmet'];
     return Scaffold(
       key: _drawerKey,
       drawer: SafeArea(
