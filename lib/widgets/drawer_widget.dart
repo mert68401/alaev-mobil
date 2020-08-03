@@ -78,16 +78,16 @@ class DrawerWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                customLaunch('http:alaev.org.tr/burslarimiz');
+                customLaunch('http://alaev.org.tr/burslarimiz');
               },
               child: ListTile(
                 title: Text("Burs Başvuruları"),
-                trailing: Icon(Icons.school),
+                trailing: Icon(Icons.school), 
               ),
             ),
             InkWell(
               onTap: () {
-                customLaunch('http:alaev.org.tr');
+                customLaunch('http://alaev.org.tr');
               },
               child: ListTile(
                 title: Text("Web Sitemiz"),

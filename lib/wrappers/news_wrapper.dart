@@ -76,6 +76,7 @@ class _NewsWrapperState extends State<NewsWrapper> {
             fit: BoxFit.fill,
           )),
           child: CardWidget(
+            isJobPage: false,
             items: newsList,
             onRefresh: fetchNews,
             isFirebase: false,

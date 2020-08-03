@@ -32,18 +32,29 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
   final _jobAdContent = TextEditingController();
   bool _isRendered = false;
 
-  String _selectedItem = 'Bilişim';
+  String _selectedItem = 'Diğer';
   final List<String> items = <String>[
     'Bilişim',
-    'Hizmet',
     'Gıda',
+    'Sağlık',
+    'Hizmet',
+    'Tekstil',
+    'Ticaret',
+    'Yapı',
+    'Otomotiv',
+    'Eğitim',
+    'Diğer'
   ];
   String _diplomaItem = 'Hepsi';
   final List<String> diplomaItems = <String>[
     'Hepsi',
     'Lise',
-    'Üniversite',
-    'Önlisans',
+    'Önlisans - Öğrenci',
+    'Önlisans - Mezun',
+    'Üniversite - Öğrenci',
+    'Üniversite - Mezun',
+    'Yüksek Lisans',
+    'Doktora'
   ];
 
   File _image;
@@ -223,7 +234,6 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             maxLength: 30,
                           )),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text('İlan Tipi : '),
                           Container(
@@ -247,6 +257,11 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                               }).toList(),
                             ),
                           ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        children: <Widget>[
                           Text('Diploma : '),
                           Container(
                             child: DropdownButton<String>(
@@ -271,7 +286,7 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             ),
                           ),
                         ],
-                      ),
+                      ),  
                       SizedBox(height: 10),
                       Container(
                           margin: EdgeInsets.only(bottom: 10),
@@ -301,6 +316,20 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                               if (_image != null) {
                                 uploadPicture(context).then((value) {
                                   addJobAdvertisementRequest(
+                                      filter: '',
+                                      jobAdId: _jobAdId,
+                                      jobAdTitle: _jobAdTitle.text,
+                                      jobAdImageUrl: _jobAdImageUrl.toString(),
+                                      jobAdCompanyNumber: _jobAdjobNumber.text,
+                                      jobAdPersonalNumber:
+                                          _jobAdPersonalNumber.text,
+                                      jobAdMail: _jobAdMail.text,
+                                      jobAdContent: _jobAdContent.text,
+                                      jobAdType: _selectedItem,
+                                      jobAdDiploma: _diplomaItem);
+                                });
+                              } else {
+                                addJobAdvertisementRequest(
                                     filter: '',
                                     jobAdId: _jobAdId,
                                     jobAdTitle: _jobAdTitle.text,
@@ -311,23 +340,7 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                                     jobAdMail: _jobAdMail.text,
                                     jobAdContent: _jobAdContent.text,
                                     jobAdType: _selectedItem,
-                                    jobAdDiploma: _diplomaItem
-                                  );
-                                });
-                              } else {
-                                addJobAdvertisementRequest(
-                                  filter: '',
-                                  jobAdId: _jobAdId,
-                                  jobAdTitle: _jobAdTitle.text,
-                                  jobAdImageUrl: _jobAdImageUrl.toString(),
-                                  jobAdCompanyNumber: _jobAdjobNumber.text,
-                                  jobAdPersonalNumber:
-                                      _jobAdPersonalNumber.text,
-                                  jobAdMail: _jobAdMail.text,
-                                  jobAdContent: _jobAdContent.text,
-                                  jobAdType: _selectedItem,
-                                  jobAdDiploma: _diplomaItem
-                                );
+                                    jobAdDiploma: _diplomaItem);
                               }
                               Future.delayed(const Duration(milliseconds: 2000),
                                   () {

@@ -26,18 +26,29 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
   final _jobAdMail = TextEditingController();
   final _jobAdContent = TextEditingController();
 
-  String _selectedItem = 'Bilişim';
+  String _selectedItem = 'Diğer';
   String _diplomaItem = 'Hepsi';
   final List<String> items = <String>[
     'Bilişim',
-    'Hizmet',
     'Gıda',
+    'Sağlık',
+    'Hizmet',
+    'Tekstil',
+    'Ticaret',
+    'Yapı',
+    'Otomotiv',
+    'Eğitim',
+    'Diğer'
   ];
   final List<String> diplomaItems = <String>[
     'Hepsi',
     'Lise',
-    'Üniversite',
-    'Önlisans',
+    'Önlisans - Öğrenci',
+    'Önlisans - Mezun',
+    'Üniversite - Öğrenci',
+    'Üniversite - Mezun',
+    'Yüksek Lisans',
+    'Doktora'
   ];
 
   File _image;
@@ -170,9 +181,8 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           height: 60,
                           maxLength: 30,
                         )),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Text('İlan Tipi :'),
                             Row(
@@ -199,33 +209,36 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                     }).toList(),
                                   ),
                                 ),
-                                Text('Diploma : '),
-                                Container(
-                                  child: DropdownButton<String>(
-                                    isDense: true,
-                                    icon: Icon(Icons.arrow_drop_down),
-                                    value: _diplomaItem,
-                                    onChanged: (String diplomaString) =>
-                                        setState(() {
-                                      _diplomaItem = diplomaString;
-                                    }),
-                                    selectedItemBuilder:
-                                        (BuildContext context) {
-                                      return diplomaItems
-                                          .map<Widget>((String diplomaItem) {
-                                        return Text(diplomaItem);
-                                      }).toList();
-                                    },
-                                    items:
-                                        diplomaItems.map((String diplomaItem) {
-                                      return DropdownMenuItem<String>(
-                                        child: Text('$diplomaItem'),
-                                        value: diplomaItem,
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
                               ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: <Widget>[
+                            Text('Diploma : '),
+                            Container(
+                              child: DropdownButton<String>(
+                                isDense: true,
+                                icon: Icon(Icons.arrow_drop_down),
+                                value: _diplomaItem,
+                                onChanged: (String diplomaString) =>
+                                    setState(() {
+                                  _diplomaItem = diplomaString;
+                                }),
+                                selectedItemBuilder: (BuildContext context) {
+                                  return diplomaItems
+                                      .map<Widget>((String diplomaItem) {
+                                    return Text(diplomaItem);
+                                  }).toList();
+                                },
+                                items: diplomaItems.map((String diplomaItem) {
+                                  return DropdownMenuItem<String>(
+                                    child: Text('$diplomaItem'),
+                                    value: diplomaItem,
+                                  );
+                                }).toList(),
+                              ),
                             ),
                           ],
                         ),

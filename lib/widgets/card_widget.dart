@@ -8,6 +8,7 @@ class CardWidget extends StatelessWidget {
   final bool isFirebase;
   final bool isMyPage;
   final bool isMyJobPage;
+  final bool isJobPage;
   final String appliedRouteName;
   final f = new DateFormat('yyyy-MM-dd hh:mm');
   CardWidget(
@@ -17,7 +18,8 @@ class CardWidget extends StatelessWidget {
       @required this.isFirebase,
       @required this.isMyPage,
       this.isMyJobPage,
-      this.appliedRouteName});
+      this.appliedRouteName,
+      @required this.isJobPage});
 
   Widget firebaseCheck(i) {
     if (!isFirebase) {
@@ -155,7 +157,7 @@ class CardWidget extends StatelessWidget {
       );
     }
     return RefreshIndicator(
-      onRefresh: () => onRefresh(),
+      onRefresh: isJobPage ? () => onRefresh("Hepsi", "Hepsi") : onRefresh,
       child: Container(
         child: ListView.builder(
           physics: BouncingScrollPhysics(),

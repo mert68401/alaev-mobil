@@ -113,6 +113,7 @@ class _CompanyAdvertisementWrapperState
           ),
         ),
         child: CardWidget(
+          isJobPage: false,
           onRefresh: fetchCompanyAdvs,
           items: advList,
           isFirebase: true,

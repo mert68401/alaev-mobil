@@ -67,6 +67,7 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
     return Scaffold(
         appBar: AppBar(title: Text('Mevcut İş İlanlarım')),
         body: CardWidget(
+          isJobPage: false,
           onRefresh: fetchUserJobAdvs,
           items: myJobAdvList,
           isFirebase: true,

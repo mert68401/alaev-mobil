@@ -94,8 +94,29 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> diplomaItems = ['Hepsi', 'Lise', 'Üniversite', 'Önlisans'];
-    List<String> categoryItems = ['Hepsi', 'Bilişim', 'Gıda', 'Sağlık', 'Hizmet'];
+    List<String> diplomaItems = [
+      'Hepsi',
+      'Lise',
+      'Önlisans - Öğrenci',
+      'Önlisans - Mezun',
+      'Üniversite - Öğrenci',
+      'Üniversite - Mezun',
+      'Yüksek Lisans',
+      'Doktora'
+    ];
+    List<String> categoryItems = [
+      'Hepsi',
+      'Bilişim',
+      'Gıda',
+      'Sağlık',
+      'Hizmet',
+      'Tekstil',
+      'Ticaret',
+      'Yapı',
+      'Otomotiv',
+      'Eğitim',
+      'Diğer'
+    ];
     return Scaffold(
       key: _drawerKey,
       drawer: SafeArea(
@@ -251,6 +272,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
           fit: BoxFit.fill,
         )),
         child: CardWidget(
+          isJobPage: true,
           onRefresh: fetchJobAdvs,
           items: jobAdvList,
           isFirebase: true,
