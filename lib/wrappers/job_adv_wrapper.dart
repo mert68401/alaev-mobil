@@ -27,6 +27,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
     Map<String, String> headers = {"Content-type": "application/json"};
     Map<String, dynamic> filter;
     filter = {
+      "state": 'active',
       "jobAdType": jobAdType,
       "jobAdDiploma": jobAdDiploma,
     };

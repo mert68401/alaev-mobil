@@ -78,6 +78,33 @@ class DrawerWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
+                customLaunch('http://alaev.org.tr');
+              },
+              child: ListTile(
+                title: Text("Web Sitemiz"),
+                trailing: Icon(Icons.web_asset),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                customLaunch('http://alaev.org.tr/kurullarimiz');
+              },
+              child: ListTile(
+                title: Text("Kurullarımız"),
+                trailing: Icon(Icons.group),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                customLaunch('http://alaev.org.tr/kurucu-mutevelliler');
+              },
+              child: ListTile(
+                title: Text("Kurucu Mütevelliler"),
+                trailing: Icon(Icons.group),
+              ),
+            ),
+            InkWell(
+              onTap: () {
                 customLaunch('http://alaev.org.tr/burslarimiz');
               },
               child: ListTile(
@@ -87,11 +114,11 @@ class DrawerWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                customLaunch('http://alaev.org.tr');
+                customLaunch('http://alaev.org.tr/iletisim');
               },
               child: ListTile(
-                title: Text("Web Sitemiz"),
-                trailing: Icon(Icons.web_asset),
+                title: Text("İletişim"),
+                trailing: Icon(Icons.mail),
               ),
             ),
           ],
