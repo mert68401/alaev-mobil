@@ -28,7 +28,9 @@ class _CompanyAdvertisementWrapperState
       headers: headers,
       body: jsonEncode(
         <String, dynamic>{
-          "filter": {},
+          "filter": {
+            "state": 'active',
+          },
           "params": {
             "sort": {"createdAt": -1}
           },
