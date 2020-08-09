@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/functions/server_ip.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
@@ -28,26 +29,29 @@ class Auth with ChangeNotifier {
     return true;
   }
 
-  Future<void> signup(String fullName, String email, String password) async {
+  Future<bool> signup(
+      String fullName, String email, String password, String role) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     var passwordMd5 = md5.convert(utf8.encode(password));
     final response = await http.post(
-      'http://10.0.2.2:2000/api/register',
+      'http://' + ServerIP().other + ':2000/api/register',
       headers: headers,
       body: jsonEncode(
         <String, String>{
           "email": email.trim(),
           "password": passwordMd5.toString(),
           "fullName": fullName,
-          "role": "işveren"
+          "role": role
         },
       ),
     );
 
     if (response.statusCode == 200) {
-      print("üyeik oluşturuldu");
+      showToastSuccess('Mail Kutunuzu Kontrol Ediniz!');
+      return true;
     } else {
-      showToastError("Email adresiniz veya şifreniz uyuşmamaktadır");
+      showToastError(jsonDecode(response.body)['message']);
+      return false;
     }
   }
 
@@ -69,7 +73,7 @@ class Auth with ChangeNotifier {
     var passwordMd5 = md5.convert(utf8.encode(password));
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
-      'http://10.0.2.2:2000/api/login',
+      'http://' + ServerIP().other + ':2000/api/login',
       headers: headers,
       body: jsonEncode(
         <String, String>{"email": email, "password": passwordMd5.toString()},
@@ -79,11 +83,12 @@ class Auth with ChangeNotifier {
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> body = jsonDecode(response.body);
       await setToken(body['token']);
+      await setUserRole(body['role']);
       _token = await getToken();
       notifyListeners();
       return true;
     } else {
-      showToastError("Email adresiniz veya şifreniz uyuşmamaktadır");
+      showToastError(jsonDecode(response.body)['message']);
       return false;
     }
   }

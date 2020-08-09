@@ -14,6 +14,16 @@ Future<bool> setToken(String value) async {
   return prefs.setString('token', value);
 }
 
+Future<bool> setUserRole(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('role', value);
+}
+
+Future<String> getUserRole() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('role');
+}
+
 Future<void> removeToken() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   await preferences.clear();

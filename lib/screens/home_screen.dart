@@ -1,10 +1,12 @@
+import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/login_screen.dart';
 import '../wrappers/home_wrapper.dart';
 import '../wrappers/profile_wrapper.dart';
-import '../wrappers/adv_wrapper.dart';
+import '../wrappers/job_adv_wrapper.dart';
 import '../wrappers/news_wrapper.dart';
+import '../wrappers/company_adv_wrapper.dart';
 
 class HomeScreen extends StatefulWidget {
   final bool loggedIn;
@@ -17,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 2;
   PageController _pageController;
-  final double _iconSize = 30;
+  final double _iconSize = 20;
   List<Widget> _pages = [];
 
   @override
@@ -36,21 +38,22 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     if (widget.loggedIn) {
       _pages = [
-        AdvertisementWrapper(),
+        CompanyAdvertisementWrapper(),
         NewsWrapper(),
         HomeWrapper(),
-        AdvertisementWrapper(), // GEÇİCİ
+        JobAdvertisementWrapper(),
         ProfileWrapper(),
       ];
     } else {
       _pages = [
-        AdvertisementWrapper(),
+        CompanyAdvertisementWrapper(),
         NewsWrapper(),
         HomeWrapper(),
-        AdvertisementWrapper(), // GEÇİCİ
+        JobAdvertisementWrapper(),
       ];
     }
     return Scaffold(
+      drawer: DrawerWidget(),
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
@@ -71,43 +74,104 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            title: Text('Item One'),
+            title: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text(
+                'İhaleler',
+                style: TextStyle(
+                    color: _selectedIndex == 0
+                        ? Theme.of(context).accentColor
+                        : Colors.grey),
+              ),
+            ),
             icon: Icon(
-              Icons.home,
+              Icons.business,
               size: _iconSize,
+              color: _selectedIndex == 0
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Duyurular'),
+            title: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text('Duyurular',
+                  style: TextStyle(
+                      color: _selectedIndex == 1
+                          ? Theme.of(context).accentColor
+                          : Colors.grey)),
+            ),
             icon: Icon(
               Icons.apps,
               size: _iconSize,
+              color: _selectedIndex == 1
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('Anasayfa'),
+            title: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text('Anasayfa',
+                  style: TextStyle(
+                      color: _selectedIndex == 2
+                          ? Theme.of(context).accentColor
+                          : Colors.grey)),
+            ),
             icon: Icon(
               Icons.home,
               size: _iconSize,
+              color: _selectedIndex == 2
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
-            title: Text('İlanlar'),
+            title: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: Text('İş İlanları',
+                  style: TextStyle(
+                      color: _selectedIndex == 3
+                          ? Theme.of(context).accentColor
+                          : Colors.grey)),
+            ),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.sort,
               size: _iconSize,
+              color: _selectedIndex == 3
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
           ),
           BottomNavigationBarItem(
-            title: widget.loggedIn ? Text('Profilim') : Text("Giriş Yap"),
+            title: widget.loggedIn
+                ? MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text('Profilim',
+                        style: TextStyle(
+                            color: _selectedIndex == 4
+                                ? Theme.of(context).accentColor
+                                : Colors.grey)),
+                  )
+                : MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text("Giriş Yap",
+                        style: TextStyle(
+                            color: _selectedIndex == 4
+                                ? Theme.of(context).accentColor
+                                : Colors.grey)),
+                  ),
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(
               Icons.person,
               size: _iconSize,
+              color: _selectedIndex == 4
+                  ? Theme.of(context).accentColor
+                  : Colors.grey,
             ),
           ),
         ],

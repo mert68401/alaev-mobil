@@ -1,12 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/functions/server_ip.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:http/http.dart' as http;
 
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:flutter/material.dart';
 
 import '../functions/functions.dart';
-import '../functions/requests.dart';
 import '../functions/requests.dart';
 
 class CvScreen extends StatefulWidget {
@@ -17,6 +22,7 @@ class CvScreen extends StatefulWidget {
 }
 
 class _CvScreenState extends State<CvScreen> {
+  String _cvImageUrl = '';
   final _cvNameSurname = TextEditingController();
   final _cvAge = TextEditingController();
   final _cvMail = TextEditingController();
@@ -34,6 +40,25 @@ class _CvScreenState extends State<CvScreen> {
   final _cvLanguage = TextEditingController();
   final _cvSkillInfo = TextEditingController();
 
+  File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+  Future uploadPicture(BuildContext ctx) async {
+    String fileName = basename(_image.path);
+    StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    _cvImageUrl = await taskSnapshot.ref.getDownloadURL();
+  }
+
   Map<String, dynamic> userData = {};
 
   void initState() {
@@ -43,16 +68,17 @@ class _CvScreenState extends State<CvScreen> {
       getToken().then((value) async {
         Map<String, String> headers = {"Content-type": "application/json"};
         final response = await http.post(
-          'http://10.0.2.2:2000/api/getUserCvData',
+          'http://' + ServerIP().other + ':2000/api/getUserCvData',
           headers: headers,
           body: jsonEncode(
             <String, String>{"token": value},
           ),
         );
         if (response.statusCode == 200) {
-          print("Cv oluşturuldu");
-          userData = json.decode(response.body);
-          print(userData);
+          dynamic userData = jsonDecode(response.body);
+          setState(() {
+            _cvImageUrl = userData['cvImageUrl'];
+          });
           _cvNameSurname.text = userData['cvNameSurname'];
           _cvAge.text = userData['cvAge'];
           _cvMail.text = userData['cvMail'];
@@ -74,6 +100,10 @@ class _CvScreenState extends State<CvScreen> {
     }
 
     cvRequest();
+  }
+
+  void dispose() {
+    super.dispose();
   }
 
   Widget _personalInfoTab(context) {
@@ -100,14 +130,20 @@ class _CvScreenState extends State<CvScreen> {
                               Container(
                                 width: 100,
                                 height: 100,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-128.png'), // dynamic yaz
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                child: _image == null
+                                    ? _cvImageUrl == "" || _cvImageUrl == null
+                                        ? Image.network(
+                                            "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.network(
+                                            _cvImageUrl,
+                                            fit: BoxFit.cover,
+                                          )
+                                    : Image.file(
+                                        _image,
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
                             ],
                           ),
@@ -122,7 +158,7 @@ class _CvScreenState extends State<CvScreen> {
                                         Theme.of(context).accentColor,
                                     radius: 20.0,
                                     child: GestureDetector(
-                                      onTap: () => null,
+                                      onTap: () => getImage(),
                                       child: Icon(
                                         Icons.add_a_photo,
                                         color: Colors.white,
@@ -145,27 +181,34 @@ class _CvScreenState extends State<CvScreen> {
                       maxLength: 20,
                       labelText: 'İsim Soyisim',
                     ),
+                    SizedBox(height: 10),
                     TextFieldWidget(
                       controller: _cvAge,
                       height: 50,
                       maxLines: 1,
-                      maxLength: 2,
+                      maxLength: 3,
                       labelText: 'Yaşınız',
+                      keyboardType: TextInputType.number,
                     ),
+                    SizedBox(height: 10),
                     TextFieldWidget(
                       controller: _cvMail,
                       height: 50,
                       maxLines: 1,
                       maxLength: 30,
                       labelText: 'Mail',
+                      keyboardType: TextInputType.emailAddress,
                     ),
+                    SizedBox(height: 10),
                     TextFieldWidget(
                       controller: _cvPhone,
                       height: 50,
                       maxLines: 1,
                       maxLength: 12,
                       labelText: 'Telefon',
+                      keyboardType: TextInputType.number,
                     ),
+                    SizedBox(height: 10),
                     TextFieldWidget(
                       controller: _cvPersonalInfo,
                       height: 150,
@@ -173,6 +216,7 @@ class _CvScreenState extends State<CvScreen> {
                       maxLength: 200,
                       labelText: 'Kısaca Kendinizden Bahsedin',
                       counterText: null,
+                      keyboardType: TextInputType.multiline,
                     ),
                   ],
                 )
@@ -199,6 +243,7 @@ class _CvScreenState extends State<CvScreen> {
                       'Eğitim Bilgileri',
                       style: TextStyle(fontSize: 20),
                     )),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvSchool1,
                   height: 75,
@@ -206,6 +251,7 @@ class _CvScreenState extends State<CvScreen> {
                   maxLength: 70,
                   labelText: 'Okul Adı, Bölüm, Mezuniyet Tarihi',
                 ),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvSchool2,
                   height: 75,
@@ -213,6 +259,7 @@ class _CvScreenState extends State<CvScreen> {
                   maxLength: 70,
                   labelText: 'Okul Adı, Bölüm, Mezuniyet Tarihi',
                 ),
+                SizedBox(height: 10),
                 Container(
                   margin: EdgeInsets.only(top: 15),
                   alignment: Alignment.center,
@@ -221,6 +268,7 @@ class _CvScreenState extends State<CvScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvExperience1,
                   height: 75,
@@ -228,6 +276,7 @@ class _CvScreenState extends State<CvScreen> {
                   maxLength: 70,
                   labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
                 ),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvExperience2,
                   height: 75,
@@ -235,6 +284,7 @@ class _CvScreenState extends State<CvScreen> {
                   maxLength: 70,
                   labelText: 'Firma Adı, Pozisyonunuz, Çalışma Süreniz',
                 ),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvExperienceInfo,
                   height: 130,
@@ -266,6 +316,7 @@ class _CvScreenState extends State<CvScreen> {
                       'Referanslar',
                       style: TextStyle(fontSize: 20),
                     )),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvReference1,
                   height: 55,
@@ -273,6 +324,7 @@ class _CvScreenState extends State<CvScreen> {
                   maxLength: 70,
                   labelText: 'Ad Soyad, Meslek, İletişim',
                 ),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvReference2,
                   height: 55,
@@ -280,6 +332,7 @@ class _CvScreenState extends State<CvScreen> {
                   maxLength: 70,
                   labelText: 'Ad Soyad, Meslek, İletişim',
                 ),
+                SizedBox(height: 10),
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
@@ -288,50 +341,20 @@ class _CvScreenState extends State<CvScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvLanguage,
                   maxLines: 2,
                   maxLength: 79,
                   labelText: 'Diller',
                 ),
+                SizedBox(height: 10),
                 TextFieldWidget(
                   controller: _cvSkillInfo,
                   height: 150,
                   maxLines: 7,
                   maxLength: 200,
                   labelText: 'Yetkinliklerinizden Kısaca Bahsedin',
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        child: Text("Hepsini Kaydet"),
-                        textColor: Colors.white,
-                        color: Colors.green,
-                        onPressed: () {
-                          addCvRequest(
-                            cvNameSurname: _cvNameSurname.text,
-                            cvAge: _cvAge.text,
-                            cvExperience1: _cvExperience1.text,
-                            cvExperience2: _cvExperience2.text,
-                            cvExperienceInfo: _cvExperienceInfo.text,
-                            cvLanguage: _cvLanguage.text,
-                            cvMail: _cvMail.text,
-                            cvPersonalInfo: _cvPersonalInfo.text,
-                            cvPhone: _cvPhone.text,
-                            cvReference1: _cvReference1.text,
-                            cvReference2: _cvReference2.text,
-                            cvSchool1: _cvSchool1.text,
-                            cvSchool2: _cvSchool2.text,
-                            cvSkillInfo: _cvSkillInfo.text,
-                          );
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -346,6 +369,37 @@ class _CvScreenState extends State<CvScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.save),
+          backgroundColor: Colors.green,
+          onPressed: () {
+            if (!validateEmail(_cvMail.text)) {
+              showToastError("Email adresinizi doğru yazdığınızdan emin olun.");
+              return;
+            }
+            if (_image != null) {
+              uploadPicture(context).then((value) {
+                addCvRequest(
+                  cvImageUrl: _cvImageUrl.toString(),
+                  cvNameSurname: _cvNameSurname.text,
+                  cvAge: _cvAge.text,
+                  cvExperience1: _cvExperience1.text,
+                  cvExperience2: _cvExperience2.text,
+                  cvExperienceInfo: _cvExperienceInfo.text,
+                  cvLanguage: _cvLanguage.text,
+                  cvMail: _cvMail.text,
+                  cvPersonalInfo: _cvPersonalInfo.text,
+                  cvPhone: _cvPhone.text,
+                  cvReference1: _cvReference1.text,
+                  cvReference2: _cvReference2.text,
+                  cvSchool1: _cvSchool1.text,
+                  cvSchool2: _cvSchool2.text,
+                  cvSkillInfo: _cvSkillInfo.text,
+                );
+              });
+            }
+          },
+        ),
         appBar: AppBar(
           bottom: TabBar(
             tabs: [

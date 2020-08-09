@@ -1,4 +1,8 @@
+import 'package:alaev/widgets/carousel_widget.dart';
+import 'package:alaev/wrappers/news_wrapper.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeWrapper extends StatefulWidget {
   @override
@@ -6,87 +10,200 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _HomeWrapperState extends State<HomeWrapper> {
+  ScrollController _scrollController;
+  double appBarRadius = 0;
   @override
   void initState() {
     super.initState();
-    Future<void> fetchAlbum() async {
-      // final response = await http.post(
-      //   'http://alaev.org.tr:2000/api/posts',
-      //   headers: headers,
-      //   body: jsonEncode(
-      //     <String, dynamic>{
-      //       "filter": {},
-      //       "params": {
-      //         "sort": {"createdAt": -1}
-      //       }
-      //     },
-      //   ),
-      // );
 
-      // if (response.statusCode == 200) {
-      //   print(response.body);
-      // } else {
-      //   throw Exception('Failed to load album');
-      // }
-    }
-
-    fetchAlbum();
+    _scrollController = ScrollController()
+      ..addListener(() {
+        setState(() {
+          appBarRadius = _scrollController.offset;
+        });
+      });
   }
+
+  void dispose() {
+    super.dispose();
+  }
+
+  void customLaunch(command) async {
+      if (await canLaunch(command)) {
+        await launch(command);
+      } else {
+        print(' could not launch $command');
+      }
+    }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage("assets/images/background.jpg"),
+        fit: BoxFit.fill,
+      )),
       child: CustomScrollView(
+        controller: _scrollController,
         slivers: <Widget>[
           SliverAppBar(
+            title: Text("Anasayfa"),
             elevation: 10,
-            leading: Icon(Icons.menu),
+            leading: GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: Icon(Icons.menu),
+            ),
             floating: true,
             pinned: true,
-            expandedHeight: 200,
-            flexibleSpace: FlexibleSpaceBar(
-              background: AspectRatio(
-                aspectRatio: 11 / 2,
-                child: Image.asset(
-                  "assets/images/slide04.jpg",
-                  fit: BoxFit.cover,
+            expandedHeight: 175,
+            flexibleSpace: SafeArea(
+              child: FlexibleSpaceBar(
+                background: AspectRatio(
+                  aspectRatio: 11 / 2,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 50, bottom: 30),
+                    child: Image.asset(
+                      "./assets/images/alaevLogoClean.png",
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
                 ),
-              ),
-              centerTitle: true,
-              title: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withOpacity(0.5),
-                      ),
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: TextStyle(fontSize: 30),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: "ALA",
-                                style: TextStyle(
-                                    color: Theme.of(context).accentColor)),
-                            TextSpan(text: "EV")
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                centerTitle: true,
               ),
             ),
           ),
-          SliverFillRemaining(
-            child: Container(
-              color: Theme.of(context).accentColor,
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Container(
+                  width: double.infinity,
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 5),
+                      // CarouselWidget(),
+                      Container(
+                        height: 230,
+                        width: MediaQuery.of(context).size.width - 40,
+                        child: Carousel(
+                          boxFit: BoxFit.cover,
+                          images: [
+                            Image.asset('assets/images/slide04.jpg'),
+                            Image.asset('assets/images/slide01.jpg'),
+                            Image.asset('assets/images/1.jpg'),
+                            Image.asset('assets/images/2.jpg'),
+                          ],
+                          dotSize: 4.0,
+                          dotSpacing: 15.0,
+                          dotColor: Colors.white,
+                          animationDuration: Duration(seconds: 5),
+                          autoplayDuration: Duration(seconds: 5),
+                          indicatorBgPadding: 5.0,
+                          dotBgColor: Theme.of(context).accentColor,
+                          borderRadius: false,
+                          dotIncreasedColor: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () =>customLaunch('http://alaev.org.tr'),
+                        child: Container(
+                            margin: EdgeInsets.all(20),
+                            child: Image.asset('assets/images/alaposter.jpg')),
+                      )
+                      // Container(
+                      //   height: 240,
+                      //   width: MediaQuery.of(context).size.width / 1.2,
+                      //   child: GridView.count(
+                      //     padding: EdgeInsets.only(top: 5),
+                      //     childAspectRatio: 3 / 2,
+                      //     primary: false,
+                      //     crossAxisSpacing: 10.0,
+                      //     crossAxisCount: 2,
+                      //     children: <Widget>[
+                      //       Card(
+                      //           semanticContainer: true,
+                      //           margin: EdgeInsets.only(bottom: 5),
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(15),
+                      //           ),
+                      //           elevation: 4,
+                      //           clipBehavior: Clip.antiAliasWithSaveLayer,
+                      //           child: InkWell(
+                      //             onTap: () {
+                      //               Navigator.of(context)
+                      //                   .pushNamed(NewsWrapper.routeName);
+                      //             },
+                      //             child: Stack(
+                      //               alignment: Alignment.bottomCenter,
+                      //               fit: StackFit.expand,
+                      //               children: <Widget>[
+                      //                 ClipRRect(
+                      //                   child: Image.asset(
+                      //                     'assets/images/news.jpg',
+                      //                     fit: BoxFit.cover,
+                      //                   ),
+                      //                 ),
+                      //                 Text(
+                      //                   'DUYURULAR',
+                      //                   textAlign: TextAlign.center,
+                      //                   style: TextStyle(
+                      //                       color: Colors.white,
+                      //                       shadows: <Shadow>[
+                      //                         Shadow(
+                      //                           offset: Offset(1.0, 4.0),
+                      //                           blurRadius: 5.0,
+                      //                           color: Colors.black87,
+                      //                         ),
+                      //                       ]),
+                      //                 )
+                      //               ],
+                      //             ),
+                      //           )),
+                      //       Card(
+                      //         margin: EdgeInsets.only(bottom: 10),
+                      //         color: Colors.blueAccent,
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(15),
+                      //         ),
+                      //         elevation: 4,
+                      //         child: Column(
+                      //           children: <Widget>[],
+                      //         ),
+                      //       ),
+                      //       Card(
+                      //         margin: EdgeInsets.only(bottom: 10),
+                      //         color: Colors.blueAccent,
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(15),
+                      //         ),
+                      //         elevation: 4,
+                      //         child: Column(
+                      //           children: <Widget>[],
+                      //         ),
+                      //       ),
+                      //       Card(
+                      //         margin: EdgeInsets.only(bottom: 10),
+                      //         color: Colors.blueAccent,
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(15),
+                      //         ),
+                      //         elevation: 4,
+                      //         child: Column(
+                      //           children: <Widget>[],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // )
+                    ],
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );

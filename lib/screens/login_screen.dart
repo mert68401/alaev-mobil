@@ -48,9 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     var passwordMd5 = md5.convert(utf8.encode(password));
     Map<String, String> headers = {"Content-type": "application/json"};
-    setState(() {
-      _isLoading = true;
-    });
     final response = await http.post(
       'http://10.0.2.2:2000/api/login',
       headers: headers,
@@ -58,9 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
         <String, String>{"email": email, "password": passwordMd5.toString()},
       ),
     );
-    setState(() {
-      _isLoading = false;
-    });
 
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> body = jsonDecode(response.body);
@@ -108,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
           fontSize: 14,
         ),
         controller: _email,
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide(width: 10),
@@ -115,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           filled: true,
           fillColor: Colors.white,
-          hintText: 'Kullanıcı adı',
+          labelText: 'Email Adresi',
           hintStyle: TextStyle(
             color: Colors.blueGrey,
           ),
@@ -142,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           filled: true,
           fillColor: Colors.white,
-          hintText: 'Şifre',
+          labelText: 'Şifre',
           hintStyle: TextStyle(
             color: Colors.blueGrey,
           ),
@@ -162,18 +157,28 @@ class _LoginScreenState extends State<LoginScreen> {
           elevation: 10,
           child: Text("Giriş yap"),
           onPressed: () {
-            setState(() {
-              _isLoading = true;
-            });
+            if (mounted) {
+              setState(() {
+                _isLoading = true;
+              });
+            }
             Provider.of<Auth>(context, listen: false)
                 .login(_email.text, _password.text)
                 .then((value) {
               if (value) {
-                Navigator.pop(context);
+                Future.delayed(const Duration(milliseconds: 1500), () {
+                  showToastSuccess('Başarı ile Giriş Yapıldı!');
+                  setState(() {
+                    _isLoading = false;
+                    Navigator.pop(context);
+                  });
+                });
               }
             });
-            setState(() {
-              _isLoading = false;
+            Future.delayed(const Duration(milliseconds: 1500), () {
+              setState(() {
+                _isLoading = false;
+              });
             });
           },
           color: Colors.green,
@@ -202,62 +207,67 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Stack(
         children: <Widget>[
           SafeArea(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.top,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: screenSize.height * 0.1),
-                    _profileImage(),
-                    SizedBox(height: 20.0),
-                    Column(
-                      children: <Widget>[
-                        SizedBox(height: 15.0),
-                        _textFieldUsername(context),
-                        SizedBox(height: 5.0),
-                        _textFieldPassword(context),
-                        SizedBox(height: 5.0),
-                        _buildButtons(context),
-                        SizedBox(height: 5.0),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Hesabınız yok mu? "),
-                        GestureDetector(
-                          onTap: _pushRegisterScreen,
-                          child: Text(
-                            "Kayıt ol.",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
+            child: _isLoading == true
+                ? Center(
+                    heightFactor: 25,
+                    child: CircularProgressIndicator(),
+                  )
+                : SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.top,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(height: screenSize.height * 0.1),
+                          _profileImage(),
+                          SizedBox(height: 20.0),
+                          Column(
+                            children: <Widget>[
+                              SizedBox(height: 15.0),
+                              _textFieldUsername(context),
+                              SizedBox(height: 5.0),
+                              _textFieldPassword(context),
+                              SizedBox(height: 5.0),
+                              _buildButtons(context),
+                              SizedBox(height: 5.0),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: _pushForgotPasswordScreen,
-                          child: Text(
-                            "Şifremi Unuttum",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text("Hesabınız yok mu? "),
+                              GestureDetector(
+                                onTap: _pushRegisterScreen,
+                                child: Text(
+                                  "Kayıt ol.",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: _pushForgotPasswordScreen,
+                                child: Text(
+                                  "Şifremi Unuttum",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
           ),
         ],
       ),
