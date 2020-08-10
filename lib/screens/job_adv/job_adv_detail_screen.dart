@@ -90,8 +90,7 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                         children: <Widget>[
                           Icon(Icons.phone),
                           Text(
-                            '05357839185',
-                            // arguments['companyNumber'],
+                            arguments['companyNumber'],
                             style: TextStyle(color: Colors.indigo[800]),
                           )
                         ],
