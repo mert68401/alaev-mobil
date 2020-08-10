@@ -136,7 +136,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Diploma',
+                      'Öğrenim Durumu',
                       style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: Colors.grey,
@@ -242,11 +242,11 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
               icon: Icon(Icons.list),
               onPressed: () {
                 getUserRole().then((role) {
-                  if (role == "Firma") {
+                  if (role == "Kurumsal") {
                     _pushNamedPage(context, MyJobAdvsScreen.routeName);
                   } else {
                     showToastError(
-                        "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                        "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
                   }
                 });
               }),
@@ -255,11 +255,11 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
               onPressed: () {
                 getUserRole().then((role) {
                   print(role);
-                  if (role == "Firma") {
+                  if (role == "Kurumsal") {
                     _pushNamedPage(context, AddNewJobAdvScreen.routeName);
                   } else {
                     showToastError(
-                        "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                        "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
                   }
                 });
               }),

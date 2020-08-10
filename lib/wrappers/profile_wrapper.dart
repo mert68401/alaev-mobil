@@ -33,7 +33,7 @@ class MapScreenState extends State<ProfileWrapper>
     super.initState();
 
     getUserRole().then((value) {
-      if (value == "Firma") {
+      if (value == "Kurumsal") {
         setState(() {
           _isFirma = true;
         });

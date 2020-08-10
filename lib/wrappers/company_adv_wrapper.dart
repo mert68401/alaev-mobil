@@ -82,11 +82,11 @@ class _CompanyAdvertisementWrapperState
             icon: Icon(Icons.list),
             onPressed: () {
               getUserRole().then((role) {
-                if (role == "Firma") {
+                if (role == "Kurumsal") {
                   _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
                 } else {
                   showToastError(
-                      "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                      "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
                 }
               });
             },
@@ -95,11 +95,11 @@ class _CompanyAdvertisementWrapperState
             icon: Icon(Icons.add),
             onPressed: () {
               getUserRole().then((role) {
-                if (role == "Firma") {
+                if (role == "Kurumsal") {
                   _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
                 } else {
                   showToastError(
-                      "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                      "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
                 }
               });
             },

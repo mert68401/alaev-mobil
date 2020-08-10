@@ -16,11 +16,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _password2Controller = TextEditingController();
 
-  String _selectedItem = 'Varsayılan';
+  String _selectedItem = 'Bireysel';
 
   final List<String> items = <String>[
-    'Varsayılan',
-    'Firma',
+    'Bireysel',
+    'Kurumsal',
   ];
 
   bool _isLoading;
@@ -163,6 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           SizedBox(width: 40),
                           Container(
                             child: DropdownButton<String>(
+                              isDense: true,
                               icon: Icon(Icons.arrow_drop_down),
                               value: _selectedItem,
                               onChanged: (String string) => setState(() {
