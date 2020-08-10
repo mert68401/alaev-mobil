@@ -4,8 +4,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const mongoClient = require("mongodb").MongoClient;
-//var url = "mongodb://localhost:27017/alaev";
-var url = "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
+var url = "mongodb://localhost:27017/alaev";
+//var url = "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
 var database = null;
 const nodemailer = require("nodemailer");
 const fs = require("fs");
@@ -64,13 +64,12 @@ router.post("/register", function (req, res) {
     console.log(body);
     var userObj;
     if (body.email.length > 0 && body.fullName.length > 0 && body.password.length > 0 && body.role.length > 0) {
-
         userObj = {
             _id: makeid(),
             email: {
                 str: body.email,
                 verified: false,
-                token: makeid() + makeid() + makeid()
+                token: makeid() + makeid() + makeid(),
             },
             fullName: body.fullName,
             password: body.password,
@@ -89,30 +88,43 @@ router.post("/register", function (req, res) {
             message: "Some parameters are missing!",
         });
     }
-    database.collection("userAccounts").findOne({ 'email.str': body.email }).then(function (docs) {
-        if (docs) {
-            res.status(401).send({
-                success: false,
-                message: "Bu maile ait bir hesap bulunmaktadır!",
-            });
-        } else {
-            database.collection("userAccounts").insertOne(userObj, function (err, result) {
-                if (err) {
-                    console.log(err);
-                    res.status(401).send({
-                        success: false,
-                        message: "An error occured!",
-                    });
-                    return;
-                }
-                sendEmail("smtp.yandex.com.tr", 587, "info@alaev.org.tr", "txjtzpiqgpvwxltn", 'info@alaev.org.tr', body.email, 'DENEME', 'ALAEV Mail Aktivasyonu', 'CONTENTDENEME', "<a href='yonetim.alaev.org.tr/email-dogrulama/" + userObj.email.token +"'>Emailinizi aktive etmek için tıklayın!</a>");
-                res.json({
-                    success: true,
+    database
+        .collection("userAccounts")
+        .findOne({ "email.str": body.email })
+        .then(function (docs) {
+            if (docs) {
+                res.status(401).send({
+                    success: false,
+                    message: "Bu maile ait bir hesap bulunmaktadır!",
                 });
-            });
-        }
-    });
-
+            } else {
+                database.collection("userAccounts").insertOne(userObj, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.status(401).send({
+                            success: false,
+                            message: "An error occured!",
+                        });
+                        return;
+                    }
+                    sendEmail(
+                        "smtp.yandex.com.tr",
+                        587,
+                        "info@alaev.org.tr",
+                        "txjtzpiqgpvwxltn",
+                        "info@alaev.org.tr",
+                        body.email,
+                        "DENEME",
+                        "ALAEV Mail Aktivasyonu",
+                        "CONTENTDENEME",
+                        "<a href='yonetim.alaev.org.tr/email-dogrulama/" + userObj.email.token + "'>Emailinizi aktive etmek için tıklayın!</a>"
+                    );
+                    res.json({
+                        success: true,
+                    });
+                });
+            }
+        });
 });
 
 router.post("/login", function (req, res) {
@@ -143,11 +155,10 @@ router.post("/login", function (req, res) {
                     }
                     res.json({
                         token: token,
-                        role: doc.role
+                        role: doc.role,
                     });
                 });
-            }
-            else {
+            } else {
                 res.status(404).send({
                     success: false,
                     message: "Lütfen hesabınızı mailinizden aktive ediniz.",
@@ -166,7 +177,6 @@ router.post("/updateUserInfo", function (req, res) {
     const token = body.token;
     const email = body.email;
 
-
     jwt.verify(token, "mERoo36mM?", function (err, decoded) {
         if (err) {
             res.status(401).send({
@@ -174,45 +184,51 @@ router.post("/updateUserInfo", function (req, res) {
                 message: err.message,
             });
             throw new Error(err.message);
-        } else { id = decoded._id; }
-        database.collection("userAccounts").findOne({ userId: id }).then(function (docs) {
-            if (body.fullName && email) {
-                if (body.fullName != '' && email != '') {
-                    database.collection("userAccounts").updateOne({ _id: id },
-                        {
-                            $set: {
-                                fullName: body.fullName,
-                                "email.str": email,
-                                personalNumber: body.personalNumber ? body.personalNumber : '',
+        } else {
+            id = decoded._id;
+        }
+        database
+            .collection("userAccounts")
+            .findOne({ userId: id })
+            .then(function (docs) {
+                if (body.fullName && email) {
+                    if (body.fullName != "" && email != "") {
+                        database.collection("userAccounts").updateOne(
+                            { _id: id },
+                            {
+                                $set: {
+                                    fullName: body.fullName,
+                                    "email.str": email,
+                                    personalNumber: body.personalNumber ? body.personalNumber : "",
+                                },
+                            },
+                            function (error, result) {
+                                if (error) {
+                                    console.log(error);
+                                    res.status(401).send({
+                                        success: false,
+                                        message: "An error occured!",
+                                    });
+                                    return;
+                                } else {
+                                    res.json({
+                                        success: true,
+                                        message: "Hesabınız Güncellendi!",
+                                    });
+                                }
                             }
-                        }, function (error, result) {
-                            if (error) {
-                                console.log(error);
-                                res.status(401).send({
-                                    success: false,
-                                    message: "An error occured!",
-                                });
-                                return;
-                            } else {
-                                res.json({
-                                    success: true,
-                                    message: "Hesabınız Güncellendi!"
-                                });
-                            }
-                        }
-                    );
+                        );
+                    } else {
+                        console.log("Eksik bilgi");
+                    }
                 } else {
-                    console.log('Eksik bilgi');
+                    res.status(401).send({
+                        success: false,
+                        message: "Bilgileri Eksiksiz Giriniz!",
+                    });
                 }
-            } else {
-                res.status(401).send({
-                    success: false,
-                    message: "Bilgileri Eksiksiz Giriniz!",
-                });
-            }
-        });
+            });
     });
-
 });
 
 /*
@@ -221,43 +237,59 @@ router.post("/updateUserInfo", function (req, res) {
 router.post("/forgotPassword", function (req, res) {
     const body = req.body;
     const emailFilter = {
-        "email.str": body.email
+        "email.str": body.email,
     };
 
-    database.collection("userAccounts").findOne(emailFilter).then(function (doc) {
-        if (!doc || doc.email.verified == false) {
-            res.status(401).send({
-                success: false,
-                message: "Bu emaile ait bir hesap yok veya email aktive edilmemiş!",
-            });
-        } else {
-            var token = makeid() + makeid() + makeid();
-            database.collection('userAccounts').updateOne({ _id: doc._id }, {
-                $set: {
-                    "email.token": token,
-                }
-            }, function (error, result) {
-                if (error) {
-                    console.log(error);
-                    res.status(401).send({
-                        success: false,
-                        message: "An error occured!",
-                    });
-                    return;
-                } else {
-                    sendEmail("smtp.yandex.com.tr", 587, "info@alaev.org.tr", "txjtzpiqgpvwxltn", 'info@alaev.org.tr', body.email, 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', "localhost:3000/sifremi-unuttum/" + token);
-                    res.send({
-                        success: true,
-                        message: "Lütfen emailinizde gelen kutunuzu kontrol ediniz.",
-                    });
-                }
-            })
-        }
-        //sendEmail("SMTP.office365.com", 587, "eren68401@hotmail.com", "edogruca159++123", 'Eroo', "edogruca@hotmail.com", 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', 'DENEME HTML');
-    });
+    database
+        .collection("userAccounts")
+        .findOne(emailFilter)
+        .then(function (doc) {
+            if (!doc || doc.email.verified == false) {
+                res.status(401).send({
+                    success: false,
+                    message: "Bu emaile ait bir hesap yok veya email aktive edilmemiş!",
+                });
+            } else {
+                var token = makeid() + makeid() + makeid();
+                database.collection("userAccounts").updateOne(
+                    { _id: doc._id },
+                    {
+                        $set: {
+                            "email.token": token,
+                        },
+                    },
+                    function (error, result) {
+                        if (error) {
+                            console.log(error);
+                            res.status(401).send({
+                                success: false,
+                                message: "An error occured!",
+                            });
+                            return;
+                        } else {
+                            sendEmail(
+                                "smtp.yandex.com.tr",
+                                587,
+                                "info@alaev.org.tr",
+                                "txjtzpiqgpvwxltn",
+                                "info@alaev.org.tr",
+                                body.email,
+                                "DENEME",
+                                "DENEMESUBJEXT",
+                                "CONTENTDENEME",
+                                "localhost:3000/sifremi-unuttum/" + token
+                            );
+                            res.send({
+                                success: true,
+                                message: "Lütfen emailinizde gelen kutunuzu kontrol ediniz.",
+                            });
+                        }
+                    }
+                );
+            }
+            //sendEmail("SMTP.office365.com", 587, "eren68401@hotmail.com", "edogruca159++123", 'Eroo', "edogruca@hotmail.com", 'DENEME', 'DENEMESUBJEXT', 'CONTENTDENEME', 'DENEME HTML');
+        });
 });
-
-
 
 /*
 // set Cv
@@ -284,14 +316,14 @@ router.post("/setCvPage", function (req, res) {
                 cvPhone: body.cvPhone,
                 cvPersonalInfo: body.cvPersonalInfo,
                 cvSchool1: body.cvSchool1,
-                cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
-                cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
-                cvExperience2: body.cvExperience2 ? body.cvExperience2 : '',
-                cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : '',
-                cvReference1: body.cvReference1 ? body.cvReference1 : '',
-                cvReference2: body.cvReference2 ? body.cvReference2 : '',
-                cvLanguage: body.cvLanguage ? body.cvLanguage : '',
-                cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : '',
+                cvSchool2: body.cvSchool2 ? body.cvSchool2 : "",
+                cvExperience1: body.cvExperience1 ? body.cvExperience1 : "",
+                cvExperience2: body.cvExperience2 ? body.cvExperience2 : "",
+                cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : "",
+                cvReference1: body.cvReference1 ? body.cvReference1 : "",
+                cvReference2: body.cvReference2 ? body.cvReference2 : "",
+                cvLanguage: body.cvLanguage ? body.cvLanguage : "",
+                cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : "",
             };
             //console.log(cvObj);
             database
@@ -300,13 +332,7 @@ router.post("/setCvPage", function (req, res) {
                 .then(function (docs) {
                     if (!docs) {
                         if (body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
-                            if (
-                                body.cvNameSurname != "" &&
-                                body.cvAge != "" &&
-                                body.cvMail != "" &&
-                                body.cvPhone != "" &&
-                                body.cvSchool1 != ""
-                            ) {
+                            if (body.cvNameSurname != "" && body.cvAge != "" && body.cvMail != "" && body.cvPhone != "" && body.cvSchool1 != "") {
                                 database.collection("cvForms").insertOne(cvObj, function (err, result) {
                                     if (err) {
                                         console.log(err);
@@ -321,65 +347,60 @@ router.post("/setCvPage", function (req, res) {
                                     });
                                 });
                             } else {
-                                console.log('Eksik bilgi')
+                                console.log("Eksik bilgi");
                             }
-
                         } else {
                             res.status(401).send({
                                 success: false,
                                 message: "Bilgileri Eksiksiz Giriniz!",
                             });
                         }
-                    }
-                    else {
+                    } else {
                         // const noId = ({ _id, ...rest }) => rest
                         // cvObj = noId(cvObj)
 
                         if (body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
-                            if (
-                                body.cvNameSurname != "" &&
-                                body.cvAge != "" &&
-                                body.cvMail != "" &&
-                                body.cvPhone != "" &&
-                                body.cvSchool1 != ""
-                            ) {
-                                database.collection("cvForms").updateOne({ _id: docs._id }, {
-                                    $set: {
-                                        //cvObj
-                                        cvImageUrl: body.cvImageUrl ? body.cvImageUrl : '',
-                                        cvNameSurname: body.cvNameSurname,
-                                        cvAge: body.cvAge,
-                                        cvMail: body.cvMail,
-                                        cvPhone: body.cvPhone,
-                                        cvPersonalInfo: body.cvPersonalInfo,
-                                        cvSchool1: body.cvSchool1,
-                                        cvSchool2: body.cvSchool2 ? body.cvSchool2 : '',
-                                        cvExperience1: body.cvExperience1 ? body.cvExperience1 : '',
-                                        cvExperience2: body.cvExperience2 ? body.cvExperience2 : '',
-                                        cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : '',
-                                        cvReference1: body.cvReference1 ? body.cvReference1 : '',
-                                        cvReference2: body.cvReference2 ? body.cvReference2 : '',
-                                        cvLanguage: body.cvLanguage ? body.cvLanguage : '',
-                                        cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : '',
+                            if (body.cvNameSurname != "" && body.cvAge != "" && body.cvMail != "" && body.cvPhone != "" && body.cvSchool1 != "") {
+                                database.collection("cvForms").updateOne(
+                                    { _id: docs._id },
+                                    {
+                                        $set: {
+                                            //cvObj
+                                            cvImageUrl: body.cvImageUrl ? body.cvImageUrl : "",
+                                            cvNameSurname: body.cvNameSurname,
+                                            cvAge: body.cvAge,
+                                            cvMail: body.cvMail,
+                                            cvPhone: body.cvPhone,
+                                            cvPersonalInfo: body.cvPersonalInfo,
+                                            cvSchool1: body.cvSchool1,
+                                            cvSchool2: body.cvSchool2 ? body.cvSchool2 : "",
+                                            cvExperience1: body.cvExperience1 ? body.cvExperience1 : "",
+                                            cvExperience2: body.cvExperience2 ? body.cvExperience2 : "",
+                                            cvExperienceInfo: body.cvExperienceInfo ? body.cvExperienceInfo : "",
+                                            cvReference1: body.cvReference1 ? body.cvReference1 : "",
+                                            cvReference2: body.cvReference2 ? body.cvReference2 : "",
+                                            cvLanguage: body.cvLanguage ? body.cvLanguage : "",
+                                            cvSkillInfo: body.cvSkillInfo ? body.cvSkillInfo : "",
+                                        },
+                                    },
+                                    function (error, result) {
+                                        if (error) {
+                                            console.log(error);
+                                            res.status(401).send({
+                                                success: false,
+                                                message: "An error occured!",
+                                            });
+                                            return;
+                                        } else {
+                                            res.json({
+                                                success: true,
+                                                message: "Cv Güncellendi!",
+                                            });
+                                        }
                                     }
-                                }, function (error, result) {
-                                    if (error) {
-                                        console.log(error);
-                                        res.status(401).send({
-                                            success: false,
-                                            message: "An error occured!",
-                                        });
-                                        return;
-                                    } else {
-                                        res.json({
-                                            success: true,
-                                            message: "Cv Güncellendi!"
-                                        });
-                                    }
-
-                                });
+                                );
                             } else {
-                                console.log('Eksik bilgi');
+                                console.log("Eksik bilgi");
                             }
                         } else {
                             res.status(401).send({
@@ -460,6 +481,7 @@ router.post("/setJobAdRequest", function (req, res) {
             jobAdObj = {
                 _id: body._id ? body._id : makeid(),
                 createdAt: new Date(),
+                state: "inactive",
                 userId: id,
                 jobAdImageUrl: body.jobAdImageUrl,
                 jobAdTitle: body.jobAdTitle,
@@ -468,81 +490,83 @@ router.post("/setJobAdRequest", function (req, res) {
                 jobAdMail: body.jobAdMail,
                 jobAdContent: body.jobAdContent,
                 jobAdType: body.jobAdType,
-                jobAdDiploma: body.jobAdDiploma
+                jobAdDiploma: body.jobAdDiploma,
             };
             console.log(jobAdObj);
-            database.collection("jobAdForms").findOne({ _id: body._id }).then(function (docs) {
-                if (!docs) {
-                    if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
-                        if (body.jobAdTitle != "" &&
-                            body.jobAdCompanyNumber != "" &&
-                            body.jobAdContent != ""
-                        ) {
-                            database.collection("jobAdForms").insertOne(jobAdObj, function (err, result) {
-                                if (err) {
-                                    console.log(err);
-                                    res.status(401).send({
-                                        success: false,
-                                        message: "An error occured!",
-                                    });
-                                }
-                                res.json({
-                                    success: true,
-                                    message: "İş İlanı Yaratıldı"
-                                });
-                            });
-                        } else { console.log('Eksik bilgi') }
-                    } else {
-                        res.status(401).send({
-                            success: false,
-                            message: "Bilgileri Eksiksiz Giriniz!",
-                        });
-                    }
-                }
-                else {
-                    if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
-                        if (body.jobAdTitle != "" &&
-                            body.jobAdCompanyNumber != "" &&
-                            body.jobAdContent != "") {
-                            database.collection("jobAdForms").updateOne({ _id: docs._id },
-                                {
-                                    $set: {
-                                        jobAdImageUrl: body.jobAdImageUrl ? body.jobAdImageUrl : '',
-                                        jobAdTitle: body.jobAdTitle,
-                                        jobAdCompanyNumber: body.jobAdCompanyNumber,
-                                        jobAdPersonalNumber: body.jobAdPersonalNumber ? body.jobAdPersonalNumber : '',
-                                        jobAdMail: body.jobAdMail ? body.jobAdMail : '',
-                                        jobAdContent: body.jobAdContent,
-                                        jobAdType: body.jobAdType,
-                                        jobAdDiploma: body.jobAdDiploma,
-                                    }
-                                }, function (error, result) {
-                                    if (error) {
-                                        console.log(error);
+            database
+                .collection("jobAdForms")
+                .findOne({ _id: body._id })
+                .then(function (docs) {
+                    if (!docs) {
+                        if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
+                            if (body.jobAdTitle != "" && body.jobAdCompanyNumber != "" && body.jobAdContent != "") {
+                                database.collection("jobAdForms").insertOne(jobAdObj, function (err, result) {
+                                    if (err) {
+                                        console.log(err);
                                         res.status(401).send({
                                             success: false,
                                             message: "An error occured!",
                                         });
-                                        return;
-                                    } else {
-                                        res.json({
-                                            success: true,
-                                            message: "İş İlanı Güncellendi!"
-                                        });
                                     }
-                                }
-                            );
+                                    res.json({
+                                        success: true,
+                                        message: "İş İlanı Yaratıldı",
+                                    });
+                                });
+                            } else {
+                                console.log("Eksik bilgi");
+                            }
                         } else {
-                            console.log('Eksik bilgi');
+                            res.status(401).send({
+                                success: false,
+                                message: "Bilgileri Eksiksiz Giriniz!",
+                            });
                         }
                     } else {
-                        res.status(401).send({
-                            success: false,
-                            message: "Bilgileri Eksiksiz Giriniz!",
-                        });
+                        if (body.jobAdTitle && body.jobAdCompanyNumber && body.jobAdContent) {
+                            if (body.jobAdTitle != "" && body.jobAdCompanyNumber != "" && body.jobAdContent != "") {
+                                database.collection("jobAdForms").updateOne(
+                                    { _id: docs._id },
+                                    {
+                                        $set: {
+                                            state: "inactive",
+                                            jobAdImageUrl: body.jobAdImageUrl ? body.jobAdImageUrl : "",
+                                            jobAdTitle: body.jobAdTitle,
+                                            jobAdCompanyNumber: body.jobAdCompanyNumber,
+                                            jobAdPersonalNumber: body.jobAdPersonalNumber ? body.jobAdPersonalNumber : "",
+                                            jobAdMail: body.jobAdMail ? body.jobAdMail : "",
+                                            jobAdContent: body.jobAdContent,
+                                            jobAdType: body.jobAdType,
+                                            jobAdDiploma: body.jobAdDiploma,
+                                        },
+                                    },
+                                    function (error, result) {
+                                        if (error) {
+                                            console.log(error);
+                                            res.status(401).send({
+                                                success: false,
+                                                message: "An error occured!",
+                                            });
+                                            return;
+                                        } else {
+                                            res.json({
+                                                success: true,
+                                                message: "İş İlanı Güncellendi!",
+                                            });
+                                        }
+                                    }
+                                );
+                            } else {
+                                console.log("Eksik bilgi");
+                            }
+                        } else {
+                            res.status(401).send({
+                                success: false,
+                                message: "Bilgileri Eksiksiz Giriniz!",
+                            });
+                        }
                     }
-                }
-            });
+                });
         }
     });
 });
@@ -570,7 +594,7 @@ router.post("/getJobAdvs", function (req, res) {
             });
             return;
         }
-        console.log(docs)
+        console.log(docs);
         res.json(docs);
     });
 });
@@ -594,7 +618,7 @@ router.post("/getUserJobAdvs", function (req, res) {
             throw new Error(err.message);
         } else {
             id = decoded._id;
-            filter = { userId: id }
+            filter = { userId: id };
         }
     });
     var data = database.collection("jobAdForms").find(filter);
@@ -630,18 +654,18 @@ router.post("/getUserJob", function (req, res) {
             });
             throw new Error(err.message);
         } else {
-            console.log(decoded)
+            console.log(decoded);
             userId = decoded._id;
             filter = {
                 userId: userId,
-                _id: body._id
-            }
-            console.log(filter)
+                _id: body._id,
+            };
+            console.log(filter);
             database
                 .collection("jobAdForms")
                 .findOne(filter)
                 .then(function (docs) {
-                    console.log(docs)
+                    console.log(docs);
                     res.json(docs);
                 });
         }
@@ -655,7 +679,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
     const body = req.body;
     const token = body.token;
 
-    console.log(body._id)
+    console.log(body._id);
     jwt.verify(token, "mERoo36mM?", function (err, decoded) {
         if (err) {
             res.status(401).send({
@@ -668,6 +692,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
             companyAdObj = {
                 _id: body._id ? body._id : makeid(),
                 createdAt: new Date(),
+                state: "inactive",
                 userId: id,
                 companyAdImageUrl: body.companyAdImageUrl,
                 companyAdTitle: body.companyAdTitle,
@@ -677,83 +702,84 @@ router.post("/setCompanyAdRequest", function (req, res) {
                 companyAdContent: body.companyAdContent,
             };
             console.log(companyAdObj);
-            database.collection("companyAdForms").findOne({ _id: body._id }).then(function (docs) {
-                console.log(docs)
-                if (!docs) {
-                    if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
-                        if (body.companyAdTitle != "" &&
-                            body.companyAdCompanyNumber != "" &&
-                            body.companyAdContent != ""
-                        ) {
-                            database.collection("companyAdForms").insertOne(companyAdObj, function (err, result) {
-                                if (err) {
-                                    console.log(err);
-                                    res.status(401).send({
-                                        success: false,
-                                        message: "An error occured!",
-                                    });
-                                }
-                                res.json({
-                                    success: true,
-                                    message: "Firma İlanı Yaratıldı"
-                                });
-                            });
-                        } else { console.log('Eksik bilgi') }
-                    } else {
-                        console.log('boşşş');
-                        res.status(401).send({
-                            success: false,
-                            message: "Firma Bilgileri Eksiksiz Giriniz!",
-                        });
-                    }
-                }
-                else {
-                    if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
-                        if (body.companyAdTitle != "" &&
-                            body.companyAdCompanyNumber != "" &&
-                            body.companyAdContent != "") {
-                            database.collection("companyAdForms").updateOne({ _id: docs._id },
-                                {
-                                    $set: {
-                                        companyAdImageUrl: body.companyAdImageUrl ? body.companyAdImageUrl : '',
-                                        companyAdTitle: body.companyAdTitle,
-                                        companyAdCompanyNumber: body.companyAdCompanyNumber,
-                                        companyAdPersonalNumber: body.companyAdPersonalNumber ? body.companyAdPersonalNumber : '',
-                                        companyAdMail: body.companyAdMail ? body.companyAdMail : '',
-                                        companyAdContent: body.companyAdContent
-                                    }
-                                }, function (error, result) {
-                                    if (error) {
-                                        console.log(error);
+            database
+                .collection("companyAdForms")
+                .findOne({ _id: body._id })
+                .then(function (docs) {
+                    console.log(docs);
+                    if (!docs) {
+                        if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
+                            if (body.companyAdTitle != "" && body.companyAdCompanyNumber != "" && body.companyAdContent != "") {
+                                database.collection("companyAdForms").insertOne(companyAdObj, function (err, result) {
+                                    if (err) {
+                                        console.log(err);
                                         res.status(401).send({
                                             success: false,
                                             message: "An error occured!",
                                         });
-                                        return;
-                                    } else {
-                                        res.json({
-                                            success: true,
-                                            message: "İş İlanı Güncellendi!"
-                                        });
                                     }
-                                }
-                            );
+                                    res.json({
+                                        success: true,
+                                        message: "Firma İlanı Yaratıldı",
+                                    });
+                                });
+                            } else {
+                                console.log("Eksik bilgi");
+                            }
                         } else {
-                            console.log('Eksik bilgi');
+                            console.log("boşşş");
+                            res.status(401).send({
+                                success: false,
+                                message: "Firma Bilgileri Eksiksiz Giriniz!",
+                            });
                         }
                     } else {
-                        console.log('boşşş')
-                        res.status(401).send({
-                            success: false,
-                            message: "Bilgileri Eksiksiz Giriniz!",
-                        });
+                        if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
+                            if (body.companyAdTitle != "" && body.companyAdCompanyNumber != "" && body.companyAdContent != "") {
+                                database.collection("companyAdForms").updateOne(
+                                    { _id: docs._id },
+                                    {
+                                        $set: {
+                                            companyAdImageUrl: body.companyAdImageUrl ? body.companyAdImageUrl : "",
+                                            state: "inactive",
+                                            companyAdTitle: body.companyAdTitle,
+                                            companyAdCompanyNumber: body.companyAdCompanyNumber,
+                                            companyAdPersonalNumber: body.companyAdPersonalNumber ? body.companyAdPersonalNumber : "",
+                                            companyAdMail: body.companyAdMail ? body.companyAdMail : "",
+                                            companyAdContent: body.companyAdContent,
+                                        },
+                                    },
+                                    function (error, result) {
+                                        if (error) {
+                                            console.log(error);
+                                            res.status(401).send({
+                                                success: false,
+                                                message: "An error occured!",
+                                            });
+                                            return;
+                                        } else {
+                                            res.json({
+                                                success: true,
+                                                message: "İş İlanı Güncellendi!",
+                                            });
+                                        }
+                                    }
+                                );
+                            } else {
+                                console.log("Eksik bilgi");
+                            }
+                        } else {
+                            console.log("boşşş");
+                            res.status(401).send({
+                                success: false,
+                                message: "Bilgileri Eksiksiz Giriniz!",
+                            });
+                        }
                     }
-                }
-            });
+                });
         }
     });
 });
-
 
 /*
 //Get getCompanyAdvs
@@ -778,7 +804,7 @@ router.post("/getCompanyAdvs", function (req, res) {
             });
             return;
         }
-        console.log(docs)
+        console.log(docs);
         res.json(docs);
     });
 });
@@ -801,18 +827,18 @@ router.post("/getUserAdv", function (req, res) {
             });
             throw new Error(err.message);
         } else {
-            console.log(decoded)
+            console.log(decoded);
             userId = decoded._id;
             filter = {
                 userId: userId,
-                _id: body._id
-            }
-            console.log(filter)
+                _id: body._id,
+            };
+            console.log(filter);
             database
                 .collection("companyAdForms")
                 .findOne(filter)
                 .then(function (docs) {
-                    console.log(docs)
+                    console.log(docs);
                     res.json(docs);
                 });
         }
@@ -838,7 +864,7 @@ router.post("/getUserCompanyAdvs", function (req, res) {
             throw new Error(err.message);
         } else {
             id = decoded._id;
-            filter = { userId: id }
+            filter = { userId: id };
         }
     });
     var data = database.collection("companyAdForms").find(filter);
@@ -856,7 +882,6 @@ router.post("/getUserCompanyAdvs", function (req, res) {
         res.json(docs);
     });
 });
-
 
 /*
 //Get getCompanySupply
@@ -914,37 +939,40 @@ router.post("/getUserData", function (req, res) {
 router.post("/getAppliedUserData", function (req, res) {
     var body = req.body;
     if (body) {
-        database.collection("jobAdForms").findOne({ _id: body._id }).then(function (docs) {
-            if (docs && docs.appliedUsers) {
-                database.collection("cvForms").find({ userId: { $in: docs.appliedUsers } }, function (error, result) {
-                    if (error) {
-                        res.status(401).send({
-                            success: false,
-                            message: 'Cv Bulunamadı',
-                        });
-                    } else {
-                        result.toArray(function (error, result) {
-                            if (error) {
-                                res.status(401).send({
-                                    success: false,
-                                    message: "An error occured!",
-                                });
-                                return;
-                            }
-                            res.json(result);
-                        });
-                    }
-                });
-            } else {
-                console.log('ads1');
-                res.status(401).send({
-                    success: false,
-                    message: "Beklenmedik bir hata oluştu!",
-                });
-            }
-        });
+        database
+            .collection("jobAdForms")
+            .findOne({ _id: body._id })
+            .then(function (docs) {
+                if (docs && docs.appliedUsers) {
+                    database.collection("cvForms").find({ userId: { $in: docs.appliedUsers } }, function (error, result) {
+                        if (error) {
+                            res.status(401).send({
+                                success: false,
+                                message: "Cv Bulunamadı",
+                            });
+                        } else {
+                            result.toArray(function (error, result) {
+                                if (error) {
+                                    res.status(401).send({
+                                        success: false,
+                                        message: "An error occured!",
+                                    });
+                                    return;
+                                }
+                                res.json(result);
+                            });
+                        }
+                    });
+                } else {
+                    console.log("ads1");
+                    res.status(401).send({
+                        success: false,
+                        message: "Beklenmedik bir hata oluştu!",
+                    });
+                }
+            });
     } else {
-        console.log('ads');
+        console.log("ads");
         res.status(401).send({
             success: false,
             message: "An error occured!",
@@ -975,8 +1003,8 @@ router.post("/getUserCvData", function (req, res) {
                 .then(function (docs) {
                     if (!docs) {
                         res.status(401).send({
-                            message: "Kullanıcıya ait CV verisi bulunmamaktadır!"
-                        })
+                            message: "Kullanıcıya ait CV verisi bulunmamaktadır!",
+                        });
                     } else {
                         res.json(docs);
                     }
@@ -1001,71 +1029,85 @@ router.post("/applyJobAd", function (req, res) {
             throw new Error(err.message);
         } else {
             console.log(decoded);
-            userId = decoded._id
-            database.collection('cvForms').findOne({ userId: userId }).then(function (doc) {
-                if (!doc) {
-                    res.status(401).send({
-                        success: false,
-                        message: "Cv'niz Bulunamadı!",
-                    });
-                } else {
-                    database.collection('jobAdForms').findOne({ _id: body._id }).then(function (doc) {
-                        if (doc) {
-                            if (doc.appliedUsers) {
-                                var isExist = false;
-                                doc.appliedUsers.map(function (v, i) {
-                                    if (v == userId) {
-                                        isExist = true;
-                                        res.status(401).send({
-                                            success: false,
-                                            message: "Daha önce başvuru yapmışsınız!",
+            userId = decoded._id;
+            database
+                .collection("cvForms")
+                .findOne({ userId: userId })
+                .then(function (doc) {
+                    if (!doc) {
+                        res.status(401).send({
+                            success: false,
+                            message: "Cv'niz Bulunamadı!",
+                        });
+                    } else {
+                        database
+                            .collection("jobAdForms")
+                            .findOne({ _id: body._id })
+                            .then(function (doc) {
+                                if (doc) {
+                                    if (doc.appliedUsers) {
+                                        var isExist = false;
+                                        doc.appliedUsers.map(function (v, i) {
+                                            if (v == userId) {
+                                                isExist = true;
+                                                res.status(401).send({
+                                                    success: false,
+                                                    message: "Daha önce başvuru yapmışsınız!",
+                                                });
+                                            }
                                         });
-                                    }
-                                });
-                                if (!isExist) {
-                                    var appliedArr = doc.appliedUsers;
-                                    appliedArr.push(userId);
-                                    database.collection('jobAdForms').updateOne({ _id: body._id }, {
-                                        $set: {
-                                            appliedUsers: appliedArr,
+                                        if (!isExist) {
+                                            var appliedArr = doc.appliedUsers;
+                                            appliedArr.push(userId);
+                                            database.collection("jobAdForms").updateOne(
+                                                { _id: body._id },
+                                                {
+                                                    $set: {
+                                                        appliedUsers: appliedArr,
+                                                    },
+                                                },
+                                                function (error, result) {
+                                                    if (error) {
+                                                        res.status(401).send({
+                                                            success: false,
+                                                            message: "Beklenmedik bir hata oluştu!",
+                                                        });
+                                                    } else {
+                                                        res.send({
+                                                            success: true,
+                                                            message: "Başvuru Yapıldı!",
+                                                        });
+                                                    }
+                                                }
+                                            );
                                         }
-                                    }, function (error, result) {
-                                        if (error) {
-                                            res.status(401).send({
-                                                success: false,
-                                                message: "Beklenmedik bir hata oluştu!",
-                                            });
-                                        } else {
-                                            res.send({
-                                                success: true,
-                                                message: "Başvuru Yapıldı!",
-                                            });
-                                        }
-                                    });
-                                }
-                            } else {
-                                database.collection('jobAdForms').updateOne({ _id: body._id }, {
-                                    $set: {
-                                        appliedUsers: [userId],
-                                    }
-                                }, function (error, result) {
-                                    if (error) {
-                                        res.status(401).send({
-                                            success: false,
-                                            message: "Beklenmedik bir hata oluştu!",
-                                        });
                                     } else {
-                                        res.send({
-                                            success: true,
-                                            message: "Başvuru Yapıldı!",
-                                        });
+                                        database.collection("jobAdForms").updateOne(
+                                            { _id: body._id },
+                                            {
+                                                $set: {
+                                                    appliedUsers: [userId],
+                                                },
+                                            },
+                                            function (error, result) {
+                                                if (error) {
+                                                    res.status(401).send({
+                                                        success: false,
+                                                        message: "Beklenmedik bir hata oluştu!",
+                                                    });
+                                                } else {
+                                                    res.send({
+                                                        success: true,
+                                                        message: "Başvuru Yapıldı!",
+                                                    });
+                                                }
+                                            }
+                                        );
                                     }
-                                });
-                            }
-                        }
-                    });
-                }
-            });
+                                }
+                            });
+                    }
+                });
         }
     });
 });
