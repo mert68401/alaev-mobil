@@ -67,14 +67,18 @@ class _NewsWrapperState extends State<NewsWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Duyurular'),
+          iconTheme: IconThemeData(
+            color: Theme.of(context).primaryColor, //change your color here
+          ),
+          backgroundColor: Colors.white,
+          title: Center(
+            child: Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ),
         ),
         body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage("assets/images/background.jpg"),
-            fit: BoxFit.fill,
-          )),
           child: CardWidget(
             isJobPage: false,
             items: newsList,

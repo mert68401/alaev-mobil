@@ -71,9 +71,13 @@ class MapScreenState extends State<ProfileWrapper>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.exit_to_app),
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Theme.of(context).primaryColor,
+                ),
                 onPressed: () {
                   setState(() {
                     _isLoading = true;
@@ -87,7 +91,16 @@ class MapScreenState extends State<ProfileWrapper>
                   });
                 })
           ],
-          title: Text('Profil'),
+          centerTitle: true,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.asset(
+                "./assets/images/alaevLogoClean.png",
+                scale: 11,
+              ),
+            ],
+          ),
         ),
         body: _isLoading
             ? Center(
@@ -95,11 +108,11 @@ class MapScreenState extends State<ProfileWrapper>
                 child: CircularProgressIndicator(),
               )
             : Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage("assets/images/background.jpg"),
-                  fit: BoxFit.fill,
-                )),
+                // decoration: BoxDecoration(
+                //     image: DecorationImage(
+                //   image: AssetImage("assets/images/background.jpg"),
+                //   fit: BoxFit.fill,
+                // )),
                 child: ListView(
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[

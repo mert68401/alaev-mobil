@@ -29,7 +29,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kayıt'),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: Container(
         child: ListView(
@@ -88,8 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontSize: 14,
                           ),
                           keyboardType: TextInputType.emailAddress,
-                          controller:
-                              _emailController,
+                          controller: _emailController,
                           decoration: InputDecoration(
                             labelText: 'Email',
                             border: OutlineInputBorder(

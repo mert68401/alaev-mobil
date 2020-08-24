@@ -202,7 +202,17 @@ class _LoginScreenState extends State<LoginScreen> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Giriş'),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: Stack(
         children: <Widget>[

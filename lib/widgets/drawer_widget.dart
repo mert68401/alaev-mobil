@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     void customLaunch(command) async {
       if (await canLaunch(command)) {
         await launch(command);
@@ -20,9 +19,7 @@ class DrawerWidget extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
+              decoration: BoxDecoration(),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Column(
@@ -109,7 +106,7 @@ class DrawerWidget extends StatelessWidget {
               },
               child: ListTile(
                 title: Text("Burs Başvuruları"),
-                trailing: Icon(Icons.school), 
+                trailing: Icon(Icons.school),
               ),
             ),
             InkWell(

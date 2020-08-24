@@ -64,7 +64,22 @@ class _MyCompanyAdvsScreenState extends State<MyCompanyAdvsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Mevcut Firma İlanlarım')),
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Theme.of(context).primaryColor, //change your color here
+          ),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.asset(
+                "./assets/images/alaevLogoClean.png",
+                scale: 11,
+              ),
+            ],
+          ),
+        ),
         body: CardWidget(
           isJobPage: false,
           onRefresh: fetchUserCompanyAdvs,

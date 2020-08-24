@@ -13,7 +13,20 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Şifremi Unuttum'),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
+        backgroundColor: Colors.white,
       ),
       body: ListView(
         children: <Widget>[

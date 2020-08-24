@@ -267,14 +267,27 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Theme.of(context).primaryColor, //change your color here
+          ),
+          backgroundColor: Colors.white,
           bottom: TabBar(
             tabs: [
-              Tab(text: 'Kişisel Bilgiler'),
-              Tab(text: 'Eğitim, Tecrübe'),
-              Tab(text: 'Yetkinlikler'),
+              Tab(
+                  child: Text('Kişisel Bilgiler',
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
+              Tab(
+                  child: Text('Eğitim, Tecrübe',
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
+              Tab(
+                  child: Text('Yetkinlikler',
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
             ],
           ),
-          title: Text(arguments['cvNameSurname'] + ' Cv'),
+          title: Text(
+            arguments['cvNameSurname'] + ' Cv',
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
         ),
         body: TabBarView(
           children: [

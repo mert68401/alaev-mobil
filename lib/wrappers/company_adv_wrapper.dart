@@ -77,9 +77,11 @@ class _CompanyAdvertisementWrapperState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.list),
+            icon: Icon(Icons.list,
+            color: Theme.of(context).primaryColor,),
             onPressed: () {
               getUserRole().then((role) {
                 if (role == "Kurumsal") {
@@ -92,7 +94,10 @@ class _CompanyAdvertisementWrapperState
             },
           ),
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(
+              Icons.add,
+              color: Theme.of(context).primaryColor,
+            ),
             onPressed: () {
               getUserRole().then((role) {
                 if (role == "Kurumsal") {
@@ -105,15 +110,18 @@ class _CompanyAdvertisementWrapperState
             },
           )
         ],
-        title: Text('Firma İlanları'),
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.jpg"),
-            fit: BoxFit.fill,
-          ),
-        ),
         child: CardWidget(
           isJobPage: false,
           onRefresh: fetchCompanyAdvs,
