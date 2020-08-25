@@ -1,4 +1,6 @@
 import 'package:alaev/screens/about_screen.dart';
+import 'package:alaev/screens/founding_members_screen.dart';
+import 'package:alaev/screens/members_screen.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -84,7 +86,7 @@ class DrawerWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                customLaunch('http://alaev.org.tr/kurullarimiz');
+                Navigator.of(context).pushNamed(MembersScreen.routeName);
               },
               child: ListTile(
                 title: Text("Kurullarımız"),
@@ -93,7 +95,8 @@ class DrawerWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                customLaunch('http://alaev.org.tr/kurucu-mutevelliler');
+                Navigator.of(context)
+                    .pushNamed(FoundingMembersScreen.routeName);
               },
               child: ListTile(
                 title: Text("Kurucu Mütevelliler"),

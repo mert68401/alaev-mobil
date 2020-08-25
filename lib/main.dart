@@ -4,6 +4,7 @@ import 'package:alaev/screens/about_screen.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/edit_my_company_advs_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
+import 'package:alaev/screens/founding_members_screen.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/forgot_password_screen.dart';
 import 'package:alaev/screens/job_adv/applied_user_job_adv_cv_screen.dart';
@@ -11,6 +12,7 @@ import 'package:alaev/screens/job_adv/applied_user_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/edit_my_job_advs_screen.dart';
 import 'package:alaev/screens/job_adv/job_adv_detail_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
+import 'package:alaev/screens/members_screen.dart';
 import 'package:alaev/screens/news_detail_screen.dart';
 import 'package:alaev/wrappers/news_wrapper.dart';
 
@@ -59,6 +61,9 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             primaryColor: Color.fromRGBO(60, 42, 152, 1),
             accentColor: Color.fromRGBO(238, 124, 0, 1),
+            iconTheme: IconThemeData(
+              color: Color.fromRGBO(60, 42, 152, 1), //change your color here
+            ),
           ),
           home: auth.isAuth
               ? HomeScreen(
@@ -92,7 +97,10 @@ class MyApp extends StatelessWidget {
                 AppliedUsersJobAdvScreen(),
             AppliedUserJobAdvCvScreen.routeName: (context) =>
                 AppliedUserJobAdvCvScreen(),
-            AboutScreen.routeName: (context) => AboutScreen()
+            AboutScreen.routeName: (context) => AboutScreen(),
+            MembersScreen.routeName: (context) => MembersScreen(),
+            FoundingMembersScreen.routeName: (context) =>
+                FoundingMembersScreen(),
           },
         ),
       ),
