@@ -71,6 +71,7 @@ router.post("/register", function (req, res) {
                 verified: false,
                 token: makeid() + makeid() + makeid(),
             },
+            state: "inactive",
             fullName: body.fullName,
             password: body.password,
             role: body.role,
