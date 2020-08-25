@@ -1,4 +1,6 @@
 import 'package:alaev/screens/about_screen.dart';
+import 'package:alaev/screens/founding_members_screen.dart';
+import 'package:alaev/screens/members_screen.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     void customLaunch(command) async {
       if (await canLaunch(command)) {
         await launch(command);
@@ -20,9 +21,7 @@ class DrawerWidget extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
+              decoration: BoxDecoration(),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Column(
@@ -87,7 +86,7 @@ class DrawerWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                customLaunch('http://alaev.org.tr/kurullarimiz');
+                Navigator.of(context).pushNamed(MembersScreen.routeName);
               },
               child: ListTile(
                 title: Text("Kurullarımız"),
@@ -96,7 +95,8 @@ class DrawerWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                customLaunch('http://alaev.org.tr/kurucu-mutevelliler');
+                Navigator.of(context)
+                    .pushNamed(FoundingMembersScreen.routeName);
               },
               child: ListTile(
                 title: Text("Kurucu Mütevelliler"),
@@ -109,7 +109,7 @@ class DrawerWidget extends StatelessWidget {
               },
               child: ListTile(
                 title: Text("Burs Başvuruları"),
-                trailing: Icon(Icons.school), 
+                trailing: Icon(Icons.school),
               ),
             ),
             InkWell(

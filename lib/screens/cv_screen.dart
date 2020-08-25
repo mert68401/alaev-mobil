@@ -401,14 +401,33 @@ class _CvScreenState extends State<CvScreen> {
           },
         ),
         appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              Tab(text: 'Kişisel Bilgiler'),
-              Tab(text: 'Eğitim, Tecrübe'),
-              Tab(text: 'Yetkinlikler'),
+          iconTheme: IconThemeData(
+            color: Theme.of(context).primaryColor, //change your color here
+          ),
+          centerTitle: true,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.asset(
+                "./assets/images/alaevLogoClean.png",
+                scale: 11,
+              ),
             ],
           ),
-          title: Text('CV Ekle/Düzenle'),
+          backgroundColor: Colors.white,
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                  child: Text('Kişisel Bilgiler',
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
+              Tab(
+                  child: Text('Eğitim, Tecrübe',
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
+              Tab(
+                  child: Text('Yetkinlikler',
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
+            ],
+          ),
         ),
         body: TabBarView(
           children: [

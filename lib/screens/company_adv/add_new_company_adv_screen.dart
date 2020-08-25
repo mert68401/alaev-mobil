@@ -81,7 +81,20 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yeni Firma İlanı'),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: ListView(
         children: <Widget>[

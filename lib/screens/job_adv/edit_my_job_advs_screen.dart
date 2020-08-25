@@ -152,7 +152,20 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('İş İlanını Düzenle'),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: ListView(
         children: <Widget>[
@@ -286,7 +299,7 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             ),
                           ),
                         ],
-                      ),  
+                      ),
                       SizedBox(height: 10),
                       Container(
                           margin: EdgeInsets.only(bottom: 10),

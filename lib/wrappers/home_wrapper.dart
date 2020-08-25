@@ -1,5 +1,3 @@
-import 'package:alaev/widgets/carousel_widget.dart';
-import 'package:alaev/wrappers/news_wrapper.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,46 +27,41 @@ class _HomeWrapperState extends State<HomeWrapper> {
   }
 
   void customLaunch(command) async {
-      if (await canLaunch(command)) {
-        await launch(command);
-      } else {
-        print(' could not launch $command');
-      }
+    if (await canLaunch(command)) {
+      await launch(command);
+    } else {
+      print(' could not launch $command');
     }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage("assets/images/background.jpg"),
-        fit: BoxFit.fill,
-      )),
       child: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
           SliverAppBar(
-            title: Text("Anasayfa"),
+            backgroundColor: Colors.white,
             elevation: 10,
             leading: GestureDetector(
               onTap: () {
                 Scaffold.of(context).openDrawer();
               },
-              child: Icon(Icons.menu),
+              child: Icon(
+                Icons.menu,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
             floating: true,
             pinned: true,
-            expandedHeight: 175,
+            expandedHeight: 95,
             flexibleSpace: SafeArea(
               child: FlexibleSpaceBar(
-                background: AspectRatio(
-                  aspectRatio: 11 / 2,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 50, bottom: 30),
-                    child: Image.asset(
-                      "./assets/images/alaevLogoClean.png",
-                      fit: BoxFit.fitHeight,
-                    ),
+                background: Container(
+                  margin: EdgeInsets.only(bottom: 60),
+                  child: Image.asset(
+                    "./assets/images/alaevLogoClean.png",
+                    scale: 11,
                   ),
                 ),
                 centerTitle: true,
@@ -108,7 +101,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                         ),
                       ),
                       InkWell(
-                        onTap: () =>customLaunch('http://alaev.org.tr'),
+                        onTap: () => customLaunch('http://alaev.org.tr'),
                         child: Container(
                             margin: EdgeInsets.all(20),
                             child: Image.asset('assets/images/alaposter.jpg')),

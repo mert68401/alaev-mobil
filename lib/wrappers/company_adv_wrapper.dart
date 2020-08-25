@@ -77,43 +77,51 @@ class _CompanyAdvertisementWrapperState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.list),
+            icon: Icon(Icons.list,
+            color: Theme.of(context).primaryColor,),
             onPressed: () {
               getUserRole().then((role) {
-                if (role == "Firma") {
+                if (role == "Kurumsal") {
                   _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
                 } else {
                   showToastError(
-                      "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                      "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
                 }
               });
             },
           ),
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(
+              Icons.add,
+              color: Theme.of(context).primaryColor,
+            ),
             onPressed: () {
               getUserRole().then((role) {
-                if (role == "Firma") {
+                if (role == "Kurumsal") {
                   _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
                 } else {
                   showToastError(
-                      "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                      "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
                 }
               });
             },
           )
         ],
-        title: Text('Firma İlanları'),
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.jpg"),
-            fit: BoxFit.fill,
-          ),
-        ),
         child: CardWidget(
           isJobPage: false,
           onRefresh: fetchCompanyAdvs,

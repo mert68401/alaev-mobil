@@ -37,15 +37,28 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
         child: Text("Başvur"),
         onPressed: () {
           getUserRole().then((role) {
-            role == "Firma"
+            role == "Kurumsal"
                 ? showToastError(
-                    'Firma tipi kullanıcılar iş başvurusu yapamaz!')
+                    'Kurumsal tip kullanıcılar iş başvurusu yapamaz!')
                 : applyJobRequest(jobAdId: jobAdId);
           });
         },
       ),
       appBar: AppBar(
-        title: Text('İlan Ayrıntıları'),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),

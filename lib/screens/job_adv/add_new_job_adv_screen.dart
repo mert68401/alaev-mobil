@@ -106,7 +106,17 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yeni İş İlanı'),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: ListView(
         children: <Widget>[

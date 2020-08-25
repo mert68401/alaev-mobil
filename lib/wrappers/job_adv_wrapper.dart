@@ -126,6 +126,23 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
             padding: EdgeInsets.all(10),
             child: ListView(
               children: <Widget>[
+                DrawerHeader(
+                  decoration: BoxDecoration(),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          './assets/images/alaevLogoClean.png',
+                          fit: BoxFit.cover,
+                          height: 120,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Text(
                   'Detaylı Arama',
                   textAlign: TextAlign.center,
@@ -136,35 +153,39 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Diploma',
+                      'Öğrenim Durumu',
                       style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: Colors.grey,
                           fontSize: 17),
                     ),
                     SizedBox(height: 4),
-                    DropdownButton<String>(
-                      isDense: true,
-                      icon: Icon(Icons.arrow_drop_down),
-                      value: _diplomaSelectedItem,
-                      isExpanded: true,
-                      onChanged: (String diplomaString) => setState(() {
-                        _diplomaSelectedItem = diplomaString;
-                      }),
-                      selectedItemBuilder: (BuildContext context) {
-                        return diplomaItems.map<Widget>((String diplomaItem) {
-                          return Text(
-                            diplomaItem,
-                            style: TextStyle(fontSize: 17),
+                    Container(
+                      color: Colors.indigo[50],
+                      child: DropdownButton<String>(
+                        elevation: 210,
+                        isDense: true,
+                        icon: Icon(Icons.arrow_drop_down),
+                        value: _diplomaSelectedItem,
+                        isExpanded: true,
+                        onChanged: (String diplomaString) => setState(() {
+                          _diplomaSelectedItem = diplomaString;
+                        }),
+                        selectedItemBuilder: (BuildContext context) {
+                          return diplomaItems.map<Widget>((String diplomaItem) {
+                            return Text(
+                              diplomaItem,
+                              style: TextStyle(fontSize: 17),
+                            );
+                          }).toList();
+                        },
+                        items: diplomaItems.map((String item) {
+                          return DropdownMenuItem<String>(
+                            child: Text('$item'),
+                            value: item,
                           );
-                        }).toList();
-                      },
-                      items: diplomaItems.map((String item) {
-                        return DropdownMenuItem<String>(
-                          child: Text('$item'),
-                          value: item,
-                        );
-                      }).toList(),
+                        }).toList(),
+                      ),
                     ),
                   ],
                 ),
@@ -205,7 +226,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                     ),
                   ],
                 ),
-                SizedBox(height: 200),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -231,47 +251,59 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         ),
       ),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
-            icon: Icon(Icons.filter_list),
+            icon:
+                Icon(Icons.filter_list, color: Theme.of(context).primaryColor),
             onPressed: () {
               _drawerKey.currentState.openDrawer();
             }),
         actions: <Widget>[
           SizedBox(width: 15),
           IconButton(
-              icon: Icon(Icons.list),
+              icon: Icon(
+                Icons.list,
+                color: Theme.of(context).primaryColor,
+              ),
               onPressed: () {
                 getUserRole().then((role) {
-                  if (role == "Firma") {
+                  if (role == "Kurumsal") {
                     _pushNamedPage(context, MyJobAdvsScreen.routeName);
                   } else {
                     showToastError(
-                        "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                        "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
                   }
                 });
               }),
           IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(
+                Icons.add,
+                color: Theme.of(context).primaryColor,
+              ),
               onPressed: () {
                 getUserRole().then((role) {
                   print(role);
-                  if (role == "Firma") {
+                  if (role == "Kurumsal") {
                     _pushNamedPage(context, AddNewJobAdvScreen.routeName);
                   } else {
                     showToastError(
-                        "Bu özelliği kullanabilmeniz için firma hesabınızın olması gerekir.");
+                        "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
                   }
                 });
               }),
         ],
-        title: Text('İş İlanları'),
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
+              "./assets/images/alaevLogoClean.png",
+              scale: 11,
+            ),
+          ],
+        ),
       ),
       body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/images/background.jpg"),
-          fit: BoxFit.fill,
-        )),
         child: CardWidget(
           isJobPage: true,
           onRefresh: fetchJobAdvs,
