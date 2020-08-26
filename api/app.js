@@ -202,6 +202,7 @@ router.post("/updateUserInfo", function (req, res) {
                                     "email.str": email,
                                     personalNumber: body.personalNumber ? body.personalNumber : "",
                                     companyName: body.companyName ? body.companyName : "",
+                                    companyDiscount: body.companyDiscount ? body.companyDiscount : "",
                                 },
                             },
                             function (error, result) {
