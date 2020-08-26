@@ -243,92 +243,115 @@ class MapScreenState extends State<ProfileWrapper>
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 20.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                              'Şirket İsmi',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                _isFirma
+                                    ? Column(
+                                        children: <Widget>[
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                  top: 20.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: <Widget>[
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'Şirket İsmi',
+                                                        style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 25.0,
+                                                right: 25.0,
+                                                top: 2.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: <Widget>[
+                                                Flexible(
+                                                  child: TextField(
+                                                    controller:
+                                                        _companyNameController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            hintText:
+                                                                "Şirket İsminizi Giriniz"),
+                                                    enabled: !_status,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 25.0, right: 25.0, top: 2.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                      Flexible(
-                                        child: TextField(
-                                          controller: _companyNameController,
-                                          decoration: const InputDecoration(
-                                              hintText:
-                                                  "Şirket İsminizi Giriniz"),
-                                          enabled: !_status,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 20.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                              'İndirim Yüzdesi',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                  top: 20.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: <Widget>[
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'İndirim Yüzdesi',
+                                                        style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: 25.0,
+                                              right: 285.0,
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: 25.0,
-                                    right: 305.0,
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Flexible(
-                                        child: TextField(
-                                          keyboardType: TextInputType.number,
-                                          maxLength: 2,
-                                          inputFormatters: [
-                                            WhitelistingTextInputFormatter
-                                                .digitsOnly
-                                          ],
-                                          controller:
-                                              _companyDiscountController,
-                                          decoration: const InputDecoration(
-                                              hintText: "%0 - %100"),
-                                          enabled: !_status,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Flexible(
+                                                  child: TextField(
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    maxLength: 2,
+                                                    inputFormatters: [
+                                                      WhitelistingTextInputFormatter
+                                                          .digitsOnly
+                                                    ],
+                                                    controller:
+                                                        _companyDiscountController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            hintText:
+                                                                "%0-99"),
+                                                    enabled: !_status,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : SizedBox(height: 0),
                                 !_status
                                     ? _getActionButtons()
                                     : Container(
