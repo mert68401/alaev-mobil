@@ -138,7 +138,7 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(.35)
+                      2: FractionColumnWidth(0)
                     },
                     children: [
                       TableRow(
@@ -252,7 +252,7 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(.35)
+                      2: FractionColumnWidth(0)
                     },
                     children: [
                       TableRow(
@@ -316,7 +316,7 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(.35)
+                      2: FractionColumnWidth(.0)
                     },
                     children: [
                       TableRow(
@@ -388,7 +388,7 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(.35)
+                      2: FractionColumnWidth(.0)
                     },
                     children: [
                       TableRow(
@@ -453,7 +453,7 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(.35)
+                      2: FractionColumnWidth(.0)
                     },
                     children: [
                       TableRow(
