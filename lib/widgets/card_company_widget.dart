@@ -128,7 +128,9 @@ class CardCompanyWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
-                        leading: firebaseCheck(i),
+                        leading: Container(
+                          child: firebaseCheck(i),
+                        ),
                         title: Text(items[i]['title']),
                         subtitle: Text('TWICE'),
                       ),

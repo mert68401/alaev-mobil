@@ -5,7 +5,6 @@ import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
 import 'package:alaev/widgets/card_company_widget.dart';
-import 'package:alaev/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -20,6 +19,8 @@ class CompanyAdvertisementWrapper extends StatefulWidget {
 class _CompanyAdvertisementWrapperState
     extends State<CompanyAdvertisementWrapper> {
   final List<Map<String, String>> advList = [];
+
+  bool _isFirma = false;
 
   Future<void> fetchCompanyAdvs() async {
     advList.clear();
@@ -63,6 +64,13 @@ class _CompanyAdvertisementWrapperState
   void initState() {
     super.initState();
     fetchCompanyAdvs();
+    getUserRole().then((value) {
+      if (value == "Kurumsal") {
+        setState(() {
+          _isFirma = true;
+        });
+      }
+    });
   }
 
   void dispose() {
@@ -80,38 +88,35 @@ class _CompanyAdvertisementWrapperState
       appBar: AppBar(
         backgroundColor: Colors.white,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.list,
-              color: Theme.of(context).primaryColor,
-            ),
-            onPressed: () {
-              getUserRole().then((role) {
-                if (role == "Kurumsal") {
-                  _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
-                } else {
-                  showToastError(
-                      "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
-                }
-              });
-            },
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.add,
-              color: Theme.of(context).primaryColor,
-            ),
-            onPressed: () {
-              getUserRole().then((role) {
-                if (role == "Kurumsal") {
-                  _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
-                } else {
-                  showToastError(
-                      "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
-                }
-              });
-            },
-          )
+          _isFirma
+              ? IconButton(
+                  icon: Icon(
+                    Icons.list,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    getUserRole().then((role) {
+                      if (role == "Kurumsal") {
+                        _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
+                      } else {
+                        showToastError(
+                            "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
+                      }
+                    });
+                  },
+                )
+              : SizedBox(),
+          _isFirma
+              ? IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
+                  },
+                )
+              : SizedBox(),
         ],
         centerTitle: true,
         title: Row(

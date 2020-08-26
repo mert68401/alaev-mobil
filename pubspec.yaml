@@ -73,7 +73,7 @@ flutter:
         - assets/images/news.jpg
         - assets/images/background.jpg
         - assets/images/alaposter.jpg
-        - assets/images/wikilogo.jpeg
+        - assets/images/wikilogo.png
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see

@@ -106,6 +106,9 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Row(

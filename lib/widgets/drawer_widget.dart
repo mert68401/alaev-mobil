@@ -66,7 +66,8 @@ class DrawerWidget extends StatelessWidget {
                 },
                 child: ListTile(
                   dense: true,
-                  title: Text("QR Code okuyucu", style: TextStyle(fontSize: 11)),
+                  title:
+                      Text("QR Code okuyucu", style: TextStyle(fontSize: 13)),
                   trailing: Icon(Icons.camera_alt, size: 15),
                 ),
               ),
@@ -76,7 +77,7 @@ class DrawerWidget extends StatelessWidget {
                 },
                 child: ListTile(
                   dense: true,
-                  title: Text("Hakkımızda", style: TextStyle(fontSize: 11)),
+                  title: Text("Hakkımızda", style: TextStyle(fontSize: 13)),
                   trailing: Icon(Icons.person, size: 15),
                 ),
               ),
@@ -88,7 +89,7 @@ class DrawerWidget extends StatelessWidget {
                   dense: true,
                   title: Text(
                     "Web Sitemiz",
-                    style: TextStyle(fontSize: 11),
+                    style: TextStyle(fontSize: 13),
                   ),
                   trailing: Icon(
                     Icons.web_asset,
@@ -102,7 +103,7 @@ class DrawerWidget extends StatelessWidget {
                 },
                 child: ListTile(
                   dense: true,
-                  title: Text("Kurullarımız"),
+                  title: Text("Kurullarımız", style: TextStyle(fontSize: 13)),
                   trailing: Icon(Icons.group),
                 ),
               ),
@@ -113,7 +114,8 @@ class DrawerWidget extends StatelessWidget {
                 },
                 child: ListTile(
                   dense: true,
-                  title: Text("Kurucu Mütevelliler"),
+                  title: Text("Kurucu Mütevelliler",
+                      style: TextStyle(fontSize: 13)),
                   trailing: Icon(Icons.group),
                 ),
               ),
@@ -123,7 +125,8 @@ class DrawerWidget extends StatelessWidget {
                 },
                 child: ListTile(
                   dense: true,
-                  title: Text("Burs Başvuruları"),
+                  title:
+                      Text("Burs Başvuruları", style: TextStyle(fontSize: 13)),
                   trailing: Icon(Icons.school),
                 ),
               ),
@@ -133,12 +136,27 @@ class DrawerWidget extends StatelessWidget {
                 },
                 child: ListTile(
                   dense: true,
-                  title: Text("İletişim"),
+                  title: Text("İletişim", style: TextStyle(fontSize: 13)),
                   trailing: Icon(Icons.mail),
                 ),
               ),
-              ClipRect(
-                child: Image.asset('assets/images/wikilogo.jpeg'),
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Powered By',
+                    style: TextStyle(fontSize: 10),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ClipRect(
+                    child: Image.asset('assets/images/wikilogo.png'),
+                  ),
+                ],
               )
             ],
           ),

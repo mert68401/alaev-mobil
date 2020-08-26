@@ -19,6 +19,7 @@ class JobAdvertisementWrapper extends StatefulWidget {
 class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   final List<Map<String, String>> jobAdvList = [];
 
+  bool _isFirma = false;
   String _diplomaSelectedItem = 'Hepsi';
   String _categorySelectedItem = 'Hepsi';
 
@@ -79,6 +80,13 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   void initState() {
     super.initState();
     fetchJobAdvs("Hepsi", "Hepsi");
+    getUserRole().then((value) {
+      if (value == "Kurumsal") {
+        setState(() {
+          _isFirma = true;
+        });
+      }
+    });
   }
 
   @override
@@ -260,37 +268,34 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
             }),
         actions: <Widget>[
           SizedBox(width: 15),
-          IconButton(
-              icon: Icon(
-                Icons.list,
-                color: Theme.of(context).primaryColor,
-              ),
-              onPressed: () {
-                getUserRole().then((role) {
-                  if (role == "Kurumsal") {
+          _isFirma
+              ? IconButton(
+                  icon: Icon(
+                    Icons.list,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
                     _pushNamedPage(context, MyJobAdvsScreen.routeName);
-                  } else {
-                    showToastError(
-                        "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
-                  }
-                });
-              }),
-          IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Theme.of(context).primaryColor,
-              ),
-              onPressed: () {
-                getUserRole().then((role) {
-                  print(role);
-                  if (role == "Kurumsal") {
-                    _pushNamedPage(context, AddNewJobAdvScreen.routeName);
-                  } else {
-                    showToastError(
-                        "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
-                  }
-                });
-              }),
+                  })
+              : SizedBox(),
+          _isFirma
+              ? IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    getUserRole().then((role) {
+                      print(role);
+                      if (role == "Kurumsal") {
+                        _pushNamedPage(context, AddNewJobAdvScreen.routeName);
+                      } else {
+                        showToastError(
+                            "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
+                      }
+                    });
+                  })
+              : SizedBox(),
         ],
         centerTitle: true,
         title: Row(

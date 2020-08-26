@@ -8,6 +8,9 @@ class NewsDetailScreen extends StatelessWidget {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Row(
