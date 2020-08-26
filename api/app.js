@@ -4,8 +4,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const mongoClient = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/alaev";
-//var url = "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
+//var url = "mongodb://localhost:27017/alaev";
+var url = "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
 var database = null;
 const nodemailer = require("nodemailer");
 const fs = require("fs");
@@ -344,7 +344,7 @@ router.post("/setCvPage", function (req, res) {
                                     }
                                     res.json({
                                         success: true,
-                                        message: "Cv Yaratıldı",
+                                        message: "CV oluşturuldu.",
                                     });
                                 });
                             } else {
@@ -413,6 +413,36 @@ router.post("/setCvPage", function (req, res) {
                 });
         }
     });
+});
+
+/*
+//Get getDiscountFromId
+*/
+router.post("/getDiscountFromId", function (req, res) {
+    var body = req.body;
+    var filter = body.filter;
+    database
+        .collection("userAccounts")
+        .findOne(filter)
+        .then(function (doc) {
+            if (!doc) {
+                res.status(404).send({
+                    success: false,
+                    message: "User not found!",
+                });
+                return false;
+            }
+            if (!doc.discount) {
+                res.status(404).send({
+                    success: false,
+                    message: "Wrong user type!",
+                });
+                return false;
+            } else {
+                res.json(doc.discount);
+                return;
+            }
+        });
 });
 
 /*
