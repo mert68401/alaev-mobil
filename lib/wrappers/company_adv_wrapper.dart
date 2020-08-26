@@ -4,6 +4,7 @@ import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
+import 'package:alaev/widgets/card_company_widget.dart';
 import 'package:alaev/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -80,8 +81,10 @@ class _CompanyAdvertisementWrapperState
         backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.list,
-            color: Theme.of(context).primaryColor,),
+            icon: Icon(
+              Icons.list,
+              color: Theme.of(context).primaryColor,
+            ),
             onPressed: () {
               getUserRole().then((role) {
                 if (role == "Kurumsal") {
@@ -122,15 +125,20 @@ class _CompanyAdvertisementWrapperState
         ),
       ),
       body: Container(
-        child: CardWidget(
-          isJobPage: false,
-          onRefresh: fetchCompanyAdvs,
-          items: advList,
-          isFirebase: true,
-          isMyPage: false,
-          routeName: CompanyAdvertisement.routeName,
-        ),
-      ),
+          child: CardCompanyWidget(
+              onRefresh: fetchCompanyAdvs,
+              isFirebase: true,
+              items: advList,
+              routeName: CompanyAdvertisement.routeName)
+          // CardWidget(
+          //   isJobPage: false,
+          //   onRefresh: fetchCompanyAdvs,
+          //   items: advList,
+          //   isFirebase: true,
+          //   isMyPage: false,
+          //   routeName: CompanyAdvertisement.routeName,
+          // ),
+          ),
     );
   }
 }

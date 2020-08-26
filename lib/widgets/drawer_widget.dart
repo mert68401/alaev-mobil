@@ -17,111 +17,131 @@ class DrawerWidget extends StatelessWidget {
     }
 
     return SafeArea(
-      child: Drawer(
-        child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset(
-                      './assets/images/alaevLogoClean.png',
-                      fit: BoxFit.cover,
-                      height: 120,
-                    ),
-                  ],
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Drawer(
+          child: ListView(
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        './assets/images/alaevLogoClean.png',
+                        fit: BoxFit.cover,
+                        height: 120,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            InkWell(
-              onTap: () async {
-                print("click");
-                var result = await BarcodeScanner.scan();
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text("Barcodun içeriği"),
-                      content: Text(
-                        result.rawContent,
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text("Kapat"),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    );
-                  },
-                );
-              },
-              child: ListTile(
-                title: Text("QR Code okuyucu"),
-                trailing: Icon(Icons.camera_alt),
+              InkWell(
+                onTap: () async {
+                  print("click");
+                  var result = await BarcodeScanner.scan();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text("Barcodun içeriği"),
+                        content: Text(
+                          result.rawContent,
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text("Kapat"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("QR Code okuyucu", style: TextStyle(fontSize: 11)),
+                  trailing: Icon(Icons.camera_alt, size: 15),
+                ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(AboutScreen.routeName);
-              },
-              child: ListTile(
-                title: Text("Hakkımızda"),
-                trailing: Icon(Icons.person),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(AboutScreen.routeName);
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("Hakkımızda", style: TextStyle(fontSize: 11)),
+                  trailing: Icon(Icons.person, size: 15),
+                ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                customLaunch('http://alaev.org.tr');
-              },
-              child: ListTile(
-                title: Text("Web Sitemiz"),
-                trailing: Icon(Icons.web_asset),
+              InkWell(
+                onTap: () {
+                  customLaunch('http://alaev.org.tr');
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text(
+                    "Web Sitemiz",
+                    style: TextStyle(fontSize: 11),
+                  ),
+                  trailing: Icon(
+                    Icons.web_asset,
+                    size: 15,
+                  ),
+                ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(MembersScreen.routeName);
-              },
-              child: ListTile(
-                title: Text("Kurullarımız"),
-                trailing: Icon(Icons.group),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(MembersScreen.routeName);
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("Kurullarımız"),
+                  trailing: Icon(Icons.group),
+                ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed(FoundingMembersScreen.routeName);
-              },
-              child: ListTile(
-                title: Text("Kurucu Mütevelliler"),
-                trailing: Icon(Icons.group),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(FoundingMembersScreen.routeName);
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("Kurucu Mütevelliler"),
+                  trailing: Icon(Icons.group),
+                ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                customLaunch('http://alaev.org.tr/burslarimiz');
-              },
-              child: ListTile(
-                title: Text("Burs Başvuruları"),
-                trailing: Icon(Icons.school),
+              InkWell(
+                onTap: () {
+                  customLaunch('http://alaev.org.tr/burslarimiz');
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("Burs Başvuruları"),
+                  trailing: Icon(Icons.school),
+                ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                customLaunch('http://alaev.org.tr/iletisim');
-              },
-              child: ListTile(
-                title: Text("İletişim"),
-                trailing: Icon(Icons.mail),
+              InkWell(
+                onTap: () {
+                  customLaunch('http://alaev.org.tr/iletisim');
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("İletişim"),
+                  trailing: Icon(Icons.mail),
+                ),
               ),
-            ),
-          ],
+              ClipRect(
+                child: Image.asset('assets/images/wikilogo.jpeg'),
+              )
+            ],
+          ),
         ),
       ),
     );

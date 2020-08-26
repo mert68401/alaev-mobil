@@ -36,6 +36,7 @@ dependencies:
     carousel_pro: ^1.0.0
     shared_preferences: ^0.5.7+3
     fluttertoast: ^4.0.1
+    flutter_picker: ^1.1.5
     flutter:
         sdk: flutter
     flutter_localizations:
@@ -72,6 +73,7 @@ flutter:
         - assets/images/news.jpg
         - assets/images/background.jpg
         - assets/images/alaposter.jpg
+        - assets/images/wikilogo.jpeg
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see

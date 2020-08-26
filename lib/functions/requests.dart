@@ -129,6 +129,8 @@ Future<void> updateUserInfo({
   String fullName,
   String email,
   String personalNumber,
+  String companyName,
+  String companyDiscount,
 }) async {
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -139,7 +141,9 @@ Future<void> updateUserInfo({
         "token": value,
         "fullName": fullName,
         "personalNumber": personalNumber,
-        "email": email
+        "email": email,
+        "companyName": companyName,
+        "companyDiscount": companyDiscount
       }),
     );
     if (response.statusCode == 200) {

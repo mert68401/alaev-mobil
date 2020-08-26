@@ -4,6 +4,7 @@ import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/providers/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../screens/cv_screen.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +25,9 @@ class MapScreenState extends State<ProfileWrapper>
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
+  final _companyNameController = TextEditingController();
+  final _companyDiscountController = TextEditingController();
+
   final FocusNode myFocusNode = FocusNode();
 
   Map<String, dynamic> userData = {};
@@ -58,6 +62,8 @@ class MapScreenState extends State<ProfileWrapper>
           _emailController.text = userData['email']['str'];
           _fullNameController.text = userData['fullName'];
           _phoneController.text = userData['personalNumber'];
+          _companyNameController.text = userData['companyName'];
+          _companyDiscountController.text = userData['companyDiscount'];
         } else if (response.statusCode == 401) {
           showToastError(jsonDecode(response.body)['message'].toString());
         }
@@ -119,15 +125,8 @@ class MapScreenState extends State<ProfileWrapper>
                     Column(
                       children: <Widget>[
                         Container(
-                          height: 50,
-                          color: Colors.white,
-                          child: Column(
-                            children: <Widget>[],
-                          ),
-                        ),
-                        Container(
                           child: Padding(
-                            padding: EdgeInsets.only(bottom: 25.0),
+                            padding: EdgeInsets.only(bottom: 0.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -170,7 +169,7 @@ class MapScreenState extends State<ProfileWrapper>
                                     )),
                                 Padding(
                                     padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 25.0),
+                                        left: 25.0, right: 25.0, top: 20.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: <Widget>[
@@ -207,7 +206,7 @@ class MapScreenState extends State<ProfileWrapper>
                                     )),
                                 Padding(
                                     padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 25.0),
+                                        left: 25.0, right: 25.0, top: 20.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: <Widget>[
@@ -244,6 +243,115 @@ class MapScreenState extends State<ProfileWrapper>
                                     ],
                                   ),
                                 ),
+                                _isFirma
+                                    ? Column(
+                                        children: <Widget>[
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                  top: 20.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: <Widget>[
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'Şirket İsmi',
+                                                        style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 25.0,
+                                                right: 25.0,
+                                                top: 2.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: <Widget>[
+                                                Flexible(
+                                                  child: TextField(
+                                                    controller:
+                                                        _companyNameController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            hintText:
+                                                                "Şirket İsminizi Giriniz"),
+                                                    enabled: !_status,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                  top: 20.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: <Widget>[
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'İndirim Yüzdesi',
+                                                        style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: 25.0,
+                                              right: 285.0,
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Flexible(
+                                                  child: TextField(
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    maxLength: 2,
+                                                    inputFormatters: [
+                                                      WhitelistingTextInputFormatter
+                                                          .digitsOnly
+                                                    ],
+                                                    controller:
+                                                        _companyDiscountController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            hintText:
+                                                                "%0-99"),
+                                                    enabled: !_status,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : SizedBox(height: 0),
                                 !_status
                                     ? _getActionButtons()
                                     : Container(
@@ -325,7 +433,9 @@ class MapScreenState extends State<ProfileWrapper>
                     updateUserInfo(
                         fullName: _fullNameController.text,
                         email: _emailController.text,
-                        personalNumber: _phoneController.text);
+                        personalNumber: _phoneController.text,
+                        companyName: _companyNameController.text,
+                        companyDiscount: _companyDiscountController.text);
                   });
                 },
                 shape: RoundedRectangleBorder(
