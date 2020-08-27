@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/company_adv/edit_my_company_advs_screen.dart';
-import 'package:alaev/widgets/card_widget.dart';
+import 'package:alaev/widgets/card_my_company_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,7 +41,8 @@ class _MyCompanyAdvsScreenState extends State<MyCompanyAdvsScreen> {
               "_id": element["_id"],
               "title": element["companyAdTitle"],
               "content": element["companyAdContent"],
-              "imageUrl": element["companyAdImageUrl"]
+              "imageUrl": element["companyAdImageUrl"],
+              "companyName": element["companyName"],
             });
           });
         });
@@ -80,13 +81,18 @@ class _MyCompanyAdvsScreenState extends State<MyCompanyAdvsScreen> {
             ],
           ),
         ),
-        body: CardWidget(
-          isJobPage: false,
-          onRefresh: fetchUserCompanyAdvs,
-          items: myAdvList,
-          isFirebase: true,
-          isMyPage: true,
-          routeName: EditMyCompanyAdvScreen.routeName,
-        ));
+        body: MyCardCompanyWidget(
+            onRefresh: fetchUserCompanyAdvs,
+            isFirebase: true,
+            items: myAdvList,
+            routeName: EditMyCompanyAdvScreen.routeName)
+        //CardWidget(
+        //   isJobPage: false,
+        //   onRefresh: fetchUserCompanyAdvs,
+        //   items: myAdvList,
+        //   isFirebase: true,
+        //   isMyPage: true,
+        //   routeName: EditMyCompanyAdvScreen.routeName,
+        );
   }
 }

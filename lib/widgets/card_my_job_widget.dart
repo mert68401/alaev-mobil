@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CardCompanyWidget extends StatelessWidget {
+class MyCardJobWidget extends StatelessWidget {
   final bool isFirebase;
   final List items;
   final String routeName;
   final dynamic onRefresh;
+  final String appliedRouteName;
 
-  CardCompanyWidget(
+  MyCardJobWidget(
       {@required this.isFirebase,
       @required this.items,
       this.routeName,
+      this.appliedRouteName,
       @required this.onRefresh});
 
   Widget firebaseCheck(i) {
@@ -21,24 +23,26 @@ class CardCompanyWidget extends StatelessWidget {
               ImageChunkEvent loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 50,
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
-                    : null,
+              height: 70,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
               ),
             );
           },
-          height: 50,
-          width: 50,
+          height: 70,
+          width: 70,
           fit: BoxFit.cover,
         );
       } else {
         return Image.asset(
           './assets/images/logo.jpg',
-          height: 50,
-          width: 50,
+          height: 70,
+          width: 70,
           fit: BoxFit.cover,
         );
       }
@@ -50,28 +54,73 @@ class CardCompanyWidget extends StatelessWidget {
               ImageChunkEvent loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 50,
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
-                    : null,
+              height: 70,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
               ),
             );
           },
-          height: 50,
-          width: 50,
+          height: 70,
+          width: 70,
           fit: BoxFit.cover,
         );
       } else {
         return Image.asset(
           './assets/images/logo.jpg',
-          height: 50,
-          width: 50,
+          height: 70,
+          width: 70,
           fit: BoxFit.cover,
         );
       }
     }
+  }
+
+  Widget appliedUsersButton(BuildContext context, String a, int i) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Stack(alignment: Alignment.bottomRight, children: <Widget>[
+          Container(
+            width: 40,
+            decoration: BoxDecoration(
+                color: Colors.black87, borderRadius: BorderRadius.circular(20)),
+            margin: EdgeInsets.symmetric(vertical: 8),
+            child: IconButton(
+                icon: Icon(
+                  Icons.view_list,
+                  color: Theme.of(context).accentColor,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(appliedRouteName, arguments: {
+                    "_id": items[i]["_id"],
+                    "appliedUsers": items[i]["appliedUsers"],
+                  });
+                }),
+          ),
+          Container(
+              height: 21,
+              width: 21,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25), color: Colors.red),
+              margin: EdgeInsets.only(
+                right: 0, bottom: 8
+              ),
+              child: Text(
+                a,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ))
+        ]),
+      ],
+    );
   }
 
   @override
@@ -124,15 +173,26 @@ class CardCompanyWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          maxRadius: 40,
-                          minRadius: 30,
-                          child: firebaseCheck(i),
-                        ),
-                        title: Text(items[i]['title']),
-                        subtitle: Text(items[i]['companyName']),
-                      ),
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            maxRadius: 25,
+                            minRadius: 15,
+                            child: firebaseCheck(i),
+                          ),
+                          title: Text(items[i]['title']),
+                          subtitle: items[i]['companyName'] == null
+                              ? SizedBox(height: 0)
+                              : Text(items[i]['companyName']),
+                          trailing: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            maxRadius: 30,
+                            child: items[i]['appliedUsers'] == null
+                                ? SizedBox(height: 0)
+                                : appliedUsersButton(
+                                    context,
+                                    items[i]['appliedUsers'].length.toString(),
+                                    i),
+                          )),
                     ],
                   ),
                 ),

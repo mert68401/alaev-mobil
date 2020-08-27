@@ -712,8 +712,8 @@ router.post("/getUserJob", function (req, res) {
 router.post("/setCompanyAdRequest", function (req, res) {
     const body = req.body;
     const token = body.token;
-
-    console.log(body._id);
+    var companyName;
+    var companyAdObj;
     jwt.verify(token, "mERoo36mM?", function (err, decoded) {
         if (err) {
             res.status(401).send({
@@ -723,94 +723,100 @@ router.post("/setCompanyAdRequest", function (req, res) {
             throw new Error(err.message);
         } else {
             id = decoded._id;
-            companyAdObj = {
-                _id: body._id ? body._id : makeid(),
-                createdAt: new Date(),
-                state: "inactive",
-                userId: id,
-                companyAdImageUrl: body.companyAdImageUrl,
-                companyAdTitle: body.companyAdTitle,
-                companyAdCompanyNumber: body.companyAdCompanyNumber,
-                companyAdPersonalNumber: body.companyAdPersonalNumber,
-                companyAdMail: body.companyAdMail,
-                companyAdContent: body.companyAdContent,
-            };
-            console.log(companyAdObj);
-            database
-                .collection("companyAdForms")
-                .findOne({ _id: body._id })
-                .then(function (docs) {
-                    console.log(docs);
-                    if (!docs) {
-                        if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
-                            if (body.companyAdTitle != "" && body.companyAdCompanyNumber != "" && body.companyAdContent != "") {
-                                database.collection("companyAdForms").insertOne(companyAdObj, function (err, result) {
-                                    if (err) {
-                                        console.log(err);
-                                        res.status(401).send({
-                                            success: false,
-                                            message: "An error occured!",
-                                        });
-                                    }
-                                    res.json({
-                                        success: true,
-                                        message: "Firma İlanı Yaratıldı",
-                                    });
-                                });
-                            } else {
-                                console.log("Eksik bilgi");
-                            }
-                        } else {
-                            console.log("boşşş");
-                            res.status(401).send({
-                                success: false,
-                                message: "Firma Bilgileri Eksiksiz Giriniz!",
-                            });
-                        }
-                    } else {
-                        if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
-                            if (body.companyAdTitle != "" && body.companyAdCompanyNumber != "" && body.companyAdContent != "") {
-                                database.collection("companyAdForms").updateOne(
-                                    { _id: docs._id },
-                                    {
-                                        $set: {
-                                            companyAdImageUrl: body.companyAdImageUrl ? body.companyAdImageUrl : "",
-                                            state: "inactive",
-                                            companyAdTitle: body.companyAdTitle,
-                                            companyAdCompanyNumber: body.companyAdCompanyNumber,
-                                            companyAdPersonalNumber: body.companyAdPersonalNumber ? body.companyAdPersonalNumber : "",
-                                            companyAdMail: body.companyAdMail ? body.companyAdMail : "",
-                                            companyAdContent: body.companyAdContent,
-                                        },
-                                    },
-                                    function (error, result) {
-                                        if (error) {
-                                            console.log(error);
+            database.collection("userAccounts").findOne({ _id: id }).then(function (docs) {
+                companyName = docs.companyName;
+                companyAdObj = {
+                    _id: body._id ? body._id : makeid(),
+                    createdAt: new Date(),
+                    state: "inactive",
+                    userId: id,
+                    companyName: companyName,
+                    companyAdImageUrl: body.companyAdImageUrl,
+                    companyAdTitle: body.companyAdTitle,
+                    companyAdCompanyNumber: body.companyAdCompanyNumber,
+                    companyAdPersonalNumber: body.companyAdPersonalNumber,
+                    companyAdMail: body.companyAdMail,
+                    companyAdContent: body.companyAdContent,
+                };
+                console.log(companyAdObj, 'ASDADS');
+                database
+                    .collection("companyAdForms")
+                    .findOne({ _id: body._id })
+                    .then(function (docs) {
+                        if (!docs) {
+                            if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
+                                if (body.companyAdTitle != "" && body.companyAdCompanyNumber != "" && body.companyAdContent != "") {
+                                    database.collection("companyAdForms").insertOne(companyAdObj, function (err, result) {
+                                        if (err) {
+                                            console.log(err);
                                             res.status(401).send({
                                                 success: false,
                                                 message: "An error occured!",
                                             });
-                                            return;
-                                        } else {
-                                            res.json({
-                                                success: true,
-                                                message: "İş İlanı Güncellendi!",
-                                            });
                                         }
-                                    }
-                                );
+                                        res.json({
+                                            success: true,
+                                            message: "Firma İlanı Yaratıldı",
+                                        });
+                                    });
+                                } else {
+                                    console.log("Eksik bilgi");
+                                }
                             } else {
-                                console.log("Eksik bilgi");
+                                console.log("boşşş");
+                                res.status(401).send({
+                                    success: false,
+                                    message: "Firma Bilgileri Eksiksiz Giriniz!",
+                                });
                             }
                         } else {
-                            console.log("boşşş");
-                            res.status(401).send({
-                                success: false,
-                                message: "Bilgileri Eksiksiz Giriniz!",
-                            });
+                            if (body.companyAdTitle && body.companyAdCompanyNumber && body.companyAdContent) {
+                                if (body.companyAdTitle != "" && body.companyAdCompanyNumber != "" && body.companyAdContent != "") {
+                                    database.collection("companyAdForms").updateOne(
+                                        { _id: docs._id },
+                                        {
+                                            $set: {
+                                                companyAdImageUrl: body.companyAdImageUrl ? body.companyAdImageUrl : "",
+                                                state: "inactive",
+                                                companyAdTitle: body.companyAdTitle,
+                                                companyAdCompanyNumber: body.companyAdCompanyNumber,
+                                                companyAdPersonalNumber: body.companyAdPersonalNumber ? body.companyAdPersonalNumber : "",
+                                                companyAdMail: body.companyAdMail ? body.companyAdMail : "",
+                                                companyAdContent: body.companyAdContent,
+                                            },
+                                        },
+                                        function (error, result) {
+                                            if (error) {
+                                                console.log(error);
+                                                res.status(401).send({
+                                                    success: false,
+                                                    message: "An error occured!",
+                                                });
+                                                return;
+                                            } else {
+                                                res.json({
+                                                    success: true,
+                                                    message: "İş İlanı Güncellendi!",
+                                                });
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    console.log("Eksik bilgi");
+                                }
+                            } else {
+                                console.log("boşşş");
+                                res.status(401).send({
+                                    success: false,
+                                    message: "Bilgileri Eksiksiz Giriniz!",
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+
+            })
+
+
         }
     });
 });

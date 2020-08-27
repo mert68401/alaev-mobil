@@ -72,7 +72,9 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                   ),
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    Text('İsim ve Soyisim'), 
                     TextFieldWidget(
                       controller: _cvNameSurname,
                       height: 50,

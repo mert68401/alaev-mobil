@@ -202,6 +202,9 @@ class _LoginScreenState extends State<LoginScreen> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Row(
