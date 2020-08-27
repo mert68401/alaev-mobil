@@ -75,6 +75,7 @@ router.post("/register", function (req, res) {
             fullName: body.fullName,
             password: body.password,
             role: body.role,
+            graduateYear : body.graduateYear,
             createdAt: new Date(),
         };
     } else {

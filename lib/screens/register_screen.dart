@@ -224,6 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (!validateEmail(_emailController.text)) {
                               showToastError(
                                   "Doğru bir mail adresi girdiğinizden emin olun!");
+                              return;
                             }
                             if (_passwordController.text.length < 5) {
                               showToastError(
@@ -237,7 +238,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       _fullNameController.text,
                                       _emailController.text,
                                       _passwordController.text,
-                                      _selectedItem)
+                                      _selectedItem,
+                                      _graduateYearController.text)
                                   .then((value) {
                                 if (value) {
                                   Navigator.pop(context);
