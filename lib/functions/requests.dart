@@ -189,3 +189,24 @@ Future<void> applyJobRequest({
     }
   });
 }
+
+Future<String> getDiscountFromQr(
+  String qrContent,
+) async {
+  Map<String, String> headers = {"Content-type": "application/json"};
+  final response = await http.post(
+    'http://' + ServerIP().other + ':2000/api/getDiscountFromId',
+    headers: headers,
+    body: jsonEncode(<String, String>{
+      "qrContent": qrContent,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    return response.body;
+  } else if (response.statusCode == 401) {
+    return "";
+  } else {
+    return "";
+  }
+}

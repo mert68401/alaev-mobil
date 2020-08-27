@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/providers/auth.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../screens/cv_screen.dart';
 import 'package:http/http.dart' as http;
@@ -80,8 +82,58 @@ class MapScreenState extends State<ProfileWrapper>
           backgroundColor: Colors.white,
           actions: <Widget>[
             IconButton(
-                icon: Icon(
-                  Icons.exit_to_app,
+              color: Theme.of(context).primaryColor,
+              icon: FaIcon(FontAwesomeIcons.qrcode),
+              onPressed: () async {
+                var result = await BarcodeScanner.scan();
+                if (result.rawContent.length > 0) {
+                  getDiscountFromQr(result.rawContent).then((discount) {
+                    if (discount.length > 0) {
+                      print(discount);
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Barcodun içeriği"),
+                            content: Text(discount.toString()),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("Kapat"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Hatalı Barkod!"),
+                            content: Text(
+                                "Lütfen doğru barkodu okuttuğunuzdan emin olun."),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("Kapat"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  });
+                }
+              },
+            ),
+            IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.signOutAlt,
                   color: Theme.of(context).primaryColor,
                 ),
                 onPressed: () {
@@ -341,8 +393,7 @@ class MapScreenState extends State<ProfileWrapper>
                                                         _companyDiscountController,
                                                     decoration:
                                                         const InputDecoration(
-                                                            hintText:
-                                                                "%0-99"),
+                                                            hintText: "%0-99"),
                                                     enabled: !_status,
                                                   ),
                                                 ),

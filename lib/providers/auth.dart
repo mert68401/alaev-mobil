@@ -29,8 +29,8 @@ class Auth with ChangeNotifier {
     return true;
   }
 
-  Future<bool> signup(
-      String fullName, String email, String password, String role) async {
+  Future<bool> signup(String fullName, String email, String password,
+      String role, String graduateYear) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     var passwordMd5 = md5.convert(utf8.encode(password));
     final response = await http.post(
@@ -41,6 +41,7 @@ class Auth with ChangeNotifier {
           "email": email.trim(),
           "password": passwordMd5.toString(),
           "fullName": fullName,
+          "graduateYear": graduateYear,
           "role": role
         },
       ),
