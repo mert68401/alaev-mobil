@@ -35,6 +35,7 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -58,8 +59,14 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                    image: NetworkImage(
-                                        'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-128.png'), // dynamic yaz
+                                    image: arguments['cvImageUrl']
+                                                .toString()
+                                                .length >
+                                            0
+                                        ? NetworkImage(arguments['cvImageUrl'])
+                                        : NetworkImage(
+                                            'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-128.png'),
+                                    // dynamic yaz
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -74,7 +81,11 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('İsim ve Soyisim'), 
+                    Text(
+                      'İsim ve Soyisim',
+                      style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                    ),
+                    SizedBox(height: 8),
                     TextFieldWidget(
                       controller: _cvNameSurname,
                       height: 50,
@@ -83,6 +94,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                       labelText: arguments['cvNameSurname'],
                       enabled: false,
                     ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Yaş',
+                      style: TextStyle(fontSize: 17, color: Colors.grey[700]),
+                    ),
+                    SizedBox(height: 8),
                     TextFieldWidget(
                       controller: _cvAge,
                       height: 50,
@@ -91,6 +108,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                       labelText: arguments['cvAge'],
                       enabled: false,
                     ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Mail Adresi',
+                      style: TextStyle(fontSize: 17, color: Colors.grey[700]),
+                    ),
+                    SizedBox(height: 8),
                     TextFieldWidget(
                       controller: _cvMail,
                       height: 50,
@@ -99,6 +122,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                       labelText: arguments['cvMail'],
                       enabled: false,
                     ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Telefon Numarası',
+                      style: TextStyle(fontSize: 17, color: Colors.grey[700]),
+                    ),
+                    SizedBox(height: 8),
                     TextFieldWidget(
                       controller: _cvPhone,
                       height: 50,
@@ -107,6 +136,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                       labelText: arguments['cvPhone'],
                       enabled: false,
                     ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Kısa Bilgi',
+                      style: TextStyle(fontSize: 17, color: Colors.grey[700]),
+                    ),
+                    SizedBox(height: 8),
                     TextFieldWidget(
                       controller: _cvPersonalInfo,
                       height: 150,
@@ -131,10 +166,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                     alignment: Alignment.center,
@@ -142,6 +179,11 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                       'Eğitim Bilgileri',
                       style: TextStyle(fontSize: 20),
                     )),
+                Text(
+                  'Okul Adı',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvSchool1,
                   height: 75,
@@ -150,6 +192,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                   labelText: arguments['cvSchool1'],
                   enabled: false,
                 ),
+                SizedBox(height: 8),
+                Text(
+                  'Okul Adı',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvSchool2,
                   height: 75,
@@ -158,6 +206,7 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                   labelText: arguments['cvSchool2'],
                   enabled: false,
                 ),
+                SizedBox(height: 8),
                 Container(
                   margin: EdgeInsets.only(top: 15),
                   alignment: Alignment.center,
@@ -166,6 +215,11 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
+                Text(
+                  'Tecrübe',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvExperience1,
                   height: 75,
@@ -174,6 +228,11 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                   labelText: arguments['cvExperience1'],
                   enabled: false,
                 ),
+                Text(
+                  'Tecrübe',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvExperience2,
                   height: 75,
@@ -182,6 +241,11 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                   labelText: arguments['cvExperience2'],
                   enabled: false,
                 ),
+                Text(
+                  'Tecrübe ile ilgili kısa bilgi',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvExperienceInfo,
                   height: 130,
@@ -204,10 +268,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
     return Container(
       height: MediaQuery.of(context).devicePixelRatio,
       child: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                     alignment: Alignment.center,
@@ -215,6 +281,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                       'Referanslar',
                       style: TextStyle(fontSize: 20),
                     )),
+                SizedBox(height: 8),
+                Text(
+                  'Referans',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvReference1,
                   height: 55,
@@ -223,6 +295,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                   labelText: arguments['cvReference1'],
                   enabled: false,
                 ),
+                SizedBox(height: 8),
+                Text(
+                  'Referans',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvReference2,
                   height: 55,
@@ -239,6 +317,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
+                SizedBox(height: 8),
+                Text(
+                  'Yetenekler',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvLanguage,
                   maxLines: 2,
@@ -246,6 +330,12 @@ class _AppliedUserJobAdvCvScreen extends State<AppliedUserJobAdvCvScreen> {
                   labelText: arguments['cvLanguage'],
                   enabled: false,
                 ),
+                SizedBox(height: 8),
+                Text(
+                  'Yetenekler ile ilgili kısa bilgi',
+                  style: TextStyle(fontSize: 17, color: Colors.grey[800]),
+                ),
+                SizedBox(height: 8),
                 TextFieldWidget(
                   controller: _cvSkillInfo,
                   height: 150,

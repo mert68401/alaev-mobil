@@ -128,6 +128,8 @@ class _CvScreenState extends State<CvScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
+                                decoration:
+                                    BoxDecoration(shape: BoxShape.circle),
                                 width: 100,
                                 height: 100,
                                 child: _image == null

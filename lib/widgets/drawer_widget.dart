@@ -104,7 +104,7 @@ class DrawerWidget extends StatelessWidget {
                 child: ListTile(
                   dense: true,
                   title: Text("Kurullarımız", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.group),
+                  trailing: Icon(Icons.group, size: 15),
                 ),
               ),
               InkWell(
@@ -116,7 +116,7 @@ class DrawerWidget extends StatelessWidget {
                   dense: true,
                   title: Text("Kurucu Mütevelliler",
                       style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.group),
+                  trailing: Icon(Icons.group, size: 15),
                 ),
               ),
               InkWell(
@@ -127,7 +127,7 @@ class DrawerWidget extends StatelessWidget {
                   dense: true,
                   title:
                       Text("Burs Başvuruları", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.school),
+                  trailing: Icon(Icons.school, size: 15),
                 ),
               ),
               InkWell(
@@ -137,7 +137,7 @@ class DrawerWidget extends StatelessWidget {
                 child: ListTile(
                   dense: true,
                   title: Text("İletişim", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.mail),
+                  trailing: Icon(Icons.mail, size: 15),
                 ),
               ),
               SizedBox(

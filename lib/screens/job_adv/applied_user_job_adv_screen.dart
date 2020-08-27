@@ -100,6 +100,7 @@ class AppState extends State<AppliedUsersJobAdvScreen> {
                               ['cvReference2'],
                           "cvLanguage": appliedUsersList[index]['cvLanguage'],
                           "cvSkillInfo": appliedUsersList[index]['cvSkillInfo'],
+                          "cvImageUrl": appliedUsersList[index]['cvImageUrl']
                         });
                   },
                   title: Text(appliedUsersList[index]['cvNameSurname']),
