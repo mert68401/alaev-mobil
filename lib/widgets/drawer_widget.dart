@@ -1,8 +1,9 @@
 import 'package:alaev/screens/about_screen.dart';
+import 'package:alaev/screens/chronology_screen.dart';
 import 'package:alaev/screens/founding_members_screen.dart';
 import 'package:alaev/screens/members_screen.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -21,7 +22,7 @@ class DrawerWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Drawer(
           child: ListView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: BouncingScrollPhysics(),
             children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(),
@@ -47,7 +48,7 @@ class DrawerWidget extends StatelessWidget {
                 child: ListTile(
                   dense: true,
                   title: Text("Hakkımızda", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.person, size: 15),
+                  trailing: Icon(Icons.person),
                 ),
               ),
               InkWell(
@@ -60,9 +61,8 @@ class DrawerWidget extends StatelessWidget {
                     "Web Sitemiz",
                     style: TextStyle(fontSize: 13),
                   ),
-                  trailing: Icon(
-                    Icons.web_asset,
-                    size: 15,
+                  trailing: FaIcon(
+                    FontAwesomeIcons.globe,
                   ),
                 ),
               ),
@@ -73,7 +73,7 @@ class DrawerWidget extends StatelessWidget {
                 child: ListTile(
                   dense: true,
                   title: Text("Kurullarımız", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.group, size: 15),
+                  trailing: Icon(Icons.group),
                 ),
               ),
               InkWell(
@@ -85,7 +85,23 @@ class DrawerWidget extends StatelessWidget {
                   dense: true,
                   title: Text("Kurucu Mütevelliler",
                       style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.group, size: 15),
+                  trailing: FaIcon(
+                    FontAwesomeIcons.building,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(ChronologyScreen.routeName);
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("Vakıf Kronolijisi",
+                      style: TextStyle(fontSize: 13)),
+                  trailing: FaIcon(
+                    FontAwesomeIcons.calendarAlt,
+                  ),
                 ),
               ),
               InkWell(
@@ -96,7 +112,7 @@ class DrawerWidget extends StatelessWidget {
                   dense: true,
                   title:
                       Text("Burs Başvuruları", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.school, size: 15),
+                  trailing: Icon(Icons.school),
                 ),
               ),
               InkWell(
@@ -106,7 +122,7 @@ class DrawerWidget extends StatelessWidget {
                 child: ListTile(
                   dense: true,
                   title: Text("İletişim", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.mail, size: 15),
+                  trailing: Icon(Icons.mail),
                 ),
               ),
               SizedBox(
@@ -119,10 +135,11 @@ class DrawerWidget extends StatelessWidget {
                     'Powered By',
                     style: TextStyle(fontSize: 10),
                   ),
-                 
                   ClipRect(
-
-                    child: Image.asset('assets/images/wikilogo.png',height: 100,),
+                    child: Image.asset(
+                      'assets/images/wikilogo.png',
+                      height: 100,
+                    ),
                   ),
                 ],
               )

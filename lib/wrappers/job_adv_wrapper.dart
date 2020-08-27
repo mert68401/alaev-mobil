@@ -5,6 +5,8 @@ import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
 import 'package:alaev/widgets/card_job_widget.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:smart_select/smart_select.dart';
 import '../screens/job_adv/job_adv_detail_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   bool _isFirma = false;
   String _diplomaSelectedItem = 'Hepsi';
   String _categorySelectedItem = 'Hepsi';
+  int selectitem = 1;
 
   Future<void> fetchJobAdvs(String jobAdType, String jobAdDiploma) async {
     jobAdvList.clear();
@@ -101,31 +104,61 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
 
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
+  Widget smartSelect(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        title: title,
+        dense: false,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: value,
+        options: options,
+        onChange: (val) => setState(() => _diplomaSelectedItem = val));
+  }
+
+  Widget smartSelect2(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        title: title,
+        dense: false,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: value,
+        options: options,
+        onChange: (val) => setState(() => _categorySelectedItem = val));
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> diplomaItems = [
-      'Hepsi',
-      'Lise',
-      'Önlisans - Öğrenci',
-      'Önlisans - Mezun',
-      'Üniversite - Öğrenci',
-      'Üniversite - Mezun',
-      'Yüksek Lisans',
-      'Doktora'
+    List<SmartSelectOption<String>> categoryOptions = [
+      SmartSelectOption<String>(value: 'Hepsi', title: 'Hepsi'),
+      SmartSelectOption<String>(value: 'Bilişim', title: 'Bilişim'),
+      SmartSelectOption<String>(value: 'Gıda', title: 'Gıda'),
+      SmartSelectOption<String>(value: 'Sağlık', title: 'Sağlık'),
+      SmartSelectOption<String>(value: 'Hizmet', title: 'Hizmet'),
+      SmartSelectOption<String>(value: 'Tekstil', title: 'Tekstil'),
+      SmartSelectOption<String>(value: 'Ticaret', title: 'Ticaret'),
+      SmartSelectOption<String>(value: 'Yapı', title: 'Yapı'),
+      SmartSelectOption<String>(value: 'Otomotiv', title: 'Otomotiv'),
+      SmartSelectOption<String>(value: 'Eğitim', title: 'Eğitim'),
+      SmartSelectOption<String>(value: 'Diğer', title: 'Diğer'),
     ];
-    List<String> categoryItems = [
-      'Hepsi',
-      'Bilişim',
-      'Gıda',
-      'Sağlık',
-      'Hizmet',
-      'Tekstil',
-      'Ticaret',
-      'Yapı',
-      'Otomotiv',
-      'Eğitim',
-      'Diğer'
+
+    List<SmartSelectOption<String>> diplomaOptions = [
+      SmartSelectOption<String>(value: 'Hepsi', title: 'Hepsi'),
+      SmartSelectOption<String>(value: 'Lise', title: 'Lise'),
+      SmartSelectOption<String>(
+          value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
+      SmartSelectOption<String>(
+          value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
+      SmartSelectOption<String>(
+          value: 'Üniversite - Öğrenci', title: 'Üniversite - Öğrenci'),
+      SmartSelectOption<String>(
+          value: 'Üniversite - Mezun', title: 'Üniversite - Mezun'),
+      SmartSelectOption<String>(
+          value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
+      SmartSelectOption<String>(value: 'Yüksek Lisans', title: 'Yüksek Lisans'),
+      SmartSelectOption<String>(value: 'Doktora', title: 'Doktora'),
     ];
+
     return Scaffold(
       key: _drawerKey,
       drawer: SafeArea(
@@ -156,82 +189,20 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 25),
                 ),
-                SizedBox(height: 35),
+                SizedBox(height: 15),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Öğrenim Durumu',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: Colors.grey,
-                          fontSize: 17),
-                    ),
                     SizedBox(height: 4),
-                    Container(
-                      color: Colors.indigo[50],
-                      child: DropdownButton<String>(
-                        elevation: 210,
-                        isDense: true,
-                        icon: Icon(Icons.arrow_drop_down),
-                        value: _diplomaSelectedItem,
-                        isExpanded: true,
-                        onChanged: (String diplomaString) => setState(() {
-                          _diplomaSelectedItem = diplomaString;
-                        }),
-                        selectedItemBuilder: (BuildContext context) {
-                          return diplomaItems.map<Widget>((String diplomaItem) {
-                            return Text(
-                              diplomaItem,
-                              style: TextStyle(fontSize: 17),
-                            );
-                          }).toList();
-                        },
-                        items: diplomaItems.map((String item) {
-                          return DropdownMenuItem<String>(
-                            child: Text('$item'),
-                            value: item,
-                          );
-                        }).toList(),
-                      ),
-                    ),
+                    smartSelect(
+                        'Öğrenim Durumu', diplomaOptions, _diplomaSelectedItem),
                   ],
                 ),
-                SizedBox(height: 35),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Kategori',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: Colors.grey,
-                          fontSize: 17),
-                    ),
-                    SizedBox(height: 4),
-                    DropdownButton<String>(
-                      isDense: true,
-                      icon: Icon(Icons.arrow_drop_down),
-                      value: _categorySelectedItem,
-                      isExpanded: true,
-                      onChanged: (String categoryItemstring) => setState(() {
-                        _categorySelectedItem = categoryItemstring;
-                      }),
-                      selectedItemBuilder: (BuildContext context) {
-                        return categoryItems.map<Widget>((String categoryItem) {
-                          return Text(
-                            categoryItem,
-                            style: TextStyle(fontSize: 17),
-                          );
-                        }).toList();
-                      },
-                      items: categoryItems.map((String categoryItem) {
-                        return DropdownMenuItem<String>(
-                          child: Text('$categoryItem'),
-                          value: categoryItem,
-                        );
-                      }).toList(),
-                    ),
+                    smartSelect2(
+                        'Kategori', categoryOptions, _categorySelectedItem)
                   ],
                 ),
                 Row(
@@ -310,7 +281,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       ),
       body: Container(
           child: CardJobWidget(
-              onRefresh: () => fetchJobAdvs(_diplomaSelectedItem, _categorySelectedItem),
+              onRefresh: () =>
+                  fetchJobAdvs(_diplomaSelectedItem, _categorySelectedItem),
               isFirebase: true,
               items: jobAdvList,
               routeName: JobAdvertisement.routeName)

@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:smart_select/smart_select.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'package:path/path.dart';
 
@@ -28,27 +29,33 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   String _selectedItem = 'Diğer';
   String _diplomaItem = 'Hepsi';
-  final List<String> items = <String>[
-    'Bilişim',
-    'Gıda',
-    'Sağlık',
-    'Hizmet',
-    'Tekstil',
-    'Ticaret',
-    'Yapı',
-    'Otomotiv',
-    'Eğitim',
-    'Diğer'
+
+  List<SmartSelectOption<String>> items = [
+    SmartSelectOption<String>(value: 'Bilişim', title: 'Bilişim'),
+    SmartSelectOption<String>(value: 'Gıda', title: 'Gıda'),
+    SmartSelectOption<String>(value: 'Sağlık', title: 'Sağlık'),
+    SmartSelectOption<String>(value: 'Hizmet', title: 'Hizmet'),
+    SmartSelectOption<String>(value: 'Tekstil', title: 'Tekstil'),
+    SmartSelectOption<String>(value: 'Ticaret', title: 'Ticaret'),
+    SmartSelectOption<String>(value: 'Yapı', title: 'Yapı'),
+    SmartSelectOption<String>(value: 'Otomotiv', title: 'Otomotiv'),
+    SmartSelectOption<String>(value: 'Eğitim', title: 'Eğitim'),
+    SmartSelectOption<String>(value: 'Diğer', title: 'Diğer'),
   ];
-  final List<String> diplomaItems = <String>[
-    'Hepsi',
-    'Lise',
-    'Önlisans - Öğrenci',
-    'Önlisans - Mezun',
-    'Üniversite - Öğrenci',
-    'Üniversite - Mezun',
-    'Yüksek Lisans',
-    'Doktora'
+
+  List<SmartSelectOption<String>> diplomaItems = [
+    SmartSelectOption<String>(value: 'Hepsi', title: 'Hepsi'),
+    SmartSelectOption<String>(value: 'Lise', title: 'Lise'),
+    SmartSelectOption<String>(
+        value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
+    SmartSelectOption<String>(
+        value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
+    SmartSelectOption<String>(
+        value: 'Üniversite - Öğrenci', title: 'Üniversite - Öğrenci'),
+    SmartSelectOption<String>(
+        value: 'Üniversite - Mezun', title: 'Üniversite - Mezun'),
+    SmartSelectOption<String>(value: 'Yüksek Lisans', title: 'Yüksek Lisans'),
+    SmartSelectOption<String>(value: 'Doktora', title: 'Doktora'),
   ];
 
   File _image;
@@ -74,6 +81,30 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   void dispose() {
     super.dispose();
+  }
+
+  Widget smartSelectKategori(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        title: title,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        dense: true,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: value,
+        options: options,
+        onChange: (val) => setState(() => _selectedItem = val));
+  }
+
+  Widget smartSelectDiploma(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        title: title,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        dense: true,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: value,
+        options: options,
+        onChange: (val) => setState(() => _diplomaItem = val));
   }
 
   @override
@@ -194,68 +225,9 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           height: 60,
                           maxLength: 30,
                         )),
-                        SizedBox(height: 5),
-                        Row(
-                          children: <Widget>[
-                            Text('İlan Tipi :'),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  child: DropdownButton<String>(
-                                    isDense: true,
-                                    icon: Icon(Icons.arrow_drop_down),
-                                    value: _selectedItem,
-                                    onChanged: (String string) => setState(() {
-                                      _selectedItem = string;
-                                    }),
-                                    selectedItemBuilder:
-                                        (BuildContext context) {
-                                      return items.map<Widget>((String item) {
-                                        return Text(item);
-                                      }).toList();
-                                    },
-                                    items: items.map((String item) {
-                                      return DropdownMenuItem<String>(
-                                        child: Text('$item'),
-                                        value: item,
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: <Widget>[
-                            Text('Diploma : '),
-                            Container(
-                              child: DropdownButton<String>(
-                                isDense: true,
-                                icon: Icon(Icons.arrow_drop_down),
-                                value: _diplomaItem,
-                                onChanged: (String diplomaString) =>
-                                    setState(() {
-                                  _diplomaItem = diplomaString;
-                                }),
-                                selectedItemBuilder: (BuildContext context) {
-                                  return diplomaItems
-                                      .map<Widget>((String diplomaItem) {
-                                    return Text(diplomaItem);
-                                  }).toList();
-                                },
-                                items: diplomaItems.map((String diplomaItem) {
-                                  return DropdownMenuItem<String>(
-                                    child: Text('$diplomaItem'),
-                                    value: diplomaItem,
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
+                        smartSelectKategori('Kategori', items, _selectedItem),
+                        smartSelectDiploma(
+                            'Öğrenim Durumu', diplomaItems, _diplomaItem),
                         Container(
                             child: TextFieldWidget(
                           controller: _jobAdContent,
