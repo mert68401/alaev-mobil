@@ -42,7 +42,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
         slivers: <Widget>[
           SliverAppBar(
             backgroundColor: Colors.white,
-            elevation: 10,
+            elevation: 20,
             leading: GestureDetector(
               onTap: () {
                 Scaffold.of(context).openDrawer();

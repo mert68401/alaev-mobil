@@ -41,37 +41,6 @@ class DrawerWidget extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () async {
-                  print("click");
-                  var result = await BarcodeScanner.scan();
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text("Barcodun içeriği"),
-                        content: Text(
-                          result.rawContent,
-                        ),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text("Kapat"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          )
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: ListTile(
-                  dense: true,
-                  title:
-                      Text("QR Code okuyucu", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.camera_alt, size: 15),
-                ),
-              ),
-              InkWell(
                 onTap: () {
                   Navigator.of(context).pushNamed(AboutScreen.routeName);
                 },
@@ -150,11 +119,10 @@ class DrawerWidget extends StatelessWidget {
                     'Powered By',
                     style: TextStyle(fontSize: 10),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                 
                   ClipRect(
-                    child: Image.asset('assets/images/wikilogo.png'),
+
+                    child: Image.asset('assets/images/wikilogo.png',height: 100,),
                   ),
                 ],
               )

@@ -422,10 +422,10 @@ router.post("/setCvPage", function (req, res) {
 */
 router.post("/getDiscountFromId", function (req, res) {
     var body = req.body;
-    var filter = body.filter;
+    var qrContent = body.qrContent;
     database
         .collection("userAccounts")
-        .findOne(filter)
+        .findOne({ _id: qrContent })
         .then(function (doc) {
             if (!doc) {
                 res.status(404).send({
@@ -441,7 +441,8 @@ router.post("/getDiscountFromId", function (req, res) {
                 });
                 return false;
             } else {
-                res.json(doc.discount);
+                console.log(doc);
+                res.json(doc.companyName + " için " + "%" + doc.companyDiscount + " indirim!");
                 return;
             }
         });

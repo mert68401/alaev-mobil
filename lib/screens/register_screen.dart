@@ -1,6 +1,7 @@
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/providers/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _password2Controller = TextEditingController();
+  final _graduateYearController = TextEditingController();
 
   String _selectedItem = 'Bireysel';
 
@@ -45,12 +47,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: ListView(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+              padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
+                      SizedBox(height: 40),
                       Text(
                         'Kayıt Ol',
                         style: TextStyle(
@@ -65,9 +68,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        width: 300,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 16.0),
                         height: 60,
                         child: TextField(
                           textAlign: TextAlign.start,
@@ -88,9 +88,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 10),
                       Container(
-                        width: 300,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 16.0),
                         height: 60,
                         child: TextField(
                           textAlign: TextAlign.start,
@@ -112,9 +109,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 10),
                       Container(
-                        width: 300,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 16.0),
+                        height: 60,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          maxLength: 4,
+                          inputFormatters: [
+                            WhitelistingTextInputFormatter.digitsOnly
+                          ],
+                          controller: _graduateYearController,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            labelText: 'Mezuniyet Yılı',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(width: 10),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
                         height: 60,
                         child: TextField(
                           obscureText: true,
@@ -137,9 +153,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 10),
                       Container(
-                        width: 300,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 16.0),
                         height: 60,
                         child: TextField(
                           obscureText: true,
@@ -162,10 +175,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 10),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
                             alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.only(left: 60, bottom: 5),
                             margin: EdgeInsets.only(top: 1),
                             child: Text('Hesap Tipi :'),
                           ),
