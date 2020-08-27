@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CardCompanyWidget extends StatelessWidget {
+class MyCardCompanyWidget extends StatelessWidget {
   final bool isFirebase;
   final List items;
   final String routeName;
   final dynamic onRefresh;
+  final String appliedRouteName;
 
-  CardCompanyWidget(
+  MyCardCompanyWidget(
       {@required this.isFirebase,
       @required this.items,
       this.routeName,
+      this.appliedRouteName,
       @required this.onRefresh});
 
   Widget firebaseCheck(i) {
@@ -21,24 +23,26 @@ class CardCompanyWidget extends StatelessWidget {
               ImageChunkEvent loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 50,
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
-                    : null,
+              height: 70,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
               ),
             );
           },
-          height: 50,
-          width: 50,
+          height: 70,
+          width: 70,
           fit: BoxFit.cover,
         );
       } else {
         return Image.asset(
           './assets/images/logo.jpg',
-          height: 50,
-          width: 50,
+          height: 70,
+          width: 70,
           fit: BoxFit.cover,
         );
       }
@@ -50,24 +54,26 @@ class CardCompanyWidget extends StatelessWidget {
               ImageChunkEvent loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 50,
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
-                    : null,
+              height: 70,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
               ),
             );
           },
-          height: 50,
-          width: 50,
+          height: 70,
+          width: 70,
           fit: BoxFit.cover,
         );
       } else {
         return Image.asset(
           './assets/images/logo.jpg',
-          height: 50,
-          width: 50,
+          height: 70,
+          width: 70,
           fit: BoxFit.cover,
         );
       }

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CardCompanyWidget extends StatelessWidget {
+class CardJobWidget extends StatelessWidget {
   final bool isFirebase;
   final List items;
   final String routeName;
   final dynamic onRefresh;
+  final String appliedRouteName;
 
-  CardCompanyWidget(
+  CardJobWidget(
       {@required this.isFirebase,
       @required this.items,
       this.routeName,
+      this.appliedRouteName,
       @required this.onRefresh});
 
   Widget firebaseCheck(i) {
@@ -131,7 +133,7 @@ class CardCompanyWidget extends StatelessWidget {
                           child: firebaseCheck(i),
                         ),
                         title: Text(items[i]['title']),
-                        subtitle: Text(items[i]['companyName']),
+                        subtitle: Text(''),
                       ),
                     ],
                   ),

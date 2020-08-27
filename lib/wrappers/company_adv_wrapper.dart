@@ -53,6 +53,7 @@ class _CompanyAdvertisementWrapperState
             "personalNumber": element["companyAdPersonalNumber"],
             "companyNumber": element["companyAdCompanyNumber"],
             "email": element["companyAdMail"],
+            "companyName": element["companyName"]
           });
         });
       });

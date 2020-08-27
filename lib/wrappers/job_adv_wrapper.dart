@@ -4,8 +4,8 @@ import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
+import 'package:alaev/widgets/card_job_widget.dart';
 import '../screens/job_adv/job_adv_detail_screen.dart';
-import 'package:alaev/widgets/card_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -309,15 +309,20 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         ),
       ),
       body: Container(
-        child: CardWidget(
-          isJobPage: true,
-          onRefresh: fetchJobAdvs,
-          items: jobAdvList,
-          isFirebase: true,
-          isMyPage: false,
-          routeName: JobAdvertisement.routeName,
-        ),
-      ),
+          child: CardJobWidget(
+              onRefresh: () => fetchJobAdvs(_diplomaSelectedItem, _categorySelectedItem),
+              isFirebase: true,
+              items: jobAdvList,
+              routeName: JobAdvertisement.routeName)
+          // CardWidget(
+          //   isJobPage: true,
+          //   onRefresh: fetchJobAdvs,
+          //   items: jobAdvList,
+          //   isFirebase: true,
+          //   isMyPage: false,
+          //   routeName: JobAdvertisement.routeName,
+          // ),
+          ),
     );
   }
 }
