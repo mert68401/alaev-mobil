@@ -171,8 +171,8 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                               height: 150,
                               width: double.infinity,
                               child: _image == null
-                                  ? Image.network(
-                                      "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                  ? Image.asset(
+                                      "assets/images/empty.png",
                                       fit: BoxFit.cover,
                                     )
                                   : Image.file(

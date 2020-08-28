@@ -34,15 +34,15 @@ class MyCardCompanyWidget extends StatelessWidget {
               ),
             );
           },
-          height: 70,
-          width: 70,
+          height: 50,
+          width: 50,
           fit: BoxFit.cover,
         );
       } else {
         return Image.asset(
           './assets/images/logo.jpg',
-          height: 70,
-          width: 70,
+          height: 50,
+          width: 50,
           fit: BoxFit.cover,
         );
       }
@@ -65,15 +65,15 @@ class MyCardCompanyWidget extends StatelessWidget {
               ),
             );
           },
-          height: 70,
-          width: 70,
+          height: 50,
+          width: 50,
           fit: BoxFit.cover,
         );
       } else {
         return Image.asset(
           './assets/images/logo.jpg',
-          height: 70,
-          width: 70,
+          height: 50,
+          width: 50,
           fit: BoxFit.cover,
         );
       }

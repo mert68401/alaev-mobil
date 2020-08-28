@@ -134,8 +134,8 @@ class _CvScreenState extends State<CvScreen> {
                                 height: 100,
                                 child: _image == null
                                     ? _cvImageUrl == "" || _cvImageUrl == null
-                                        ? Image.network(
-                                            "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                        ? Image.asset(
+                                            "assets/images/empty.png",
                                             fit: BoxFit.cover,
                                           )
                                         : Image.network(

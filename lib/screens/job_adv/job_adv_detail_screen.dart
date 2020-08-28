@@ -31,20 +31,24 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
     }
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        child: Text("Başvur"),
-        onPressed: () {
-          getUserRole().then((role) {
-            role == "Kurumsal"
-                ? showToastError(
-                    'Kurumsal tip kullanıcılar iş başvurusu yapamaz!')
-                : applyJobRequest(jobAdId: jobAdId);
-          });
-        },
-      ),
       appBar: AppBar(
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(3),
+            child: FloatingActionButton(
+              backgroundColor: Colors.green,
+              child: Text("Başvur", style: TextStyle(fontSize: 13),),
+              onPressed: () {
+                getUserRole().then((role) {
+                  role == "Kurumsal"
+                      ? showToastError(
+                          'Kurumsal tip kullanıcılar iş başvurusu yapamaz!')
+                      : applyJobRequest(jobAdId: jobAdId);
+                });
+              },
+            ),
+          ),
+        ],
         iconTheme: IconThemeData(
           color: Theme.of(context).primaryColor, //change your color here
         ),
@@ -74,8 +78,8 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                         arguments['imageUrl'],
                         fit: BoxFit.cover,
                       )
-                    : Image.network(
-                        "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                    : Image.asset(
+                        "assets/images/empty.png",
                         fit: BoxFit.cover,
                       ),
               ),
@@ -86,88 +90,104 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                 child: Text(
                   arguments['title'],
                   style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
+              Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                border: TableBorder.all(color: Colors.grey),
+                columnWidths: {
+                  0: FractionColumnWidth(.35),
+                  1: FractionColumnWidth(.65),
+                },
+                children: [
+                  TableRow(children: [
+                    Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Firma İsmi', textAlign: TextAlign.center),
+                      )
+                    ]),
+                    Column(children: [
+                      Text(arguments['companyName'],
+                          textAlign: TextAlign.center)
+                    ]),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Firma Telefon Numarası',
+                          textAlign: TextAlign.center),
+                    ),
                     GestureDetector(
                       onTap: () {
                         customLaunch('tel:$clickableCompanyNumber');
                       },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.phone),
-                          Text(
-                            arguments['companyNumber'],
-                            style: TextStyle(color: Colors.indigo[800]),
-                          )
-                        ],
+                      child: Text(
+                        arguments['companyNumber'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.indigo[800]),
                       ),
+                    ),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Kişisel Telefon Numarası',
+                          textAlign: TextAlign.center),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        customLaunch('tel:$clickablePersonalNumber');
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.phone_android),
-                          Text(
-                            arguments['personalNumber'],
-                            style: TextStyle(color: Colors.indigo[800]),
-                          )
-                        ],
-                      ),
+                        onTap: () {
+                          customLaunch('tel:$clickablePersonalNumber');
+                        },
+                        child: Text(
+                          arguments['personalNumber'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.indigo[800]),
+                        )),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Mail Adresi', textAlign: TextAlign.center),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.mail),
-                      Text(
-                        arguments['email'],
-                      )
-                    ],
-                  ),
-                  Row(children: <Widget>[
-                    Icon(Icons.library_books),
                     Text(
-                      arguments['diploma'],
+                      arguments['email'],
+                      textAlign: TextAlign.center,
+                    ),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                          Text('Eğitim Seviyesi', textAlign: TextAlign.center),
+                    ),
+                    Text(arguments['diploma'], textAlign: TextAlign.center),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Sektör', textAlign: TextAlign.center),
+                    ),
+                    Text(arguments['type'], textAlign: TextAlign.center),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                          Text('İlan Ayrıntısı', textAlign: TextAlign.center),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        arguments['content'],
+                      ),
                     ),
                   ]),
                 ],
-              ),
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.fiber_manual_record),
-                  Text(
-                    arguments['type'],
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  arguments['content'],
-                ),
-              ),
-              SizedBox(
-                height: 50,
               ),
             ],
           ),

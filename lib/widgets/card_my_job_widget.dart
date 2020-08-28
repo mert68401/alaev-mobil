@@ -23,7 +23,7 @@ class MyCardJobWidget extends StatelessWidget {
               ImageChunkEvent loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 70,
+              height: 50,
               child: Center(
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
@@ -34,15 +34,15 @@ class MyCardJobWidget extends StatelessWidget {
               ),
             );
           },
-          height: 70,
-          width: 70,
+          height: 50,
+          width: 50,
           fit: BoxFit.cover,
         );
       } else {
         return Image.asset(
           './assets/images/logo.jpg',
-          height: 70,
-          width: 70,
+          height: 50,
+          width: 50,
           fit: BoxFit.cover,
         );
       }
@@ -54,7 +54,7 @@ class MyCardJobWidget extends StatelessWidget {
               ImageChunkEvent loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 70,
+              height: 50,
               child: Center(
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
@@ -72,8 +72,8 @@ class MyCardJobWidget extends StatelessWidget {
       } else {
         return Image.asset(
           './assets/images/logo.jpg',
-          height: 70,
-          width: 70,
+          height: 50,
+          width: 50,
           fit: BoxFit.cover,
         );
       }

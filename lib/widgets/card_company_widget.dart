@@ -90,6 +90,10 @@ class CardCompanyWidget extends StatelessWidget {
                     "_id": items[i]["_id"],
                     "title": items[i]["title"],
                     "content": items[i]["content"],
+                    "companyName": items[i]["companyName"] != null &&
+                            items[i]["companyName"].isNotEmpty
+                        ? items[i]["companyName"]
+                        : "",
                     "imageUrl": items[i]['imageUrl'].isNotEmpty
                         ? items[i]['imageUrl']
                         : '',

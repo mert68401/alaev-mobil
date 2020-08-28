@@ -50,8 +50,8 @@ class CompanyAdvertisement extends StatelessWidget {
                         arguments['imageUrl'],
                         fit: BoxFit.cover,
                       )
-                    : Image.network(
-                        "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                    : Image.asset(
+                        "assets/images/empty.png",
                         fit: BoxFit.cover,
                       ),
               ),
@@ -62,67 +62,90 @@ class CompanyAdvertisement extends StatelessWidget {
                 child: Text(
                   arguments['title'],
                   style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    FlatButton(
-                      onPressed: () {
+              Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                border: TableBorder.all(color: Colors.grey),
+                columnWidths: {
+                  0: FractionColumnWidth(.35),
+                  1: FractionColumnWidth(.65),
+                },
+                children: [
+                  TableRow(children: [
+                    Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Firma İsmi', textAlign: TextAlign.center),
+                      )
+                    ]),
+                    Column(children: [
+                      Text(arguments['companyName'],
+                          textAlign: TextAlign.center)
+                    ]),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Firma Telefon Numarası',
+                          textAlign: TextAlign.center),
+                    ),
+                    GestureDetector(
+                      onTap: () {
                         customLaunch('tel:$clickableCompanyNumber');
                       },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.phone),
-                          Text(
-                            arguments['companyNumber'],
-                            style: TextStyle(
-                              color: Colors.indigo[800],
-                            ),
-                          )
-                        ],
+                      child: Text(
+                        arguments['companyNumber'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.indigo[800]),
                       ),
                     ),
-                    FlatButton(
-                      onPressed: () {
-                        customLaunch('tel:$clickablePersonalNumber');
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.phone_android),
-                          Text(
-                            arguments['personalNumber'],
-                            style: TextStyle(color: Colors.indigo[800]),
-                          )
-                        ],
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Kişisel Telefon Numarası',
+                          textAlign: TextAlign.center),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          customLaunch('tel:$clickablePersonalNumber');
+                        },
+                        child: Text(
+                          arguments['personalNumber'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.indigo[800]),
+                        )),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Mail Adresi', textAlign: TextAlign.center),
+                    ),
+                    Text(
+                      arguments['email'],
+                      textAlign: TextAlign.center,
+                    ),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                          Text('İlan Ayrıntısı', textAlign: TextAlign.center),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        arguments['content'],
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.mail),
-                  Text(
-                    arguments['email'],
-                  )
+                  ]),
                 ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  arguments['content'],
-                ),
               ),
             ],
           ),

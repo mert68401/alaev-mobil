@@ -218,8 +218,8 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                             width: double.infinity,
                             child: _image == null
                                 ? _jobAdImageUrl == "" || _jobAdImageUrl == null
-                                    ? Image.network(
-                                        "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                    ? Image.asset(
+                                        "assets/images/empty.png",
                                         fit: BoxFit.cover,
                                       )
                                     : Image.network(

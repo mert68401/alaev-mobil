@@ -167,8 +167,8 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                               width: double.infinity,
                               child: _image == null
                                   ? _companyAdImageUrl == ""
-                                      ? Image.network(
-                                          "https://www.9minecraft.net/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png",
+                                      ? Image.asset(
+                                          "assets/images/empty.png",
                                           fit: BoxFit.cover,
                                         )
                                       : Image.network(
