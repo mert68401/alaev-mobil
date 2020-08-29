@@ -24,6 +24,7 @@ class MyCardJobWidget extends StatelessWidget {
             if (loadingProgress == null) return child;
             return Container(
               height: 50,
+              width: 50,
               child: Center(
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
@@ -55,6 +56,7 @@ class MyCardJobWidget extends StatelessWidget {
             if (loadingProgress == null) return child;
             return Container(
               height: 50,
+              width: 50,
               child: Center(
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
