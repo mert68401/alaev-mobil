@@ -119,6 +119,10 @@ class CardJobWidget extends StatelessWidget {
                         items[i]["type"] != null && items[i]["type"].isNotEmpty
                             ? items[i]["type"]
                             : "",
+                    "city":
+                        items[i]["city"] != null && items[i]["city"].isNotEmpty
+                            ? items[i]["city"]
+                            : "",
                   });
                 },
                 child: Card(

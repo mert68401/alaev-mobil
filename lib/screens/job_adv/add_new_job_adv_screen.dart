@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:alaev/functions/requests.dart';
+import 'package:alaev/widgets/city_select.dart';
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   String _selectedItem = 'Diğer';
   String _diplomaItem = 'Hepsi';
+  String _citySelectedItem = 'Hepsi';
 
   List<SmartSelectOption<String>> items = [
     SmartSelectOption<String>(value: 'Bilişim', title: 'Bilişim'),
@@ -87,7 +89,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
     return SmartSelect<String>.single(
         title: title,
         padding: EdgeInsets.symmetric(horizontal: 10),
-        dense: true,
+        dense: false,
         isTwoLine: true,
         modalType: SmartSelectModalType.popupDialog,
         value: value,
@@ -99,12 +101,28 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
     return SmartSelect<String>.single(
         title: title,
         padding: EdgeInsets.symmetric(horizontal: 10),
-        dense: true,
+        dense: false,
         isTwoLine: true,
         modalType: SmartSelectModalType.popupDialog,
         value: value,
         options: options,
         onChange: (val) => setState(() => _diplomaItem = val));
+  }
+
+  Widget smartSelectCity() {
+    return SmartSelect<String>.single(
+        title: 'Şehir',
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        dense: false,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: _citySelectedItem,
+        options: SmartSelectOption.listFrom<String, Map<String, String>>(
+          source: cities,
+          value: (index, item) => item['value'],
+          title: (index, item) => item['title'],
+        ),
+        onChange: (val) => setState(() => _citySelectedItem = val));
   }
 
   @override
@@ -225,6 +243,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           height: 60,
                           maxLength: 30,
                         )),
+                        smartSelectCity(),
                         smartSelectKategori('Kategori', items, _selectedItem),
                         smartSelectDiploma(
                             'Öğrenim Durumu', diplomaItems, _diplomaItem),
@@ -265,7 +284,8 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                         jobAdMail: _jobAdMail.text,
                                         jobAdContent: _jobAdContent.text,
                                         jobAdType: _selectedItem,
-                                        jobAdDiploma: _diplomaItem);
+                                        jobAdDiploma: _diplomaItem,
+                                        city: _citySelectedItem);
                                   });
                                 } else {
                                   addJobAdvertisementRequest(
@@ -279,7 +299,8 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                       jobAdMail: _jobAdMail.text,
                                       jobAdContent: _jobAdContent.text,
                                       jobAdType: _selectedItem,
-                                      jobAdDiploma: _diplomaItem);
+                                      jobAdDiploma: _diplomaItem,
+                                      city: _citySelectedItem);
                                 }
                                 Future.delayed(
                                     const Duration(milliseconds: 2000), () {
