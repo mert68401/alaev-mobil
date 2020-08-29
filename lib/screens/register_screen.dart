@@ -24,8 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _cityController = TextEditingController();
   final _jobController = TextEditingController();
 
-  String _selectedItem = 'Bireysel';
-  String _citySelectedItem = 'Hepsi';
+  String _selectedItem;
+  String _citySelectedItem;
 
   List<SmartSelectOption<String>> items = [
     SmartSelectOption<String>(value: 'Bireysel', title: 'Bireysel'),
@@ -36,6 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget smartSelect(String title, List options, String value) {
     return SmartSelect<String>.single(
+        placeholder: "Şeçiniz",
         title: title,
         padding: EdgeInsets.symmetric(horizontal: 80),
         dense: true,
@@ -48,6 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget smartSelectCity() {
     return SmartSelect<String>.single(
+        placeholder: "Şeçiniz",
         title: 'Şehir',
         padding: EdgeInsets.symmetric(horizontal: 80),
         dense: true,
@@ -55,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         modalType: SmartSelectModalType.popupDialog,
         value: _citySelectedItem,
         options: SmartSelectOption.listFrom<String, Map<String, String>>(
-          source: cities,
+          source: citiesWithoutAll,
           value: (index, item) => item['value'],
           title: (index, item) => item['title'],
         ),
@@ -289,13 +291,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             _isLoading = true;
                           });
                           if (_fullNameController.text == '' ||
-                              _emailController.text == '') {
+                              _emailController.text == '' ||
+                              _selectedItem == '' ||
+                              _selectedItem == null ||
+                              _citySelectedItem == '' ||
+                              _citySelectedItem == null ||
+                              _phoneController.text == '') {
                             showToastError("Bilgiler eksiksiz girilmelidir!");
                             return;
                           }
                           if (!validateEmail(_emailController.text)) {
                             showToastError(
                                 "Doğru bir mail adresi girdiğinizden emin olun!");
+                            return;
+                          }
+                          if (_phoneController.text == '') {
+                            showToastError(
+                                "Lütfen bir telefon numarası giriniz!");
                             return;
                           }
                           if (_passwordController.text.length < 5) {

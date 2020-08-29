@@ -25,7 +25,8 @@ class MyCardCompanyWidget extends StatelessWidget {
               ImageChunkEvent loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 70,
+              height: 50,
+              width: 50,
               child: Center(
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null
@@ -56,7 +57,8 @@ class MyCardCompanyWidget extends StatelessWidget {
               ImageChunkEvent loadingProgress) {
             if (loadingProgress == null) return child;
             return Container(
-              height: 70,
+              height: 50,
+              width: 50,
               child: Center(
                 child: CircularProgressIndicator(
                   value: loadingProgress.expectedTotalBytes != null

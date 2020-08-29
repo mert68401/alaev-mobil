@@ -26,6 +26,7 @@ class CardJobWidget extends StatelessWidget {
             if (loadingProgress == null) return child;
             return Container(
               height: 50,
+              width: 50,
               child: CircularProgressIndicator(
                 value: loadingProgress.expectedTotalBytes != null
                     ? loadingProgress.cumulativeBytesLoaded /
@@ -55,6 +56,7 @@ class CardJobWidget extends StatelessWidget {
             if (loadingProgress == null) return child;
             return Container(
               height: 50,
+              width: 50,
               child: CircularProgressIndicator(
                 value: loadingProgress.expectedTotalBytes != null
                     ? loadingProgress.cumulativeBytesLoaded /
@@ -139,7 +141,7 @@ class CardJobWidget extends StatelessWidget {
                         leading: CircleAvatar(
                           backgroundColor: Colors.white,
                           maxRadius: 40,
-                          minRadius: 30,
+                          minRadius: 00,
                           child: firebaseCheck(i),
                         ),
                         title: Text(items[i]['title']),

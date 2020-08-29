@@ -67,9 +67,6 @@ class _NewsWrapperState extends State<NewsWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Theme.of(context).primaryColor, //change your color here
-          ),
           backgroundColor: Colors.white,
           title: Center(
             child: Image.asset(
