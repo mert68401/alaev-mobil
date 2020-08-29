@@ -432,6 +432,7 @@ router.post("/getDiscountFromId", function (req, res) {
         .collection("userAccounts")
         .findOne({ _id: qrContent })
         .then(function (doc) {
+            console.log(doc);
             if (!doc) {
                 res.status(404).send({
                     success: false,
@@ -439,7 +440,7 @@ router.post("/getDiscountFromId", function (req, res) {
                 });
                 return false;
             }
-            if (!doc.discount) {
+            if (!doc.companyDiscount) {
                 res.status(404).send({
                     success: false,
                     message: "Wrong user type!",
