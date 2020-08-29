@@ -145,13 +145,12 @@ class CardWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Burda hiçbirşey yok :(",
+              "",
               style: TextStyle(color: Colors.grey),
             ),
             SizedBox(
               height: 20,
             ),
-            CircularProgressIndicator(),
           ],
         ),
       );

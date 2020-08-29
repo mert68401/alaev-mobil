@@ -86,6 +86,23 @@ class MyCardCompanyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (items.length == 0) {
+      return Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "",
+              style: TextStyle(color: Colors.grey),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
+      );
+    }
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: Container(
@@ -141,7 +158,7 @@ class MyCardCompanyWidget extends StatelessWidget {
                           child: firebaseCheck(i),
                         ),
                         title: Text(items[i]['title']),
-                        subtitle: Text(items[i]['companyName']),
+                        subtitle: Text(items[i]['companyName'] != null ? items[i]['companyName'] : ''),
                         trailing: Text(
                           f.format(DateTime.parse(items[i]['createdAt'])),
                           style: TextStyle(color: Colors.grey, fontSize: 12),
