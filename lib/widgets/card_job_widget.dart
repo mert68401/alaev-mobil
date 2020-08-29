@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardJobWidget extends StatelessWidget {
   final bool isFirebase;
@@ -6,6 +7,7 @@ class CardJobWidget extends StatelessWidget {
   final String routeName;
   final dynamic onRefresh;
   final String appliedRouteName;
+  final f = new DateFormat('yyyy-MM-dd');
 
   CardJobWidget(
       {@required this.isFirebase,
@@ -119,6 +121,10 @@ class CardJobWidget extends StatelessWidget {
                         items[i]["type"] != null && items[i]["type"].isNotEmpty
                             ? items[i]["type"]
                             : "",
+                    "city":
+                        items[i]["city"] != null && items[i]["city"].isNotEmpty
+                            ? items[i]["city"]
+                            : "",
                   });
                 },
                 child: Card(
@@ -137,7 +143,11 @@ class CardJobWidget extends StatelessWidget {
                           child: firebaseCheck(i),
                         ),
                         title: Text(items[i]['title']),
-                        subtitle: Text(''),
+                        subtitle: Text(items[i]['companyName']),
+                        trailing: Text(
+                          f.format(DateTime.parse(items[i]['createdAt'])),
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
                       ),
                     ],
                   ),

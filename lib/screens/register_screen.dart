@@ -1,5 +1,6 @@
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/providers/auth.dart';
+import 'package:alaev/widgets/city_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +19,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _password2Controller = TextEditingController();
   final _graduateYearController = TextEditingController();
+  final _universityController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _jobController = TextEditingController();
 
   String _selectedItem = 'Bireysel';
+  String _citySelectedItem = 'Hepsi';
 
   List<SmartSelectOption<String>> items = [
     SmartSelectOption<String>(value: 'Bireysel', title: 'Bireysel'),
@@ -38,6 +44,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
         value: value,
         options: options,
         onChange: (val) => setState(() => _selectedItem = val));
+  }
+
+  Widget smartSelectCity() {
+    return SmartSelect<String>.single(
+        title: 'Şehir',
+        padding: EdgeInsets.symmetric(horizontal: 80),
+        dense: true,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: _citySelectedItem,
+        options: SmartSelectOption.listFrom<String, Map<String, String>>(
+          source: cities,
+          value: (index, item) => item['value'],
+          title: (index, item) => item['title'],
+        ),
+        onChange: (val) => setState(() => _citySelectedItem = val));
   }
 
   @override
@@ -188,6 +210,76 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 60,
+                      child: TextField(
+                        keyboardType: TextInputType.phone,
+                        obscureText: false,
+                        textAlign: TextAlign.start,
+                        maxLength: 11,
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                        controller:
+                            _phoneController, //--------------------------------
+                        decoration: InputDecoration(
+                          counterText: '',
+                          labelText: 'Telefon Numarası',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 10),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 60,
+                      child: TextField(
+                        obscureText: false,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                        controller:
+                            _universityController, //--------------------------------
+                        decoration: InputDecoration(
+                          labelText: 'Üniversite ve Bölüm',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 10),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 60,
+                      child: TextField(
+                        obscureText: false,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                        controller:
+                            _jobController, //--------------------------------
+                        decoration: InputDecoration(
+                          labelText: 'Mesleğiniz',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 10),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                    smartSelectCity(),
                     smartSelect('Hesap Tipi', items, _selectedItem),
                     Container(
                       margin: EdgeInsets.only(left: 40, right: 40),
@@ -219,7 +311,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     _emailController.text,
                                     _passwordController.text,
                                     _selectedItem,
-                                    _graduateYearController.text)
+                                    _graduateYearController.text,
+                                    _universityController.text,
+                                    _phoneController.text,
+                                    _citySelectedItem,
+                                    _jobController.text)
                                 .then((value) {
                               if (value) {
                                 Navigator.pop(context);

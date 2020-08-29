@@ -119,6 +119,20 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                   TableRow(children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
+                      child:
+                          Text('Şehir', textAlign: TextAlign.center),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        arguments['city'],
+                        textAlign: TextAlign.center
+                      ),
+                    ),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Text('Firma Telefon Numarası',
                           textAlign: TextAlign.center),
                     ),

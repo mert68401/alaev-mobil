@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardCompanyWidget extends StatelessWidget {
   final bool isFirebase;
   final List items;
   final String routeName;
   final dynamic onRefresh;
+  final f = new DateFormat('yyyy-MM-dd');
 
   CardCompanyWidget(
       {@required this.isFirebase,
@@ -136,6 +138,10 @@ class CardCompanyWidget extends StatelessWidget {
                         ),
                         title: Text(items[i]['title']),
                         subtitle: Text(items[i]['companyName']),
+                        trailing: Text(
+                          f.format(DateTime.parse(items[i]['createdAt'])),
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
                       ),
                     ],
                   ),

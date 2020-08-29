@@ -5,6 +5,7 @@ import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
 import 'package:alaev/widgets/card_job_widget.dart';
+import 'package:alaev/widgets/city_select.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:smart_select/smart_select.dart';
 import '../screens/job_adv/job_adv_detail_screen.dart';
@@ -24,9 +25,11 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   bool _isFirma = false;
   String _diplomaSelectedItem = 'Hepsi';
   String _categorySelectedItem = 'Hepsi';
+  String _citySelectedItem = 'Hepsi';
   int selectitem = 1;
 
-  Future<void> fetchJobAdvs(String jobAdType, String jobAdDiploma) async {
+  Future<void> fetchJobAdvs(
+      String jobAdType, String jobAdDiploma, String city) async {
     jobAdvList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
     Map<String, dynamic> filter;
@@ -34,12 +37,16 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       "state": 'active',
       "jobAdType": jobAdType,
       "jobAdDiploma": jobAdDiploma,
+      "city": city
     };
     if (jobAdType == "Hepsi") {
       filter.remove("jobAdType");
     }
     if (jobAdDiploma == "Hepsi") {
       filter.remove("jobAdDiploma");
+    }
+    if (city == "Hepsi") {
+      filter.remove("city");
     }
     final response = await http.post(
       'http://' + ServerIP().other + ':2000/api/getJobAdvs',
@@ -70,6 +77,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
               "email": element["jobAdMail"],
               "type": element["jobAdType"],
               "diploma": element["jobAdDiploma"],
+              "city": element["city"],
+              "companyName": element["companyName"]
             });
           });
         });
@@ -82,7 +91,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   @override
   void initState() {
     super.initState();
-    fetchJobAdvs("Hepsi", "Hepsi");
+    fetchJobAdvs("Hepsi", "Hepsi", "Hepsi");
     getUserRole().then((value) {
       if (value == "Kurumsal") {
         setState(() {
@@ -126,8 +135,26 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         onChange: (val) => setState(() => _categorySelectedItem = val));
   }
 
+  Widget smartSelectCity() {
+    return SmartSelect<String>.single(
+        title: 'Şehir',
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        dense: false,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: _citySelectedItem,
+        options: SmartSelectOption.listFrom<String, Map<String, String>>(
+          source: cities,
+          value: (index, item) => item['value'],
+          title: (index, item) => item['title'],
+        ),
+        onChange: (val) => setState(() => _citySelectedItem = val));
+  }
+
   @override
   Widget build(BuildContext context) {
+    String citySelectedItem = 'Hepsi';
+
     List<SmartSelectOption<String>> categoryOptions = [
       SmartSelectOption<String>(value: 'Hepsi', title: 'Hepsi'),
       SmartSelectOption<String>(value: 'Bilişim', title: 'Bilişim'),
@@ -190,21 +217,11 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                   style: TextStyle(fontSize: 25),
                 ),
                 SizedBox(height: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 4),
-                    smartSelect(
-                        'Öğrenim Durumu', diplomaOptions, _diplomaSelectedItem),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    smartSelect2(
-                        'Kategori', categoryOptions, _categorySelectedItem)
-                  ],
-                ),
+                smartSelectCity(),
+                smartSelect(
+                    'Öğrenim Durumu', diplomaOptions, _diplomaSelectedItem),
+                smartSelect2(
+                    'Kategori', categoryOptions, _categorySelectedItem),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -215,8 +232,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                       color: Colors.green,
                       onPressed: () {
                         setState(() {
-                          fetchJobAdvs(
-                              _categorySelectedItem, _diplomaSelectedItem);
+                          fetchJobAdvs(_categorySelectedItem,
+                              _diplomaSelectedItem, _citySelectedItem);
                         });
                       },
                       shape: RoundedRectangleBorder(
@@ -281,8 +298,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       ),
       body: Container(
           child: CardJobWidget(
-              onRefresh: () =>
-                  fetchJobAdvs(_diplomaSelectedItem, _categorySelectedItem),
+              onRefresh: () => fetchJobAdvs(_diplomaSelectedItem,
+                  _categorySelectedItem, _citySelectedItem),
               isFirebase: true,
               items: jobAdvList,
               routeName: JobAdvertisement.routeName)
