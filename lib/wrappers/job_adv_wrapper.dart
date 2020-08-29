@@ -28,7 +28,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   String _citySelectedItem = 'Hepsi';
   int selectitem = 1;
 
-  Future<void> fetchJobAdvs(String jobAdType, String jobAdDiploma, String city) async {
+  Future<void> fetchJobAdvs(
+      String jobAdType, String jobAdDiploma, String city) async {
     jobAdvList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
     Map<String, dynamic> filter;
@@ -77,6 +78,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
               "type": element["jobAdType"],
               "diploma": element["jobAdDiploma"],
               "city": element["city"],
+              "companyName": element["companyName"]
             });
           });
         });
@@ -230,8 +232,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                       color: Colors.green,
                       onPressed: () {
                         setState(() {
-                          fetchJobAdvs(
-                              _categorySelectedItem, _diplomaSelectedItem, _citySelectedItem);
+                          fetchJobAdvs(_categorySelectedItem,
+                              _diplomaSelectedItem, _citySelectedItem);
                         });
                       },
                       shape: RoundedRectangleBorder(
@@ -296,8 +298,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       ),
       body: Container(
           child: CardJobWidget(
-              onRefresh: () =>
-                  fetchJobAdvs(_diplomaSelectedItem, _categorySelectedItem, _citySelectedItem),
+              onRefresh: () => fetchJobAdvs(_diplomaSelectedItem,
+                  _categorySelectedItem, _citySelectedItem),
               isFirebase: true,
               items: jobAdvList,
               routeName: JobAdvertisement.routeName)
