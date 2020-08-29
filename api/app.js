@@ -218,7 +218,7 @@ router.post("/updateUserInfo", function (req, res) {
                                 $set: {
                                     fullName: body.fullName,
                                     "email.str": email,
-                                    personalNumber: body.personalNumber ? body.personalNumber : "",
+                                    phone: body.phone ? body.phone : "",
                                     companyName: body.companyName ? body.companyName : "",
                                     companyDiscount: body.companyDiscount ? body.companyDiscount : "",
                                 },
