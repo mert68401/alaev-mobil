@@ -30,7 +30,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   String _selectedItem = 'Diğer';
   String _diplomaItem = 'Hepsi';
-  String _citySelectedItem = 'Hepsi';
+  String _citySelectedItem;
 
   List<SmartSelectOption<String>> items = [
     SmartSelectOption<String>(value: 'Bilişim', title: 'Bilişim'),
@@ -111,6 +111,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   Widget smartSelectCity() {
     return SmartSelect<String>.single(
+      placeholder: 'Seçiniz',
         title: 'Şehir',
         padding: EdgeInsets.symmetric(horizontal: 10),
         dense: false,
@@ -266,7 +267,8 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                             color: Colors.green,
                             onPressed: () {
                               if (_jobAdTitle.text != '' &&
-                                  _jobAdCompanyNumber.text != '') {
+                                  _jobAdCompanyNumber.text != '' &&
+                                  _citySelectedItem != null) {
                                 setState(() {
                                   _showProgress = !_showProgress;
                                 });
