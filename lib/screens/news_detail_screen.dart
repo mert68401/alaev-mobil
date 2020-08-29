@@ -28,7 +28,6 @@ class NewsDetailScreen extends StatelessWidget {
           children: <Widget>[
             Container(
                 padding: EdgeInsets.all(10),
-                height: 150,
                 width: double.infinity,
                 child: arguments['imageUrl'].toString().length > 1
                     ? Image.network(
