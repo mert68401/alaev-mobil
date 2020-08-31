@@ -92,13 +92,12 @@ class DrawerWidget extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(ChronologyScreen.routeName);
+                  Navigator.of(context).pushNamed(ChronologyScreen.routeName);
                 },
                 child: ListTile(
                   dense: true,
-                  title: Text("Vakıf Kronolijisi",
-                      style: TextStyle(fontSize: 13)),
+                  title:
+                      Text("Vakıf Kronolijisi", style: TextStyle(fontSize: 13)),
                   trailing: FaIcon(
                     FontAwesomeIcons.calendarAlt,
                   ),
@@ -128,20 +127,25 @@ class DrawerWidget extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Powered By',
-                    style: TextStyle(fontSize: 10),
-                  ),
-                  ClipRect(
-                    child: Image.asset(
-                      'assets/images/wikilogo.png',
-                      height: 100,
+              GestureDetector(
+                onTap: () {
+                  customLaunch('https://www.wiki.com.tr/');
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Powered By',
+                      style: TextStyle(fontSize: 10),
                     ),
-                  ),
-                ],
+                    ClipRect(
+                      child: Image.asset(
+                        'assets/images/wikilogo.png',
+                        height: 100,
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

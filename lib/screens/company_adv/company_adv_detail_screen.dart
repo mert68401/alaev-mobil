@@ -22,8 +22,8 @@ class CompanyAdvertisement extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-            color: Theme.of(context).primaryColor, //change your color here
-          ),
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Row(
@@ -42,19 +42,15 @@ class CompanyAdvertisement extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              Container(
-                height: 200,
-                width: double.infinity - 1,
-                child: arguments['imageUrl'].toString().length > 1
-                    ? Image.network(
+              arguments['imageUrl'].toString().length > 1
+                  ? Container(
+                      height: 200,
+                      width: double.infinity,
+                      child: Image.network(
                         arguments['imageUrl'],
                         fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        "assets/images/empty.png",
-                        fit: BoxFit.cover,
-                      ),
-              ),
+                      ))
+                  : SizedBox(),
               SizedBox(
                 height: 10,
               ),

@@ -37,7 +37,10 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
             padding: EdgeInsets.all(3),
             child: FloatingActionButton(
               backgroundColor: Colors.green,
-              child: Text("Başvur", style: TextStyle(fontSize: 13),),
+              child: Text(
+                "Başvur",
+                style: TextStyle(fontSize: 13),
+              ),
               onPressed: () {
                 getUserRole().then((role) {
                   role == "Kurumsal"
@@ -70,19 +73,15 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
           padding: EdgeInsets.all(8),
           child: Column(
             children: <Widget>[
-              Container(
-                height: 150,
-                width: double.infinity,
-                child: arguments['imageUrl'].toString().length > 1
-                    ? Image.network(
+              arguments['imageUrl'].toString().length > 1
+                  ? Container(
+                      height: 200,
+                      width: double.infinity,
+                      child: Image.network(
                         arguments['imageUrl'],
                         fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        "assets/images/empty.png",
-                        fit: BoxFit.cover,
-                      ),
-              ),
+                      ))
+                  : SizedBox(),
               SizedBox(
                 height: 20,
               ),
@@ -119,15 +118,12 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                   TableRow(children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child:
-                          Text('Şehir', textAlign: TextAlign.center),
+                      child: Text('Şehir', textAlign: TextAlign.center),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        arguments['city'],
-                        textAlign: TextAlign.center
-                      ),
+                      child:
+                          Text(arguments['city'], textAlign: TextAlign.center),
                     ),
                   ]),
                   TableRow(children: [
