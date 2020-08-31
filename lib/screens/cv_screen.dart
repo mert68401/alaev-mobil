@@ -400,6 +400,25 @@ class _CvScreenState extends State<CvScreen> {
                 );
               });
             }
+            if (_image == null) {
+              addCvRequest(
+                cvImageUrl: _cvImageUrl.toString(),
+                cvNameSurname: _cvNameSurname.text,
+                cvAge: _cvAge.text,
+                cvExperience1: _cvExperience1.text,
+                cvExperience2: _cvExperience2.text,
+                cvExperienceInfo: _cvExperienceInfo.text,
+                cvLanguage: _cvLanguage.text,
+                cvMail: _cvMail.text,
+                cvPersonalInfo: _cvPersonalInfo.text,
+                cvPhone: _cvPhone.text,
+                cvReference1: _cvReference1.text,
+                cvReference2: _cvReference2.text,
+                cvSchool1: _cvSchool1.text,
+                cvSchool2: _cvSchool2.text,
+                cvSkillInfo: _cvSkillInfo.text,
+              );
+            }
           },
         ),
         appBar: AppBar(
