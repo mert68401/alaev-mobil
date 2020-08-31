@@ -51,7 +51,9 @@ class MembersScreen extends StatelessWidget {
                     },
                     children: [
                       TableRow(
-                          decoration: BoxDecoration(color: Colors.orange),
+                          decoration: BoxDecoration(
+                            color: Colors.orange,
+                          ),
                           children: [
                             Column(children: [
                               Text('Adı Soyadı', textAlign: TextAlign.center)
@@ -59,65 +61,64 @@ class MembersScreen extends StatelessWidget {
                             Column(children: [
                               Text('Dönemi', textAlign: TextAlign.center)
                             ]),
-                            Column(children: [Text('')]),
+                            Column(),
                           ]),
                       TableRow(children: [
-                        Text('  TUĞANA AKBAŞ  ', textAlign: TextAlign.center),
-                        Text('  ALA92  ', textAlign: TextAlign.center),
-                        Text(' Yönetim Kurulu Başkanı',
+                        Text('TUĞANA AKBAŞ', textAlign: TextAlign.center),
+                        Text('ALA92', textAlign: TextAlign.center),
+                        Text('Yönetim Kurulu Başkanı',
                             textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  AYKUT AKSU  ', textAlign: TextAlign.center),
-                        Text('  ALA83  ', textAlign: TextAlign.center),
-                        Text(' Yönetim Kurulu Başkan Vekili',
+                        Text('AYKUT AKSU', textAlign: TextAlign.center),
+                        Text('ALA83', textAlign: TextAlign.center),
+                        Text('Yönetim Kurulu Başkan Vekili',
                             textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  HÜSEYİN ATICI  ', textAlign: TextAlign.center),
-                        Text('  ALA88  ', textAlign: TextAlign.center),
-                        Text(' Yönetim Kurulu Genel Sekreteri',
+                        Text('HÜSEYİN ATICI', textAlign: TextAlign.center),
+                        Text('ALA88', textAlign: TextAlign.center),
+                        Text('Yönetim Kurulu Genel Sekreteri',
                             textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  AYLİN YILDIRIM  ', textAlign: TextAlign.center),
-                        Text('  ALA98  ', textAlign: TextAlign.center),
+                        Text('AYLİN YILDIRIM', textAlign: TextAlign.center),
+                        Text('ALA98', textAlign: TextAlign.center),
                         RichText(
                           maxLines: 2,
                           text: TextSpan(
                               text:
-                                  ' -----------------------------------------------------'),
+                                  '-----------------------------------------------------'),
                         ),
                       ]),
                       TableRow(children: [
-                        Text('  FATMA SERTEL  ', textAlign: TextAlign.center),
-                        Text('  ALA82  ', textAlign: TextAlign.center),
+                        Text('FATMA SERTEL', textAlign: TextAlign.center),
+                        Text('ALA82', textAlign: TextAlign.center),
                         RichText(
                           maxLines: 2,
                           text: TextSpan(
                               text:
-                                  ' -----------------------------------------------------'),
+                                  '-----------------------------------------------------'),
                         ),
                       ]),
                       TableRow(children: [
-                        Text('  KEREM DOLAR  ', textAlign: TextAlign.center),
-                        Text('  ALA86  ', textAlign: TextAlign.center),
+                        Text('KEREM DOLAR', textAlign: TextAlign.center),
+                        Text('ALA86', textAlign: TextAlign.center),
                         RichText(
                           maxLines: 2,
                           text: TextSpan(
                               text:
-                                  ' -----------------------------------------------------'),
+                                  '-----------------------------------------------------'),
                         ),
                       ]),
                       TableRow(children: [
-                        Text('  ABDÜLGANİ GİRİCİ  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA91  ', textAlign: TextAlign.center),
+                        Text('ABDÜLGANİ GİRİCİ', textAlign: TextAlign.center),
+                        Text('ALA91', textAlign: TextAlign.center),
                         RichText(
                           maxLines: 2,
                           text: TextSpan(
                               text:
-                                  ' -----------------------------------------------------'),
+                                  '-----------------------------------------------------'),
                         ),
                       ]),
                     ],
@@ -138,93 +139,76 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(0)
                     },
                     children: [
                       TableRow(
                           decoration: BoxDecoration(color: Colors.orange),
                           children: [
                             Column(children: [
-                              Text('Adı Soyadı', textAlign: TextAlign.center)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Adı Soyadı',
+                                    textAlign: TextAlign.center),
+                              )
                             ]),
                             Column(children: [
                               Text('Dönemi', textAlign: TextAlign.center)
                             ]),
-                            Column(children: [Text('')]),
                           ]),
                       TableRow(children: [
-                        Text('  ELİF ÇİĞDEM BARBARUS  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA86  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text('ELİF ÇİĞDEM BARBARUS',
+                              textAlign: TextAlign.center),
                         ),
+                        Text('ALA86', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  VEDAT GİZER	  ', textAlign: TextAlign.center),
-                        Text('  ALA87  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child:
+                              Text('VEDAT GİZER	', textAlign: TextAlign.center),
                         ),
+                        Text('ALA87', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  NEŞE SONÇAĞ YAZAN  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA89  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text('NEŞE SONÇAĞ YAZAN',
+                              textAlign: TextAlign.center),
                         ),
+                        Text('ALA89', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  MELEK AKDOĞAN GEDİK  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA94  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text('MELEK AKDOĞAN GEDİK',
+                              textAlign: TextAlign.center),
                         ),
+                        Text('ALA94', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  AYLİN HALLIOĞLU  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA95  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text('AYLİN HALLIOĞLU',
+                              textAlign: TextAlign.center),
                         ),
+                        Text('ALA95', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  EBRU KOPAR  ', textAlign: TextAlign.center),
-                        Text('  ALA96  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                              Text('EBRU KOPAR', textAlign: TextAlign.center),
                         ),
+                        Text('ALA96', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  BURCU PUL  ', textAlign: TextAlign.center),
-                        Text('  ALA97  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('BURCU PUL', textAlign: TextAlign.center),
                         ),
+                        Text('ALA97', textAlign: TextAlign.center),
                       ]),
                     ],
                   ),
@@ -252,51 +236,45 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(0)
                     },
                     children: [
                       TableRow(
                           decoration: BoxDecoration(color: Colors.orange),
                           children: [
                             Column(children: [
-                              Text('Adı Soyadı', textAlign: TextAlign.center)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Adı Soyadı',
+                                    textAlign: TextAlign.center),
+                              )
                             ]),
                             Column(children: [
                               Text('Dönemi', textAlign: TextAlign.center)
                             ]),
-                            Column(children: [Text('')]),
                           ]),
                       TableRow(children: [
-                        Text('  MERİH ŞULE DEMİR  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA82  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('MERİH ŞULE DEMİR',
+                              textAlign: TextAlign.center),
                         ),
+                        Text('ALA82', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  ERDEM TECER	  ', textAlign: TextAlign.center),
-                        Text('  ALA92  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                              Text('ERDEM TECER	', textAlign: TextAlign.center),
                         ),
+                        Text('ALA92', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  CEYDA YÜZÇELİK	  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA95  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('CEYDA YÜZÇELİK	',
+                              textAlign: TextAlign.center),
                         ),
+                        Text('ALA95', textAlign: TextAlign.center),
                       ]),
                     ],
                   ),
@@ -316,50 +294,45 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(.0)
                     },
                     children: [
                       TableRow(
                           decoration: BoxDecoration(color: Colors.orange),
                           children: [
                             Column(children: [
-                              Text('Adı Soyadı', textAlign: TextAlign.center)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Adı Soyadı',
+                                    textAlign: TextAlign.center),
+                              )
                             ]),
                             Column(children: [
                               Text('Dönemi', textAlign: TextAlign.center)
                             ]),
-                            Column(children: [Text('')]),
                           ]),
                       TableRow(children: [
-                        Text('  FAİK KOCATEPE	  ', textAlign: TextAlign.center),
-                        Text('  ALA89  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('FAİK KOCATEPE	',
+                              textAlign: TextAlign.center),
                         ),
+                        Text('ALA89', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  EMRAH KOÇER	  ', textAlign: TextAlign.center),
-                        Text('  ALA91  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                              Text('EMRAH KOÇER	', textAlign: TextAlign.center),
                         ),
+                        Text('ALA91', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  ARZU HAYRİYE ÖZCAN	  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA99  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('ARZU HAYRİYE ÖZCAN	',
+                              textAlign: TextAlign.center),
                         ),
+                        Text('ALA99', textAlign: TextAlign.center),
                       ]),
                     ],
                   ),
@@ -388,52 +361,41 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(.0)
                     },
                     children: [
                       TableRow(
                           decoration: BoxDecoration(color: Colors.orange),
                           children: [
                             Column(children: [
-                              Text('Adı Soyadı', textAlign: TextAlign.center)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Adı Soyadı', textAlign: TextAlign.center),
+                              )
                             ]),
                             Column(children: [
                               Text('Dönemi', textAlign: TextAlign.center)
                             ]),
-                            Column(children: [Text('')]),
                           ]),
                       TableRow(children: [
-                        Text('  UFUK KAYASELÇUK  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA83  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('UFUK KAYASELÇUK', textAlign: TextAlign.center),
                         ),
+                        Text('ALA83', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  HASAN ERDAL DORUK  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA84  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('HASAN ERDAL DORUK', textAlign: TextAlign.center),
                         ),
+                        Text('ALA84', textAlign: TextAlign.center),
                       ]),
                       TableRow(children: [
-                        Text('  ALİ SÜHA BİNGÖL  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA85  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('ALİ SÜHA BİNGÖL', textAlign: TextAlign.center),
                         ),
+                        Text('ALA85', textAlign: TextAlign.center),
                       ]),
                     ],
                   ),
@@ -453,30 +415,27 @@ class MembersScreen extends StatelessWidget {
                     columnWidths: {
                       0: FractionColumnWidth(.5),
                       1: FractionColumnWidth(.16),
-                      2: FractionColumnWidth(.0)
                     },
                     children: [
                       TableRow(
                           decoration: BoxDecoration(color: Colors.orange),
                           children: [
                             Column(children: [
-                              Text('Adı Soyadı', textAlign: TextAlign.center)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Adı Soyadı', textAlign: TextAlign.center),
+                              )
                             ]),
                             Column(children: [
                               Text('Dönemi', textAlign: TextAlign.center)
                             ]),
-                            Column(children: [Text('')]),
                           ]),
                       TableRow(children: [
-                        Text('  SIDIKA SUNAY BAHAR  ',
-                            textAlign: TextAlign.center),
-                        Text('  ALA88  ', textAlign: TextAlign.center),
-                        RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                              text:
-                                  ' -----------------------------------------------------'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('SIDIKA SUNAY BAHAR', textAlign: TextAlign.center),
                         ),
+                        Text('ALA88', textAlign: TextAlign.center),
                       ]),
                     ],
                   ),
