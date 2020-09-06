@@ -60,7 +60,7 @@ A Flutter project for ALAEV.
 </tr>
 <tr>
 <td><a href="https://firebase.google.com" rel="nofollow"><strong>Google Firebase</strong></a></td>
-<td>For storing data and notifications</td>
+<td>For storing images and notifications</td>
 </tr>
 <tr>
 <td><a href="https://pub.dev/packages/barcode_scan" rel="nofollow"><strong>barcode_scan</strong></a></td>
