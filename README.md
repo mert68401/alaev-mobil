@@ -1,5 +1,3 @@
-A Flutter project for ALAEV.
-
 ## Requirements
 
 <ul>
