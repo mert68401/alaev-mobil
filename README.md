@@ -1,9 +1,10 @@
 A Flutter project for ALAEV.
 
 ## Requirements
-Any Operating System 
-Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)
-
+<ul>
+<li>Any Operating System</li>
+<li>Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)</li>
+</ul>
 ## Screenshots
 
 
