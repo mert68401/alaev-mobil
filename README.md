@@ -1,12 +1,13 @@
 A Flutter project for ALAEV.
 
 ## Requirements
+
 <ul>
 <li>Any Operating System</li>
 <li>Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)</li>
 </ul>
-## Screenshots
 
+## Screenshots
 
 <table><tr>
 <div><td style="text-align: center">
