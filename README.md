@@ -33,7 +33,7 @@
     <li>Job advertisements section have filtering drawer where you can filter the job advertisements</li>
     <li>The user role 'Bireysel' can create their CV in app and apply to job advertisements and then the user that created the advertisement will see how many users applied to the ad and can view their CVs</li>
     <li>The app includes a barcode scanner so if a user goes to a company that has account in the app and has set up their discount on the profile page then the user can now scan the company's QR code and can get a discount for being a member</li>
-    <li>Main menu drawer includes information about ALAEV</li>
+    <li>Main menu drawer includes information</li>
     <li>Announcements section has dynamic list of announcements taken from the website</li>
     <li>While creating a new accouncement from the admin panel there is an option to sent notification to the users so admin can send notifications to the users</li>
 </ul>
