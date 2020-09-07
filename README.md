@@ -71,8 +71,8 @@
 
 <table>
   <tbody><tr>
-    <td align="center"><a href="https://github.com/Eroo36" rel="nofollow"><img src="https://avatars0.githubusercontent.com/u/13486466?s=460&u=661ce5ba30c35bb65544a1e8da9d43c70971e5ab&v=4" width="100px;" alt="" style="max-width:100%;"><br><sub><b>Eren Doğruca</b></sub></a><br><a href="https://github.com/mert68401/alaev-mobil/commits?author=Eroo36"></a></td>
-    <td align="center"><a href="https://github.com/mert68401"><img src="https://avatars1.githubusercontent.com/u/44726724?s=460&v=4" width="100px;" alt="" style="max-width:100%;"><br><sub><b>Mert Doğruca</b></sub></a><br><a href="https://github.com/mert68401/alaev-mobil/commits?author=mert68401" title="Code"></a></td>
+    <td align="center"><a href="https://github.com/Eroo36" rel="nofollow"><img src="https://avatars0.githubusercontent.com/u/13486466?s=460&u=661ce5ba30c35bb65544a1e8da9d43c70971e5ab&v=4" width="100px;" alt="" style="max-width:100%;"><br></a><br><a href="https://github.com/mert68401/alaev-mobil/commits?author=Eroo36" <sub>Eren Doğruca</sub>></a></td>
+    <td align="center"><a href="https://github.com/mert68401"><img src="https://avatars1.githubusercontent.com/u/44726724?s=460&v=4" width="100px;" alt="" style="max-width:100%;"><br></a><br><a href="https://github.com/mert68401/alaev-mobil/commits?author=mert68401" <sub>Mert Doğruca</sub></a></td>
     
   </tr>
 </tbody></table>
