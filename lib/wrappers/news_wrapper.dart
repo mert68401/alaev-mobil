@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/news_detail_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
+import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -63,17 +64,30 @@ class _NewsWrapperState extends State<NewsWrapper> {
     super.dispose();
   }
 
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _drawerKey,
+        drawer: DrawerWidget(),
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.white,
-          title: Center(
-            child: Image.asset(
+          leading: IconButton(
+              icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+              onPressed: () {
+                _drawerKey.currentState.openDrawer();
+              }),
+          title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Image.asset(
               "./assets/images/alaevLogoClean.png",
               scale: 11,
             ),
-          ),
+          ],
+        ),
         ),
         body: Container(
           child: CardWidget(

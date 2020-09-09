@@ -6,6 +6,7 @@ import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
 import 'package:alaev/widgets/card_job_widget.dart';
 import 'package:alaev/widgets/city_select.dart';
+import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:smart_select/smart_select.dart';
 import '../screens/job_adv/job_adv_detail_screen.dart';
@@ -188,7 +189,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
 
     return Scaffold(
       key: _drawerKey,
-      drawer: SafeArea(
+      drawer: DrawerWidget(),
+      endDrawer: SafeArea(
         child: Drawer(
           child: Container(
             padding: EdgeInsets.all(10),
@@ -249,13 +251,18 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-            icon:
-                Icon(Icons.filter_list, color: Theme.of(context).primaryColor),
+            icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
             onPressed: () {
               _drawerKey.currentState.openDrawer();
             }),
         actions: <Widget>[
           SizedBox(width: 15),
+          IconButton(
+              icon: Icon(Icons.filter_list,
+                  color: Theme.of(context).primaryColor),
+              onPressed: () {
+                _drawerKey.currentState.openEndDrawer();
+              }),
           _isFirma
               ? IconButton(
                   icon: Icon(

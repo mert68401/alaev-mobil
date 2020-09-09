@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/providers/auth.dart';
+import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,62 +76,21 @@ class MapScreenState extends State<ProfileWrapper>
     getUserData();
   }
 
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _drawerKey,
+        drawer: DrawerWidget(),
         appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+              onPressed: () {
+                _drawerKey.currentState.openDrawer();
+              }),
           backgroundColor: Colors.white,
           actions: <Widget>[
-            IconButton(
-              color: Theme.of(context).primaryColor,
-              icon: FaIcon(FontAwesomeIcons.qrcode),
-              onPressed: () async {
-                var result = await BarcodeScanner.scan();
-                if (result.rawContent.length > 0) {
-                  getDiscountFromQr(result.rawContent).then((discount) {
-                    if (discount.length > 0) {
-                      print(discount);
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Barcodun içeriği"),
-                            content: Text(discount.toString()),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Text("Kapat"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Hatalı Barkod!"),
-                            content: Text(
-                                "Lütfen doğru barkodu okuttuğunuzdan emin olun."),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Text("Kapat"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  });
-                }
-              },
-            ),
             IconButton(
                 icon: FaIcon(
                   FontAwesomeIcons.signOutAlt,
@@ -393,7 +353,7 @@ class MapScreenState extends State<ProfileWrapper>
                                                         _companyDiscountController,
                                                     decoration:
                                                         const InputDecoration(
-                                                          counterText: '',
+                                                            counterText: '',
                                                             hintText: "%0-99"),
                                                     enabled: !_status,
                                                   ),
@@ -406,9 +366,122 @@ class MapScreenState extends State<ProfileWrapper>
                                     : SizedBox(height: 0),
                                 !_status
                                     ? _getActionButtons()
-                                    : Container(
-                                        child: _cvButton(),
-                                        padding: EdgeInsets.only(right: 65),
+                                    : Column(
+                                        children: [
+                                          Container(
+                                            child: _cvButton(),
+                                            padding: EdgeInsets.only(right: 65),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: 25, left: 15),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        right: 165.0),
+                                                    child: RaisedButton(
+                                                      child: Row(
+                                                        children: [
+                                                          FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .qrcode),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                              "QR Kod Okuyucu"),
+                                                        ],
+                                                      ),
+                                                      textColor: Colors.white,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      onPressed: () async {
+                                                        var result =
+                                                            await BarcodeScanner
+                                                                .scan();
+                                                        if (result.rawContent
+                                                                .length >
+                                                            0) {
+                                                          getDiscountFromQr(result
+                                                                  .rawContent)
+                                                              .then((discount) {
+                                                            if (discount
+                                                                    .length >
+                                                                0) {
+                                                              print(discount);
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                    title: Text(
+                                                                        "Barcodun içeriği"),
+                                                                    content: Text(
+                                                                        discount
+                                                                            .toString()),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      FlatButton(
+                                                                        child: Text(
+                                                                            "Kapat"),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        },
+                                                                      )
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            } else {
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                    title: Text(
+                                                                        "Hatalı Barkod!"),
+                                                                    content: Text(
+                                                                        "Lütfen doğru barkodu okuttuğunuzdan emin olun."),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      FlatButton(
+                                                                        child: Text(
+                                                                            "Kapat"),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        },
+                                                                      )
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            }
+                                                          });
+                                                        }
+                                                      },
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20.0),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  flex: 2,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                               ],
                             ),
