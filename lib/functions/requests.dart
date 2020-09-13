@@ -130,7 +130,7 @@ Future<void> addJobAdvertisementRequest({
 Future<void> updateUserInfo({
   String fullName,
   String email,
-  String personalNumber,
+  String phone,
   String companyName,
   String companyDiscount,
 }) async {
@@ -142,7 +142,7 @@ Future<void> updateUserInfo({
       body: jsonEncode(<String, String>{
         "token": value,
         "fullName": fullName,
-        "personalNumber": personalNumber,
+        "phone": phone,
         "email": email,
         "companyName": companyName,
         "companyDiscount": companyDiscount

@@ -4,8 +4,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const mongoClient = require("mongodb").MongoClient;
-//var url = "mongodb://localhost:27017/alaev";
-var url = "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
+var url = "mongodb://localhost:27017/alaev";
 var database = null;
 const nodemailer = require("nodemailer");
 const fs = require("fs");
@@ -70,7 +69,7 @@ router.post("/register", function (req, res) {
         body.role.length > 0 &&
         body.phone.length > 0 &&
         body.city.length > 0 &&
-        body.graduateYear.length > 0 
+        body.graduateYear.length > 0
     ) {
         userObj = {
             _id: makeid(),
@@ -218,7 +217,7 @@ router.post("/updateUserInfo", function (req, res) {
                                 $set: {
                                     fullName: body.fullName,
                                     "email.str": email,
-                                    personalNumber: body.personalNumber ? body.personalNumber : "",
+                                    phone: body.phone ? body.phone : "",
                                     companyName: body.companyName ? body.companyName : "",
                                     companyDiscount: body.companyDiscount ? body.companyDiscount : "",
                                 },
@@ -330,7 +329,7 @@ router.post("/setCvPage", function (req, res) {
             cvObj = {
                 _id: makeid(),
                 userId: id,
-                cvImageUrl: body.cvImageUrl,
+                cvImageUrl: body.cvImageUrl ? body.cvImageUrl : "",
                 cvNameSurname: body.cvNameSurname,
                 cvAge: body.cvAge,
                 cvMail: body.cvMail,
@@ -362,6 +361,7 @@ router.post("/setCvPage", function (req, res) {
                                             message: "An error occured!",
                                         });
                                     }
+                                    
                                     res.json({
                                         success: true,
                                         message: "CV oluşturuldu.",
@@ -379,7 +379,6 @@ router.post("/setCvPage", function (req, res) {
                     } else {
                         // const noId = ({ _id, ...rest }) => rest
                         // cvObj = noId(cvObj)
-
                         if (body.cvNameSurname && body.cvAge && body.cvMail && body.cvPhone && body.cvSchool1) {
                             if (body.cvNameSurname != "" && body.cvAge != "" && body.cvMail != "" && body.cvPhone != "" && body.cvSchool1 != "") {
                                 database.collection("cvForms").updateOne(
@@ -387,7 +386,7 @@ router.post("/setCvPage", function (req, res) {
                                     {
                                         $set: {
                                             //cvObj
-                                            cvImageUrl: body.cvImageUrl ? body.cvImageUrl : "",
+                                            cvImageUrl: body.cvImageUrl,
                                             cvNameSurname: body.cvNameSurname,
                                             cvAge: body.cvAge,
                                             cvMail: body.cvMail,

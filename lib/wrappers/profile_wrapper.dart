@@ -63,7 +63,7 @@ class MapScreenState extends State<ProfileWrapper>
           userData = json.decode(response.body);
           _emailController.text = userData['email']['str'];
           _fullNameController.text = userData['fullName'];
-          _phoneController.text = userData['personalNumber'];
+          _phoneController.text = userData['phone'];
           _companyNameController.text = userData['companyName'];
           _companyDiscountController.text = userData['companyDiscount'];
         } else if (response.statusCode == 401) {
@@ -393,6 +393,7 @@ class MapScreenState extends State<ProfileWrapper>
                                                         _companyDiscountController,
                                                     decoration:
                                                         const InputDecoration(
+                                                          counterText: '',
                                                             hintText: "%0-99"),
                                                     enabled: !_status,
                                                   ),
@@ -484,7 +485,7 @@ class MapScreenState extends State<ProfileWrapper>
                     updateUserInfo(
                         fullName: _fullNameController.text,
                         email: _emailController.text,
-                        personalNumber: _phoneController.text,
+                        phone: _phoneController.text,
                         companyName: _companyNameController.text,
                         companyDiscount: _companyDiscountController.text);
                   });
