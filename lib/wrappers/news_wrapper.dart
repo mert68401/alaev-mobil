@@ -70,14 +70,13 @@ class _NewsWrapperState extends State<NewsWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _drawerKey,
-        drawer: DrawerWidget(),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
           leading: IconButton(
               icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
               onPressed: () {
-                _drawerKey.currentState.openDrawer();
+                Scaffold.of(context).openDrawer();
               }),
           title: Row(
           mainAxisSize: MainAxisSize.min,

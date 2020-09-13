@@ -90,12 +90,11 @@ class _CompanyAdvertisementWrapperState
   Widget build(BuildContext context) {
     return Scaffold(
       key: _drawerKey,
-      drawer: DrawerWidget(),
       appBar: AppBar(
         leading: IconButton(
             icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
             onPressed: () {
-              _drawerKey.currentState.openDrawer();
+              Scaffold.of(context).openDrawer();
             }),
         backgroundColor: Colors.white,
         actions: <Widget>[

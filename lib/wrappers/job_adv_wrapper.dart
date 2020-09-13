@@ -189,7 +189,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
 
     return Scaffold(
       key: _drawerKey,
-      drawer: DrawerWidget(),
       endDrawer: SafeArea(
         child: Drawer(
           child: Container(
@@ -253,7 +252,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         leading: IconButton(
             icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
             onPressed: () {
-              _drawerKey.currentState.openDrawer();
+              Scaffold.of(context).openDrawer();
             }),
         actions: <Widget>[
           SizedBox(width: 15),
