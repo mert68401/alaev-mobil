@@ -213,6 +213,7 @@ router.post("/updateUserInfo", function (req, res) {
                                     phone: body.phone ? body.phone : "",
                                     companyName: body.companyName ? body.companyName : "",
                                     companyDiscount: body.companyDiscount ? body.companyDiscount : "",
+                                    companyAdress: body.companyAdress ? body.companyAdress : "",
                                 },
                             },
                             function (error, result) {
@@ -430,10 +431,10 @@ router.post("/setCvPage", function (req, res) {
 /*
 //Get getDiscountedtPlaces
 */
-router.post("/getDiscountedtPlaces", function (req, res) {
+router.post("/getDiscountedPlaces", function (req, res) {
     var body = req.body;
-    var data = database.collection("userAccounts").find({ discount: { $exists: true } });
-    
+    var data = database.collection("userAccounts").find({ companyDiscount: { $exists: true, $not: { $eq: "" }, $not: { $eq: null } } });
+
     data.toArray(function (err, docs) {
         if (err) {
             res.status(401).send({

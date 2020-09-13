@@ -12,6 +12,7 @@ import '../wrappers/news_wrapper.dart';
 import '../wrappers/company_adv_wrapper.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = '/home-screen';
   final bool loggedIn;
 
   HomeScreen({@required this.loggedIn});

@@ -5,6 +5,8 @@ import 'package:alaev/screens/chronology_screen.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/edit_my_company_advs_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
+import 'package:alaev/screens/company_detail_screen.dart';
+import 'package:alaev/screens/company_list_screen.dart';
 import 'package:alaev/screens/founding_members_screen.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/forgot_password_screen.dart';
@@ -77,6 +79,7 @@ class MyApp extends StatelessWidget {
                           ? HomeScreen(loggedIn: true)
                           : HomeScreen(loggedIn: false)),
           routes: {
+            HomeScreen.routeName: (context) => HomeScreen(loggedIn: auth.isAuth ? true : false),
             LoginScreen.routeName: (context) => LoginScreen(),
             ProfileWrapper.routeName: (context) => ProfileWrapper(),
             RegisterScreen.routeName: (context) => RegisterScreen(),
@@ -102,7 +105,9 @@ class MyApp extends StatelessWidget {
             MembersScreen.routeName: (context) => MembersScreen(),
             FoundingMembersScreen.routeName: (context) =>
                 FoundingMembersScreen(),
-            ChronologyScreen.routeName: (context) => ChronologyScreen()
+            ChronologyScreen.routeName: (context) => ChronologyScreen(),
+            CompanyListScreen.routeName: (context) => CompanyListScreen(),
+            CompanyDetailScreen.routeName: (context) => CompanyDetailScreen(),
           },
         ),
       ),

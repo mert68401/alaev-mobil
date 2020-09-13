@@ -1,6 +1,8 @@
 import 'package:alaev/screens/about_screen.dart';
 import 'package:alaev/screens/chronology_screen.dart';
+import 'package:alaev/screens/company_list_screen.dart';
 import 'package:alaev/screens/founding_members_screen.dart';
+import 'package:alaev/screens/home_screen.dart';
 import 'package:alaev/screens/members_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -43,6 +45,16 @@ class DrawerWidget extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
+                  Navigator.of(context).pushNamed(HomeScreen.routeName);
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("Anasayfa", style: TextStyle(fontSize: 13)),
+                  trailing: Icon(Icons.person),
+                ),
+              ),
+              InkWell(  
+                onTap: () {
                   Navigator.of(context).pushNamed(AboutScreen.routeName);
                 },
                 child: ListTile(
@@ -74,6 +86,21 @@ class DrawerWidget extends StatelessWidget {
                   dense: true,
                   title: Text("Kurullarımız", style: TextStyle(fontSize: 13)),
                   trailing: Icon(Icons.group),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(CompanyListScreen.routeName);
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text(
+                    "ALAEV Fırsatları",
+                    style: TextStyle(fontSize: 13),
+                  ),
+                  trailing: FaIcon(
+                    FontAwesomeIcons.percentage,
+                  ),
                 ),
               ),
               InkWell(
@@ -123,9 +150,6 @@ class DrawerWidget extends StatelessWidget {
                   title: Text("İletişim", style: TextStyle(fontSize: 13)),
                   trailing: Icon(Icons.mail),
                 ),
-              ),
-              SizedBox(
-                height: 10,
               ),
               GestureDetector(
                 onTap: () {
