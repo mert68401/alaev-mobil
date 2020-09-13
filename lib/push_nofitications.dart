@@ -13,7 +13,6 @@ class PushNotificationsManager {
   bool _initialized = false;
 
   Future<void> init() async {
-    print("12312323asdasd23123");
     if (!_initialized) {
       // For iOS request permission first.
       _firebaseMessaging.requestNotificationPermissions();

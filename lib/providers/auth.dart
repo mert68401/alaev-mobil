@@ -22,11 +22,13 @@ class Auth with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('token')) {
       return false;
+    } else {
+      final extractedToken = prefs.getString('token').toString();
+      _token = extractedToken;
+      
+      notifyListeners();
+      return true;
     }
-    final extractedToken = prefs.getString('token').toString();
-    _token = extractedToken;
-    notifyListeners();
-    return true;
   }
 
   Future<bool> signup(
