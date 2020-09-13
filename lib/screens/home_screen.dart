@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:alaev/functions/functions.dart';
 import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 2);
+    getToken().then((value) {
+      if (value == null) {
+        Navigator.of(context).pushNamed(LoginScreen.routeName);
+      }
+    });
   }
 
   @override
