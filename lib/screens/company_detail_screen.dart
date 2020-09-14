@@ -56,8 +56,8 @@ class CompanyDetailScreen extends StatelessWidget {
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 border: TableBorder.all(color: Colors.grey),
                 columnWidths: {
-                  0: FractionColumnWidth(.35),
-                  1: FractionColumnWidth(.65),
+                  0: FractionColumnWidth(.3),
+                  1: FractionColumnWidth(.7),
                 },
                 children: [
                   TableRow(children: [

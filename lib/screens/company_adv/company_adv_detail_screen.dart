@@ -135,10 +135,7 @@ class CompanyAdvertisement extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        arguments['content'],
-                        textAlign: TextAlign.center,
-                      ),
+                      child: Text(arguments['content']),
                     ),
                   ]),
                 ],
