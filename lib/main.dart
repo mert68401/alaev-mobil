@@ -29,6 +29,8 @@ import './screens/login_screen.dart';
 import './screens/register_screen.dart';
 import 'screens/company_adv/company_adv_detail_screen.dart';
 import './screens/cv_screen.dart';
+import './screens/user_list_screen.dart';
+import './screens/user_list_detail_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +81,8 @@ class MyApp extends StatelessWidget {
                           ? HomeScreen(loggedIn: true)
                           : HomeScreen(loggedIn: false)),
           routes: {
-            HomeScreen.routeName: (context) => HomeScreen(loggedIn: auth.isAuth ? true : false),
+            HomeScreen.routeName: (context) =>
+                HomeScreen(loggedIn: auth.isAuth ? true : false),
             LoginScreen.routeName: (context) => LoginScreen(),
             ProfileWrapper.routeName: (context) => ProfileWrapper(),
             RegisterScreen.routeName: (context) => RegisterScreen(),
@@ -108,6 +111,8 @@ class MyApp extends StatelessWidget {
             ChronologyScreen.routeName: (context) => ChronologyScreen(),
             CompanyListScreen.routeName: (context) => CompanyListScreen(),
             CompanyDetailScreen.routeName: (context) => CompanyDetailScreen(),
+            UserListScreen.routeName: (context) => UserListScreen(),
+            UserDetailScreen.routeName: (context) => UserDetailScreen(),
           },
         ),
       ),

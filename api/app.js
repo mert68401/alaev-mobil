@@ -4,8 +4,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const mongoClient = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/alaev";
-//var url = "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
+//var url = "mongodb://localhost:27017/alaev";
+var url = "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
 var database = null;
 const nodemailer = require("nodemailer");
 const fs = require("fs");
@@ -427,6 +427,26 @@ router.post("/setCvPage", function (req, res) {
         }
     });
 });
+
+/*
+//Get getDiscountedtPlaces
+*/
+router.post("/getUserAccounts", function (req, res) {
+    var body = req.body;
+    var data = database.collection("userAccounts").find();
+
+    data.toArray(function (err, docs) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: "An error occured!",
+            });
+            return;
+        }
+        res.json(docs);
+    });
+});
+
 
 /*
 //Get getDiscountedtPlaces
