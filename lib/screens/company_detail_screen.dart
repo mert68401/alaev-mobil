@@ -62,7 +62,7 @@ class CompanyDetailScreen extends StatelessWidget {
                 children: [
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text('Firma İndirimi',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontWeight: FontWeight.bold)),
@@ -74,14 +74,17 @@ class CompanyDetailScreen extends StatelessWidget {
                   ]),
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text('Firma Adresi',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
-                    Text(
-                      arguments['companyAdress'],
-                      textAlign: TextAlign.center,
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        arguments['companyAdress'],
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ]),
                 ],

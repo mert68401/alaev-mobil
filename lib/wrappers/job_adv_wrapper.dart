@@ -257,8 +257,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         actions: <Widget>[
           SizedBox(width: 15),
           IconButton(
-              icon: Icon(Icons.filter_list,
-                  color: Theme.of(context).primaryColor),
+              icon: Icon(Icons.search, color: Theme.of(context).primaryColor),
               onPressed: () {
                 _drawerKey.currentState.openEndDrawer();
               }),

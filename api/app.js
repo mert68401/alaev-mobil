@@ -433,8 +433,7 @@ router.post("/setCvPage", function (req, res) {
 */
 router.post("/getDiscountedPlaces", function (req, res) {
     var body = req.body;
-    var data = database.collection("userAccounts").find({ companyDiscount: { $exists: true, $not: { $eq: "" }, $not: { $eq: null } } });
-
+    var data = database.collection("userAccounts").find({ companyDiscount: { $exists: true, $nin: ["", null] } });
     data.toArray(function (err, docs) {
         if (err) {
             res.status(401).send({

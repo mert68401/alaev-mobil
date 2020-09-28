@@ -43,17 +43,18 @@ class DrawerWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.of(context)
+              //         .pushReplacementNamed(HomeScreen.routeName);
+              //   },
+              //   child: ListTile(
+              //     dense: true,
+              //     title: Text("Anasayfa", style: TextStyle(fontSize: 13)),
+              //     trailing: Icon(Icons.person),
+              //   ),
+              // ),
               InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed(HomeScreen.routeName);
-                },
-                child: ListTile(
-                  dense: true,
-                  title: Text("Anasayfa", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.person),
-                ),
-              ),
-              InkWell(  
                 onTap: () {
                   Navigator.of(context).pushNamed(AboutScreen.routeName);
                 },
@@ -155,20 +156,22 @@ class DrawerWidget extends StatelessWidget {
                 onTap: () {
                   customLaunch('https://www.wiki.com.tr/');
                 },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Powered By',
-                      style: TextStyle(fontSize: 10),
-                    ),
-                    ClipRect(
-                      child: Image.asset(
-                        'assets/images/wikilogo.png',
-                        height: 100,
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Powered By',
+                        style: TextStyle(fontSize: 10),
                       ),
-                    ),
-                  ],
+                      ClipRect(
+                        child: Image.asset(
+                          'assets/images/wikilogo.png',
+                          height: 80,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],

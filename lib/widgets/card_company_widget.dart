@@ -156,7 +156,9 @@ class CardCompanyWidget extends StatelessWidget {
                           child: firebaseCheck(i),
                         ),
                         title: Text(items[i]['title']),
-                        subtitle: Text(items[i]['companyName'] != null ? items[i]['companyName'] : ''),
+                        subtitle: Text(items[i]['companyName'] != null
+                            ? items[i]['companyName']
+                            : ''),
                         trailing: Text(
                           f.format(DateTime.parse(items[i]['createdAt'])),
                           style: TextStyle(color: Colors.grey, fontSize: 12),

@@ -8,9 +8,7 @@ class CardDiscountedPlaces extends StatelessWidget {
   final f = new DateFormat('yyyy-MM-dd');
 
   CardDiscountedPlaces(
-      {@required this.items,
-      this.routeName,
-      @required this.onRefresh});
+      {@required this.items, this.routeName, @required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class CardDiscountedPlaces extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "",
+              "Henüz bir fırsat yok.",
               style: TextStyle(color: Colors.grey),
             ),
             SizedBox(

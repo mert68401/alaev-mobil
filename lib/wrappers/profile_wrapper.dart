@@ -159,7 +159,113 @@ class MapScreenState extends State<ProfileWrapper>
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        _status ? _getEditIcon() : Container(),
+                                        _status
+                                            ? Row(
+                                                children: [
+                                                  Container(
+                                                    height: 30,
+                                                    margin: EdgeInsets.only(
+                                                        right: 10, left: 10),
+                                                    child: RaisedButton(
+                                                      child: Row(
+                                                        children: [
+                                                          FaIcon(
+                                                            FontAwesomeIcons
+                                                                .qrcode,
+                                                            size: 15,
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            "QR Kod Okuyucu",
+                                                            style: TextStyle(),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      textColor: Colors.white,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      onPressed: () async {
+                                                        var result =
+                                                            await BarcodeScanner
+                                                                .scan();
+                                                        if (result.rawContent
+                                                                .length >
+                                                            0) {
+                                                          getDiscountFromQr(result
+                                                                  .rawContent)
+                                                              .then((discount) {
+                                                            if (discount
+                                                                    .length >
+                                                                0) {
+                                                              print(discount);
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                    title: Text(
+                                                                        "Barcodun içeriği"),
+                                                                    content: Text(
+                                                                        discount
+                                                                            .toString()),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      FlatButton(
+                                                                        child: Text(
+                                                                            "Kapat"),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        },
+                                                                      )
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            } else {
+                                                              showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return AlertDialog(
+                                                                    title: Text(
+                                                                        "Hatalı Barkod!"),
+                                                                    content: Text(
+                                                                        "Lütfen doğru barkodu okuttuğunuzdan emin olun."),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      FlatButton(
+                                                                        child: Text(
+                                                                            "Kapat"),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        },
+                                                                      )
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            }
+                                                          });
+                                                        }
+                                                      },
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20.0),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  _getEditIcon(),
+                                                ],
+                                              )
+                                            : Container(),
                                       ],
                                     )),
                                 Padding(
@@ -344,7 +450,7 @@ class MapScreenState extends State<ProfileWrapper>
                                                 Flexible(
                                                   child: TextField(
                                                     maxLength: 150,
-                                                    maxLines: 3,
+                                                    maxLines: 2,
                                                     controller:
                                                         _companyAdressController,
                                                     enabled: !_status,
@@ -355,9 +461,9 @@ class MapScreenState extends State<ProfileWrapper>
                                           ),
                                           Padding(
                                               padding: EdgeInsets.only(
-                                                  left: 25.0,
-                                                  right: 25.0,
-                                                  top: 20.0),
+                                                left: 25.0,
+                                                right: 25.0,
+                                              ),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: <Widget>[
@@ -413,121 +519,17 @@ class MapScreenState extends State<ProfileWrapper>
                                     : SizedBox(height: 0),
                                 !_status
                                     ? _getActionButtons()
-                                    : Column(
+                                    : Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                            child: _cvButton(),
-                                            padding: EdgeInsets.only(right: 65),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                top: 25, left: 15),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        right: 165.0),
-                                                    child: RaisedButton(
-                                                      child: Row(
-                                                        children: [
-                                                          FaIcon(
-                                                              FontAwesomeIcons
-                                                                  .qrcode),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                              "QR Kod Okuyucu"),
-                                                        ],
-                                                      ),
-                                                      textColor: Colors.white,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      onPressed: () async {
-                                                        var result =
-                                                            await BarcodeScanner
-                                                                .scan();
-                                                        if (result.rawContent
-                                                                .length >
-                                                            0) {
-                                                          getDiscountFromQr(result
-                                                                  .rawContent)
-                                                              .then((discount) {
-                                                            if (discount
-                                                                    .length >
-                                                                0) {
-                                                              print(discount);
-                                                              showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return AlertDialog(
-                                                                    title: Text(
-                                                                        "Barcodun içeriği"),
-                                                                    content: Text(
-                                                                        discount
-                                                                            .toString()),
-                                                                    actions: <
-                                                                        Widget>[
-                                                                      FlatButton(
-                                                                        child: Text(
-                                                                            "Kapat"),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.of(context)
-                                                                              .pop();
-                                                                        },
-                                                                      )
-                                                                    ],
-                                                                  );
-                                                                },
-                                                              );
-                                                            } else {
-                                                              showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return AlertDialog(
-                                                                    title: Text(
-                                                                        "Hatalı Barkod!"),
-                                                                    content: Text(
-                                                                        "Lütfen doğru barkodu okuttuğunuzdan emin olun."),
-                                                                    actions: <
-                                                                        Widget>[
-                                                                      FlatButton(
-                                                                        child: Text(
-                                                                            "Kapat"),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.of(context)
-                                                                              .pop();
-                                                                        },
-                                                                      )
-                                                                    ],
-                                                                  );
-                                                                },
-                                                              );
-                                                            }
-                                                          });
-                                                        }
-                                                      },
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  flex: 2,
-                                                ),
-                                              ],
+                                          Expanded(
+                                            child: Container(
+                                              child: _cvButton(),
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                               ],
@@ -552,33 +554,21 @@ class MapScreenState extends State<ProfileWrapper>
     return _isFirma
         ? null
         : Container(
-            margin: EdgeInsets.only(top: 25, left: 15),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 100.0),
-                    child: Container(
-                        child: RaisedButton(
-                      child: Text("CV Ekle/Düzenle"),
-                      textColor: Colors.white,
-                      color: Colors.green,
-                      onPressed: () {
-                        setState(() {
-                          Navigator.of(context).pushNamed(CvScreen.routeName);
-                          return;
-                        });
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                    )),
-                  ),
-                  flex: 2,
-                ),
-              ],
-            ),
+            margin: EdgeInsets.only(top: 25, left: 10, right: 10),
+            child: Container(
+                child: RaisedButton(
+              child: Text("CV Ekle/Düzenle"),
+              textColor: Colors.white,
+              color: Colors.green,
+              onPressed: () {
+                setState(() {
+                  Navigator.of(context).pushNamed(CvScreen.routeName);
+                  return;
+                });
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+            )),
           );
   }
 
