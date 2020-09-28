@@ -7,6 +7,7 @@ import 'package:alaev/screens/members_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:alaev/screens/user_list_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
@@ -115,6 +116,18 @@ class DrawerWidget extends StatelessWidget {
                       style: TextStyle(fontSize: 13)),
                   trailing: FaIcon(
                     FontAwesomeIcons.building,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(UserListScreen.routeName);
+                },
+                child: ListTile(
+                  dense: true,
+                  title: Text("Üyelerimiz", style: TextStyle(fontSize: 13)),
+                  trailing: FaIcon(
+                    FontAwesomeIcons.list,
                   ),
                 ),
               ),

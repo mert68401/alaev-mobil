@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CompanyAdvertisement extends StatelessWidget {
-  static const routeName = '/company-adv-page';
+class UserDetailScreen extends StatelessWidget {
+  static const routeName = '/user-detail-page';
 
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
 
-    String clickableCompanyNumber = arguments['companyNumber'];
-    String clickablePersonalNumber = arguments['personalNumber'];
+    String clickablePersonalNumber = arguments['phone'];
 
     void customLaunch(command) async {
       if (await canLaunch(command)) {
@@ -42,21 +41,12 @@ class CompanyAdvertisement extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              arguments['imageUrl'].toString().length > 1
-                  ? Container(
-                      height: 200,
-                      width: double.infinity,
-                      child: Image.network(
-                        arguments['imageUrl'],
-                        fit: BoxFit.cover,
-                      ))
-                  : SizedBox(),
               SizedBox(
                 height: 10,
               ),
               Container(
                 child: Text(
-                  arguments['title'],
+                  arguments['fullName'],
                   style: TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
@@ -76,30 +66,59 @@ class CompanyAdvertisement extends StatelessWidget {
                     Column(children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('Firma İsmi', textAlign: TextAlign.center),
+                        child:
+                            Text('Mezuniyet Yılı', textAlign: TextAlign.center),
                       )
                     ]),
                     Column(children: [
-                      Text(arguments['companyName'],
+                      Text(
+                          arguments['graduateYear'] != null
+                              ? arguments['graduateYear']
+                              : '',
                           textAlign: TextAlign.center)
                     ]),
                   ]),
                   TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Firma Telefon Numarası',
-                          textAlign: TextAlign.center),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        customLaunch('tel:$clickableCompanyNumber');
-                      },
-                      child: Text(
-                        arguments['companyNumber'],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.indigo[800]),
-                      ),
-                    ),
+                    Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Firma İsmi', textAlign: TextAlign.center),
+                      )
+                    ]),
+                    Column(children: [
+                      Text(
+                          arguments['companyName'] != null
+                              ? arguments['companyName']
+                              : '',
+                          textAlign: TextAlign.center)
+                    ]),
+                  ]),
+                  TableRow(children: [
+                    Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Meslek', textAlign: TextAlign.center),
+                      )
+                    ]),
+                    Column(children: [
+                      Text(arguments['job'] != null ? arguments['job'] : '',
+                          textAlign: TextAlign.center)
+                    ]),
+                  ]),
+                  TableRow(children: [
+                    Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Üniversite', textAlign: TextAlign.center),
+                      )
+                    ]),
+                    Column(children: [
+                      Text(
+                          arguments['university'] != null
+                              ? arguments['university']
+                              : '',
+                          textAlign: TextAlign.center)
+                    ]),
                   ]),
                   TableRow(children: [
                     Padding(
@@ -112,31 +131,10 @@ class CompanyAdvertisement extends StatelessWidget {
                           customLaunch('tel:$clickablePersonalNumber');
                         },
                         child: Text(
-                          arguments['personalNumber'],
+                          arguments['phone'],
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.indigo[800]),
                         )),
-                  ]),
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Mail Adresi', textAlign: TextAlign.center),
-                    ),
-                    Text(
-                      arguments['email'],
-                      textAlign: TextAlign.center,
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child:
-                          Text('İlan Ayrıntısı', textAlign: TextAlign.center),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(arguments['content']),
-                    ),
                   ]),
                 ],
               ),
