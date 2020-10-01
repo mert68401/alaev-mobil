@@ -57,16 +57,6 @@ class DrawerWidget extends StatelessWidget {
               // ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed(AboutScreen.routeName);
-                },
-                child: ListTile(
-                  dense: true,
-                  title: Text("Hakkımızda", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.person),
-                ),
-              ),
-              InkWell(
-                onTap: () {
                   customLaunch('http://alaev.org.tr');
                 },
                 child: ListTile(
@@ -82,40 +72,16 @@ class DrawerWidget extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed(MembersScreen.routeName);
-                },
-                child: ListTile(
-                  dense: true,
-                  title: Text("Kurullarımız", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.group),
-                ),
-              ),
-              InkWell(
-                onTap: () {
                   Navigator.of(context).pushNamed(CompanyListScreen.routeName);
                 },
                 child: ListTile(
                   dense: true,
                   title: Text(
-                    "ALAEV Fırsatları",
+                    "Anlaşmalı Kurumlar",
                     style: TextStyle(fontSize: 13),
                   ),
                   trailing: FaIcon(
                     FontAwesomeIcons.percentage,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(FoundingMembersScreen.routeName);
-                },
-                child: ListTile(
-                  dense: true,
-                  title: Text("Kurucu Mütevelliler",
-                      style: TextStyle(fontSize: 13)),
-                  trailing: FaIcon(
-                    FontAwesomeIcons.building,
                   ),
                 ),
               ),
@@ -129,40 +95,6 @@ class DrawerWidget extends StatelessWidget {
                   trailing: FaIcon(
                     FontAwesomeIcons.list,
                   ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed(ChronologyScreen.routeName);
-                },
-                child: ListTile(
-                  dense: true,
-                  title:
-                      Text("Vakıf Kronolijisi", style: TextStyle(fontSize: 13)),
-                  trailing: FaIcon(
-                    FontAwesomeIcons.calendarAlt,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  customLaunch('http://alaev.org.tr/burslarimiz');
-                },
-                child: ListTile(
-                  dense: true,
-                  title:
-                      Text("Burs Başvuruları", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.school),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  customLaunch('http://alaev.org.tr/iletisim');
-                },
-                child: ListTile(
-                  dense: true,
-                  title: Text("İletişim", style: TextStyle(fontSize: 13)),
-                  trailing: Icon(Icons.mail),
                 ),
               ),
               GestureDetector(
