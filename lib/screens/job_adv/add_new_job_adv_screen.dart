@@ -31,6 +31,12 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
   String _selectedItem = 'Diğer';
   String _diplomaItem = 'Hepsi';
   String _citySelectedItem;
+  String _jobTypeItem;
+
+  List<SmartSelectOption<String>> jobTypeItems = [
+    SmartSelectOption<String>(value: 'İş Veren', title: 'İş Veren'),
+    SmartSelectOption<String>(value: 'İş Arayan', title: 'İş Arayan'),
+  ];
 
   List<SmartSelectOption<String>> items = [
     SmartSelectOption<String>(value: 'Bilişim', title: 'Bilişim'),
@@ -64,25 +70,21 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   bool _showProgress = false;
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = image;
-    });
-  }
-
-  Future uploadPicture(BuildContext ctx) async {
-    String fileName = basename(_image.path);
-    StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    _jobAdImageUrl = await taskSnapshot.ref.getDownloadURL();
-  }
-
   void dispose() {
     super.dispose();
+  }
+
+  Widget smartSelectJobType(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        placeholder: 'Seçiniz',
+        title: title,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        dense: false,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: value,
+        options: options,
+        onChange: (val) => setState(() => _jobTypeItem = val));
   }
 
   Widget smartSelectKategori(String title, List options, String value) {
@@ -111,7 +113,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
 
   Widget smartSelectCity() {
     return SmartSelect<String>.single(
-      placeholder: 'Seçiniz',
+        placeholder: 'Seçiniz',
         title: 'Şehir',
         padding: EdgeInsets.symmetric(horizontal: 10),
         dense: false,
@@ -183,33 +185,8 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                 : Container(
                     child: Column(
                       children: <Widget>[
-                        Stack(
-                          alignment: Alignment.bottomRight,
-                          children: <Widget>[
-                            Container(
-                              height: 150,
-                              width: double.infinity,
-                              child: _image == null
-                                  ? Image.asset(
-                                      "assets/images/empty.png",
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.file(
-                                      _image,
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
-                              child: FloatingActionButton(
-                                onPressed: () => getImage(),
-                                elevation: 10,
-                                backgroundColor: Colors.green,
-                                child: Icon(Icons.add_a_photo),
-                              ),
-                            )
-                          ],
-                        ),
+                        smartSelectJobType(
+                            'İlan Tipi', jobTypeItems, _jobTypeItem),
                         SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
@@ -218,14 +195,16 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           height: 60,
                         )),
                         SizedBox(height: 10),
-                        Container(
-                            child: TextFieldWidget(
-                          keyboardType: TextInputType.number,
-                          controller: _jobAdCompanyNumber,
-                          labelText: 'Firma Telefon Numarası',
-                          height: 60,
-                          maxLength: 13,
-                        )),
+                        _jobTypeItem == 'İş Veren'
+                            ? Container(
+                                child: TextFieldWidget(
+                                keyboardType: TextInputType.number,
+                                controller: _jobAdCompanyNumber,
+                                labelText: 'Firma Telefon Numarası',
+                                height: 60,
+                                maxLength: 13,
+                              ))
+                            : SizedBox(),
                         SizedBox(height: 10),
                         Container(
                             child: TextFieldWidget(
@@ -267,43 +246,28 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                             color: Colors.green,
                             onPressed: () {
                               if (_jobAdTitle.text != '' &&
-                                  _jobAdCompanyNumber.text != '' &&
-                                  _citySelectedItem != null) {
+                                  _citySelectedItem != null &&
+                                  _jobAdMail.text != '' &&
+                                  _jobAdContent.text != '') {
                                 setState(() {
                                   _showProgress = !_showProgress;
                                 });
-                                if (_image != null) {
-                                  uploadPicture(context).then((value) {
-                                    addJobAdvertisementRequest(
-                                        filter: '',
-                                        jobAdTitle: _jobAdTitle.text,
-                                        jobAdImageUrl:
-                                            _jobAdImageUrl.toString(),
-                                        jobAdCompanyNumber:
-                                            _jobAdCompanyNumber.text,
-                                        jobAdPersonalNumber:
-                                            _jobAdPersonalNumber.text,
-                                        jobAdMail: _jobAdMail.text,
-                                        jobAdContent: _jobAdContent.text,
-                                        jobAdType: _selectedItem,
-                                        jobAdDiploma: _diplomaItem,
-                                        city: _citySelectedItem);
-                                  });
-                                } else {
-                                  addJobAdvertisementRequest(
-                                      filter: '',
-                                      jobAdTitle: _jobAdTitle.text,
-                                      jobAdImageUrl: _jobAdImageUrl.toString(),
-                                      jobAdCompanyNumber:
-                                          _jobAdCompanyNumber.text,
-                                      jobAdPersonalNumber:
-                                          _jobAdPersonalNumber.text,
-                                      jobAdMail: _jobAdMail.text,
-                                      jobAdContent: _jobAdContent.text,
-                                      jobAdType: _selectedItem,
-                                      jobAdDiploma: _diplomaItem,
-                                      city: _citySelectedItem);
-                                }
+                                addJobAdvertisementRequest(
+                                  filter: '',
+                                  jobAdTitle: _jobAdTitle.text,
+                                  jobAdImageUrl: _jobAdImageUrl.toString(),
+                                  jobAdCompanyNumber: _jobTypeItem == 'İş Veren'
+                                      ? _jobAdCompanyNumber.text
+                                      : null,
+                                  jobAdPersonalNumber:
+                                      _jobAdPersonalNumber.text,
+                                  jobAdMail: _jobAdMail.text,
+                                  jobAdContent: _jobAdContent.text,
+                                  jobAdType: _selectedItem,
+                                  jobAdDiploma: _diplomaItem,
+                                  city: _citySelectedItem,
+                                  jobType: _jobTypeItem,
+                                );
                                 Future.delayed(
                                     const Duration(milliseconds: 2000), () {
                                   setState(() {
@@ -313,6 +277,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                 });
                               } else {
                                 _showMyDialog();
+                                return;
                               }
                             },
                           ),

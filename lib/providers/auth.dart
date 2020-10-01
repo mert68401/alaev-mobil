@@ -25,7 +25,7 @@ class Auth with ChangeNotifier {
     } else {
       final extractedToken = prefs.getString('token').toString();
       _token = extractedToken;
-      
+
       notifyListeners();
       return true;
     }
@@ -38,9 +38,12 @@ class Auth with ChangeNotifier {
       String role,
       String graduateYear,
       String university,
+      String universityFaculty,
       String phone,
       String city,
-      String job) async {
+      String job,
+      String companyName,
+      String companyPosition) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     var passwordMd5 = md5.convert(utf8.encode(password));
     final response = await http.post(
@@ -55,8 +58,11 @@ class Auth with ChangeNotifier {
           "role": role,
           "city": city,
           "university": university,
+          "universityFaculty": universityFaculty,
           "phone": phone,
-          "job": job
+          "job": job,
+          "companyName": companyName,
+          "companyPosition": companyPosition,
         },
       ),
     );

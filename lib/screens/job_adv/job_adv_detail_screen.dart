@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/requests.dart';
+import 'package:alaev/functions/server_ip.dart';
+import 'package:alaev/screens/job_adv/applied_user_job_adv_cv_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,8 +15,40 @@ class JobAdvertisement extends StatefulWidget {
 }
 
 class _JobAdvertisementState extends State<JobAdvertisement> {
+  List<dynamic> userCvItems = [];
+
+  bool isLoggedIn;
+
+  Future<void> fetchUserCvData({String jobAdId}) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://' + ServerIP().other + ':2000/api/getJobCvData',
+      headers: headers,
+      body: jsonEncode(
+        <String, String>{
+          "_id": jobAdId,
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> body = jsonDecode(response.body);
+      if (mounted) {
+        setState(() {
+          userCvItems = body;
+        });
+      }
+    }
+  }
+
   void initState() {
     super.initState();
+    fetchUserCvData();
+    getUserRole().then((role) {
+      role == "Kurumsal" || role == "Bireysel"
+          ? isLoggedIn = true
+          : isLoggedIn = false;
+    });
   }
 
   @override
@@ -21,7 +57,8 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
     String clickableCompanyNumber = arguments['companyNumber'];
     String clickablePersonalNumber = arguments['personalNumber'];
     String jobAdId = arguments['_id'];
-
+    fetchUserCvData(jobAdId: jobAdId);
+    print(arguments['jobType']);
     void customLaunch(command) async {
       if (await canLaunch(command)) {
         await launch(command);
@@ -33,24 +70,44 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(3),
-            child: FloatingActionButton(
-              backgroundColor: Colors.green,
-              child: Text(
-                "Başvur",
-                style: TextStyle(fontSize: 13),
-              ),
-              onPressed: () {
-                getUserRole().then((role) {
-                  role == "Kurumsal"
-                      ? showToastError(
-                          'Kurumsal tip kullanıcılar iş başvurusu yapamaz!')
-                      : applyJobRequest(jobAdId: jobAdId);
-                });
-              },
-            ),
-          ),
+          arguments['jobType'] == 'İş Veren'
+              ? Padding(
+                  padding: EdgeInsets.all(3),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.green,
+                    child: Text(
+                      "Başvur",
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    onPressed: () {
+                      if (isLoggedIn == true) {
+                        getUserRole().then((role) {
+                          role == "Kurumsal"
+                              ? showToastError(
+                                  'Kurumsal tip kullanıcılar iş başvurusu yapamaz!')
+                              : applyJobRequest(jobAdId: jobAdId);
+                        });
+                      } else {
+                        showToastError('Başvurmak için üye olunuz!');
+                      }
+                    },
+                  ),
+                )
+              : Padding(
+                  padding: EdgeInsets.all(3),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.green,
+                    child: Text(
+                      "CV",
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                          AppliedUserJobAdvCvScreen.routeName, // ARGUMENTS CV
+                          arguments: {});
+                    },
+                  ),
+                )
         ],
         iconTheme: IconThemeData(
           color: Theme.of(context).primaryColor, //change your color here
@@ -104,16 +161,30 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                 },
                 children: [
                   TableRow(children: [
-                    Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Firma İsmi', textAlign: TextAlign.center),
-                      )
-                    ]),
-                    Column(children: [
-                      Text(arguments['companyName'],
-                          textAlign: TextAlign.center)
-                    ]),
+                    arguments['jobType'] == 'İş Veren'
+                        ? Column(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('Firma İsmi',
+                                  textAlign: TextAlign.center),
+                            )
+                          ])
+                        : Column(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('İsim Soyisim',
+                                  textAlign: TextAlign.center),
+                            )
+                          ]),
+                    arguments['jobType'] == 'İş Veren'
+                        ? Column(children: [
+                            Text(arguments['companyName'],
+                                textAlign: TextAlign.center)
+                          ])
+                        : Column(children: [
+                            Text(arguments['fullName'],
+                                textAlign: TextAlign.center)
+                          ]),
                   ]),
                   TableRow(children: [
                     Padding(
@@ -127,21 +198,25 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                     ),
                   ]),
                   TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Firma Telefon Numarası',
-                          textAlign: TextAlign.center),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        customLaunch('tel:$clickableCompanyNumber');
-                      },
-                      child: Text(
-                        arguments['companyNumber'],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.indigo[800]),
-                      ),
-                    ),
+                    arguments['jobType'] == 'İş Veren'
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Firma Telefon Numarası',
+                                textAlign: TextAlign.center),
+                          )
+                        : SizedBox(),
+                    arguments['jobType'] == 'İş Veren'
+                        ? GestureDetector(
+                            onTap: () {
+                              customLaunch('tel:$clickableCompanyNumber');
+                            },
+                            child: Text(
+                              arguments['companyNumber'],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.indigo[800]),
+                            ),
+                          )
+                        : SizedBox(),
                   ]),
                   TableRow(children: [
                     Padding(

@@ -20,7 +20,7 @@ class _CompanyAdvertisementWrapperState
     extends State<CompanyAdvertisementWrapper> {
   final List<Map<String, String>> advList = [];
 
-  bool _isFirma = false;
+  bool _isLoggedIn = false;
 
   Future<void> fetchCompanyAdvs() async {
     advList.clear();
@@ -66,9 +66,9 @@ class _CompanyAdvertisementWrapperState
     super.initState();
     fetchCompanyAdvs();
     getUserRole().then((value) {
-      if (value == "Kurumsal") {
+      if (value == "Kurumsal" || value == "Bireysel") {
         setState(() {
-          _isFirma = true;
+          _isLoggedIn = true;
         });
       }
     });
@@ -97,25 +97,18 @@ class _CompanyAdvertisementWrapperState
             }),
         backgroundColor: Colors.white,
         actions: <Widget>[
-          _isFirma
+          _isLoggedIn
               ? IconButton(
                   icon: Icon(
                     Icons.list,
                     color: Theme.of(context).primaryColor,
                   ),
                   onPressed: () {
-                    getUserRole().then((role) {
-                      if (role == "Kurumsal") {
-                        _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
-                      } else {
-                        showToastError(
-                            "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
-                      }
-                    });
+                    _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
                   },
                 )
               : SizedBox(),
-          _isFirma
+          _isLoggedIn
               ? IconButton(
                   icon: Icon(
                     Icons.add,

@@ -1,3 +1,4 @@
+import 'package:alaev/functions/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -113,6 +114,8 @@ class MyCardCompanyWidget extends StatelessWidget {
             return Stack(children: <Widget>[
               InkWell(
                 onTap: () {
+                  showToastSuccessLong(
+                      "İlanı düzenlemeniz durumunda ilan yeniden inaktif duruma gelir.");
                   Navigator.of(context).pushNamed(routeName, arguments: {
                     "_id": items[i]["_id"],
                     "title": items[i]["title"],

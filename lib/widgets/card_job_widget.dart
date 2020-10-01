@@ -109,10 +109,13 @@ class CardJobWidget extends StatelessWidget {
             return Stack(children: <Widget>[
               InkWell(
                 onTap: () {
+                  print(items[i]["fullName"]);
                   Navigator.of(context).pushNamed(routeName, arguments: {
                     "_id": items[i]["_id"],
                     "title": items[i]["title"],
                     "content": items[i]["content"],
+                    "jobType": items[i]["jobType"],
+                    "fullName": items[i]["fullName"],
                     "companyName": items[i]["companyName"] != null &&
                             items[i]["companyName"].isNotEmpty
                         ? items[i]["companyName"]
@@ -144,6 +147,7 @@ class CardJobWidget extends StatelessWidget {
                         items[i]["city"] != null && items[i]["city"].isNotEmpty
                             ? items[i]["city"]
                             : "",
+                            
                   });
                 },
                 child: Card(

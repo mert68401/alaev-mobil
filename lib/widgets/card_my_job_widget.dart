@@ -1,3 +1,4 @@
+import 'package:alaev/functions/functions.dart';
 import 'package:flutter/material.dart';
 
 class MyCardJobWidget extends StatelessWidget {
@@ -109,9 +110,7 @@ class MyCardJobWidget extends StatelessWidget {
               width: 21,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25), color: Colors.red),
-              margin: EdgeInsets.only(
-                right: 0, bottom: 8
-              ),
+              margin: EdgeInsets.only(right: 0, bottom: 8),
               child: Text(
                 a,
                 textAlign: TextAlign.center,
@@ -154,6 +153,8 @@ class MyCardJobWidget extends StatelessWidget {
             return Stack(children: <Widget>[
               InkWell(
                 onTap: () {
+                  showToastSuccessLong(
+                      "İlanı düzenlemeniz durumunda ilan yeniden inaktif duruma gelir.");
                   Navigator.of(context).pushNamed(routeName, arguments: {
                     "_id": items[i]["_id"],
                     "title": items[i]["title"],

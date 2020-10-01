@@ -79,7 +79,9 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
               "type": element["jobAdType"],
               "diploma": element["jobAdDiploma"],
               "city": element["city"],
-              "companyName": element["companyName"]
+              "companyName": element["companyName"],
+              "jobType": element["jobType"],
+              "fullName": element["fullName"]
             });
           });
         });
@@ -94,7 +96,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
     super.initState();
     fetchJobAdvs("Hepsi", "Hepsi", "Hepsi");
     getUserRole().then((value) {
-      if (value == "Kurumsal") {
+      if (value == "Kurumsal" || value == "Bireysel") {
         setState(() {
           _isFirma = true;
         });
@@ -278,15 +280,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                     color: Theme.of(context).primaryColor,
                   ),
                   onPressed: () {
-                    getUserRole().then((role) {
-                      print(role);
-                      if (role == "Kurumsal") {
-                        _pushNamedPage(context, AddNewJobAdvScreen.routeName);
-                      } else {
-                        showToastError(
-                            "Bu özelliği kullanabilmeniz için Kurumsal hesabınızın olması gerekir.");
-                      }
-                    });
+                    _pushNamedPage(context, AddNewJobAdvScreen.routeName);
                   })
               : SizedBox(),
         ],
