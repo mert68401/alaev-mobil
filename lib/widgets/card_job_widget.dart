@@ -111,7 +111,6 @@ class CardJobWidget extends StatelessWidget {
             return Stack(children: <Widget>[
               InkWell(
                 onTap: () {
-                  print(items[i]["fullName"]);
                   Navigator.of(context).pushNamed(routeName, arguments: {
                     "_id": items[i]["_id"],
                     "title": items[i]["title"],

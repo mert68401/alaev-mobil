@@ -1209,7 +1209,7 @@ router.post("/getJobCvData", function (req, res) {
       .collection("jobAdForms")
       .findOne({ _id: body._id })
       .then(function (docs) {
-        if (docs && docs.appliedUsers) {
+        if (docs) {
           database
             .collection("cvForms")
             .find({ userId: docs.userId }, function (error, result) {
@@ -1232,7 +1232,6 @@ router.post("/getJobCvData", function (req, res) {
               }
             });
         } else {
-          console.log("ads1");
           res.status(401).send({
             success: false,
             message: "Beklenmedik bir hata oluştu!",

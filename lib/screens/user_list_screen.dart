@@ -62,13 +62,85 @@ class _UserListScreenState extends State<UserListScreen> {
     return;
   }
 
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _drawerKey,
+      endDrawer: Drawer(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        './assets/images/alaevLogoClean.png',
+                        fit: BoxFit.cover,
+                        height: 120,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Text(
+                'Detaylı Arama',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 25),
+              ),
+              SizedBox(height: 15),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 10),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintStyle: TextStyle(
+                    color: Colors.blueGrey,
+                  ),
+                ),
+                // onChanged: onSearchTextChanged,
+              ),
+              SizedBox(height: 15),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: RaisedButton(
+                  child: Text("Filtrele"),
+                  textColor: Colors.white,
+                  color: Colors.green,
+                  onPressed: () {
+                    setState(() {
+                      // fetchJobAdvs(_categorySelectedItem,
+                      //     _diplomaSelectedItem, _citySelectedItem);
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Theme.of(context).primaryColor, //change your color here
         ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search, color: Theme.of(context).primaryColor),
+              onPressed: () {
+                _drawerKey.currentState.openEndDrawer();
+              }),
+        ],
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Row(

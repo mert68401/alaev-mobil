@@ -58,7 +58,6 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
     String clickablePersonalNumber = arguments['personalNumber'];
     String jobAdId = arguments['_id'];
     fetchUserCvData(jobAdId: jobAdId);
-    print(arguments['jobType']);
     void customLaunch(command) async {
       if (await canLaunch(command)) {
         await launch(command);
@@ -104,7 +103,32 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                     onPressed: () {
                       Navigator.of(context).pushNamed(
                           AppliedUserJobAdvCvScreen.routeName, // ARGUMENTS CV
-                          arguments: {});
+                          arguments: {
+                            
+                          //   "_id": userCvItems["_id"],
+                          // "cvNameSurname": userCvItems[index]
+                          //     ['cvNameSurname'],
+                          // "cvAge": userCvItems[index]['cvAge'],
+                          // "cvMail": userCvItems[index]['cvMail'],
+                          // "cvPhone": userCvItems[index]['cvPhone'],
+                          // "cvPersonalInfo": userCvItems[index]
+                          //     ['cvPersonalInfo'],
+                          // "cvSchool1": userCvItems[index]['cvSchool1'],
+                          // "cvSchool2": userCvItems[index]['cvSchool2'],
+                          // "cvExperience1": userCvItems[index]
+                          //     ['cvExperience1'],
+                          // "cvExperience2": userCvItems[index]
+                          //     ['cvExperience2'],
+                          // "cvExperienceInfo": userCvItems[index]
+                          //     ['cvExperienceInfo'],
+                          // "cvReference1": userCvItems[index]
+                          //     ['cvReference1'],
+                          // "cvReference2": userCvItems[index]
+                          //     ['cvReference2'],
+                          // "cvLanguage": userCvItems[index]['cvLanguage'],
+                          // "cvSkillInfo": userCvItems[index]['cvSkillInfo'],
+                          // "cvImageUrl": userCvItems[index]['cvImageUrl']
+                          });
                     },
                   ),
                 )

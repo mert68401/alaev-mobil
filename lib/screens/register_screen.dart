@@ -30,8 +30,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _citySelectedItem;
 
   List<SmartSelectOption<String>> items = [
-    SmartSelectOption<String>(value: 'Bireysel', title: 'Bireysel'),
-    SmartSelectOption<String>(value: 'Kurumsal', title: 'Kurumsal'),
+    SmartSelectOption<String>(value: 'Kurumsal', title: 'Evet'),
+    SmartSelectOption<String>(value: 'Bireysel', title: 'Hayır'),
   ];
 
   bool _isLoading;
@@ -105,6 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 SizedBox(height: 15),
+                smartSelect('Kendinize ait bir firma bulunmakta mı?', items,
+                    _selectedItem),
+                SizedBox(height: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -152,28 +155,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       height: 60,
                       child: TextField(
-                        keyboardType: TextInputType.number,
-                        maxLength: 4,
-                        inputFormatters: [
-                          WhitelistingTextInputFormatter.digitsOnly
-                        ],
-                        controller: _graduateYearController,
-                        decoration: InputDecoration(
-                          counterText: "",
-                          labelText: 'Mezuniyet Yılı',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(width: 10),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      height: 60,
-                      child: TextField(
                         obscureText: true,
                         textAlign: TextAlign.start,
                         style: TextStyle(
@@ -205,6 +186,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             _password2Controller, //--------------------------------
                         decoration: InputDecoration(
                           labelText: 'Şifre Tekrar',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 10),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 60,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        maxLength: 4,
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
+                        controller: _graduateYearController,
+                        decoration: InputDecoration(
+                          counterText: "",
+                          labelText: 'Mezuniyet Yılı',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(width: 10),
                             borderRadius: BorderRadius.circular(10),
@@ -306,51 +309,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     //   ),
                     // ),
                     SizedBox(height: 10),
-                    Container(
-                      height: 60,
-                      child: TextField(
-                        obscureText: false,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                        controller:
-                            _companyNameController, //--------------------------------
-                        decoration: InputDecoration(
-                          labelText: 'Şuan Çalıştığınız Firma',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(width: 10),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
+                    _selectedItem == 'Bireysel'
+                        ? Container(
+                            height: 60,
+                            child: TextField(
+                              obscureText: false,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                              controller:
+                                  _companyNameController, //--------------------------------
+                              decoration: InputDecoration(
+                                labelText: 'Şuan Çalıştığınız Firma',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 10),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
                     SizedBox(height: 10),
-                    Container(
-                      height: 60,
-                      child: TextField(
-                        obscureText: false,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                        controller:
-                            _companyPositionController, //--------------------------------
-                        decoration: InputDecoration(
-                          labelText: 'Firmadaki Pozisyonunuz',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(width: 10),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
+                    _selectedItem == 'Bireysel'
+                        ? Container(
+                            height: 60,
+                            child: TextField(
+                              obscureText: false,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                              controller:
+                                  _companyPositionController, //--------------------------------
+                              decoration: InputDecoration(
+                                labelText: 'Firmadaki Pozisyonunuz',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 10),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
                     smartSelectCity(),
-                    smartSelect('Hesap Tipi', items, _selectedItem),
                     Container(
                       margin: EdgeInsets.only(left: 40, right: 40),
                       child: InkWell(
