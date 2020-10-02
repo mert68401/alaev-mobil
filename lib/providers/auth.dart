@@ -41,7 +41,7 @@ class Auth with ChangeNotifier {
       String universityFaculty,
       String phone,
       String city,
-      String job,
+      //String job,
       String companyName,
       String companyPosition) async {
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -60,7 +60,7 @@ class Auth with ChangeNotifier {
           "university": university,
           "universityFaculty": universityFaculty,
           "phone": phone,
-          "job": job,
+          //"job": job,
           "companyName": companyName,
           "companyPosition": companyPosition,
         },

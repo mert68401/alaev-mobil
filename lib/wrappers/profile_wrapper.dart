@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/providers/auth.dart';
-import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +30,7 @@ class MapScreenState extends State<ProfileWrapper>
   final _companyNameController = TextEditingController();
   final _companyDiscountController = TextEditingController();
   final _companyAdressController = TextEditingController();
+  final _jobController = TextEditingController();
 
   final FocusNode myFocusNode = FocusNode();
 
@@ -69,6 +69,7 @@ class MapScreenState extends State<ProfileWrapper>
           _companyNameController.text = userData['companyName'];
           _companyDiscountController.text = userData['companyDiscount'];
           _companyAdressController.text = userData['companyAdress'];
+          _jobController.text = userData['job'];
         } else if (response.statusCode == 401) {
           showToastError(jsonDecode(response.body)['message'].toString());
         }
@@ -362,6 +363,45 @@ class MapScreenState extends State<ProfileWrapper>
                                     ],
                                   ),
                                 ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 20.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              'Meslek',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 2.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: TextField(
+                                            controller: _jobController,
+                                            decoration: const InputDecoration(
+                                              hintText: "Mesleğinizi Giriniz",
+                                            ),
+                                            enabled: !_status,
+                                            autofocus: !_status,
+                                          ),
+                                        ),
+                                      ],
+                                    )),
                                 _isFirma
                                     ? Column(
                                         children: <Widget>[
@@ -599,6 +639,7 @@ class MapScreenState extends State<ProfileWrapper>
                       companyName: _companyNameController.text,
                       companyDiscount: _companyDiscountController.text,
                       companyAdress: _companyAdressController.text,
+                      job: _jobController.text,
                     );
                   });
                 },
@@ -607,7 +648,7 @@ class MapScreenState extends State<ProfileWrapper>
               )),
             ),
             flex: 2,
-          ),
+          ),  
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(left: 10.0),

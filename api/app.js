@@ -241,6 +241,7 @@ router.post("/updateUserInfo", function (req, res) {
                     ? body.companyDiscount
                     : "",
                   companyAdress: body.companyAdress ? body.companyAdress : "",
+                  job: body.job ? body.job : "",
                 },
               },
               function (error, result) {

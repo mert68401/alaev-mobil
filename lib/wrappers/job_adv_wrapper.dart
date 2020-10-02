@@ -70,6 +70,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
             jobAdvList.add({
               "_id": element["_id"],
               "createdAt": element['createdAt'],
+              "jobAdType": element["jobAdType"],
               "title": element["jobAdTitle"],
               "content": element["jobAdContent"],
               "imageUrl": element["jobAdImageUrl"],
@@ -299,7 +300,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
           child: CardJobWidget(
               onRefresh: () => fetchJobAdvs(_diplomaSelectedItem,
                   _categorySelectedItem, _citySelectedItem),
-              isFirebase: true,
               items: jobAdvList,
               routeName: JobAdvertisement.routeName)
           // CardWidget(

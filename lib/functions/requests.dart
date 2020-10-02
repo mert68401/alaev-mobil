@@ -136,6 +136,7 @@ Future<void> updateUserInfo({
   String companyName,
   String companyDiscount,
   String companyAdress,
+  String job,
 }) async {
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -147,6 +148,7 @@ Future<void> updateUserInfo({
         "fullName": fullName,
         "phone": phone,
         "email": email,
+        "job": job,
         "companyName": companyName,
         "companyDiscount": companyDiscount,
         "companyAdress": companyAdress,

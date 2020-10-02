@@ -21,7 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _graduateYearController = TextEditingController();
   final _universityController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _jobController = TextEditingController();
+  // final _jobController = TextEditingController();
   final _universityFacultyController = TextEditingController();
   final _companyNameController = TextEditingController();
   final _companyPositionController = TextEditingController();
@@ -283,28 +283,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Container(
-                      height: 60,
-                      child: TextField(
-                        obscureText: false,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                        controller:
-                            _jobController, //--------------------------------
-                        decoration: InputDecoration(
-                          labelText: 'Mesleğiniz',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(width: 10),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
+                    // SizedBox(height: 10),
+                    // Container(
+                    //   height: 60,
+                    //   child: TextField(
+                    //     obscureText: false,
+                    //     textAlign: TextAlign.start,
+                    //     style: TextStyle(
+                    //       fontSize: 14,
+                    //     ),
+                    //     controller:
+                    //         _jobController, //--------------------------------
+                    //     decoration: InputDecoration(
+                    //       labelText: 'Mesleğiniz',
+                    //       border: OutlineInputBorder(
+                    //         borderSide: BorderSide(width: 10),
+                    //         borderRadius: BorderRadius.circular(10),
+                    //       ),
+                    //       filled: true,
+                    //       fillColor: Colors.white,
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(height: 10),
                     Container(
                       height: 60,
@@ -396,7 +396,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     _universityFacultyController.text,
                                     _phoneController.text,
                                     _citySelectedItem,
-                                    _jobController.text,
+                                    //_jobController.text,
                                     _companyPositionController.text,
                                     _companyNameController.text)
                                 .then((value) {
