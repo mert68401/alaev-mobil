@@ -1,9 +1,4 @@
-import 'package:alaev/screens/about_screen.dart';
-import 'package:alaev/screens/chronology_screen.dart';
 import 'package:alaev/screens/company_list_screen.dart';
-import 'package:alaev/screens/founding_members_screen.dart';
-import 'package:alaev/screens/home_screen.dart';
-import 'package:alaev/screens/members_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
