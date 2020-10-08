@@ -2,86 +2,16 @@ import 'package:alaev/functions/functions.dart';
 import 'package:flutter/material.dart';
 
 class MyCardJobWidget extends StatelessWidget {
-  final bool isFirebase;
   final List items;
   final String routeName;
   final dynamic onRefresh;
   final String appliedRouteName;
 
   MyCardJobWidget(
-      {@required this.isFirebase,
-      @required this.items,
+      {@required this.items,
       this.routeName,
       this.appliedRouteName,
       @required this.onRefresh});
-
-  Widget firebaseCheck(i) {
-    if (!isFirebase) {
-      if (items[i]['imageUrl'].length > 1) {
-        return Image.network(
-          "http://statik.wiki.com.tr/assets/alaev/img/" + items[i]['imageUrl'],
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              height: 50,
-              width: 50,
-              child: Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes
-                      : null,
-                ),
-              ),
-            );
-          },
-          height: 50,
-          width: 50,
-          fit: BoxFit.cover,
-        );
-      } else {
-        return Image.asset(
-          './assets/images/logo.jpg',
-          height: 50,
-          width: 50,
-          fit: BoxFit.cover,
-        );
-      }
-    } else {
-      if (items[i]['imageUrl'].length > 1) {
-        return Image.network(
-          items[i]['imageUrl'],
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              height: 50,
-              width: 50,
-              child: Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes
-                      : null,
-                ),
-              ),
-            );
-          },
-          height: 70,
-          width: 70,
-          fit: BoxFit.cover,
-        );
-      } else {
-        return Image.asset(
-          './assets/images/logo.jpg',
-          height: 50,
-          width: 50,
-          fit: BoxFit.cover,
-        );
-      }
-    }
-  }
 
   Widget appliedUsersButton(BuildContext context, String a, int i) {
     return Row(
@@ -166,8 +96,7 @@ class MyCardJobWidget extends StatelessWidget {
                             items[i]["personalNumber"].isNotEmpty
                         ? items[i]["personalNumber"]
                         : "",
-                    "companyNumber": items[i]["companyNumber"] != null &&
-                            items[i]["companyNumber"].isNotEmpty
+                    "companyNumber": items[i]["companyNumber"] != null
                         ? items[i]["companyNumber"]
                         : "",
                     "email": items[i]["email"] != null &&
@@ -193,12 +122,6 @@ class MyCardJobWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            maxRadius: 25,
-                            minRadius: 15,
-                            child: firebaseCheck(i),
-                          ),
                           title: Text(items[i]['title']),
                           subtitle: items[i]['companyName'] == null
                               ? SizedBox(height: 0)

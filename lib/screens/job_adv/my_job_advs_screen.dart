@@ -83,7 +83,6 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
           ),
         ),
         body: MyCardJobWidget(
-          isFirebase: true,
           items: myJobAdvList,
           onRefresh: fetchUserJobAdvs,
           appliedRouteName: AppliedUsersJobAdvScreen.routeName,

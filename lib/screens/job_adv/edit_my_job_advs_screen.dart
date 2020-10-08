@@ -31,6 +31,9 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
   final _jobAdPersonalNumber = TextEditingController();
   final _jobAdMail = TextEditingController();
   final _jobAdContent = TextEditingController();
+  final _jobType = TextEditingController();
+  final _city = TextEditingController();
+
   bool _isRendered = false;
 
   String _selectedItem = 'Diğer';
@@ -135,6 +138,8 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
       _jobAdContent.text = body['jobAdContent'];
       _selectedItem = body['jobAdType'];
       _diplomaItem = body['jobAdDiploma'];
+      _jobType.text = body['jobType'];
+      _city.text = body['city'];
       setState(() {
         _jobAdId = body['_id'];
       });
@@ -209,39 +214,6 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                   )
                 : Column(
                     children: <Widget>[
-                      Stack(
-                        alignment: Alignment.bottomRight,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            height: 150,
-                            width: double.infinity,
-                            child: _image == null
-                                ? _jobAdImageUrl == "" || _jobAdImageUrl == null
-                                    ? Image.asset(
-                                        "assets/images/empty.png",
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.network(
-                                        _jobAdImageUrl,
-                                        fit: BoxFit.cover,
-                                      )
-                                : Image.file(
-                                    _image,
-                                    fit: BoxFit.cover,
-                                  ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 10, 20),
-                            child: FloatingActionButton(
-                              onPressed: () => getImage(),
-                              elevation: 10,
-                              backgroundColor: Colors.green,
-                              child: Icon(Icons.add_a_photo),
-                            ),
-                          )
-                        ],
-                      ),
                       Container(
                           margin: EdgeInsets.only(bottom: 10),
                           child: TextFieldWidget(
@@ -301,40 +273,24 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                           color: Colors.green,
                           onPressed: () {
                             if (_jobAdTitle.text != '' &&
-                                _jobAdjobNumber.text != '' &&
                                 _jobAdContent.text != '') {
                               setState(() {
                                 _showProgress = !_showProgress;
                               });
-                              if (_image != null) {
-                                uploadPicture(context).then((value) {
-                                  addJobAdvertisementRequest(
-                                      filter: '',
-                                      jobAdId: _jobAdId,
-                                      jobAdTitle: _jobAdTitle.text,
-                                      jobAdImageUrl: _jobAdImageUrl.toString(),
-                                      jobAdCompanyNumber: _jobAdjobNumber.text,
-                                      jobAdPersonalNumber:
-                                          _jobAdPersonalNumber.text,
-                                      jobAdMail: _jobAdMail.text,
-                                      jobAdContent: _jobAdContent.text,
-                                      jobAdType: _selectedItem,
-                                      jobAdDiploma: _diplomaItem);
-                                });
-                              } else {
-                                addJobAdvertisementRequest(
-                                    filter: '',
-                                    jobAdId: _jobAdId,
-                                    jobAdTitle: _jobAdTitle.text,
-                                    jobAdImageUrl: _jobAdImageUrl.toString(),
-                                    jobAdCompanyNumber: _jobAdjobNumber.text,
-                                    jobAdPersonalNumber:
-                                        _jobAdPersonalNumber.text,
-                                    jobAdMail: _jobAdMail.text,
-                                    jobAdContent: _jobAdContent.text,
-                                    jobAdType: _selectedItem,
-                                    jobAdDiploma: _diplomaItem);
-                              }
+                              addJobAdvertisementRequest(
+                                filter: '',
+                                jobAdId: _jobAdId,
+                                jobAdTitle: _jobAdTitle.text,
+                                jobAdImageUrl: _jobAdImageUrl.toString(),
+                                jobAdCompanyNumber: _jobAdjobNumber.text,
+                                jobAdPersonalNumber: _jobAdPersonalNumber.text,
+                                jobAdMail: _jobAdMail.text,
+                                jobAdContent: _jobAdContent.text,
+                                jobAdType: _selectedItem,
+                                jobAdDiploma: _diplomaItem,
+                                jobType: _jobType.text,
+                                city: _city.text,
+                              );
                               Future.delayed(const Duration(milliseconds: 2000),
                                   () {
                                 setState(() {

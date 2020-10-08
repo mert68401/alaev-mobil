@@ -146,12 +146,12 @@ Future<void> updateUserInfo({
       body: jsonEncode(<String, String>{
         "token": value,
         "fullName": fullName,
-        "phone": phone,
         "email": email,
-        "job": job,
+        "phone": phone,
         "companyName": companyName,
         "companyDiscount": companyDiscount,
         "companyAdress": companyAdress,
+        "job": job,
       }),
     );
     if (response.statusCode == 200) {
