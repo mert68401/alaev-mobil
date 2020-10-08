@@ -685,16 +685,8 @@ router.post("/setJobAdRequest", function (req, res) {
                   });
                 }
               } else {
-                if (
-                  body.jobAdTitle &&
-                  body.jobAdCompanyNumber &&
-                  body.jobAdContent
-                ) {
-                  if (
-                    body.jobAdTitle != "" &&
-                    body.jobAdCompanyNumber != "" &&
-                    body.jobAdContent != ""
-                  ) {
+                if (body.jobAdTitle && body.jobAdContent) {
+                  if (body.jobAdTitle != "" && body.jobAdContent != "") {
                     database.collection("jobAdForms").updateOne(
                       { _id: docs._id },
                       {
@@ -2379,6 +2371,7 @@ router.post("/search", isAuthenticated, function (req, res) {
       if (
         collInfos.find((x) => x.name == collection && x.type == "collection")
       ) {
+        console.log("asd");
         waitStack++;
         getDataFromCollection(collection);
       }

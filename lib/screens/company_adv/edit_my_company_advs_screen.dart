@@ -130,8 +130,8 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-            color: Theme.of(context).primaryColor, //change your color here
-          ),
+          color: Theme.of(context).primaryColor, //change your color here
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Row(
@@ -159,38 +159,6 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                     )
                   : Column(
                       children: <Widget>[
-                        Stack(
-                          alignment: Alignment.bottomRight,
-                          children: <Widget>[
-                            Container(
-                              height: 150,
-                              width: double.infinity,
-                              child: _image == null
-                                  ? _companyAdImageUrl == ""
-                                      ? Image.asset(
-                                          "assets/images/empty.png",
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.network(
-                                          _companyAdImageUrl,
-                                          fit: BoxFit.cover,
-                                        )
-                                  : Image.file(
-                                      _image,
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 10, 10),
-                              child: FloatingActionButton(
-                                onPressed: () => getImage(),
-                                elevation: 10,
-                                backgroundColor: Colors.green,
-                                child: Icon(Icons.add_a_photo),
-                              ),
-                            )
-                          ],
-                        ),
                         SizedBox(height: 10),
                         Container(
                             margin: EdgeInsets.only(top: 10, bottom: 10),
@@ -250,23 +218,7 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                                 setState(() {
                                   _showProgress = !_showProgress;
                                 });
-                                if (_image != null) {
-                                  uploadPicture(context).then((value) {
-                                    addCompanyAdvertisementRequest(
-                                      filter: '',
-                                      companyAdId: _companyAdId,
-                                      companyAdTitle: _companyAdTitle.text,
-                                      companyAdImageUrl:
-                                          _companyAdImageUrl.toString(),
-                                      companyAdCompanyNumber:
-                                          _companyAdCompanyNumber.text,
-                                      companyAdPersonalNumber:
-                                          _companyAdPersonalNumber.text,
-                                      companyAdMail: _companyAdMail.text,
-                                      companyAdContent: _companyAdContent.text,
-                                    );
-                                  });
-                                } else {
+                                uploadPicture(context).then((value) {
                                   addCompanyAdvertisementRequest(
                                     filter: '',
                                     companyAdId: _companyAdId,
@@ -280,7 +232,7 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                                     companyAdMail: _companyAdMail.text,
                                     companyAdContent: _companyAdContent.text,
                                   );
-                                }
+                                });
                                 Future.delayed(
                                     const Duration(milliseconds: 2000), () {
                                   setState(() {

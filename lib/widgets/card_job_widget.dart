@@ -93,7 +93,7 @@ class CardJobWidget extends StatelessWidget {
                 return FaIcon(FontAwesomeIcons.firstAid,
                     color: Colors.red[200]);
               } else if (items[i]["jobAdType"] == 'Ticaret') {
-                return FaIcon(FontAwesomeIcons.balanceScale,
+                return FaIcon(FontAwesomeIcons.moneyBillWaveAlt,
                     color: Colors.cyan[200]);
               } else if (items[i]["jobAdType"] == 'Yapı') {
                 return FaIcon(FontAwesomeIcons.city,
@@ -177,9 +177,20 @@ class CardJobWidget extends StatelessWidget {
                           subtitle: Text(items[i]['companyName'] != null
                               ? items[i]['companyName']
                               : ''),
-                          trailing: Text(
-                            f.format(DateTime.parse(items[i]['createdAt'])),
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                items[i]['jobType'],
+                                style:
+                                    TextStyle(color: Colors.grey[800], fontSize: 13),
+                              ),
+                              Text(
+                                f.format(DateTime.parse(items[i]['createdAt'])),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
+                              ),
+                            ],
                           ),
                         ),
                       ],
