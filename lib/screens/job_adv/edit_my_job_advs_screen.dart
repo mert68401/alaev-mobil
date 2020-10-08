@@ -95,22 +95,22 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
 
   bool _showProgress = false;
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  // Future getImage() async {
+  //   var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      _image = image;
-    });
-  }
+  //   setState(() {
+  //     _image = image;
+  //   });
+  // }
 
-  Future uploadPicture(BuildContext ctx) async {
-    String fileName = basename(_image.path);
-    StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    _jobAdImageUrl = await taskSnapshot.ref.getDownloadURL();
-  }
+  // Future uploadPicture(BuildContext ctx) async {
+  //   String fileName = basename(_image.path);
+  //   StorageReference firebaseStorageRef =
+  //       FirebaseStorage.instance.ref().child(fileName);
+  //   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+  //   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+  //   _jobAdImageUrl = await taskSnapshot.ref.getDownloadURL();
+  // }
 
   Future<void> getAdv(String _id, String token) async {
     Map<String, String> headers = {"Content-type": "application/json"};

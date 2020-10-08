@@ -66,8 +66,6 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
     SmartSelectOption<String>(value: 'Doktora', title: 'Doktora'),
   ];
 
-  File _image;
-
   bool _showProgress = false;
 
   void dispose() {

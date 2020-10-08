@@ -872,7 +872,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
             createdAt: new Date(),
             state: "inactive",
             userId: id,
-            companyName: companyName,
+            companyName: body.companyName,
             companyAdImageUrl: body.companyAdImageUrl,
             companyAdTitle: body.companyAdTitle,
             companyAdCompanyNumber: body.companyAdCompanyNumber,
@@ -942,6 +942,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
                             : "",
                           state: "inactive",
                           companyAdTitle: body.companyAdTitle,
+                          companyName: body.companyName,
                           companyAdCompanyNumber: body.companyAdCompanyNumber,
                           companyAdPersonalNumber: body.companyAdPersonalNumber
                             ? body.companyAdPersonalNumber

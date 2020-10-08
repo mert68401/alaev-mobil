@@ -83,7 +83,6 @@ class _MyCompanyAdvsScreenState extends State<MyCompanyAdvsScreen> {
         ),
         body: MyCardCompanyWidget(
             onRefresh: fetchUserCompanyAdvs,
-            isFirebase: true,
             items: myAdvList,
             routeName: EditMyCompanyAdvScreen.routeName)
         //CardWidget(

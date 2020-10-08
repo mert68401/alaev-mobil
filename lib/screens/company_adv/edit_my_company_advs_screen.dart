@@ -26,31 +26,32 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
   String _companyAdImageUrl = '';
   String _companyAdId = "";
   final _companyAdTitle = TextEditingController();
+  final _companyName = TextEditingController();
   final _companyAdCompanyNumber = TextEditingController();
   final _companyAdPersonalNumber = TextEditingController();
   final _companyAdMail = TextEditingController();
   final _companyAdContent = TextEditingController();
   bool _isRendered = false;
-  File _image;
+  // File _image;
 
   bool _showProgress = false;
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  // Future getImage() async {
+  //   var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      _image = image;
-    });
-  }
+  //   setState(() {
+  //     _image = image;
+  //   });
+  // }
 
-  Future uploadPicture(BuildContext ctx) async {
-    String fileName = basename(_image.path);
-    StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    _companyAdImageUrl = await taskSnapshot.ref.getDownloadURL();
-  }
+  // Future uploadPicture(BuildContext ctx) async {
+  //   String fileName = basename(_image.path);
+  //   StorageReference firebaseStorageRef =
+  //       FirebaseStorage.instance.ref().child(fileName);
+  //   StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+  //   StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+  //   _companyAdImageUrl = await taskSnapshot.ref.getDownloadURL();
+  // }
 
   Future<void> getAdv(String _id, String token) async {
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -72,6 +73,7 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
     if (response.statusCode == 200) {
       dynamic body = jsonDecode(response.body);
       _companyAdTitle.text = body['companyAdTitle'];
+      _companyName.text = body['companyName'];
       _companyAdCompanyNumber.text = body['companyAdCompanyNumber'];
       _companyAdPersonalNumber.text = body['companyAdPersonalNumber'];
       _companyAdMail.text = body['companyAdMail'];
@@ -167,6 +169,13 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                               labelText: 'İlan Başlığı',
                               height: 60,
                             )),
+                        SizedBox(height: 10),
+                        Container(
+                            child: TextFieldWidget(
+                          controller: _companyName,
+                          labelText: 'Firma İsmi',
+                          height: 60,
+                        )),
                         Container(
                             margin: EdgeInsets.only(top: 10, bottom: 10),
                             child: TextFieldWidget(
@@ -218,21 +227,20 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                                 setState(() {
                                   _showProgress = !_showProgress;
                                 });
-                                uploadPicture(context).then((value) {
-                                  addCompanyAdvertisementRequest(
-                                    filter: '',
-                                    companyAdId: _companyAdId,
-                                    companyAdTitle: _companyAdTitle.text,
-                                    companyAdImageUrl:
-                                        _companyAdImageUrl.toString(),
-                                    companyAdCompanyNumber:
-                                        _companyAdCompanyNumber.text,
-                                    companyAdPersonalNumber:
-                                        _companyAdPersonalNumber.text,
-                                    companyAdMail: _companyAdMail.text,
-                                    companyAdContent: _companyAdContent.text,
-                                  );
-                                });
+                                addCompanyAdvertisementRequest(
+                                  filter: '',
+                                  companyAdId: _companyAdId,
+                                  companyAdTitle: _companyAdTitle.text,
+                                  companyName: _companyName.text,
+                                  companyAdImageUrl:
+                                      _companyAdImageUrl.toString(),
+                                  companyAdCompanyNumber:
+                                      _companyAdCompanyNumber.text,
+                                  companyAdPersonalNumber:
+                                      _companyAdPersonalNumber.text,
+                                  companyAdMail: _companyAdMail.text,
+                                  companyAdContent: _companyAdContent.text,
+                                );
                                 Future.delayed(
                                     const Duration(milliseconds: 2000), () {
                                   setState(() {
