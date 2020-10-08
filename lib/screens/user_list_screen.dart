@@ -16,15 +16,20 @@ class UserListScreen extends StatefulWidget {
 
 class _UserListScreenState extends State<UserListScreen> {
   final List<Map<String, String>> userList = [];
+  final _searchController = TextEditingController();
 
-  Future<void> fetchUserAccounts() async {
+  Future<void> fetchUserAccounts({String regex = ""}) async {
     userList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
     final response = await http.post(
       'http://' + ServerIP().other + ':2000/api/getUserAccounts',
       headers: headers,
       body: jsonEncode(
-        <String, dynamic>{},
+        <String, dynamic>{
+          "regex": _searchController.text,
+          "filter": {},
+          "params": {}
+        },
       ),
     );
 
@@ -44,7 +49,7 @@ class _UserListScreenState extends State<UserListScreen> {
         });
       });
     } else {
-      throw Exception('Failed to load album');
+      throw Exception('Failed to fetch users');
     }
   }
 
@@ -57,10 +62,10 @@ class _UserListScreenState extends State<UserListScreen> {
     super.dispose();
   }
 
-  void _pushNamedPage(context, routeName) {
-    Navigator.of(context).pushNamed(routeName);
-    return;
-  }
+  // void _pushNamedPage(context, routeName) {
+  //   Navigator.of(context).pushNamed(routeName);
+  //   return;
+  // }
 
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -94,20 +99,31 @@ class _UserListScreenState extends State<UserListScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25),
               ),
+              // Text(
+              //   '(Yaptığınız arama ad-soyad, meslek, üniversite, şehir, telefon numarası gibi alanlarda arama yapar.)',
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(fontSize: 12),
+              // ),
               SizedBox(height: 15),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 10),
-                    borderRadius: BorderRadius.circular(10),
+              Container(
+                height: 40,
+                child: TextField(
+
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(width: 10),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    filled: true,
+                    isDense: true,
+                    fillColor: Colors.white,
+                    hintStyle: TextStyle(
+                      color: Colors.blueGrey,
+                    ),
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintStyle: TextStyle(
-                    color: Colors.blueGrey,
-                  ),
+                  // onChanged: onSearchTextChanged,
                 ),
-                // onChanged: onSearchTextChanged,
               ),
               SizedBox(height: 15),
               Container(
@@ -118,8 +134,7 @@ class _UserListScreenState extends State<UserListScreen> {
                   color: Colors.green,
                   onPressed: () {
                     setState(() {
-                      // fetchJobAdvs(_categorySelectedItem,
-                      //     _diplomaSelectedItem, _citySelectedItem);
+                      fetchUserAccounts(regex: _searchController.text);
                     });
                   },
                   shape: RoundedRectangleBorder(
