@@ -159,9 +159,10 @@ router.post("/login", function (req, res) {
             if (doc.email.verified == true && doc.state === "active") {
                 jwt.sign({ _id: doc._id, email: doc.email.str }, process.env.JWT_SECRET_KEY, function (err, token) {
                     if (err) {
+                        console.log(err);
                         res.status(401).send({
                             succes: false,
-                            message: "Some error has occured!",
+                            message: "Bir hata oluştu!",
                         });
                     }
                     res.json({
@@ -827,7 +828,7 @@ router.post("/getUserJob", function (req, res) {
 router.post("/setCompanyAdRequest", function (req, res) {
     const body = req.body;
     const token = body.token;
-    var companyName;
+    var companyName = body.companyName;
     var companyAdObj;
     jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
         if (err) {
@@ -842,7 +843,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
                 .collection("userAccounts")
                 .findOne({ _id: id })
                 .then(function (docs) {
-                    companyName = docs.companyName;
+                    companyName = companyName;
                     companyAdObj = {
                         _id: body._id ? body._id : makeid(),
                         createdAt: new Date(),

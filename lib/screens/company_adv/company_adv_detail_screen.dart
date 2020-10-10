@@ -42,15 +42,15 @@ class CompanyAdvertisement extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              arguments['imageUrl'].toString().length > 1
-                  ? Container(
-                      height: 200,
-                      width: double.infinity,
-                      child: Image.network(
-                        arguments['imageUrl'],
-                        fit: BoxFit.cover,
-                      ))
-                  : SizedBox(),
+              // arguments['imageUrl'].toString().length > 1
+              //     ? Container(
+              //         height: 200,
+              //         width: double.infinity,
+              //         child: Image.network(
+              //           arguments['imageUrl'],
+              //           fit: BoxFit.cover,
+              //         ))
+              //     : SizedBox(),
               SizedBox(
                 height: 10,
               ),

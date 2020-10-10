@@ -173,6 +173,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                 Column(
                   children: <Widget>[
                     TextFieldWidget(
+                      enabled: false,
                       controller: _cvNameSurname,
                       height: 50,
                       maxLines: 1,
@@ -181,6 +182,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                     ),
                     SizedBox(height: 10),
                     TextFieldWidget(
+                      enabled: false,
                       controller: _cvAge,
                       height: 50,
                       maxLines: 1,
@@ -190,6 +192,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                     ),
                     SizedBox(height: 10),
                     TextFieldWidget(
+                      enabled: false,
                       controller: _cvMail,
                       height: 50,
                       maxLines: 1,
@@ -199,6 +202,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                     ),
                     SizedBox(height: 10),
                     TextFieldWidget(
+                      enabled: false,
                       controller: _cvPhone,
                       height: 50,
                       maxLines: 1,
@@ -208,6 +212,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                     ),
                     SizedBox(height: 10),
                     TextFieldWidget(
+                      enabled: false,
                       controller: _cvPersonalInfo,
                       height: 150,
                       maxLines: 5,
@@ -243,6 +248,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                     )),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvSchool1,
                   height: 95,
                   maxLines: 3,
@@ -251,6 +257,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                 ),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvSchool2,
                   height: 95,
                   maxLines: 3,
@@ -268,6 +275,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                 ),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvExperience1,
                   height: 95,
                   maxLines: 3,
@@ -276,6 +284,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                 ),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvExperience2,
                   height: 95,
                   maxLines: 3,
@@ -284,6 +293,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                 ),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvExperienceInfo,
                   height: 130,
                   maxLines: 7,
@@ -316,6 +326,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                     )),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvReference1,
                   height: 75,
                   maxLines: 2,
@@ -324,6 +335,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                 ),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvReference2,
                   height: 75,
                   maxLines: 2,
@@ -341,6 +353,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                 ),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvLanguage,
                   maxLines: 2,
                   maxLength: 60,
@@ -348,6 +361,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
                 ),
                 SizedBox(height: 10),
                 TextFieldWidget(
+                  enabled: false,
                   controller: _cvSkillInfo,
                   height: 150,
                   maxLines: 7,

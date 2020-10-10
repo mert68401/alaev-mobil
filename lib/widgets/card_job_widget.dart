@@ -182,7 +182,9 @@ class CardJobWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                items[i]['jobType'],
+                                items[i]['jobType'] != null
+                                    ? items[i]['jobType']
+                                    : '',
                                 style: TextStyle(
                                     color: Colors.grey[800], fontSize: 13),
                               ),
