@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:alaev/screens/job_adv/looking_for_job_cv_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/requests.dart';
@@ -102,33 +103,8 @@ class _JobAdvertisementState extends State<JobAdvertisement> {
                     ),
                     onPressed: () {
                       Navigator.of(context).pushNamed(
-                          AppliedUserJobAdvCvScreen.routeName, // ARGUMENTS CV
-                          arguments: {
-                            
-                          //   "_id": userCvItems["_id"],
-                          // "cvNameSurname": userCvItems[index]
-                          //     ['cvNameSurname'],
-                          // "cvAge": userCvItems[index]['cvAge'],
-                          // "cvMail": userCvItems[index]['cvMail'],
-                          // "cvPhone": userCvItems[index]['cvPhone'],
-                          // "cvPersonalInfo": userCvItems[index]
-                          //     ['cvPersonalInfo'],
-                          // "cvSchool1": userCvItems[index]['cvSchool1'],
-                          // "cvSchool2": userCvItems[index]['cvSchool2'],
-                          // "cvExperience1": userCvItems[index]
-                          //     ['cvExperience1'],
-                          // "cvExperience2": userCvItems[index]
-                          //     ['cvExperience2'],
-                          // "cvExperienceInfo": userCvItems[index]
-                          //     ['cvExperienceInfo'],
-                          // "cvReference1": userCvItems[index]
-                          //     ['cvReference1'],
-                          // "cvReference2": userCvItems[index]
-                          //     ['cvReference2'],
-                          // "cvLanguage": userCvItems[index]['cvLanguage'],
-                          // "cvSkillInfo": userCvItems[index]['cvSkillInfo'],
-                          // "cvImageUrl": userCvItems[index]['cvImageUrl']
-                          });
+                          LookingForJobCvScreen.routeName,
+                          arguments: {"id": arguments["userId"]});
                     },
                   ),
                 )

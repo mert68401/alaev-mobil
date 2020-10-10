@@ -64,11 +64,13 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
+      print(body);
       if (mounted) {
         setState(() {
           body.forEach((element) {
             jobAdvList.add({
               "_id": element["_id"],
+              "userId": element["userId"],
               "createdAt": element['createdAt'],
               "jobAdType": element["jobAdType"],
               "title": element["jobAdTitle"],

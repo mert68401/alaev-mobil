@@ -113,6 +113,7 @@ class CardJobWidget extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).pushNamed(routeName, arguments: {
                     "_id": items[i]["_id"],
+                    "userId": items[i]["userId"],
                     "title": items[i]["title"],
                     "content": items[i]["content"],
                     "jobType": items[i]["jobType"],
@@ -182,8 +183,8 @@ class CardJobWidget extends StatelessWidget {
                             children: [
                               Text(
                                 items[i]['jobType'],
-                                style:
-                                    TextStyle(color: Colors.grey[800], fontSize: 13),
+                                style: TextStyle(
+                                    color: Colors.grey[800], fontSize: 13),
                               ),
                               Text(
                                 f.format(DateTime.parse(items[i]['createdAt'])),
