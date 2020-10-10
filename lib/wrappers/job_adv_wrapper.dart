@@ -64,7 +64,6 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      print(body);
       if (mounted) {
         setState(() {
           body.forEach((element) {

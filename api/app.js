@@ -12,6 +12,8 @@ const nodemailer = require("nodemailer");
 const fs = require("fs");
 const util = require("util");
 const log_file = fs.createWriteStream(__dirname + "/debug.log", { flags: "a" });
+const dotenv = require('dotenv');
+dotenv.config();
 connectToMongo();
 function connectToMongo() {
   mongoClient.connect(
@@ -102,13 +104,13 @@ router.post("/register", function (req, res) {
   } else {
     res.status(401).send({
       success: false,
-      message: "Some parameters are missing!",
+      message: "Bilgileri eksiksiz giriniz!",
     });
   }
   if (!userObj) {
     res.status(401).send({
       success: false,
-      message: "Some parameters are missing!",
+      message: "Bilgileri eksiksiz giriniz!",
     });
   }
   database
@@ -128,16 +130,16 @@ router.post("/register", function (req, res) {
               console.log(err);
               res.status(401).send({
                 success: false,
-                message: "An error occured!",
+                message: "Bir hata meydana geldi!",
               });
               return;
             }
             sendEmail(
               "smtp.yandex.com.tr",
               587,
-              "info@alaev.org.tr",
-              "txjtzpiqgpvwxltn",
-              "info@alaev.org.tr",
+              process.env.SENDER_MAIL,
+              process.env.SENDER_MAIL_PW,
+              process.env.SENDER_MAIL,
               body.email,
               "ALAEV",
               "ALAEV Mail Aktivasyonu",
@@ -173,12 +175,12 @@ router.post("/login", function (req, res) {
       if (doc.email.verified == true && doc.state === "active") {
         jwt.sign(
           { _id: doc._id, email: doc.email.str },
-          "mERoo36mM?",
+          process.env.JWT_SECRET_KEY,
           function (err, token) {
             if (err) {
               res.status(401).send({
                 succes: false,
-                message: "Some error has occured!",
+                message: "Bir hata meydana geldi!",
               });
             }
             res.json({
@@ -212,7 +214,7 @@ router.post("/updateUserInfo", function (req, res) {
   const token = body.token;
   const email = body.email;
 
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -248,7 +250,7 @@ router.post("/updateUserInfo", function (req, res) {
                   console.log(error);
                   res.status(401).send({
                     success: false,
-                    message: "An error occured!",
+                    message: "Bir hata meydana geldi!",
                   });
                   return;
                 } else {
@@ -304,16 +306,16 @@ router.post("/forgotPassword", function (req, res) {
               console.log(error);
               res.status(401).send({
                 success: false,
-                message: "An error occured!",
+                message: "Bir hata meydana geldi!",
               });
               return;
             } else {
               sendEmail(
                 "smtp.yandex.com.tr",
                 587,
-                "info@alaev.org.tr",
-                "txjtzpiqgpvwxltn",
-                "info@alaev.org.tr",
+                process.env.SENDER_MAIL,
+                process.env.SENDER_MAIL_PW,
+                process.env.SENDER_MAIL,
                 body.email,
                 "ALAEV",
                 "Şifremi Unuttum",
@@ -338,7 +340,7 @@ router.post("/forgotPassword", function (req, res) {
 router.post("/setCvPage", function (req, res) {
   const body = req.body;
   const token = body.token;
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -393,7 +395,7 @@ router.post("/setCvPage", function (req, res) {
                       console.log(err);
                       res.status(401).send({
                         success: false,
-                        message: "An error occured!",
+                        message: "Bir hata meydana geldi!",
                       });
                     }
 
@@ -461,7 +463,7 @@ router.post("/setCvPage", function (req, res) {
                       console.log(error);
                       res.status(401).send({
                         success: false,
-                        message: "An error occured!",
+                        message: "Bir hata meydana geldi!",
                       });
                       return;
                     } else {
@@ -519,7 +521,7 @@ router.post("/getUserAccounts", function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -541,7 +543,7 @@ router.post("/getDiscountedPlaces", function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -600,7 +602,7 @@ router.post("/getAdvertisements", function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -636,7 +638,7 @@ router.post("/getAdvertisement", function (req, res) {
 router.post("/setJobAdRequest", function (req, res) {
   const body = req.body;
   const token = body.token;
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -687,7 +689,7 @@ router.post("/setJobAdRequest", function (req, res) {
                           console.log(err);
                           res.status(401).send({
                             success: false,
-                            message: "An error occured!",
+                            message: "Bir hata meydana geldi!",
                           });
                         }
                         res.json({
@@ -706,16 +708,8 @@ router.post("/setJobAdRequest", function (req, res) {
                   });
                 }
               } else {
-                if (
-                  body.jobAdTitle &&
-                  body.jobAdCompanyNumber &&
-                  body.jobAdContent
-                ) {
-                  if (
-                    body.jobAdTitle != "" &&
-                    body.jobAdCompanyNumber != "" &&
-                    body.jobAdContent != ""
-                  ) {
+                if (body.jobAdTitle && body.jobAdContent) {
+                  if (body.jobAdTitle != "" && body.jobAdContent != "") {
                     database.collection("jobAdForms").updateOne(
                       { _id: docs._id },
                       {
@@ -744,7 +738,7 @@ router.post("/setJobAdRequest", function (req, res) {
                           console.log(error);
                           res.status(401).send({
                             success: false,
-                            message: "An error occured!",
+                            message: "Bir hata meydana geldi!",
                           });
                           return;
                         } else {
@@ -792,7 +786,7 @@ router.post("/getJobAdvs", function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -811,7 +805,7 @@ router.post("/getUserJobAdvs", function (req, res) {
   var params = body.params;
   var id;
 
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -831,7 +825,7 @@ router.post("/getUserJobAdvs", function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -848,7 +842,7 @@ router.post("/getUserJob", function (req, res) {
   var filter = body.filter;
   var params = body.params;
   var projection = params.projection ? { projection: params.projection } : {};
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -880,7 +874,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
   const token = body.token;
   var companyName;
   var companyAdObj;
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -930,7 +924,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
                           console.log(err);
                           res.status(401).send({
                             success: false,
-                            message: "An error occured!",
+                            message: "Bir hata meydana geldi!",
                           });
                         }
                         res.json({
@@ -984,7 +978,7 @@ router.post("/setCompanyAdRequest", function (req, res) {
                           console.log(error);
                           res.status(401).send({
                             success: false,
-                            message: "An error occured!",
+                            message: "Bir hata meydana geldi!",
                           });
                           return;
                         } else {
@@ -1032,7 +1026,7 @@ router.post("/getCompanyAdvs", function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1050,7 +1044,7 @@ router.post("/getUserAdv", function (req, res) {
   var filter = body.filter;
   var params = body.params;
   var projection = params.projection ? { projection: params.projection } : {};
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -1083,7 +1077,7 @@ router.post("/getUserCompanyAdvs", function (req, res) {
   var params = body.params;
   var id;
 
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -1103,7 +1097,7 @@ router.post("/getUserCompanyAdvs", function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1140,7 +1134,7 @@ router.post("/getUserData", function (req, res) {
   var body = req.body;
   var token = body.token;
 
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -1187,7 +1181,7 @@ router.post("/getAppliedUserData", function (req, res) {
                   if (error) {
                     res.status(401).send({
                       success: false,
-                      message: "An error occured!",
+                      message: "Bir hata meydana geldi!",
                     });
                     return;
                   }
@@ -1207,7 +1201,7 @@ router.post("/getAppliedUserData", function (req, res) {
     console.log("ads");
     res.status(401).send({
       success: false,
-      message: "An error occured!",
+      message: "Bir hata meydana geldi!",
     });
   }
 });
@@ -1237,7 +1231,7 @@ router.post("/getJobCvData", function (req, res) {
                   if (error) {
                     res.status(401).send({
                       success: false,
-                      message: "An error occured!",
+                      message: "Bir hata meydana geldi!",
                     });
                     return;
                   }
@@ -1262,7 +1256,7 @@ router.post("/getUserCvData", function (req, res) {
   var body = req.body;
   var token = body.token;
 
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -1290,21 +1284,21 @@ router.post("/getUserCvData", function (req, res) {
 //Get User Cv Data
 */
 router.post("/getUserCvDataById", function (req, res) {
-    var body = req.body;
-    var id = body.id;
-    console.log(id)
-    database
-        .collection("cvForms")
-        .findOne({ userId: id })
-        .then(function (docs) {
-            if (!docs) {
-                res.status(401).send({
-                    message: "Kullanıcıya ait CV verisi bulunmamaktadır!",
-                });
-            } else {
-                res.json(docs);
-            }
+  var body = req.body;
+  var id = body.id;
+  console.log(id);
+  database
+    .collection("cvForms")
+    .findOne({ userId: id })
+    .then(function (docs) {
+      if (!docs) {
+        res.status(401).send({
+          message: "Kullanıcıya ait CV verisi bulunmamaktadır!",
         });
+      } else {
+        res.json(docs);
+      }
+    });
 });
 
 /*
@@ -1314,7 +1308,7 @@ router.post("/applyJobAd", function (req, res) {
   var body = req.body;
   var token = body.token;
 
-  jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send({
         success: false,
@@ -1506,7 +1500,7 @@ router.post("/pages", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1551,7 +1545,7 @@ router.post("/posts", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1599,7 +1593,7 @@ router.post("/getPostsByPostTypeName", isAuthenticated, function (req, res) {
         if (err) {
           res.status(401).send({
             success: false,
-            message: "An error occured!",
+            message: "Bir hata meydana geldi!",
           });
           return;
         }
@@ -1648,7 +1642,7 @@ router.post("/getPostsByPostCatName", isAuthenticated, function (req, res) {
         if (err) {
           res.status(401).send({
             success: false,
-            message: "An error occured!",
+            message: "Bir hata meydana geldi!",
           });
           return;
         }
@@ -1687,7 +1681,7 @@ router.post("/getPostsByPostCatId", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1734,7 +1728,7 @@ router.post("/postCategories", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1783,7 +1777,7 @@ router.post("/getPostCatByPostCatAlias", isAuthenticated, function (req, res) {
         if (err) {
           res.status(401).send({
             success: false,
-            message: "An error occured!",
+            message: "Bir hata meydana geldi!",
           });
           return;
         }
@@ -1828,7 +1822,7 @@ router.post("/postTypes", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1872,7 +1866,7 @@ router.post("/menus", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1916,7 +1910,7 @@ router.post("/blocks", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1942,7 +1936,7 @@ router.post("/settings", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1968,7 +1962,7 @@ router.post("/slides", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -1994,7 +1988,7 @@ router.post("/getSliderByName", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -2021,7 +2015,7 @@ router.post("/galleries", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -2066,7 +2060,7 @@ router.post("/products", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -2111,7 +2105,7 @@ router.post("/productCategories", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -2156,7 +2150,7 @@ router.post("/getProductsByCategoryAlias", isAuthenticated, function (
         if (err) {
           res.status(401).send({
             success: false,
-            message: "An error occured!",
+            message: "Bir hata meydana geldi!",
           });
           return;
         }
@@ -2207,7 +2201,7 @@ router.post("/getProductsByCategoryId", isAuthenticated, function (req, res) {
         if (err) {
           res.status(401).send({
             success: false,
-            message: "An error occured!",
+            message: "Bir hata meydana geldi!",
           });
           return;
         }
@@ -2256,7 +2250,7 @@ router.post("/solutions", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -2300,7 +2294,7 @@ router.post("/solutionCategories", isAuthenticated, function (req, res) {
     if (err) {
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -2344,7 +2338,7 @@ router.post("/getSolutionsByCategoryAlias", isAuthenticated, function (
         if (err) {
           res.status(401).send({
             success: false,
-            message: "An error occured!",
+            message: "Bir hata meydana geldi!",
           });
           return;
         }
@@ -2401,7 +2395,7 @@ router.post("/search", isAuthenticated, function (req, res) {
           } else {
             res.status(401).send({
               success: false,
-              message: "An error occured!",
+              message: "Bir hata meydana geldi!",
             });
             return;
           }
@@ -2448,7 +2442,7 @@ router.post("/saveForm", isAuthenticated, function (req, res) {
       console.log(err);
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -2484,7 +2478,7 @@ router.post("/savePayment", isAuthenticated, function (req, res) {
       console.log(err);
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }
@@ -2565,7 +2559,7 @@ router.post("/saveReservation", isAuthenticated, function (req, res) {
       console.log(err);
       res.status(401).send({
         success: false,
-        message: "An error occured!",
+        message: "Bir hata meydana geldi!",
       });
       return;
     }

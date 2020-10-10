@@ -2,6 +2,7 @@
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
+import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/requests.dart';
 import 'package:alaev/widgets/city_select.dart';
 import 'package:alaev/widgets/textfield_default.dart';
@@ -243,6 +244,11 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                             textColor: Colors.white,
                             color: Colors.green,
                             onPressed: () {
+                              if (!validateEmail(_jobAdMail.text)) {
+                                showToastError(
+                                    "Doğru bir mail adresi girdiğinizden emin olun!");
+                                return;
+                              }
                               if (_jobAdTitle.text != '' &&
                                   _citySelectedItem != null &&
                                   _jobAdMail.text != '' &&

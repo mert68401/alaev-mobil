@@ -28,7 +28,9 @@ class _UserListScreenState extends State<UserListScreen> {
         <String, dynamic>{
           "regex": _searchController.text,
           "filter": {},
-          "params": {}
+          "params": {
+            "sort": {"createdAt": -1}
+          }
         },
       ),
     );
@@ -108,7 +110,6 @@ class _UserListScreenState extends State<UserListScreen> {
               Container(
                 height: 40,
                 child: TextField(
-
                   controller: _searchController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(

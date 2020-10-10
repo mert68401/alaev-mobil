@@ -3,6 +3,7 @@
 
 import 'dart:io';
 
+import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/requests.dart';
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:flutter/material.dart';
@@ -190,6 +191,11 @@ class _AddNewCompanyAdvScreenState extends State<AddNewCompanyAdvScreen> {
                             textColor: Colors.white,
                             color: Colors.green,
                             onPressed: () {
+                              if (!validateEmail(_companyAdMail.text)) {
+                                showToastError(
+                                    "Doğru bir mail adresi girdiğinizden emin olun!");
+                                return;
+                              }
                               if (_companyAdTitle.text != '' &&
                                   _companyAdCompanyNumber.text != '' &&
                                   _companyAdContent.text != '') {

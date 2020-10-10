@@ -272,6 +272,11 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
                           textColor: Colors.white,
                           color: Colors.green,
                           onPressed: () {
+                            if (!validateEmail(_jobAdMail.text)) {
+                              showToastError(
+                                  "Doğru bir mail adresi girdiğinizden emin olun!");
+                              return;
+                            }
                             if (_jobAdTitle.text != '' &&
                                 _jobAdContent.text != '') {
                               setState(() {
