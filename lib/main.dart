@@ -14,6 +14,7 @@ import 'package:alaev/screens/job_adv/applied_user_job_adv_cv_screen.dart';
 import 'package:alaev/screens/job_adv/applied_user_job_adv_screen.dart';
 import 'package:alaev/screens/job_adv/edit_my_job_advs_screen.dart';
 import 'package:alaev/screens/job_adv/job_adv_detail_screen.dart';
+import 'package:alaev/screens/job_adv/looking_for_job_cv_screen.dart';
 import 'package:alaev/screens/job_adv/my_job_advs_screen.dart';
 import 'package:alaev/screens/members_screen.dart';
 import 'package:alaev/screens/news_detail_screen.dart';
@@ -113,6 +114,8 @@ class MyApp extends StatelessWidget {
             CompanyDetailScreen.routeName: (context) => CompanyDetailScreen(),
             UserListScreen.routeName: (context) => UserListScreen(),
             UserDetailScreen.routeName: (context) => UserDetailScreen(),
+            LookingForJobCvScreen.routeName: (context) =>
+                LookingForJobCvScreen(),
           },
         ),
       ),

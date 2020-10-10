@@ -1171,6 +1171,26 @@ router.post("/getUserCvData", function (req, res) {
         }
     });
 });
+/*
+//Get User Cv Data
+*/
+router.post("/getUserCvDataById", function (req, res) {
+    var body = req.body;
+    var id = body.id;
+    console.log(id)
+    database
+        .collection("cvForms")
+        .findOne({ userId: id })
+        .then(function (docs) {
+            if (!docs) {
+                res.status(401).send({
+                    message: "Kullanıcıya ait CV verisi bulunmamaktadır!",
+                });
+            } else {
+                res.json(docs);
+            }
+        });
+});
 
 /*
 //Apply Job Ad
