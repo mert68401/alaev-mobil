@@ -28,7 +28,9 @@ class _UserListScreenState extends State<UserListScreen> {
         <String, dynamic>{
           "regex": _searchController.text,
           "filter": {},
-          "params": {}
+          "params": {
+            "sort": {"createdAt": -1}
+          }
         },
       ),
     );

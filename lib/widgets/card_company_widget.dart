@@ -2,81 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CardCompanyWidget extends StatelessWidget {
-  final bool isFirebase;
   final List items;
   final String routeName;
   final dynamic onRefresh;
   final f = new DateFormat('yyyy-MM-dd');
 
   CardCompanyWidget(
-      {@required this.isFirebase,
+      {
       @required this.items,
       this.routeName,
       @required this.onRefresh});
-
-  Widget firebaseCheck(i) {
-    if (!isFirebase) {
-      if (items[i]['imageUrl'].length > 1) {
-        return Image.network(
-          "http://statik.wiki.com.tr/assets/alaev/img/" + items[i]['imageUrl'],
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              height: 50,
-              width: 50,
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
-                    : null,
-              ),
-            );
-          },
-          height: 50,
-          width: 50,
-          fit: BoxFit.cover,
-        );
-      } else {
-        return Image.asset(
-          './assets/images/logo.jpg',
-          height: 50,
-          width: 50,
-          fit: BoxFit.cover,
-        );
-      }
-    } else {
-      if (items[i]['imageUrl'].length > 1) {
-        return Image.network(
-          items[i]['imageUrl'],
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Container(
-              height: 50,
-              width: 50,
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
-                    : null,
-              ),
-            );
-          },
-          height: 50,
-          width: 50,
-          fit: BoxFit.cover,
-        );
-      } else {
-        return Image.asset(
-          './assets/images/logo.jpg',
-          height: 50,
-          width: 50,
-          fit: BoxFit.cover,
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,9 +86,7 @@ class CardCompanyWidget extends StatelessWidget {
                       ListTile(
                         leading: CircleAvatar(
                           backgroundColor: Colors.white,
-                          maxRadius: 40,
-                          minRadius: 00,
-                          child: firebaseCheck(i),
+                          child: null,
                         ),
                         title: Text(items[i]['title']),
                         subtitle: Text(items[i]['companyName'] != null

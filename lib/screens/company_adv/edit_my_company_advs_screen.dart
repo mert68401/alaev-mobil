@@ -221,6 +221,11 @@ class _EditMyCompanyAdvScreenState extends State<EditMyCompanyAdvScreen> {
                             textColor: Colors.white,
                             color: Colors.green,
                             onPressed: () {
+                              if (!validateEmail(_companyAdMail.text)) {
+                                showToastError(
+                                    "Doğru bir mail adresi girdiğinizden emin olun!");
+                                return;
+                              }
                               if (_companyAdTitle.text != '' &&
                                   _companyAdCompanyNumber.text != '' &&
                                   _companyAdContent.text != '') {

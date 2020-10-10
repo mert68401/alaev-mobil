@@ -198,7 +198,6 @@ class MapScreenState extends State<ProfileWrapper>
                                                             if (discount
                                                                     .length >
                                                                 0) {
-                                                              print(discount);
                                                               showDialog(
                                                                 context:
                                                                     context,

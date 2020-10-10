@@ -51,7 +51,6 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
 
   Future<void> cvRequest(String id, BuildContext ctx) async {
     Map<String, String> headers = {"Content-type": "application/json"};
-    print(id);
     final response = await http.post(
       'http://' + ServerIP().other + ':2000/api/getUserCvDataById',
       headers: headers,
@@ -61,7 +60,6 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
     );
     if (response.statusCode == 200) {
       dynamic userData = jsonDecode(response.body);
-      print(userData);
       setState(() {
         _cvImageUrl = userData['cvImageUrl'];
       });
@@ -374,16 +372,6 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.save),
-          backgroundColor: Colors.green,
-          onPressed: () {
-            if (!validateEmail(_cvMail.text)) {
-              showToastError("Email adresinizi doğru yazdığınızdan emin olun.");
-              return;
-            }
-          },
-        ),
         appBar: AppBar(
           iconTheme: IconThemeData(
             color: Theme.of(context).primaryColor, //change your color here

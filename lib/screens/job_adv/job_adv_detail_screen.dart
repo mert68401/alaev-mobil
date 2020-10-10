@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/requests.dart';
 import 'package:alaev/functions/server_ip.dart';
-import 'package:alaev/screens/job_adv/applied_user_job_adv_cv_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
