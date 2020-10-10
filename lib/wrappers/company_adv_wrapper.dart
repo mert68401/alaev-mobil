@@ -134,7 +134,6 @@ class _CompanyAdvertisementWrapperState
       body: Container(
           child: CardCompanyWidget(
               onRefresh: fetchCompanyAdvs,
-              isFirebase: true,
               items: advList,
               routeName: CompanyAdvertisement.routeName)
           // CardWidget(
