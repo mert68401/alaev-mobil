@@ -15,7 +15,7 @@ class UserListScreen extends StatefulWidget {
 }
 
 class _UserListScreenState extends State<UserListScreen> {
-  final List<Map<String, String>> userList = [];
+  final List<Map<String, dynamic>> userList = [];
   final _searchController = TextEditingController();
 
   Future<void> fetchUserAccounts({String regex = ""}) async {
@@ -41,6 +41,7 @@ class _UserListScreenState extends State<UserListScreen> {
             "fullName": element["fullName"],
             "graduateYear": element["graduateYear"],
             "job": element["job"],
+            "showPhone": element["showPhone"],
             "phone": element["phone"],
             "companyName": element["companyName"],
             "city": element["city"],
@@ -108,7 +109,6 @@ class _UserListScreenState extends State<UserListScreen> {
               Container(
                 height: 40,
                 child: TextField(
-
                   controller: _searchController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(

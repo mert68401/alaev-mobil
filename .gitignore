@@ -44,3 +44,4 @@ app.*.map.json
 /node_modules
 /pubspec.lock
 /lib/functions/server_ip.dart
+/api/node_modules

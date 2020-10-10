@@ -22,6 +22,7 @@ class ProfileWrapper extends StatefulWidget {
 class MapScreenState extends State<ProfileWrapper>
     with SingleTickerProviderStateMixin {
   bool _status = true;
+  bool _switchVal;
   bool _isLoading = false;
   bool _isFirma = false;
   final _fullNameController = TextEditingController();
@@ -63,6 +64,10 @@ class MapScreenState extends State<ProfileWrapper>
 
         if (response.statusCode == 200) {
           userData = json.decode(response.body);
+          print(userData['showPhone']);
+          setState(() {
+            _switchVal = userData['showPhone'];
+          });
           _emailController.text = userData['email']['str'];
           _fullNameController.text = userData['fullName'];
           _phoneController.text = userData['phone'];
@@ -128,11 +133,6 @@ class MapScreenState extends State<ProfileWrapper>
                 child: CircularProgressIndicator(),
               )
             : Container(
-                // decoration: BoxDecoration(
-                //     image: DecorationImage(
-                //   image: AssetImage("assets/images/background.jpg"),
-                //   fit: BoxFit.fill,
-                // )),
                 child: ListView(
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[
@@ -335,11 +335,36 @@ class MapScreenState extends State<ProfileWrapper>
                                               MainAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            Text(
-                                              'Telefon',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Telefon',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Switch(
+                                                  value: _switchVal != null
+                                                      ? _switchVal
+                                                      : false,
+                                                  onChanged: (newVal) {
+                                                    setState(() {
+                                                      _switchVal = newVal;
+                                                      updateShowPhone(
+                                                          showPhone:
+                                                              _switchVal);
+                                                    });
+                                                  },
+                                                ),
+                                                Text(
+                                                  '(Telefon numaranızın görünürlüğü ayarlar)',
+                                                  style: TextStyle(
+                                                      fontSize: 12.0,
+                                                      fontWeight:
+                                                          FontWeight.w200),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -648,7 +673,7 @@ class MapScreenState extends State<ProfileWrapper>
               )),
             ),
             flex: 2,
-          ),  
+          ),
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(left: 10.0),

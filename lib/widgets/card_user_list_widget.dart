@@ -47,7 +47,9 @@ class CardUserListWidget extends StatelessWidget {
                     "_id": items[i]["_id"],
                     "fullName": items[i]["fullName"],
                     "phone": items[i]["phone"] != null &&
-                            items[i]["phone"].isNotEmpty
+                                items[i]["phone"].isNotEmpty &&
+                                items[i]["showPhone"] == "true" ||
+                            items[i]["showPhone"] == true
                         ? items[i]["phone"]
                         : "",
                     "university": items[i]["university"] != null &&

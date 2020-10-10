@@ -164,6 +164,25 @@ Future<void> updateUserInfo({
   });
 }
 
+Future<void> updateShowPhone({bool showPhone}) async {
+  getToken().then((value) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://' + ServerIP().other + ':2000/api/updateShowPhone',
+      headers: headers,
+      body: jsonEncode(<String, dynamic>{
+        "token": value,
+        "showPhone": showPhone,
+      }),
+    );
+    if (response.statusCode == 200) {
+      showToastSuccess(jsonDecode(response.body)['message'].toString());
+    } else if (response.statusCode == 401) {
+      showToastError(jsonDecode(response.body)['message'].toString());
+    }
+  });
+}
+
 Future<void> forgotPasswordRequest({String email}) async {
   Map<String, String> headers = {"Content-type": "application/json"};
   final response = await http.post(

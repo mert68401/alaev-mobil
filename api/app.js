@@ -81,6 +81,7 @@ router.post("/register", function (req, res) {
             university: body.university,
             universityFaculty: body.universityFaculty,
             phone: body.phone,
+            showPhone: true,
             job: body.job,
             companyName: body.companyName,
             companyPosition: body.companyPosition,
@@ -201,54 +202,78 @@ router.post("/updateUserInfo", function (req, res) {
         } else {
             id = decoded._id;
         }
-        database
-            .collection("userAccounts")
-            .findOne({ userId: id })
-            .then(function (docs) {
-                if (body.fullName && email) {
-                    if (body.fullName != "" && email != "") {
-                        database.collection("userAccounts").updateOne(
-                            { _id: id },
-                            {
-                                $set: {
-                                    fullName: body.fullName,
-                                    "email.str": email,
-                                    phone: body.phone ? body.phone : "",
-                                    companyName: body.companyName ? body.companyName : "",
-                                    companyDiscount: body.companyDiscount ? body.companyDiscount : "",
-                                    companyAdress: body.companyAdress ? body.companyAdress : "",
-                                    job: body.job ? body.job : "",
-                                },
-                            },
-                            function (error, result) {
-                                if (error) {
-                                    console.log(error);
-                                    res.status(401).send({
-                                        success: false,
-                                        message: "An error occured!",
-                                    });
-                                    return;
-                                } else {
-                                    res.json({
-                                        success: true,
-                                        message: "Hesabınız Güncellendi!",
-                                    });
-                                }
-                            }
-                        );
-                    } else {
-                        console.log("Eksik bilgi");
-                    }
-                } else {
+        database.collection("userAccounts").updateOne(
+            { _id: id },
+            {
+                $set: {
+                    fullName: body.fullName,
+                    "email.str": email,
+                    phone: body.phone ? body.phone : "",
+                    companyName: body.companyName ? body.companyName : "",
+                    companyDiscount: body.companyDiscount ? body.companyDiscount : "",
+                    companyAdress: body.companyAdress ? body.companyAdress : "",
+                    job: body.job ? body.job : "",
+                },
+            },
+            function (error, result) {
+                if (error) {
+                    console.log(error);
                     res.status(401).send({
                         success: false,
-                        message: "Bilgileri Eksiksiz Giriniz!",
+                        message: "An error occured!",
+                    });
+                    return;
+                } else {
+                    res.json({
+                        success: true,
+                        message: "Hesabınız Güncellendi!",
                     });
                 }
-            });
+            }
+        );
     });
 });
 
+router.post("/updateShowPhone", function (req, res) {
+    const body = req.body;
+    const token = body.token;
+    const showPhone = body.showPhone;
+    jwt.verify(token, "mERoo36mM?", function (err, decoded) {
+        if (err) {
+            res.status(401).send({
+                success: false,
+                message: err.message,
+            });
+            throw new Error(err.message);
+        } else {
+            id = decoded._id;
+        }
+
+        database.collection("userAccounts").updateOne(
+            { _id: id },
+            {
+                $set: {
+                    showPhone: showPhone,
+                },
+            },
+            function (error, result) {
+                if (error) {
+                    console.log(error);
+                    res.status(401).send({
+                        success: false,
+                        message: "An error occured!",
+                    });
+                    return;
+                } else {
+                    res.json({
+                        success: true,
+                        message: "Hesabınız Güncellendi!",
+                    });
+                }
+            }
+        );
+    });
+});
 /*
 //Forgot Password
 */
@@ -433,7 +458,7 @@ router.post("/getUserAccounts", function (req, res) {
         {
             $or: [
                 { fullName: { $regex: new RegExp(regex, "i") } },
-                { phone: { $regex: new RegExp(regex, "i") } },
+                { phone: { $regex: new RegExp(regex, "i") }, showPhone: true },
                 { job: { $regex: new RegExp(regex, "i") } },
                 { university: { $regex: new RegExp(regex, "i") } },
                 { graduateYear: { $regex: new RegExp(regex, "i") } },
@@ -1044,6 +1069,7 @@ router.post("/getUserData", function (req, res) {
                 .collection("userAccounts")
                 .findOne({ _id: id })
                 .then(function (docs) {
+                    console.log(docs);
                     res.json(docs);
                 });
         }
@@ -1177,7 +1203,7 @@ router.post("/getUserCvData", function (req, res) {
 router.post("/getUserCvDataById", function (req, res) {
     var body = req.body;
     var id = body.id;
-    console.log(id)
+    console.log(id);
     database
         .collection("cvForms")
         .findOne({ userId: id })

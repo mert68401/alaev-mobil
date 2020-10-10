@@ -7,7 +7,7 @@ class UserDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
-
+    print(arguments);
     String clickablePersonalNumber = arguments['phone'];
 
     void customLaunch(command) async {
@@ -128,10 +128,11 @@ class UserDetailScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          customLaunch('tel:$clickablePersonalNumber');
+                          print(arguments["showPhone"]);
+                          
                         },
                         child: Text(
-                          arguments['phone'],
+                          arguments["phone"],
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.indigo[800]),
                         )),

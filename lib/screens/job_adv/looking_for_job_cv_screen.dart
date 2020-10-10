@@ -49,7 +49,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
     });
   }
 
-  Future<void> cvRequest(String id) async {
+  Future<void> cvRequest(String id, BuildContext ctx) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     print(id);
     final response = await http.post(
@@ -81,6 +81,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
       _cvSkillInfo.text = userData['cvSkillInfo'];
     } else if (response.statusCode == 401) {
       showToastError(jsonDecode(response.body)['message'].toString());
+      Navigator.of(ctx).pop();
     }
   }
 
@@ -367,7 +368,7 @@ class _LookingForJobCvScreen extends State<LookingForJobCvScreen> {
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
     if (requested == false) {
-      cvRequest(arguments["id"]);
+      cvRequest(arguments["id"], context);
       requested = true;
     }
     return DefaultTabController(
