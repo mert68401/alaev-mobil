@@ -1,13 +1,10 @@
 import 'package:alaev/providers/auth.dart';
 import 'package:alaev/push_nofitications.dart';
-import 'package:alaev/screens/about_screen.dart';
-import 'package:alaev/screens/chronology_screen.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/edit_my_company_advs_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
 import 'package:alaev/screens/company_detail_screen.dart';
 import 'package:alaev/screens/company_list_screen.dart';
-import 'package:alaev/screens/founding_members_screen.dart';
 import 'package:alaev/screens/job_adv/add_new_job_adv_screen.dart';
 import 'package:alaev/screens/forgot_password_screen.dart';
 import 'package:alaev/screens/job_adv/applied_user_job_adv_cv_screen.dart';
@@ -105,11 +102,11 @@ class MyApp extends StatelessWidget {
                 AppliedUsersJobAdvScreen(),
             AppliedUserJobAdvCvScreen.routeName: (context) =>
                 AppliedUserJobAdvCvScreen(),
-            AboutScreen.routeName: (context) => AboutScreen(),
+            //AboutScreen.routeName: (context) => AboutScreen(),
             MembersScreen.routeName: (context) => MembersScreen(),
-            FoundingMembersScreen.routeName: (context) =>
-                FoundingMembersScreen(),
-            ChronologyScreen.routeName: (context) => ChronologyScreen(),
+            // FoundingMembersScreen.routeName: (context) =>
+            //  FoundingMembersScreen(),
+            //ChronologyScreen.routeName: (context) => ChronologyScreen(),
             CompanyListScreen.routeName: (context) => CompanyListScreen(),
             CompanyDetailScreen.routeName: (context) => CompanyDetailScreen(),
             UserListScreen.routeName: (context) => UserListScreen(),

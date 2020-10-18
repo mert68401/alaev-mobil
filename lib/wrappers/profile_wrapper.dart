@@ -357,7 +357,7 @@ class MapScreenState extends State<ProfileWrapper>
                                                   },
                                                 ),
                                                 Text(
-                                                  '(Telefon numaranızın görünürlüğü ayarlar)',
+                                                  'Telefon numaranızın görünürlüğü',
                                                   style: TextStyle(
                                                       fontSize: 12.0,
                                                       fontWeight:

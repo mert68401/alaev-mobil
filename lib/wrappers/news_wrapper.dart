@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/news_detail_screen.dart';
 import 'package:alaev/widgets/card_widget.dart';
-import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
