@@ -238,6 +238,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
                         setState(() {
                           fetchJobAdvs(_categorySelectedItem,
                               _diplomaSelectedItem, _citySelectedItem);
+                          Navigator.pop(context);
                         });
                       },
                       shape: RoundedRectangleBorder(

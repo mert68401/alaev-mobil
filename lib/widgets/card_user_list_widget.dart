@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -84,11 +86,17 @@ class CardUserListWidget extends StatelessWidget {
                       ListTile(
                         title: Text(items[i]['fullName']),
                         subtitle: Text(items[i]['graduateYear'] != null
-                            ? 'Mezuniyet Yılı:' + items[i]['graduateYear']
-                            : 'Mezuniyet Yılı: ' + ''),
-                        trailing: Text(items[i]['job'] != null
-                            ? 'Meslek: ' + items[i]['job']
+                            ? items[i]['graduateYear']
                             : ''),
+                        trailing: Container(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: Text(
+                            items[i]['job'] != null ? items[i]['job']: '',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
                       ),
                     ],
                   ),
