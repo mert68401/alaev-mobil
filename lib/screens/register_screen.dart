@@ -21,17 +21,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _graduateYearController = TextEditingController();
   final _universityController = TextEditingController();
   final _phoneController = TextEditingController();
-  // final _jobController = TextEditingController();
+  final _jobController = TextEditingController();
   final _universityFacultyController = TextEditingController();
   final _companyNameController = TextEditingController();
-  final _companyPositionController = TextEditingController();
+  final _companyAdressController = TextEditingController();
 
   String _selectedItem;
   String _citySelectedItem;
+  String _jobSelectedItem;
 
   List<SmartSelectOption<String>> items = [
     SmartSelectOption<String>(value: 'Kurumsal', title: 'Evet'),
     SmartSelectOption<String>(value: 'Bireysel', title: 'Hayır'),
+  ];
+
+  List<SmartSelectOption<String>> jobs = [
+    SmartSelectOption<String>(value: 'TEST1', title: 'TEST1'),
+    SmartSelectOption<String>(value: 'TEST2', title: 'TEST2'),
   ];
 
   bool _isLoading;
@@ -40,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: title,
-        padding: EdgeInsets.symmetric(horizontal: 80),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         dense: true,
         isTwoLine: true,
         modalType: SmartSelectModalType.popupDialog,
@@ -49,11 +55,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
         onChange: (val) => setState(() => _selectedItem = val));
   }
 
+  Widget smartSelectJob(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        placeholder: "Şeçiniz",
+        title: title,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        dense: true,
+        isTwoLine: true,
+        modalType: SmartSelectModalType.popupDialog,
+        value: value,
+        options: options,
+        onChange: (val) => setState(() => _jobSelectedItem = val));
+  }
+
   Widget smartSelectCity() {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: 'Şehir',
-        padding: EdgeInsets.symmetric(horizontal: 80),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         dense: true,
         isTwoLine: true,
         modalType: SmartSelectModalType.popupDialog,
@@ -105,9 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 SizedBox(height: 15),
-                smartSelect('Kendinize ait bir firma bulunmakta mı?', items,
-                    _selectedItem),
-                SizedBox(height: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -196,13 +212,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
+                    smartSelectCity(),
+                    SizedBox(height: 10),
                     Container(
                       height: 60,
                       child: TextField(
                         keyboardType: TextInputType.number,
                         maxLength: 4,
                         inputFormatters: [
-                          WhitelistingTextInputFormatter.digitsOnly
+                          FilteringTextInputFormatter.digitsOnly
                         ],
                         controller: _graduateYearController,
                         decoration: InputDecoration(
@@ -286,7 +304,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    // SizedBox(height: 10),
+                    SizedBox(height: 10),
                     // Container(
                     //   height: 60,
                     //   child: TextField(
@@ -308,9 +326,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     //     ),
                     //   ),
                     // ),
+                    smartSelect('Kendinize ait bir firma bulunmakta mı?', items,
+                        _selectedItem),
+
                     SizedBox(height: 10),
                     _selectedItem == 'Bireysel'
-                        ? Container(
+                        ? smartSelectJob("Meslek", jobs, _jobSelectedItem)
+                        : Container(
                             height: 60,
                             child: TextField(
                               obscureText: false,
@@ -321,7 +343,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               controller:
                                   _companyNameController, //--------------------------------
                               decoration: InputDecoration(
-                                labelText: 'Şuan Çalıştığınız Firma',
+                                labelText: 'Firma Adı',
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 10),
                                   borderRadius: BorderRadius.circular(10),
@@ -330,11 +352,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fillColor: Colors.white,
                               ),
                             ),
-                          )
-                        : SizedBox(),
+                          ),
                     SizedBox(height: 10),
                     _selectedItem == 'Bireysel'
-                        ? Container(
+                        ? SizedBox()
+                        : Container(
                             height: 60,
                             child: TextField(
                               obscureText: false,
@@ -343,9 +365,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fontSize: 14,
                               ),
                               controller:
-                                  _companyPositionController, //--------------------------------
+                                  _companyAdressController, //--------------------------------
                               decoration: InputDecoration(
-                                labelText: 'Firmadaki Pozisyonunuz',
+                                labelText: 'Firma Adresi',
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 10),
                                   borderRadius: BorderRadius.circular(10),
@@ -354,9 +376,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fillColor: Colors.white,
                               ),
                             ),
-                          )
-                        : SizedBox(),
-                    smartSelectCity(),
+                          ),
                     Container(
                       margin: EdgeInsets.only(left: 40, right: 40),
                       child: InkWell(
@@ -393,18 +413,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _password2Controller.text) {
                             Provider.of<Auth>(context, listen: false)
                                 .signup(
-                                    _fullNameController.text,
-                                    _emailController.text,
-                                    _passwordController.text,
-                                    _selectedItem,
-                                    _graduateYearController.text,
-                                    _universityController.text,
-                                    _universityFacultyController.text,
-                                    _phoneController.text,
-                                    _citySelectedItem,
-                                    //_jobController.text,
-                                    _companyPositionController.text,
-                                    _companyNameController.text)
+                              _fullNameController.text,
+                              _emailController.text,
+                              _passwordController.text,
+                              _selectedItem,
+                              _graduateYearController.text,
+                              _universityController.text,
+                              _universityFacultyController.text,
+                              _phoneController.text,
+                              _citySelectedItem,
+                              _jobSelectedItem,
+                              _companyNameController.text,
+                              _companyAdressController.text,
+                            )
                                 .then((value) {
                               if (value) {
                                 Navigator.pop(context);
