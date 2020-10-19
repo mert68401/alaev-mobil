@@ -36,56 +36,47 @@ class _EditMyJobAdvScreenState extends State<EditMyJobAdvScreen> {
   String _selectedItem = 'Diğer';
   String _diplomaItem = 'Hepsi';
 
-  List<SmartSelectOption<String>> items = [
-    SmartSelectOption<String>(value: 'Bilişim', title: 'Bilişim'),
-    SmartSelectOption<String>(value: 'Gıda', title: 'Gıda'),
-    SmartSelectOption<String>(value: 'Sağlık', title: 'Sağlık'),
-    SmartSelectOption<String>(value: 'Hizmet', title: 'Hizmet'),
-    SmartSelectOption<String>(value: 'Tekstil', title: 'Tekstil'),
-    SmartSelectOption<String>(value: 'Ticaret', title: 'Ticaret'),
-    SmartSelectOption<String>(value: 'Yapı', title: 'Yapı'),
-    SmartSelectOption<String>(value: 'Otomotiv', title: 'Otomotiv'),
-    SmartSelectOption<String>(value: 'Eğitim', title: 'Eğitim'),
-    SmartSelectOption<String>(value: 'Diğer', title: 'Diğer'),
+  List<S2Choice<String>> items = [
+    S2Choice<String>(value: 'Bilişim', title: 'Bilişim'),
+    S2Choice<String>(value: 'Gıda', title: 'Gıda'),
+    S2Choice<String>(value: 'Sağlık', title: 'Sağlık'),
+    S2Choice<String>(value: 'Hizmet', title: 'Hizmet'),
+    S2Choice<String>(value: 'Tekstil', title: 'Tekstil'),
+    S2Choice<String>(value: 'Ticaret', title: 'Ticaret'),
+    S2Choice<String>(value: 'Yapı', title: 'Yapı'),
+    S2Choice<String>(value: 'Otomotiv', title: 'Otomotiv'),
+    S2Choice<String>(value: 'Eğitim', title: 'Eğitim'),
+    S2Choice<String>(value: 'Diğer', title: 'Diğer'),
   ];
 
-  List<SmartSelectOption<String>> diplomaItems = [
-    SmartSelectOption<String>(value: 'Hepsi', title: 'Hepsi'),
-    SmartSelectOption<String>(value: 'Lise', title: 'Lise'),
-    SmartSelectOption<String>(
-        value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
-    SmartSelectOption<String>(
-        value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
-    SmartSelectOption<String>(
+  List<S2Choice<String>> diplomaItems = [
+    S2Choice<String>(value: 'Hepsi', title: 'Hepsi'),
+    S2Choice<String>(value: 'Lise', title: 'Lise'),
+    S2Choice<String>(value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
+    S2Choice<String>(value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
+    S2Choice<String>(
         value: 'Üniversite - Öğrenci', title: 'Üniversite - Öğrenci'),
-    SmartSelectOption<String>(
-        value: 'Üniversite - Mezun', title: 'Üniversite - Mezun'),
-    SmartSelectOption<String>(value: 'Yüksek Lisans', title: 'Yüksek Lisans'),
-    SmartSelectOption<String>(value: 'Doktora', title: 'Doktora'),
+    S2Choice<String>(value: 'Üniversite - Mezun', title: 'Üniversite - Mezun'),
+    S2Choice<String>(value: 'Yüksek Lisans', title: 'Yüksek Lisans'),
+    S2Choice<String>(value: 'Doktora', title: 'Doktora'),
   ];
 
   Widget smartSelectKategori(String title, List options, String value) {
     return SmartSelect<String>.single(
         title: title,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        dense: true,
-        isTwoLine: true,
-        modalType: SmartSelectModalType.popupDialog,
+        modalType: S2ModalType.popupDialog,
         value: value,
-        options: options,
-        onChange: (val) => setState(() => _selectedItem = val));
+        choiceItems: options,
+        onChange: (val) => setState(() => _selectedItem = val.value));
   }
 
   Widget smartSelectDiploma(String title, List options, String value) {
     return SmartSelect<String>.single(
         title: title,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        dense: true,
-        isTwoLine: true,
-        modalType: SmartSelectModalType.popupDialog,
+        modalType: S2ModalType.popupDialog,
         value: value,
-        options: options,
-        onChange: (val) => setState(() => _diplomaItem = val));
+        choiceItems: options,
+        onChange: (val) => setState(() => _diplomaItem = val.value));
   }
 
   File _image;
