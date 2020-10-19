@@ -3,7 +3,7 @@
 
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/requests.dart';
-import 'package:alaev/widgets/city_select.dart';
+import 'package:alaev/data/city_select.dart';
 import 'package:alaev/widgets/textfield_default.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
