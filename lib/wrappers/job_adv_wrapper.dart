@@ -120,74 +120,68 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
   Widget smartSelect(String title, List options, String value) {
     return SmartSelect<String>.single(
         title: title,
-        dense: false,
-        isTwoLine: true,
-        modalType: SmartSelectModalType.popupDialog,
+        modalType: S2ModalType.popupDialog,
         value: value,
-        options: options,
-        onChange: (val) => setState(() => _diplomaSelectedItem = val));
+        choiceItems: options,
+        onChange: (val) =>
+            setState(() => _diplomaSelectedItem = val.value));
   }
 
   Widget smartSelect2(String title, List options, String value) {
     return SmartSelect<String>.single(
         title: title,
-        dense: false,
-        isTwoLine: true,
-        modalType: SmartSelectModalType.popupDialog,
+        modalType: S2ModalType.popupDialog,
         value: value,
-        options: options,
-        onChange: (val) => setState(() => _categorySelectedItem = val));
+        choiceItems: options,
+        onChange: (val) =>
+            setState(() => _categorySelectedItem = val.value));
   }
 
   Widget smartSelectCity() {
     return SmartSelect<String>.single(
         title: 'Şehir',
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        dense: false,
-        isTwoLine: true,
-        modalType: SmartSelectModalType.popupDialog,
+        modalType: S2ModalType.popupDialog,
         value: _citySelectedItem,
-        options: SmartSelectOption.listFrom<String, Map<String, String>>(
+        choiceItems: S2Choice.listFrom<String, Map<String, String>>(
           source: cities,
           value: (index, item) => item['value'],
           title: (index, item) => item['title'],
         ),
-        onChange: (val) => setState(() => _citySelectedItem = val));
+        onChange: (val) => setState(() => _citySelectedItem = val.value));
   }
 
   @override
   Widget build(BuildContext context) {
     String citySelectedItem = 'Hepsi';
 
-    List<SmartSelectOption<String>> categoryOptions = [
-      SmartSelectOption<String>(value: 'Hepsi', title: 'Hepsi'),
-      SmartSelectOption<String>(value: 'Bilişim', title: 'Bilişim'),
-      SmartSelectOption<String>(value: 'Gıda', title: 'Gıda'),
-      SmartSelectOption<String>(value: 'Sağlık', title: 'Sağlık'),
-      SmartSelectOption<String>(value: 'Hizmet', title: 'Hizmet'),
-      SmartSelectOption<String>(value: 'Tekstil', title: 'Tekstil'),
-      SmartSelectOption<String>(value: 'Ticaret', title: 'Ticaret'),
-      SmartSelectOption<String>(value: 'Yapı', title: 'Yapı'),
-      SmartSelectOption<String>(value: 'Otomotiv', title: 'Otomotiv'),
-      SmartSelectOption<String>(value: 'Eğitim', title: 'Eğitim'),
-      SmartSelectOption<String>(value: 'Diğer', title: 'Diğer'),
+    List<S2Choice<String>> categoryOptions = [
+      S2Choice<String>(value: 'Hepsi', title: 'Hepsi'),
+      S2Choice<String>(value: 'Bilişim', title: 'Bilişim'),
+      S2Choice<String>(value: 'Gıda', title: 'Gıda'),
+      S2Choice<String>(value: 'Sağlık', title: 'Sağlık'),
+      S2Choice<String>(value: 'Hizmet', title: 'Hizmet'),
+      S2Choice<String>(value: 'Tekstil', title: 'Tekstil'),
+      S2Choice<String>(value: 'Ticaret', title: 'Ticaret'),
+      S2Choice<String>(value: 'Yapı', title: 'Yapı'),
+      S2Choice<String>(value: 'Otomotiv', title: 'Otomotiv'),
+      S2Choice<String>(value: 'Eğitim', title: 'Eğitim'),
+      S2Choice<String>(value: 'Diğer', title: 'Diğer'),
     ];
 
-    List<SmartSelectOption<String>> diplomaOptions = [
-      SmartSelectOption<String>(value: 'Hepsi', title: 'Hepsi'),
-      SmartSelectOption<String>(value: 'Lise', title: 'Lise'),
-      SmartSelectOption<String>(
+    List<S2Choice<String>> diplomaOptions = [
+      S2Choice<String>(value: 'Hepsi', title: 'Hepsi'),
+      S2Choice<String>(value: 'Lise', title: 'Lise'),
+      S2Choice<String>(
           value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
-      SmartSelectOption<String>(
-          value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
-      SmartSelectOption<String>(
+      S2Choice<String>(value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
+      S2Choice<String>(
           value: 'Üniversite - Öğrenci', title: 'Üniversite - Öğrenci'),
-      SmartSelectOption<String>(
+      S2Choice<String>(
           value: 'Üniversite - Mezun', title: 'Üniversite - Mezun'),
-      SmartSelectOption<String>(
+      S2Choice<String>(
           value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
-      SmartSelectOption<String>(value: 'Yüksek Lisans', title: 'Yüksek Lisans'),
-      SmartSelectOption<String>(value: 'Doktora', title: 'Doktora'),
+      S2Choice<String>(value: 'Yüksek Lisans', title: 'Yüksek Lisans'),
+      S2Choice<String>(value: 'Doktora', title: 'Doktora'),
     ];
 
     return Scaffold(
