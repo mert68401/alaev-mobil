@@ -1,6 +1,7 @@
+import 'package:alaev/data/faculties.dart';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/providers/auth.dart';
-import 'package:alaev/widgets/city_select.dart';
+import 'package:alaev/data/city_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +23,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _universityController = TextEditingController();
   final _phoneController = TextEditingController();
   final _jobController = TextEditingController();
-  final _universityFacultyController = TextEditingController();
   final _companyNameController = TextEditingController();
   final _companyAdressController = TextEditingController();
 
   String _selectedItem;
   String _citySelectedItem;
-  String _jobSelectedItem;
+  String _facultySelectedItem;
 
   List<SmartSelectOption<String>> items = [
     SmartSelectOption<String>(value: 'Kurumsal', title: 'Evet'),
@@ -55,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         onChange: (val) => setState(() => _selectedItem = val));
   }
 
-  Widget smartSelectJob(String title, List options, String value) {
+  Widget smartSelectFaculty(String title, List options, String value) {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: title,
@@ -64,8 +64,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isTwoLine: true,
         modalType: SmartSelectModalType.popupDialog,
         value: value,
-        options: options,
-        onChange: (val) => setState(() => _jobSelectedItem = val));
+        options: SmartSelectOption.listFrom<String, Map<String, String>>(
+          source: facultiesList,
+          value: (index, item) => item['value'],
+          title: (index, item) => item['title'],
+        ),
+        onChange: (val) => setState(() => _facultySelectedItem = val));
   }
 
   Widget smartSelectCity() {
@@ -283,27 +287,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Container(
-                      height: 60,
-                      child: TextField(
-                        obscureText: false,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                        controller:
-                            _universityFacultyController, //--------------------------------
-                        decoration: InputDecoration(
-                          labelText: 'Bölüm',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(width: 10),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
+                    smartSelectFaculty(
+                        "Bölüm", facultiesList, _facultySelectedItem),
                     SizedBox(height: 10),
                     // Container(
                     //   height: 60,
@@ -331,7 +316,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     SizedBox(height: 10),
                     _selectedItem == 'Bireysel'
-                        ? smartSelectJob("Meslek", jobs, _jobSelectedItem)
+                        ? Container(
+                            height: 60,
+                            child: TextField(
+                              obscureText: false,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                              controller:
+                                  _jobController, //--------------------------------
+                              decoration: InputDecoration(
+                                labelText: 'Meslek',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 10),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                            ),
+                          )
                         : Container(
                             height: 60,
                             child: TextField(
@@ -377,6 +382,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
+                    SizedBox(height: 10),
                     Container(
                       margin: EdgeInsets.only(left: 40, right: 40),
                       child: InkWell(
@@ -419,10 +425,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _selectedItem,
                               _graduateYearController.text,
                               _universityController.text,
-                              _universityFacultyController.text,
+                              _facultySelectedItem,
                               _phoneController.text,
                               _citySelectedItem,
-                              _jobSelectedItem,
+                              _jobController.text,
                               _companyNameController.text,
                               _companyAdressController.text,
                             )
