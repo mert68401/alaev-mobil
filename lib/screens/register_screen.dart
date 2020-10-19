@@ -1,4 +1,5 @@
 import 'package:alaev/data/faculties.dart';
+import 'package:alaev/data/jobs.dart';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/providers/auth.dart';
 import 'package:alaev/data/city_select.dart';
@@ -22,11 +23,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _graduateYearController = TextEditingController();
   final _universityController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _jobController = TextEditingController();
   final _companyNameController = TextEditingController();
   final _companyAdressController = TextEditingController();
+  final _companyPhoneController = TextEditingController();
 
   String _selectedItem;
+  String _selectedJobItem;
   String _citySelectedItem;
   String _facultySelectedItem;
 
@@ -54,7 +56,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
         });
   }
 
-  Widget smartSelectFaculty(String title, List options, String value) {
+  Widget smartSelectJob() {
+    return SmartSelect<String>.single(
+        placeholder: "Şeçiniz",
+        title: "Meslek",
+        modalType: S2ModalType.popupDialog,
+        modalFilter: true,
+        value: _selectedJobItem,
+        choiceItems: S2Choice.listFrom<String, Map<String, String>>(
+          source: jobsList,
+          value: (index, item) => item['value'],
+          title: (index, item) => item['title'],
+        ),
+        onChange: (val) {
+          setState(() => _selectedJobItem = val.value);
+        });
+  }
+
+  Widget smartSelectFaculty(String title, String value) {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: title,
@@ -66,8 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           value: (index, item) => item['value'],
           title: (index, item) => item['title'],
         ),
-        onChange: (val) =>
-            setState(() => _facultySelectedItem = val.value));
+        onChange: (val) => setState(() => _facultySelectedItem = val.value));
   }
 
   Widget smartSelectCity() {
@@ -282,8 +300,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    smartSelectFaculty(
-                        "Bölüm", facultiesList, _facultySelectedItem),
+                    smartSelectFaculty("Bölüm", _facultySelectedItem),
                     SizedBox(height: 10),
                     // Container(
                     //   height: 60,
@@ -310,29 +327,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         _selectedItem),
 
                     SizedBox(height: 10),
-                    _selectedItem == 'Bireysel'
-                        ? Container(
-                            height: 60,
-                            child: TextField(
-                              obscureText: false,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                              controller:
-                                  _jobController, //--------------------------------
-                              decoration: InputDecoration(
-                                labelText: 'Meslek',
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 10),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          )
-                        : SizedBox(),
+                    _selectedItem == 'Bireysel' ? smartSelectJob() : SizedBox(),
                     _selectedItem == 'Kurumsal'
                         ? Container(
                             height: 60,
@@ -381,6 +376,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                     SizedBox(height: 10),
+                    _selectedItem != 'Kurumsal'
+                        ? SizedBox()
+                        : Container(
+                      height: 60,
+                      child: TextField(
+                        keyboardType: TextInputType.phone,
+                        obscureText: false,
+                        textAlign: TextAlign.start,
+                        maxLength: 11,
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                        controller:
+                            _companyPhoneController, //--------------------------------
+                        decoration: InputDecoration(
+                          counterText: '',
+                          labelText: 'Firma Telefon Numarası',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 10),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
                     Container(
                       margin: EdgeInsets.only(left: 40, right: 40),
                       child: InkWell(
@@ -426,9 +448,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _facultySelectedItem,
                               _phoneController.text,
                               _citySelectedItem,
-                              _jobController.text,
+                              _selectedJobItem,
                               _companyNameController.text,
                               _companyAdressController.text,
+                              _companyPhoneController.text
                             )
                                 .then((value) {
                               if (value) {

@@ -88,6 +88,7 @@ router.post("/register", function (req, res) {
             job: body.job,
             companyName: body.companyName,
             companyAdress: body.companyAdress,
+            companyPhone: body.companyPhone,
         };
     } else {
         res.status(401).send({

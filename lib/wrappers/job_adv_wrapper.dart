@@ -123,8 +123,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         modalType: S2ModalType.popupDialog,
         value: value,
         choiceItems: options,
-        onChange: (val) =>
-            setState(() => _diplomaSelectedItem = val.value));
+        onChange: (val) => setState(() => _diplomaSelectedItem = val.value));
   }
 
   Widget smartSelect2(String title, List options, String value) {
@@ -133,8 +132,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         modalType: S2ModalType.popupDialog,
         value: value,
         choiceItems: options,
-        onChange: (val) =>
-            setState(() => _categorySelectedItem = val.value));
+        onChange: (val) => setState(() => _categorySelectedItem = val.value));
   }
 
   Widget smartSelectCity() {
@@ -173,7 +171,8 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       S2Choice<String>(value: 'Lise', title: 'Lise'),
       S2Choice<String>(
           value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
-      S2Choice<String>(value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
+      S2Choice<String>(
+          value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
       S2Choice<String>(
           value: 'Üniversite - Öğrenci', title: 'Üniversite - Öğrenci'),
       S2Choice<String>(

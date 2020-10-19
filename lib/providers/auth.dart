@@ -44,6 +44,7 @@ class Auth with ChangeNotifier {
     String job,
     String companyName,
     String companyAdress,
+    String companyPhone,
   ) async {
     Map<String, String> headers = {"Content-type": "application/json"};
     var passwordMd5 = md5.convert(utf8.encode(password));
@@ -64,6 +65,7 @@ class Auth with ChangeNotifier {
           "job": job,
           "companyName": companyName,
           "companyAdress": companyAdress,
+          "companyPhone": companyPhone
         },
       ),
     );
