@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/providers/auth.dart';
 import 'package:alaev/screens/forgot_password_screen.dart';
-import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

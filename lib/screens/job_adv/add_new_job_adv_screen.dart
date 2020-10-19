@@ -1,15 +1,11 @@
 // import 'dart:io';
 // import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:io';
 
 import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/requests.dart';
 import 'package:alaev/data/city_select.dart';
 import 'package:alaev/widgets/textfield_default.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:smart_select/smart_select.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'package:path/path.dart';
