@@ -37,7 +37,7 @@ dependencies:
     carousel_pro: ^1.0.0
     shared_preferences: ^0.5.7+3
     fluttertoast: ^4.0.1
-    smart_select: ^3.0.3
+    smart_select: ^4.3.2
     flutter_svg: ^0.18.0
     flutter:
         sdk: flutter
