@@ -23,10 +23,7 @@ class CardJobWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "",
-              style: TextStyle(color: Colors.grey),
-            ),
+            FaIcon(FontAwesomeIcons.dizzy),
             SizedBox(
               height: 20,
             ),

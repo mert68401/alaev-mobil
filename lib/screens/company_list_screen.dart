@@ -31,6 +31,8 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
             "companyName": element["companyName"],
             "companyDiscount": element["companyDiscount"],
             "companyAdress": element["companyAdress"],
+            "companyPhone": element["companyPhone"],
+
           });
         });
       });

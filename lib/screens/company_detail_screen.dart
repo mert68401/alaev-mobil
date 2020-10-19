@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CompanyDetailScreen extends StatelessWidget {
   static const routeName = '/company-detail-page';
@@ -8,13 +8,16 @@ class CompanyDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
 
-    // void customLaunch(command) async {
-    //   if (await canLaunch(command)) {
-    //     await launch(command);
-    //   } else {
-    //     print(' could not launch $command');
-    //   }
-    // }
+    String clickableCompanyPhone = arguments['companyPhone'];
+
+
+    void customLaunch(command) async {
+      if (await canLaunch(command)) {
+        await launch(command);
+      } else {
+        print(' could not launch $command');
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -85,6 +88,27 @@ class CompanyDetailScreen extends StatelessWidget {
                         arguments['companyAdress'],
                         textAlign: TextAlign.center,
                       ),
+                    ),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Firma Telefonu',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                      onTap: () {
+                        customLaunch('tel:$clickableCompanyPhone');
+                      },
+                      child: Text(
+                        arguments['companyPhone'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.indigo[800]),
+                      ),
+                    ),
                     ),
                   ]),
                 ],

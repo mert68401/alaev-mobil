@@ -32,6 +32,7 @@ class MapScreenState extends State<ProfileWrapper>
   final _companyDiscountController = TextEditingController();
   final _companyAdressController = TextEditingController();
   final _jobController = TextEditingController();
+  final _companyPhoneController = TextEditingController();
 
   final FocusNode myFocusNode = FocusNode();
 
@@ -75,6 +76,7 @@ class MapScreenState extends State<ProfileWrapper>
           _companyDiscountController.text = userData['companyDiscount'];
           _companyAdressController.text = userData['companyAdress'];
           _jobController.text = userData['job'];
+          _companyPhoneController.text = userData['companyPhone'];
         } else if (response.statusCode == 401) {
           showToastError(jsonDecode(response.body)['message'].toString());
         }
@@ -387,45 +389,51 @@ class MapScreenState extends State<ProfileWrapper>
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 20.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
+                                !_isFirma
+                                    ? Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 25.0, right: 25.0, top: 20.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
                                           children: <Widget>[
-                                            Text(
-                                              'Meslek',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Text(
+                                                  'Meslek',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
                                             ),
                                           ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 2.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: TextField(
-                                            controller: _jobController,
-                                            decoration: const InputDecoration(
-                                              hintText: "Mesleğinizi Giriniz",
+                                        ))
+                                    : SizedBox(),
+                                !_isFirma
+                                    ? Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 25.0, right: 25.0, top: 2.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              child: TextField(
+                                                controller: _jobController,
+                                                decoration: InputDecoration(
+                                                  hintText:
+                                                      "",
+                                                ),
+                                                enabled: false,
+                                                autofocus: !_status,
+                                              ),
                                             ),
-                                            enabled: !_status,
-                                            autofocus: !_status,
-                                          ),
-                                        ),
-                                      ],
-                                    )),
+                                          ],
+                                        ))
+                                    : SizedBox(),
                                 _isFirma
                                     ? Column(
                                         children: <Widget>[
@@ -528,6 +536,54 @@ class MapScreenState extends State<ProfileWrapper>
                                                 left: 25.0,
                                                 right: 25.0,
                                               ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: <Widget>[
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'Şirket Numarası',
+                                                        style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 25.0,
+                                                right: 25.0,
+                                                top: 2.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: <Widget>[
+                                                Flexible(
+                                                  child: TextField(
+                                                    controller:
+                                                        _companyPhoneController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                            hintText:
+                                                                "Şirket İsminizi Giriniz"),
+                                                    enabled: !_status,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                  top: 20.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: <Widget>[
@@ -664,6 +720,7 @@ class MapScreenState extends State<ProfileWrapper>
                       companyDiscount: _companyDiscountController.text,
                       companyAdress: _companyAdressController.text,
                       job: _jobController.text,
+                      companyPhone: _companyPhoneController.text,
                     );
                   });
                 },
