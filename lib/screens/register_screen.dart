@@ -30,14 +30,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _citySelectedItem;
   String _facultySelectedItem;
 
-  List<SmartSelectOption<String>> items = [
-    SmartSelectOption<String>(value: 'Kurumsal', title: 'Evet'),
-    SmartSelectOption<String>(value: 'Bireysel', title: 'Hayır'),
+  List<S2Choice<String>> items = [
+    S2Choice<String>(value: 'Kurumsal', title: 'Evet'),
+    S2Choice<String>(value: 'Bireysel', title: 'Hayır'),
   ];
 
-  List<SmartSelectOption<String>> jobs = [
-    SmartSelectOption<String>(value: 'TEST1', title: 'TEST1'),
-    SmartSelectOption<String>(value: 'TEST2', title: 'TEST2'),
+  List<S2Choice<String>> jobs = [
+    S2Choice<String>(value: 'TEST1', title: 'TEST1'),
+    S2Choice<String>(value: 'TEST2', title: 'TEST2'),
   ];
 
   bool _isLoading;
@@ -46,47 +46,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: title,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        dense: true,
-        isTwoLine: true,
-        modalType: SmartSelectModalType.popupDialog,
+        modalType: S2ModalType.popupDialog,
         value: value,
-        options: options,
-        onChange: (val) => setState(() => _selectedItem = val));
+        choiceItems: options,
+        onChange: (val) {
+          setState(() => _selectedItem = val.value);
+        });
   }
 
   Widget smartSelectFaculty(String title, List options, String value) {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: title,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        dense: true,
-        isTwoLine: true,
-        modalType: SmartSelectModalType.popupDialog,
+        modalType: S2ModalType.popupDialog,
+        modalFilter: true,
         value: value,
-        options: SmartSelectOption.listFrom<String, Map<String, String>>(
+        choiceItems: S2Choice.listFrom<String, Map<String, String>>(
           source: facultiesList,
           value: (index, item) => item['value'],
           title: (index, item) => item['title'],
         ),
-        onChange: (val) => setState(() => _facultySelectedItem = val));
+        onChange: (val) =>
+            setState(() => _facultySelectedItem = val.value));
   }
 
   Widget smartSelectCity() {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: 'Şehir',
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        dense: true,
-        isTwoLine: true,
-        modalType: SmartSelectModalType.popupDialog,
+        modalType: S2ModalType.popupDialog,
         value: _citySelectedItem,
-        options: SmartSelectOption.listFrom<String, Map<String, String>>(
+        choiceItems: S2Choice.listFrom<String, Map<String, String>>(
           source: citiesWithoutAll,
           value: (index, item) => item['value'],
           title: (index, item) => item['title'],
         ),
-        onChange: (val) => setState(() => _citySelectedItem = val));
+        onChange: (val) => setState(() => _citySelectedItem = val.value));
   }
 
   @override
@@ -337,7 +332,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           )
-                        : Container(
+                        : SizedBox(),
+                    _selectedItem == 'Kurumsal'
+                        ? Container(
                             height: 60,
                             child: TextField(
                               obscureText: false,
@@ -357,9 +354,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 fillColor: Colors.white,
                               ),
                             ),
-                          ),
+                          )
+                        : SizedBox(),
                     SizedBox(height: 10),
-                    _selectedItem == 'Bireysel'
+                    _selectedItem != 'Kurumsal'
                         ? SizedBox()
                         : Container(
                             height: 60,

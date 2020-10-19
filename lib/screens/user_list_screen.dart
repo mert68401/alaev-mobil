@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:alaev/data/faculties.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/widgets/card_user_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:smart_select/smart_select.dart';
 import 'dart:async';
 import '../screens/user_list_detail_screen.dart';
 
@@ -17,7 +19,7 @@ class UserListScreen extends StatefulWidget {
 class _UserListScreenState extends State<UserListScreen> {
   final List<Map<String, dynamic>> userList = [];
   final _searchController = TextEditingController();
-
+  String _facultySelectedItem;
   Future<void> fetchUserAccounts({String regex = ""}) async {
     userList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -65,6 +67,20 @@ class _UserListScreenState extends State<UserListScreen> {
     super.dispose();
   }
 
+  Widget smartSelectFaculty(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        placeholder: "Şeçiniz",
+        title: title,
+        modalType: S2ModalType.popupDialog,
+        modalFilter: true,
+        value: value,
+        choiceItems: S2Choice.listFrom<String, Map<String, String>>(
+          source: facultiesList,
+          value: (index, item) => item['value'],
+          title: (index, item) => item['title'],
+        ),
+        onChange: (val) => setState(() => _facultySelectedItem = val.value));
+  }
   // void _pushNamedPage(context, routeName) {
   //   Navigator.of(context).pushNamed(routeName);
   //   return;
@@ -108,6 +124,8 @@ class _UserListScreenState extends State<UserListScreen> {
               //   style: TextStyle(fontSize: 12),
               // ),
               SizedBox(height: 15),
+              smartSelectFaculty("Bölüm", facultiesList, _facultySelectedItem),
+
               Container(
                 height: 40,
                 child: TextField(
@@ -119,6 +137,7 @@ class _UserListScreenState extends State<UserListScreen> {
                     ),
                     filled: true,
                     isDense: true,
+                    hintText: "Kelimeye göre arama",
                     fillColor: Colors.white,
                     hintStyle: TextStyle(
                       color: Colors.blueGrey,
