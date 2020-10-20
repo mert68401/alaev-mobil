@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CompanyDetailScreen extends StatelessWidget {
   static const routeName = '/company-detail-page';
@@ -8,13 +8,13 @@ class CompanyDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context).settings.arguments as Map;
 
-    // void customLaunch(command) async {
-    //   if (await canLaunch(command)) {
-    //     await launch(command);
-    //   } else {
-    //     print(' could not launch $command');
-    //   }
-    // }
+    void customLaunch(command) async {
+      if (await canLaunch(command)) {
+        await launch(command);
+      } else {
+        print(' could not launch $command');
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -81,9 +81,18 @@ class CompanyDetailScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        arguments['companyAdress'],
-                        textAlign: TextAlign.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          customLaunch(
+                              "https://www.google.com.tr/maps/search/" +
+                                  Uri.encodeFull(arguments['companyAdress'])
+                                      .replaceAll(new RegExp("/"), "+"));
+                        },
+                        child: Text(
+                          arguments['companyAdress'],
+                          style: TextStyle(color: Colors.blueAccent),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ]),

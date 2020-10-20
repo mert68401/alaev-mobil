@@ -58,6 +58,11 @@ class CardUserListWidget extends StatelessWidget {
                             items[i]["university"].isNotEmpty
                         ? items[i]["university"]
                         : "",
+                    "universityFaculty":
+                        items[i]["universityFaculty"] != null &&
+                                items[i]["universityFaculty"].isNotEmpty
+                            ? items[i]["universityFaculty"]
+                            : "",
                     "city":
                         items[i]["city"] != null && items[i]["city"].isNotEmpty
                             ? items[i]["city"]
@@ -91,9 +96,9 @@ class CardUserListWidget extends StatelessWidget {
                         trailing: Container(
                           width: MediaQuery.of(context).size.width / 4,
                           child: Text(
-                            items[i]['job'] != null ? items[i]['job']: '',
+                            items[i]['job'] != null ? items[i]['job'] : '',
                             overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
+                            maxLines: 3,
                             textAlign: TextAlign.right,
                           ),
                         ),

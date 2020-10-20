@@ -469,16 +469,17 @@ router.post("/getUserAccounts", function (req, res) {
     var body = req.body;
     var params = body.params;
     var regex = body.regex;
+    var filter = body.filter;
     var projection = params.projection ? { projection: params.projection } : {};
     var data = database.collection("userAccounts").find(
         {
             $or: [
-                { fullName: { $regex: new RegExp(regex, "i") } },
-                { phone: { $regex: new RegExp(regex, "i") }, showPhone: true },
-                { job: { $regex: new RegExp(regex, "i") } },
-                { university: { $regex: new RegExp(regex, "i") } },
-                { graduateYear: { $regex: new RegExp(regex, "i") } },
-                { city: { $regex: new RegExp(regex, "i") } },
+                { fullName: { $regex: new RegExp(regex, "i") }, ...filter },
+                { phone: { $regex: new RegExp(regex, "i") }, showPhone: true, ...filter },
+                { job: { $regex: new RegExp(regex, "i") }, ...filter },
+                { university: { $regex: new RegExp(regex, "i") }, ...filter },
+                { graduateYear: { $regex: new RegExp(regex, "i") }, ...filter },
+                { city: { $regex: new RegExp(regex, "i") }, ...filter },
             ],
         },
         projection
@@ -498,7 +499,6 @@ router.post("/getUserAccounts", function (req, res) {
             });
             return;
         }
-        console.log(docs);
         res.json(docs);
     });
 });

@@ -97,6 +97,21 @@ class UserDetailScreen extends StatelessWidget {
                     Column(children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
+                        child: Text('Bölüm', textAlign: TextAlign.center),
+                      )
+                    ]),
+                    Column(children: [
+                      Text(
+                          arguments['universityFaculty'] != null
+                              ? arguments['universityFaculty']
+                              : '',
+                          textAlign: TextAlign.center)
+                    ]),
+                  ]),
+                  TableRow(children: [
+                    Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text('Meslek', textAlign: TextAlign.center),
                       )
                     ]),
@@ -128,8 +143,7 @@ class UserDetailScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          print(arguments["showPhone"]);
-                          
+                          customLaunch("tel:" + clickablePersonalNumber);
                         },
                         child: Text(
                           arguments["phone"],

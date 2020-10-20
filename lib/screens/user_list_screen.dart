@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:alaev/data/city_select.dart';
 import 'package:alaev/data/faculties.dart';
+import 'package:alaev/data/jobs.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/widgets/card_user_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,16 +22,36 @@ class _UserListScreenState extends State<UserListScreen> {
   final List<Map<String, dynamic>> userList = [];
   final _searchController = TextEditingController();
   String _facultySelectedItem;
+  String _jobSelectedItem;
+  String _citySelectedItem;
   Future<void> fetchUserAccounts({String regex = ""}) async {
     userList.clear();
     Map<String, String> headers = {"Content-type": "application/json"};
+    Map<String, dynamic> filter;
+    filter = {
+      "job": _jobSelectedItem,
+      "universityFaculty": _facultySelectedItem,
+      "city": _citySelectedItem
+    };
+
+    if (_jobSelectedItem == null) {
+      filter.remove("job");
+    }
+    if (_facultySelectedItem == null) {
+      filter.remove("universityFaculty");
+    }
+    if (_citySelectedItem == null) {
+      filter.remove("city");
+    }
+
+    print(filter);
     final response = await http.post(
       'http://' + ServerIP().other + ':2000/api/getUserAccounts',
       headers: headers,
       body: jsonEncode(
         <String, dynamic>{
           "regex": _searchController.text,
-          "filter": {},
+          "filter": filter,
           "params": {
             "sort": {"createdAt": -1}
           }
@@ -39,6 +61,7 @@ class _UserListScreenState extends State<UserListScreen> {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
+      print(body);
       setState(() {
         body.forEach((element) {
           userList.add({
@@ -49,6 +72,7 @@ class _UserListScreenState extends State<UserListScreen> {
             "phone": element["phone"],
             "companyName": element["companyName"],
             "city": element["city"],
+            "universityFaculty": element["universityFaculty"],
             "university": element["university"]
           });
         });
@@ -81,6 +105,36 @@ class _UserListScreenState extends State<UserListScreen> {
         ),
         onChange: (val) => setState(() => _facultySelectedItem = val.value));
   }
+
+  Widget smartSelectJob(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        placeholder: "Şeçiniz",
+        title: title,
+        modalType: S2ModalType.popupDialog,
+        modalFilter: true,
+        value: value,
+        choiceItems: S2Choice.listFrom<String, Map<String, String>>(
+          source: jobsList,
+          value: (index, item) => item['value'],
+          title: (index, item) => item['title'],
+        ),
+        onChange: (val) => setState(() => _jobSelectedItem = val.value));
+  }
+
+  Widget smartSelectCity(String title, List options, String value) {
+    return SmartSelect<String>.single(
+        placeholder: "Şeçiniz",
+        title: title,
+        modalType: S2ModalType.popupDialog,
+        modalFilter: true,
+        value: value,
+        choiceItems: S2Choice.listFrom<String, Map<String, String>>(
+          source: cities,
+          value: (index, item) => item['value'],
+          title: (index, item) => item['title'],
+        ),
+        onChange: (val) => setState(() => _citySelectedItem = val.value));
+  }
   // void _pushNamedPage(context, routeName) {
   //   Navigator.of(context).pushNamed(routeName);
   //   return;
@@ -91,11 +145,15 @@ class _UserListScreenState extends State<UserListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: true,
       key: _drawerKey,
       endDrawer: Drawer(
         child: Container(
           padding: EdgeInsets.all(10),
           child: ListView(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             children: [
               DrawerHeader(
                 child: Align(
@@ -124,7 +182,6 @@ class _UserListScreenState extends State<UserListScreen> {
               //   style: TextStyle(fontSize: 12),
               // ),
               SizedBox(height: 15),
-              smartSelectFaculty("Bölüm", facultiesList, _facultySelectedItem),
 
               Container(
                 height: 40,
@@ -146,6 +203,9 @@ class _UserListScreenState extends State<UserListScreen> {
                   // onChanged: onSearchTextChanged,
                 ),
               ),
+              smartSelectFaculty("Bölüm", facultiesList, _facultySelectedItem),
+              smartSelectJob("Meslek", jobsList, _jobSelectedItem),
+              smartSelectCity("Şehir", cities, _citySelectedItem),
               SizedBox(height: 15),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 25),
@@ -161,7 +221,7 @@ class _UserListScreenState extends State<UserListScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0)),
                 ),
-              )
+              ),
             ],
           ),
         ),

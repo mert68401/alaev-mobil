@@ -45,3 +45,13 @@ app.*.map.json
 /pubspec.lock
 /lib/functions/server_ip.dart
 /api/node_modules
+/.VSCodeCounter/2020-10-10_20-47-07/details.md
+/.VSCodeCounter/2020-10-10_20-47-07/results.csv
+/.VSCodeCounter/2020-10-10_20-47-07/results.md
+/.VSCodeCounter/2020-10-10_20-47-07/results.txt
+/.env
+/api/.env
+/api/package-lock.json
+/api/package.json
+/app-release.apk
+/package-lock.json

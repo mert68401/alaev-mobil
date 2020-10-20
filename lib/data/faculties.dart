@@ -407,16 +407,16 @@ List<Map<String, String>> facultiesList = [
     "value": "GELENEKSEL TÜRK SANATLARI (M.T.O.K.)"
   },
   {
-    "title": "GEMİ İNŞAATI VE GEMİ MAKİNELERİ MÜHENDİSLİĞİ",
-    "value": "GEMİ İNŞAATI VE GEMİ MAKİNELERİ MÜHENDİSLİĞİ"
+    "title": "GEMİ İNŞAATI VE GEMİ MAKİNALARI MÜHENDİSLİĞİ",
+    "value": "GEMİ İNŞAATI VE GEMİ MAKİNALARI MÜHENDİSLİĞİ"
   },
   {
-    "title": "GEMİ MAKİNELERİ İŞLETME MÜHENDİSLİĞİ (FAKÜLTE)",
-    "value": "GEMİ MAKİNELERİ İŞLETME MÜHENDİSLİĞİ (FAKÜLTE)"
+    "title": "GEMİ MAKİNALARI İŞLETME MÜHENDİSLİĞİ (FAKÜLTE)",
+    "value": "GEMİ MAKİNALARI İŞLETME MÜHENDİSLİĞİ (FAKÜLTE)"
   },
   {
-    "title": "GEMİ MAKİNELERİ İŞLETME MÜHENDİSLİĞİ (YÜKSEKOKUL)",
-    "value": "GEMİ MAKİNELERİ İŞLETME MÜHENDİSLİĞİ (YÜKSEKOKUL)"
+    "title": "GEMİ MAKİNALARI İŞLETME MÜHENDİSLİĞİ (YÜKSEKOKUL)",
+    "value": "GEMİ MAKİNALARI İŞLETME MÜHENDİSLİĞİ (YÜKSEKOKUL)"
   },
   {
     "title": "GEMİ VE DENİZ TEKNOLOJİSİ MÜHENDİSLİĞİ",
@@ -743,18 +743,18 @@ List<Map<String, String>> facultiesList = [
     "value": "LOJİSTİK YÖNETİMİ (YÜKSEKOKUL)"
   },
   {"title": "MADEN MÜHENDİSLİĞİ", "value": "MADEN MÜHENDİSLİĞİ"},
-  {"title": "MAKİNE MÜHENDİSLİĞİ", "value": "MAKİNE MÜHENDİSLİĞİ"},
+  {"title": "MAKİNA MÜHENDİSLİĞİ", "value": "MAKİNA MÜHENDİSLİĞİ"},
   {
-    "title": "MAKİNE MÜHENDİSLİĞİ (M.T.O.K.)",
-    "value": "MAKİNE MÜHENDİSLİĞİ (M.T.O.K.)"
+    "title": "MAKİNA MÜHENDİSLİĞİ (M.T.O.K.)",
+    "value": "MAKİNA MÜHENDİSLİĞİ (M.T.O.K.)"
   },
   {
-    "title": "MAKİNE VE İMALAT MÜHENDİSLİĞİ",
-    "value": "MAKİNE VE İMALAT MÜHENDİSLİĞİ"
+    "title": "MAKİNA VE İMALAT MÜHENDİSLİĞİ",
+    "value": "MAKİNA VE İMALAT MÜHENDİSLİĞİ"
   },
   {
-    "title": "MAKİNE VE İMALAT MÜHENDİSLİĞİ (M.T.O.K.)",
-    "value": "MAKİNE VE İMALAT MÜHENDİSLİĞİ (M.T.O.K.)"
+    "title": "MAKİNA VE İMALAT MÜHENDİSLİĞİ (M.T.O.K.)",
+    "value": "MAKİNA VE İMALAT MÜHENDİSLİĞİ (M.T.O.K.)"
   },
   {"title": "MALİYE", "value": "MALİYE"},
   {"title": "MALİYE (AÇIKÖĞRETİM)", "value": "MALİYE (AÇIKÖĞRETİM)"},
@@ -1113,8 +1113,8 @@ List<Map<String, String>> facultiesList = [
   {"title": "TARİH ÖNCESİ ARKEOLOJİSİ", "value": "TARİH ÖNCESİ ARKEOLOJİSİ"},
   {"title": "TARIM EKONOMİSİ", "value": "TARIM EKONOMİSİ"},
   {
-    "title": "TARIM MAKİNELERİ VE TEKNOLOJİLERİ MÜHENDİSLİĞİ",
-    "value": "TARIM MAKİNELERİ VE TEKNOLOJİLERİ MÜHENDİSLİĞİ"
+    "title": "TARIM MAKİNALARI VE TEKNOLOJİLERİ MÜHENDİSLİĞİ",
+    "value": "TARIM MAKİNALARI VE TEKNOLOJİLERİ MÜHENDİSLİĞİ"
   },
   {"title": "TARIMSAL BİYOTEKNOLOJİ", "value": "TARIMSAL BİYOTEKNOLOJİ"},
   {
