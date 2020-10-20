@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class CardDiscountedPlaces extends StatelessWidget {
@@ -18,10 +19,7 @@ class CardDiscountedPlaces extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Henüz bir fırsat yok.",
-              style: TextStyle(color: Colors.grey),
-            ),
+            FaIcon(FontAwesomeIcons.dizzy),
             SizedBox(
               height: 20,
             ),
@@ -51,6 +49,10 @@ class CardDiscountedPlaces extends StatelessWidget {
                     "companyAdress": items[i]["companyAdress"] != null &&
                             items[i]["companyAdress"].isNotEmpty
                         ? items[i]["companyAdress"]
+                        : "",
+                    "companyPhone": items[i]["companyPhone"] != null &&
+                            items[i]["companyPhone"].isNotEmpty
+                        ? items[i]["companyPhone"]
                         : "",
                   });
                 },

@@ -59,7 +59,6 @@ class _MyJobAdvsScreenState extends State<MyJobAdvsScreen> {
 
   void initState() {
     super.initState();
-
     fetchUserJobAdvs();
   }
 

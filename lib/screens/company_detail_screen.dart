@@ -16,6 +16,15 @@ class CompanyDetailScreen extends StatelessWidget {
       }
     }
 
+
+    void customLaunch(command) async {
+      if (await canLaunch(command)) {
+        await launch(command);
+      } else {
+        print(' could not launch $command');
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -94,6 +103,27 @@ class CompanyDetailScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
+                    ),
+                  ]),
+                  TableRow(children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Firma Telefonu',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                      onTap: () {
+                        customLaunch('tel:$clickableCompanyPhone');
+                      },
+                      child: Text(
+                        arguments['companyPhone'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.indigo[800]),
+                      ),
+                    ),
                     ),
                   ]),
                 ],

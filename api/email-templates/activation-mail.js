@@ -513,7 +513,7 @@ module.exports = activationMail = (token) => {
                                             <td align="center">
                                               <a
                                                 href="yonetim.alaev.org.tr/email-dogrulama/${token}"
-
+                                                style="text-decoration: none !important; background-color: none !important;color:white !important;"
                                                 class="f-fallback button button--green"
                                                 target="_blank"
                                                 >Maili aktive et</a

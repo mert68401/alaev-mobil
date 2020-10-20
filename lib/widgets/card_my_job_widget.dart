@@ -1,5 +1,6 @@
 import 'package:alaev/functions/functions.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyCardJobWidget extends StatelessWidget {
   final List items;
@@ -62,10 +63,7 @@ class MyCardJobWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "",
-              style: TextStyle(color: Colors.grey),
-            ),
+            FaIcon(FontAwesomeIcons.dizzy),
             SizedBox(
               height: 20,
             ),
