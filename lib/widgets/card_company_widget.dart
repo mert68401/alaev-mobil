@@ -9,10 +9,7 @@ class CardCompanyWidget extends StatelessWidget {
   final f = new DateFormat('yyyy-MM-dd');
 
   CardCompanyWidget(
-      {
-      @required this.items,
-      this.routeName,
-      @required this.onRefresh});
+      {@required this.items, this.routeName, @required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +19,11 @@ class CardCompanyWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FaIcon(FontAwesomeIcons.dizzy),
+            FaIcon(
+              FontAwesomeIcons.dizzy,
+              size: 50,
+            ),
+            Text("Burda bir şey yok."),
             SizedBox(
               height: 20,
             ),

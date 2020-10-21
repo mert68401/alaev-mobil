@@ -23,7 +23,11 @@ class CardJobWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FaIcon(FontAwesomeIcons.dizzy),
+            FaIcon(
+              FontAwesomeIcons.dizzy,
+              size: 50,
+            ),
+            Text("Burda bir şey yok."),
             SizedBox(
               height: 20,
             ),
