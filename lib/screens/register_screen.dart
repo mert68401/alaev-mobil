@@ -93,6 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         placeholder: "Şeçiniz",
         title: 'Şehir',
         modalType: S2ModalType.popupDialog,
+        modalFilter: true,
         value: _citySelectedItem,
         choiceItems: S2Choice.listFrom<String, Map<String, String>>(
           source: citiesWithoutAll,
@@ -379,29 +380,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     _selectedItem != 'Kurumsal'
                         ? SizedBox()
                         : Container(
-                      height: 60,
-                      child: TextField(
-                        keyboardType: TextInputType.phone,
-                        obscureText: false,
-                        textAlign: TextAlign.start,
-                        maxLength: 11,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                        controller:
-                            _companyPhoneController, //--------------------------------
-                        decoration: InputDecoration(
-                          counterText: '',
-                          labelText: 'Firma Telefon Numarası',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(width: 10),
-                            borderRadius: BorderRadius.circular(10),
+                            height: 60,
+                            child: TextField(
+                              keyboardType: TextInputType.phone,
+                              obscureText: false,
+                              textAlign: TextAlign.start,
+                              maxLength: 11,
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                              controller:
+                                  _companyPhoneController, //--------------------------------
+                              decoration: InputDecoration(
+                                counterText: '',
+                                labelText: 'Firma Telefon Numarası',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 10),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                            ),
                           ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
                     SizedBox(height: 10),
                     Container(
                       margin: EdgeInsets.only(left: 40, right: 40),
@@ -432,27 +433,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
                           if (_passwordController.text.length < 5) {
                             showToastError(
-                                "Şifreniz en az 6 karakter olmalıdır");
+                                "Şifreniz en az 6 karakter olmalıdır!");
+                            return;
+                          }
+                          if (_selectedItem == 'Kurumsal' && _companyNameController.text == '' && _companyAdressController.text == '') {
+                            showToastError(
+                                "Lütfen firma ayrıntısını giriniz!");
                             return;
                           }
                           if (_passwordController.text ==
                               _password2Controller.text) {
                             Provider.of<Auth>(context, listen: false)
                                 .signup(
-                              _fullNameController.text,
-                              _emailController.text,
-                              _passwordController.text,
-                              _selectedItem,
-                              _graduateYearController.text,
-                              _universityController.text,
-                              _facultySelectedItem,
-                              _phoneController.text,
-                              _citySelectedItem,
-                              _selectedJobItem,
-                              _companyNameController.text,
-                              _companyAdressController.text,
-                              _companyPhoneController.text
-                            )
+                                    _fullNameController.text,
+                                    _emailController.text,
+                                    _passwordController.text,
+                                    _selectedItem,
+                                    _graduateYearController.text,
+                                    _universityController.text,
+                                    _facultySelectedItem,
+                                    _phoneController.text,
+                                    _citySelectedItem,
+                                    _selectedJobItem,
+                                    _companyNameController.text,
+                                    _companyAdressController.text,
+                                    _companyPhoneController.text)
                                 .then((value) {
                               if (value) {
                                 Navigator.pop(context);

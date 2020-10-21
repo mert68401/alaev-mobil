@@ -421,16 +421,13 @@ class MapScreenState extends State<ProfileWrapper>
                                           mainAxisSize: MainAxisSize.max,
                                           children: <Widget>[
                                             Flexible(
-                                              child: TextField(
-                                                controller: _jobController,
-                                                decoration: InputDecoration(
-                                                  hintText:
-                                                      "",
-                                                ),
-                                                enabled: false,
-                                                autofocus: !_status,
-                                              ),
-                                            ),
+                                                child: TextField(
+                                                    controller: _jobController,
+                                                    enabled: false,
+                                                    autofocus: !_status,
+                                                    decoration: InputDecoration
+                                                        .collapsed(
+                                                            hintText: null))),
                                           ],
                                         ))
                                     : SizedBox(),
@@ -581,9 +578,9 @@ class MapScreenState extends State<ProfileWrapper>
                                           ),
                                           Padding(
                                               padding: EdgeInsets.only(
-                                                  left: 25.0,
-                                                  right: 25.0,
-                                                  top: 20.0),
+                                                left: 25.0,
+                                                right: 25.0,
+                                              ),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: <Widget>[

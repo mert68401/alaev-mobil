@@ -34,17 +34,16 @@ class _UserListScreenState extends State<UserListScreen> {
       "city": _citySelectedItem
     };
 
-    if (_jobSelectedItem == null) {
+    if (_jobSelectedItem == null || _jobSelectedItem == 'Hepsi') {
       filter.remove("job");
     }
-    if (_facultySelectedItem == null) {
+    if (_facultySelectedItem == null || _facultySelectedItem == 'Hepsi') {
       filter.remove("universityFaculty");
     }
-    if (_citySelectedItem == null) {
+    if (_citySelectedItem == null || _citySelectedItem == 'Hepsi') {
       filter.remove("city");
     }
 
-    print(filter);
     final response = await http.post(
       'http://' + ServerIP().other + ':2000/api/getUserAccounts',
       headers: headers,
@@ -61,7 +60,6 @@ class _UserListScreenState extends State<UserListScreen> {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      print(body);
       setState(() {
         body.forEach((element) {
           userList.add({
@@ -91,7 +89,7 @@ class _UserListScreenState extends State<UserListScreen> {
     super.dispose();
   }
 
-  Widget smartSelectFaculty(String title, List options, String value) {
+  Widget smartSelectFaculty(String title, String value) {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: title,
@@ -99,14 +97,14 @@ class _UserListScreenState extends State<UserListScreen> {
         modalFilter: true,
         value: value,
         choiceItems: S2Choice.listFrom<String, Map<String, String>>(
-          source: facultiesList,
+          source: facultiesListAll,
           value: (index, item) => item['value'],
           title: (index, item) => item['title'],
         ),
         onChange: (val) => setState(() => _facultySelectedItem = val.value));
   }
 
-  Widget smartSelectJob(String title, List options, String value) {
+  Widget smartSelectJob(String title, String value) {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: title,
@@ -114,14 +112,14 @@ class _UserListScreenState extends State<UserListScreen> {
         modalFilter: true,
         value: value,
         choiceItems: S2Choice.listFrom<String, Map<String, String>>(
-          source: jobsList,
+          source: jobsListAll,
           value: (index, item) => item['value'],
           title: (index, item) => item['title'],
         ),
         onChange: (val) => setState(() => _jobSelectedItem = val.value));
   }
 
-  Widget smartSelectCity(String title, List options, String value) {
+  Widget smartSelectCity(String title, String value) {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
         title: title,
@@ -172,7 +170,7 @@ class _UserListScreenState extends State<UserListScreen> {
                 ),
               ),
               Text(
-                'Detaylı Arama',
+                'Arama',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 25),
               ),
@@ -187,6 +185,7 @@ class _UserListScreenState extends State<UserListScreen> {
                 height: 40,
                 child: TextField(
                   controller: _searchController,
+                  textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 10),
@@ -203,9 +202,9 @@ class _UserListScreenState extends State<UserListScreen> {
                   // onChanged: onSearchTextChanged,
                 ),
               ),
-              smartSelectFaculty("Bölüm", facultiesList, _facultySelectedItem),
-              smartSelectJob("Meslek", jobsList, _jobSelectedItem),
-              smartSelectCity("Şehir", cities, _citySelectedItem),
+              smartSelectFaculty("Bölüm", _facultySelectedItem),
+              smartSelectJob("Meslek", _jobSelectedItem),
+              smartSelectCity("Şehir", _citySelectedItem),
               SizedBox(height: 15),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 25),

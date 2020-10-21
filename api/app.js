@@ -680,7 +680,7 @@ router.post("/setJobAdRequest", function (req, res) {
         .collection("userAccounts")
         .findOne({ _id: id })
         .then(function (docs) {
-          companyName = docs.companyName;
+          companyName = body.companyName;
           fullName = docs.fullName;
           jobAdObj = {
             _id: body._id ? body._id : makeid(),

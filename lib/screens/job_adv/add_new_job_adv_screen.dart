@@ -24,6 +24,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
   final _jobAdPersonalNumber = TextEditingController();
   final _jobAdMail = TextEditingController();
   final _jobAdContent = TextEditingController();
+  final _jobAdCompanyName = TextEditingController();
 
   String _selectedItem = 'Diğer';
   String _diplomaItem = 'Hepsi';
@@ -51,14 +52,11 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
   List<S2Choice<String>> diplomaItems = [
     S2Choice<String>(value: 'Hepsi', title: 'Hepsi'),
     S2Choice<String>(value: 'Lise', title: 'Lise'),
-    S2Choice<String>(
-        value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
-    S2Choice<String>(
-        value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
+    S2Choice<String>(value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
+    S2Choice<String>(value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
     S2Choice<String>(
         value: 'Üniversite - Öğrenci', title: 'Üniversite - Öğrenci'),
-    S2Choice<String>(
-        value: 'Üniversite - Mezun', title: 'Üniversite - Mezun'),
+    S2Choice<String>(value: 'Üniversite - Mezun', title: 'Üniversite - Mezun'),
     S2Choice<String>(value: 'Yüksek Lisans', title: 'Yüksek Lisans'),
     S2Choice<String>(value: 'Doktora', title: 'Doktora'),
   ];
@@ -177,7 +175,20 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                           labelText: 'İlan Başlığı',
                           height: 60,
                         )),
-                        SizedBox(height: 10),
+                        _jobTypeItem == 'İş Veren'
+                            ? SizedBox(height: 10)
+                            : SizedBox(),
+                        _jobTypeItem == 'İş Veren'
+                            ? Container(
+                                child: TextFieldWidget(
+                                controller: _jobAdCompanyName,
+                                labelText: 'Firma İsmi',
+                                height: 60,
+                              ))
+                            : SizedBox(),
+                        _jobTypeItem == 'İş Veren'
+                            ? SizedBox(height: 10)
+                            : SizedBox(),
                         _jobTypeItem == 'İş Veren'
                             ? Container(
                                 child: TextFieldWidget(
@@ -255,6 +266,7 @@ class _AddNewJobAdvScreenState extends State<AddNewJobAdvScreen> {
                                   jobAdDiploma: _diplomaItem,
                                   city: _citySelectedItem,
                                   jobType: _jobTypeItem,
+                                  companyName: _jobAdCompanyName.text,
                                 );
                                 Future.delayed(
                                     const Duration(milliseconds: 2000), () {

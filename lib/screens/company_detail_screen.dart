@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CompanyDetailScreen extends StatelessWidget {
@@ -75,9 +76,13 @@ class CompanyDetailScreen extends StatelessWidget {
                   TableRow(children: [
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('Firma Adresi',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Row(
+                        children: [
+                          Text('Firma Adresi',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),

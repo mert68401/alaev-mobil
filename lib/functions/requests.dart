@@ -101,6 +101,7 @@ Future<void> addJobAdvertisementRequest({
   String jobAdDiploma,
   String city,
   String jobType,
+  String companyName,
 }) async {
   getToken().then((value) async {
     Map<String, String> headers = {"Content-type": "application/json"};
@@ -121,6 +122,7 @@ Future<void> addJobAdvertisementRequest({
         "jobAdDiploma": jobAdDiploma,
         "city": city,
         "jobType": jobType,
+        "companyName": companyName
       }),
     );
     if (response.statusCode == 200) {
