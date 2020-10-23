@@ -36,7 +36,9 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
+  
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: Auth(),
-        )
+        ),
+        // ChangeNotifierProvider.value(
+        //   value: HomeScreenState(),
+        // ),
       ],
       child: Consumer<Auth>(
         builder: (context, auth, _) => MaterialApp(

@@ -15,24 +15,32 @@ class HomeScreen extends StatefulWidget {
 
   HomeScreen({@required this.loggedIn});
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 2;
+  // int get selectedIndex => _selectedIndex;
+  // set selectedIndex(int val) {
+  //   _selectedIndex = val;
+  //   notifyListeners();
+  // }
+
   PageController _pageController;
   final double _iconSize = 20;
   List<Widget> _pages = [];
 
   @override
   void initState() {
-    super.initState();
-    _pageController = PageController(initialPage: 2);
-    getToken().then((value) {
-      if (value == null) {
-        Navigator.of(context).pushNamed(LoginScreen.routeName);
-      }
-    });
+    if (mounted) {
+      super.initState();
+      _pageController = PageController(initialPage: 2);
+      getToken().then((value) {
+        if (value == null) {
+          Navigator.of(context).pushNamed(LoginScreen.routeName);
+        }
+      });
+    }
   }
 
   @override

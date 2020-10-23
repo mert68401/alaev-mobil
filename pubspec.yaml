@@ -76,6 +76,10 @@ flutter:
         - assets/images/alaposter.jpg
         - assets/images/wikilogo.png
         - assets/images/empty.png
+        - assets/images/phone.png
+        - assets/images/building.png
+
+
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
     # For details regarding adding assets from package dependencies, see
