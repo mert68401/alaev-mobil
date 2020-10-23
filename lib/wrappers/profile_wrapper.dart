@@ -580,6 +580,7 @@ class MapScreenState extends State<ProfileWrapper>
                                               padding: EdgeInsets.only(
                                                 left: 25.0,
                                                 right: 25.0,
+                                                top: 20,
                                               ),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,

@@ -38,6 +38,17 @@ class CardCompanyWidget extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           itemCount: items.length,
           itemBuilder: (BuildContext context, int i) {
+            var color;
+            Color getColor() {
+              color = Colors.red[300];
+              return color;
+            }
+
+            Widget jobIcon() {
+              return FaIcon(FontAwesomeIcons.briefcase,
+                  color: Colors.blue[200]);
+            }
+
             return Stack(children: <Widget>[
               InkWell(
                 onTap: () {
@@ -79,24 +90,35 @@ class CardCompanyWidget extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: null,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(
+                          color: getColor(),
+                          width: 2.0,
+                          style: BorderStyle.solid),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            maxRadius: 30,
+                            minRadius: 00,
+                            child: jobIcon(),
+                          ),
+                          title: Text(items[i]['title']),
+                          subtitle: Text(items[i]['companyName'] != null
+                              ? items[i]['companyName']
+                              : ''),
+                          trailing: Text(
+                            f.format(DateTime.parse(items[i]['createdAt'])),
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          ),
                         ),
-                        title: Text(items[i]['title']),
-                        subtitle: Text(items[i]['companyName'] != null
-                            ? items[i]['companyName']
-                            : ''),
-                        trailing: Text(
-                          f.format(DateTime.parse(items[i]['createdAt'])),
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
