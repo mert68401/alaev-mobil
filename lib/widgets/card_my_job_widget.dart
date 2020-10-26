@@ -20,10 +20,10 @@ class MyCardJobWidget extends StatelessWidget {
       children: <Widget>[
         Stack(alignment: Alignment.bottomRight, children: <Widget>[
           Container(
-            width: 40,
+            width: 50,
             decoration: BoxDecoration(
                 color: Colors.black87, borderRadius: BorderRadius.circular(20)),
-            margin: EdgeInsets.symmetric(vertical: 8),
+            margin: EdgeInsets.symmetric(vertical: 5),
             child: IconButton(
                 icon: Icon(
                   Icons.view_list,
@@ -41,7 +41,7 @@ class MyCardJobWidget extends StatelessWidget {
               width: 21,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25), color: Colors.red),
-              margin: EdgeInsets.only(right: 0, bottom: 8),
+              margin: EdgeInsets.only(right: 0, bottom: 0),
               child: Text(
                 a,
                 textAlign: TextAlign.center,
@@ -62,7 +62,8 @@ class MyCardJobWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[FaIcon(
+          children: <Widget>[
+            FaIcon(
               FontAwesomeIcons.dizzy,
               size: 50,
             ),

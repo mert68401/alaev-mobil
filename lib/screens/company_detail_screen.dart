@@ -76,13 +76,9 @@ class CompanyDetailScreen extends StatelessWidget {
                   TableRow(children: [
                     Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text('Firma Adresi',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
-                      ),
+                      child: Text('Firma Adresi',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     Padding(
                       padding: EdgeInsets.all(8.0),

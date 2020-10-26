@@ -91,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget smartSelectCity() {
     return SmartSelect<String>.single(
         placeholder: "Şeçiniz",
-        title: 'Şehir',
+        title: 'Şehir*',
         modalType: S2ModalType.popupDialog,
         modalFilter: true,
         value: _citySelectedItem,
@@ -154,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         controller: _fullNameController,
                         decoration: InputDecoration(
-                          labelText: 'Ad Soyad',
+                          labelText: 'Ad Soyad*',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(width: 10),
                             borderRadius: BorderRadius.circular(10),
@@ -175,7 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
                         decoration: InputDecoration(
-                          labelText: 'Email',
+                          labelText: 'Email*',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(width: 10),
                             borderRadius: BorderRadius.circular(10),
@@ -197,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller:
                             _passwordController, //--------------------------------
                         decoration: InputDecoration(
-                          labelText: 'Şifre',
+                          labelText: 'Şifre*',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(width: 10),
                             borderRadius: BorderRadius.circular(10),
@@ -219,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller:
                             _password2Controller, //--------------------------------
                         decoration: InputDecoration(
-                          labelText: 'Şifre Tekrar',
+                          labelText: 'Şifre Tekrar*',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(width: 10),
                             borderRadius: BorderRadius.circular(10),
@@ -243,7 +243,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _graduateYearController,
                         decoration: InputDecoration(
                           counterText: "",
-                          labelText: 'Mezuniyet Yılı',
+                          labelText: 'Mezuniyet Yılı*',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(width: 10),
                             borderRadius: BorderRadius.circular(10),
@@ -303,6 +303,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(height: 10),
                     smartSelectFaculty("Bölüm", _facultySelectedItem),
                     SizedBox(height: 10),
+                    smartSelectJob(),
                     // Container(
                     //   height: 60,
                     //   child: TextField(
@@ -328,7 +329,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         _selectedItem),
 
                     SizedBox(height: 10),
-                    _selectedItem == 'Bireysel' ? smartSelectJob() : SizedBox(),
                     _selectedItem == 'Kurumsal'
                         ? Container(
                             height: 60,
@@ -341,7 +341,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               controller:
                                   _companyNameController, //--------------------------------
                               decoration: InputDecoration(
-                                labelText: 'Firma Adı',
+                                labelText: 'Firma Adı*',
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 10),
                                   borderRadius: BorderRadius.circular(10),
@@ -366,7 +366,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               controller:
                                   _companyAdressController, //--------------------------------
                               decoration: InputDecoration(
-                                labelText: 'Firma Adresi',
+                                labelText: 'Firma Adresi*',
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 10),
                                   borderRadius: BorderRadius.circular(10),
@@ -417,6 +417,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _selectedItem == null ||
                               _citySelectedItem == '' ||
                               _citySelectedItem == null ||
+                              _graduateYearController.text == '' ||
+                              _graduateYearController.text == null ||
                               _phoneController.text == '') {
                             showToastError("Bilgiler eksiksiz girilmelidir!");
                             return;
@@ -436,9 +438,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 "Şifreniz en az 6 karakter olmalıdır!");
                             return;
                           }
-                          if (_selectedItem == 'Kurumsal' && _companyNameController.text == '' && _companyAdressController.text == '') {
-                            showToastError(
-                                "Lütfen firma ayrıntısını giriniz!");
+                          if (_selectedItem == 'Kurumsal' &&
+                              _companyNameController.text == '' &&
+                              _companyAdressController.text == '') {
+                            showToastError("Lütfen firma ayrıntısını giriniz!");
                             return;
                           }
                           if (_passwordController.text ==

@@ -215,6 +215,7 @@ class _UserListScreenState extends State<UserListScreen> {
                   onPressed: () {
                     setState(() {
                       fetchUserAccounts(regex: _searchController.text);
+                      Navigator.pop(context);
                     });
                   },
                   shape: RoundedRectangleBorder(
