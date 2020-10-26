@@ -88,6 +88,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
             ],
           ),
         ),
+        //grid
         body: GridView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: pageTitles.length,
