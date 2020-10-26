@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeWrapper extends StatefulWidget {
@@ -11,7 +10,6 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _HomeWrapperState extends State<HomeWrapper> {
-  ScrollController _scrollController;
   double appBarRadius = 0;
 
   final List<String> pageTitles = ["DUYURULAR", "İŞ İLANLARI", "ANLAŞMALI KURUMLAR", "PROFİLİM"];
@@ -43,13 +41,6 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   void initState() {
     super.initState();
-
-    _scrollController = ScrollController()
-      ..addListener(() {
-        setState(() {
-          appBarRadius = _scrollController.offset;
-        });
-      });
   }
 
   void dispose() {
