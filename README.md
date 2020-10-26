@@ -9,17 +9,17 @@
 
 <table><tr>
 <div><td style="text-align: center">
-    <img src="https://i.imgur.com/zRW7S7g.png" width="200"/>
+    <img src="https://puu.sh/GGY6W/eb880db983.png" width="200"/>
 </td>
 <td style="text-align: center">
-<img src="https://i.imgur.com/QktfZcG.png" width="200"/>
+<img src="https://puu.sh/GGYbl/41d6b2b513.png" width="200"/>
 </td></tr></div>
   <div>
   <tr><td style="text-align: center">
 <img src="https://i.imgur.com/gCvJHh5.png" width="200"/>
 </td>
   <td style="text-align: center">
-<img src="https://i.imgur.com/eMWyUUO.png" width="200"/>
+<img src="https://puu.sh/GGYbF/d11cdf833e.png" width="200"/>
 </td></tr></table></div>
 
 ## What is this app?
