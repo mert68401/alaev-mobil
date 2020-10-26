@@ -23,7 +23,7 @@ class HomeScreenState extends State<HomeScreen> {
   // int get selectedIndex => _selectedIndex;
   // set selectedIndex(int val) {
   //   _selectedIndex = val;
-  //   notifyListeners();
+  //   notifyListeners();//
   // }
   final List<String> pageTitles = [
     "ALAEV İSTEKLER",
