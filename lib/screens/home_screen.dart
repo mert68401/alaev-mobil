@@ -310,7 +310,6 @@ class HomeScreenState extends State<HomeScreen> {
       Navigator.of(context).pushNamed(UserListScreen.routeName);
       return;
     } else if (index == 6) {
-      Navigator.of(context).pushNamed(HomeScreen.routeName);
       customLaunch('http://alaev.org.tr');
       return;
     }
@@ -324,68 +323,91 @@ class HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget homeScreen(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Theme.of(context).primaryColor, //change your color here
-          ),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Image.asset(
-                "./assets/images/alaevLogoClean.png",
-                scale: 11,
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            buttonPadding: EdgeInsets.all(15),
+            title: new Text('Emin misin?'),
+            content: new Text('Uygulamayı kapatmak istiyor musun'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("HAYIR"),
+              ),
+              SizedBox(width: 16),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Text("EVET"),
               ),
             ],
           ),
-        ),
-        //grid
-        body: GridView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount: pageTitles.length,
-            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 1.15, crossAxisCount: 2),
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () => {
-                  if (index == 2)
-                    {index = 3}
-                  else if (index == 3)
-                    {
-                      index = 2,
+        ) ??
+        false;
+  }
+
+  Widget homeScreen(BuildContext context) {
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+          appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Theme.of(context).primaryColor, //change your color here
+            ),
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.asset(
+                  "./assets/images/alaevLogoClean.png",
+                  scale: 11,
+                ),
+              ],
+            ),
+          ),
+          //grid
+          body: GridView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: pageTitles.length,
+              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 1.15, crossAxisCount: 2),
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    if (index == 2) {
+                      index = 3;
+                    } else if (index == 3) {
+                      index = 2;
                       Navigator.of(context)
-                          .pushNamed(CompanyListScreen.routeName)
+                          .pushNamed(CompanyListScreen.routeName);
                     }
-                  else if (index == 6)
-                    {Navigator.pop(context)},
-                  _onItemTapped(index)
-                },
-                child: Stack(children: [
-                  Container(
-                    margin: EdgeInsets.all(28),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(colors: colors[index]),
-                      image: DecorationImage(
-                        alignment: Alignment.center,
-                        scale: 10 / 1.4,
-                        image: ExactAssetImage(icons[index]),
+                    _onItemTapped(index);
+                  },
+                  child: Stack(children: [
+                    Container(
+                      margin: EdgeInsets.all(28),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(colors: colors[index]),
+                        image: DecorationImage(
+                          alignment: Alignment.center,
+                          scale: 10 / 1.4,
+                          image: ExactAssetImage(icons[index]),
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    child: Text(
-                      pageTitles[index],
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    alignment: Alignment.bottomCenter,
-                  )
-                ]),
-              );
-            }));
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      child: Text(
+                        pageTitles[index],
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      alignment: Alignment.bottomCenter,
+                    )
+                  ]),
+                );
+              })),
+    );
   }
 }

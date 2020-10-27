@@ -88,577 +88,621 @@ class MapScreenState extends State<ProfileWrapper>
 
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        key: _drawerKey,
-        appBar: AppBar(
-          // leading: IconButton(
-          //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
-          //     onPressed: () {
-          //       Scaffold.of(context).openDrawer();
-          //     }),
-          backgroundColor: Colors.white,
-          actions: <Widget>[
-            IconButton(
-                icon: FaIcon(
-                  FontAwesomeIcons.signOutAlt,
-                  color: Theme.of(context).primaryColor,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  Future.delayed(const Duration(milliseconds: 1500), () {
-                    Provider.of<Auth>(context, listen: false).logout();
-                    showToastSuccess('Başarı ile Çıkış Yapıldı!');
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  });
-                })
-          ],
-          centerTitle: true,
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Image.asset(
-                "./assets/images/alaevLogoClean.png",
-                scale: 11,
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            buttonPadding: EdgeInsets.all(15),
+            title: new Text('Emin misin?'),
+            content: new Text('Uygulamayı kapatmak istiyor musun'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("HAYIR"),
+              ),
+              SizedBox(width: 16),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Text("EVET"),
               ),
             ],
           ),
-        ),
-        body: _isLoading
-            ? Center(
-                heightFactor: 25,
-                child: CircularProgressIndicator(),
-              )
-            : Container(
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 0.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(top: 20),
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
-                                          'Ad Soyad',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        _status
-                                            ? Row(
-                                                children: [
-                                                  Container(
-                                                    height: 30,
-                                                    margin: EdgeInsets.only(
-                                                        right: 10, left: 10),
-                                                    child: RaisedButton(
-                                                      child: Row(
-                                                        children: [
-                                                          FaIcon(
-                                                            FontAwesomeIcons
-                                                                .qrcode,
-                                                            size: 15,
-                                                          ),
-                                                          SizedBox(width: 10),
-                                                          Text(
-                                                            "QR Kod Okuyucu",
-                                                            style: TextStyle(),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      textColor: Colors.white,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      onPressed: () async {
-                                                        var result =
-                                                            await BarcodeScanner
-                                                                .scan();
-                                                        if (result.rawContent
-                                                                .length >
-                                                            0) {
-                                                          getDiscountFromQr(result
-                                                                  .rawContent)
-                                                              .then((discount) {
-                                                            if (discount
-                                                                    .length >
-                                                                0) {
-                                                              showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return AlertDialog(
-                                                                    title: Text(
-                                                                        "Barcodun içeriği"),
-                                                                    content: Text(
-                                                                        discount
-                                                                            .toString()),
-                                                                    actions: <
-                                                                        Widget>[
-                                                                      FlatButton(
-                                                                        child: Text(
-                                                                            "Kapat"),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.of(context)
-                                                                              .pop();
-                                                                        },
-                                                                      )
-                                                                    ],
-                                                                  );
-                                                                },
-                                                              );
-                                                            } else {
-                                                              showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return AlertDialog(
-                                                                    title: Text(
-                                                                        "Hatalı Barkod!"),
-                                                                    content: Text(
-                                                                        "Lütfen doğru barkodu okuttuğunuzdan emin olun."),
-                                                                    actions: <
-                                                                        Widget>[
-                                                                      FlatButton(
-                                                                        child: Text(
-                                                                            "Kapat"),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.of(context)
-                                                                              .pop();
-                                                                        },
-                                                                      )
-                                                                    ],
-                                                                  );
-                                                                },
-                                                              );
-                                                            }
-                                                          });
-                                                        }
-                                                      },
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20.0),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  _getEditIcon(),
-                                                ],
-                                              )
-                                            : Container(),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 2.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: TextField(
-                                            controller: _fullNameController,
-                                            decoration: const InputDecoration(
-                                              hintText: "Ad ve Soyad Giriniz",
-                                            ),
-                                            enabled: !_status,
-                                            autofocus: !_status,
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 20.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                              'Email',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 2.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: TextField(
-                                            controller: _emailController,
-                                            decoration: const InputDecoration(
-                                                hintText: "Email Giriniz"),
-                                            enabled: false,
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 20.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Telefon',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Switch(
-                                                  value: _switchVal != null
-                                                      ? _switchVal
-                                                      : false,
-                                                  onChanged: (newVal) {
-                                                    setState(() {
-                                                      _switchVal = newVal;
-                                                      updateShowPhone(
-                                                          showPhone:
-                                                              _switchVal);
-                                                    });
-                                                  },
-                                                ),
-                                                Text(
-                                                  'Telefon numaranızın görünürlüğü',
-                                                  style: TextStyle(
-                                                      fontSize: 12.0,
-                                                      fontWeight:
-                                                          FontWeight.w200),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 25.0, right: 25.0, top: 2.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                      Flexible(
-                                        child: TextField(
-                                          controller: _phoneController,
-                                          decoration: const InputDecoration(
-                                              hintText:
-                                                  "Telefon Numarınızı Giriniz"),
-                                          enabled: !_status,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                !_isFirma
-                                    ? Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 25.0, right: 25.0, top: 20.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Text(
-                                                  'Meslek',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ))
-                                    : SizedBox(),
-                                !_isFirma
-                                    ? Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 25.0, right: 25.0, top: 2.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Flexible(
-                                                child: TextField(
-                                                    controller: _jobController,
-                                                    enabled: false,
-                                                    autofocus: !_status,
-                                                    decoration: InputDecoration
-                                                        .collapsed(
-                                                            hintText: null))),
-                                          ],
-                                        ))
-                                    : SizedBox(),
-                                _isFirma
-                                    ? Column(
-                                        children: <Widget>[
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 25.0,
-                                                  right: 25.0,
-                                                  top: 20.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Şirket İsmi',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 25.0,
-                                                right: 25.0,
-                                                top: 2.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: <Widget>[
-                                                Flexible(
-                                                  child: TextField(
-                                                    controller:
-                                                        _companyNameController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            hintText:
-                                                                "Şirket İsminizi Giriniz"),
-                                                    enabled: !_status,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 25.0,
-                                                  right: 25.0,
-                                                  top: 20.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Şirket Adresi',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              left: 25.0,
-                                              right: 25.0,
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Flexible(
-                                                  child: TextField(
-                                                    maxLength: 150,
-                                                    maxLines: 2,
-                                                    controller:
-                                                        _companyAdressController,
-                                                    enabled: !_status,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 25.0,
-                                                right: 25.0,
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Şirket Numarası',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 25.0,
-                                                right: 25.0,
-                                                top: 2.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: <Widget>[
-                                                Flexible(
-                                                  child: TextField(
-                                                    controller:
-                                                        _companyPhoneController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            hintText:
-                                                                "Şirket İsminizi Giriniz"),
-                                                    enabled: !_status,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 25.0,
-                                                right: 25.0,
-                                                top: 20,
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'İndirim Yüzdesi',
-                                                        style: TextStyle(
-                                                            fontSize: 16.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              left: 25.0,
-                                              right: 285.0,
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Flexible(
-                                                  child: TextField(
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    maxLength: 2,
-                                                    inputFormatters: [
-                                                      WhitelistingTextInputFormatter
-                                                          .digitsOnly
-                                                    ],
-                                                    controller:
-                                                        _companyDiscountController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            counterText: '',
-                                                            hintText: "%0-99"),
-                                                    enabled: !_status,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : SizedBox(height: 0),
-                                !_status
-                                    ? _getActionButtons()
-                                    : Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+        ) ??
+        false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+          key: _drawerKey,
+          appBar: AppBar(
+            // leading: IconButton(
+            //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+            //     onPressed: () {
+            //       Scaffold.of(context).openDrawer();
+            //     }),
+            backgroundColor: Colors.white,
+            actions: <Widget>[
+              IconButton(
+                  icon: FaIcon(
+                    FontAwesomeIcons.signOutAlt,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    Future.delayed(const Duration(milliseconds: 1500), () {
+                      Provider.of<Auth>(context, listen: false).logout();
+                      showToastSuccess('Başarı ile Çıkış Yapıldı!');
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    });
+                  })
+            ],
+            centerTitle: true,
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.asset(
+                  "./assets/images/alaevLogoClean.png",
+                  scale: 11,
+                ),
+              ],
+            ),
+          ),
+          body: _isLoading
+              ? Center(
+                  heightFactor: 25,
+                  child: CircularProgressIndicator(),
+                )
+              : Container(
+                  child: ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 0.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(top: 20),
+                                      padding: EdgeInsets.only(
+                                          left: 25.0, right: 25.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              child: _cvButton(),
+                                        children: <Widget>[
+                                          Text(
+                                            'Ad Soyad',
+                                            style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          _status
+                                              ? Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 30,
+                                                      margin: EdgeInsets.only(
+                                                          right: 10, left: 10),
+                                                      child: RaisedButton(
+                                                        child: Row(
+                                                          children: [
+                                                            FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .qrcode,
+                                                              size: 15,
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Text(
+                                                              "QR Kod Okuyucu",
+                                                              style:
+                                                                  TextStyle(),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        textColor: Colors.white,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        onPressed: () async {
+                                                          var result =
+                                                              await BarcodeScanner
+                                                                  .scan();
+                                                          if (result.rawContent
+                                                                  .length >
+                                                              0) {
+                                                            getDiscountFromQr(result
+                                                                    .rawContent)
+                                                                .then(
+                                                                    (discount) {
+                                                              if (discount
+                                                                      .length >
+                                                                  0) {
+                                                                showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return AlertDialog(
+                                                                      title: Text(
+                                                                          "Barcodun içeriği"),
+                                                                      content: Text(
+                                                                          discount
+                                                                              .toString()),
+                                                                      actions: <
+                                                                          Widget>[
+                                                                        FlatButton(
+                                                                          child:
+                                                                              Text("Kapat"),
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.of(context).pop();
+                                                                          },
+                                                                        )
+                                                                      ],
+                                                                    );
+                                                                  },
+                                                                );
+                                                              } else {
+                                                                showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return AlertDialog(
+                                                                      title: Text(
+                                                                          "Hatalı Barkod!"),
+                                                                      content: Text(
+                                                                          "Lütfen doğru barkodu okuttuğunuzdan emin olun."),
+                                                                      actions: <
+                                                                          Widget>[
+                                                                        FlatButton(
+                                                                          child:
+                                                                              Text("Kapat"),
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.of(context).pop();
+                                                                          },
+                                                                        )
+                                                                      ],
+                                                                    );
+                                                                  },
+                                                                );
+                                                              }
+                                                            });
+                                                          }
+                                                        },
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.0),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    _getEditIcon(),
+                                                  ],
+                                                )
+                                              : Container(),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 25.0, right: 25.0, top: 2.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Flexible(
+                                            child: TextField(
+                                              controller: _fullNameController,
+                                              decoration: const InputDecoration(
+                                                hintText: "Ad ve Soyad Giriniz",
+                                              ),
+                                              enabled: !_status,
+                                              autofocus: !_status,
                                             ),
                                           ),
                                         ],
-                                      ),
-                              ],
+                                      )),
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 25.0, right: 25.0, top: 20.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Text(
+                                                'Email',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 25.0, right: 25.0, top: 2.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Flexible(
+                                            child: TextField(
+                                              controller: _emailController,
+                                              decoration: const InputDecoration(
+                                                  hintText: "Email Giriniz"),
+                                              enabled: false,
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 25.0, right: 25.0, top: 20.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Telefon',
+                                                    style: TextStyle(
+                                                        fontSize: 16.0,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Switch(
+                                                    value: _switchVal != null
+                                                        ? _switchVal
+                                                        : false,
+                                                    onChanged: (newVal) {
+                                                      setState(() {
+                                                        _switchVal = newVal;
+                                                        updateShowPhone(
+                                                            showPhone:
+                                                                _switchVal);
+                                                      });
+                                                    },
+                                                  ),
+                                                  Text(
+                                                    'Telefon numaranızın görünürlüğü',
+                                                    style: TextStyle(
+                                                        fontSize: 12.0,
+                                                        fontWeight:
+                                                            FontWeight.w200),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 2.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: TextField(
+                                            controller: _phoneController,
+                                            decoration: const InputDecoration(
+                                                hintText:
+                                                    "Telefon Numarınızı Giriniz"),
+                                            enabled: !_status,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  !_isFirma
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 25.0,
+                                              right: 25.0,
+                                              top: 20.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Meslek',
+                                                    style: TextStyle(
+                                                        fontSize: 16.0,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ))
+                                      : SizedBox(),
+                                  !_isFirma
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 25.0,
+                                              right: 25.0,
+                                              top: 2.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              Flexible(
+                                                  child: TextField(
+                                                      controller:
+                                                          _jobController,
+                                                      enabled: false,
+                                                      autofocus: !_status,
+                                                      decoration:
+                                                          InputDecoration
+                                                              .collapsed(
+                                                                  hintText:
+                                                                      null))),
+                                            ],
+                                          ))
+                                      : SizedBox(),
+                                  _isFirma
+                                      ? Column(
+                                          children: <Widget>[
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 25.0,
+                                                    right: 25.0,
+                                                    top: 20.0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: <Widget>[
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Şirket İsmi',
+                                                          style: TextStyle(
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                  top: 2.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: <Widget>[
+                                                  Flexible(
+                                                    child: TextField(
+                                                      controller:
+                                                          _companyNameController,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                              hintText:
+                                                                  "Şirket İsminizi Giriniz"),
+                                                      enabled: !_status,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 25.0,
+                                                    right: 25.0,
+                                                    top: 20.0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: <Widget>[
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Şirket Adresi',
+                                                          style: TextStyle(
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                left: 25.0,
+                                                right: 25.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Flexible(
+                                                    child: TextField(
+                                                      maxLength: 150,
+                                                      maxLines: 2,
+                                                      controller:
+                                                          _companyAdressController,
+                                                      enabled: !_status,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                ),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: <Widget>[
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Şirket Numarası',
+                                                          style: TextStyle(
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                  top: 2.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: <Widget>[
+                                                  Flexible(
+                                                    child: TextField(
+                                                      controller:
+                                                          _companyPhoneController,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                              hintText:
+                                                                  "Şirket İsminizi Giriniz"),
+                                                      enabled: !_status,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                  left: 25.0,
+                                                  right: 25.0,
+                                                  top: 20,
+                                                ),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: <Widget>[
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'İndirim Yüzdesi',
+                                                          style: TextStyle(
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                left: 25.0,
+                                                right: 285.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Flexible(
+                                                    child: TextField(
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      maxLength: 2,
+                                                      inputFormatters: [
+                                                        WhitelistingTextInputFormatter
+                                                            .digitsOnly
+                                                      ],
+                                                      controller:
+                                                          _companyDiscountController,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                              counterText: '',
+                                                              hintText:
+                                                                  "%0-99"),
+                                                      enabled: !_status,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : SizedBox(height: 0),
+                                  !_status
+                                      ? _getActionButtons()
+                                      : Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                child: _cvButton(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                ],
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ));
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+    );
   }
 
   @override

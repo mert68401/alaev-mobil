@@ -4,7 +4,9 @@ import 'package:alaev/functions/functions.dart';
 import 'package:alaev/functions/server_ip.dart';
 import 'package:alaev/screens/company_adv/add_new_company_adv_screen.dart';
 import 'package:alaev/screens/company_adv/my_company_advs_screen.dart';
+import 'package:alaev/screens/home_screen.dart';
 import 'package:alaev/widgets/card_company_widget.dart';
+import 'package:alaev/wrappers/home_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -85,66 +87,92 @@ class _CompanyAdvertisementWrapperState
 
   // GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            buttonPadding: EdgeInsets.all(15),
+            title: new Text('Emin misin?'),
+            content: new Text('Uygulamayı kapatmak istiyor musun'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("HAYIR"),
+              ),
+              SizedBox(width: 16),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Text("EVET"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // key: _drawerKey,
-      appBar: AppBar(
-        // leading: IconButton(
-        //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
-        //     onPressed: () {
-        //       Scaffold.of(context).openDrawer();
-        //     }),
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          _isLoggedIn
-              ? IconButton(
-                  icon: Icon(
-                    Icons.list,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  onPressed: () {
-                    _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
-                  },
-                )
-              : SizedBox(),
-          _isLoggedIn
-              ? IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  onPressed: () {
-                    _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
-                  },
-                )
-              : SizedBox(),
-        ],
-        centerTitle: true,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Image.asset(
-              "./assets/images/alaevLogoClean.png",
-              scale: 11,
-            ),
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        // key: _drawerKey,
+        appBar: AppBar(
+          // leading: IconButton(
+          //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+          //     onPressed: () {
+          //       Scaffold.of(context).openDrawer();
+          //     }),
+          backgroundColor: Colors.white,
+          actions: <Widget>[
+            _isLoggedIn
+                ? IconButton(
+                    icon: Icon(
+                      Icons.list,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: () {
+                      _pushNamedPage(context, MyCompanyAdvsScreen.routeName);
+                    },
+                  )
+                : SizedBox(),
+            _isLoggedIn
+                ? IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: () {
+                      _pushNamedPage(context, AddNewCompanyAdvScreen.routeName);
+                    },
+                  )
+                : SizedBox(),
           ],
-        ),
-      ),
-      body: Container(
-          child: CardCompanyWidget(
-              onRefresh: fetchCompanyAdvs,
-              items: advList,
-              routeName: CompanyAdvertisement.routeName)
-          // CardWidget(
-          //   isJobPage: false,
-          //   onRefresh: fetchCompanyAdvs,
-          //   items: advList,
-          //   isFirebase: true,
-          //   isMyPage: false,
-          //   routeName: CompanyAdvertisement.routeName,
-          // ),
+          centerTitle: true,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.asset(
+                "./assets/images/alaevLogoClean.png",
+                scale: 11,
+              ),
+            ],
           ),
+        ),
+        body: Container(
+            child: CardCompanyWidget(
+                onRefresh: fetchCompanyAdvs,
+                items: advList,
+                routeName: CompanyAdvertisement.routeName)
+            // CardWidget(
+            //   isJobPage: false,
+            //   onRefresh: fetchCompanyAdvs,
+            //   items: advList,
+            //   isFirebase: true,
+            //   isMyPage: false,
+            //   routeName: CompanyAdvertisement.routeName,
+            // ),
+            ),
+      ),
     );
   }
 }

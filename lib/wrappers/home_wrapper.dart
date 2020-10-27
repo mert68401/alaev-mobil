@@ -12,32 +12,6 @@ class HomeWrapper extends StatefulWidget {
 class _HomeWrapperState extends State<HomeWrapper> {
   double appBarRadius = 0;
 
-  final List<String> pageTitles = ["DUYURULAR", "İŞ İLANLARI", "ANLAŞMALI KURUMLAR", "PROFİLİM"];
-  final List<List<Color>> colors = [
-    [
-      Colors.yellow,
-      Colors.red,
-    ],
-    [
-      Colors.red,
-      Colors.green,
-    ],
-    [
-      Colors.blue,
-      Colors.green,
-    ],
-    [
-      Colors.purple,
-      Colors.red,
-    ]
-  ];
-  final List<String> icons = [
-    './assets/images/phone.png',
-    './assets/images/building.png',
-    './assets/images/phone.png',
-    './assets/images/phone.png',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -47,18 +21,12 @@ class _HomeWrapperState extends State<HomeWrapper> {
     super.dispose();
   }
 
-  void customLaunch(command) async {
-    if (await canLaunch(command)) {
-      await launch(command);
-    } else {
-      print(' could not launch $command');
-    }
-  }
-
   void routePush() {
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => HomeWrapper()));
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -80,34 +48,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
           ),
         ),
         //grid
-        body: GridView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount: pageTitles.length,
-            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: routePush,
-                child: Stack(children: [
-                  Container(
-                    margin: EdgeInsets.all(28),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
-                      gradient: LinearGradient(colors: colors[index]),
-                      image: DecorationImage(
-                        alignment: Alignment.center,
-                        scale: 10 / 2,
-                        image: ExactAssetImage(icons[index]),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Text(pageTitles[index], style: TextStyle(fontWeight: FontWeight.bold),),
-                    alignment: Alignment.bottomCenter,
-                  )
-                ]),
-              );
-            })
+        body: SizedBox()
         // slivers: <Widget>[
         //   SliverAppBar(
         //     backgroundColor: Colors.white,

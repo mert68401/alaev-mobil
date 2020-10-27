@@ -148,6 +148,29 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
         onChange: (val) => setState(() => _citySelectedItem = val.value));
   }
 
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            buttonPadding: EdgeInsets.all(15),
+            title: new Text('Emin misin?'),
+            content: new Text('Uygulamayı kapatmak istiyor musun'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("HAYIR"),
+              ),
+              SizedBox(width: 16),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Text("EVET"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     String citySelectedItem = 'Hepsi';
@@ -171,8 +194,7 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       S2Choice<String>(value: 'Lise', title: 'Lise'),
       S2Choice<String>(
           value: 'Önlisans - Öğrenci', title: 'Önlisans - Öğrenci'),
-      S2Choice<String>(
-          value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
+      S2Choice<String>(value: 'Önlisans - Mezun', title: 'Önlisans - Mezun'),
       S2Choice<String>(
           value: 'Üniversite - Öğrenci', title: 'Üniversite - Öğrenci'),
       S2Choice<String>(
@@ -183,128 +205,131 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       S2Choice<String>(value: 'Doktora', title: 'Doktora'),
     ];
 
-    return Scaffold(
-      key: _drawerKey,
-      endDrawer: SafeArea(
-        child: Drawer(
-          child: Container(
-            padding: EdgeInsets.all(10),
-            child: ListView(
-              children: <Widget>[
-                DrawerHeader(
-                  decoration: BoxDecoration(),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset(
-                          './assets/images/alaevLogoClean.png',
-                          fit: BoxFit.cover,
-                          height: 120,
-                        ),
-                      ],
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        key: _drawerKey,
+        endDrawer: SafeArea(
+          child: Drawer(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: ListView(
+                children: <Widget>[
+                  DrawerHeader(
+                    decoration: BoxDecoration(),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            './assets/images/alaevLogoClean.png',
+                            fit: BoxFit.cover,
+                            height: 120,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  'Detaylı Arama',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25),
-                ),
-                SizedBox(height: 15),
-                smartSelectCity(),
-                smartSelect(
-                    'Öğrenim Durumu', diplomaOptions, _diplomaSelectedItem),
-                smartSelect2(
-                    'Kategori', categoryOptions, _categorySelectedItem),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    RaisedButton(
-                      child: Text("Filtrele"),
-                      textColor: Colors.white,
-                      color: Colors.green,
-                      onPressed: () {
-                        setState(() {
-                          fetchJobAdvs(_categorySelectedItem,
-                              _diplomaSelectedItem, _citySelectedItem);
-                          Navigator.pop(context);
-                        });
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                    )
-                  ],
-                )
-              ],
+                  Text(
+                    'Detaylı Arama',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  SizedBox(height: 15),
+                  smartSelectCity(),
+                  smartSelect(
+                      'Öğrenim Durumu', diplomaOptions, _diplomaSelectedItem),
+                  smartSelect2(
+                      'Kategori', categoryOptions, _categorySelectedItem),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text("Filtrele"),
+                        textColor: Colors.white,
+                        color: Colors.green,
+                        onPressed: () {
+                          setState(() {
+                            fetchJobAdvs(_categorySelectedItem,
+                                _diplomaSelectedItem, _citySelectedItem);
+                            Navigator.pop(context);
+                          });
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        // leading: IconButton(
-        //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
-        //     onPressed: () {
-        //       Scaffold.of(context).openDrawer();
-        //     }),
-        actions: <Widget>[
-          SizedBox(width: 15),
-          IconButton(
-              icon: Icon(Icons.search, color: Theme.of(context).primaryColor),
-              onPressed: () {
-                _drawerKey.currentState.openEndDrawer();
-              }),
-          _isFirma
-              ? IconButton(
-                  icon: Icon(
-                    Icons.list,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  onPressed: () {
-                    _pushNamedPage(context, MyJobAdvsScreen.routeName);
-                  })
-              : SizedBox(),
-          _isFirma
-              ? IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  onPressed: () {
-                    _pushNamedPage(context, AddNewJobAdvScreen.routeName);
-                  })
-              : SizedBox(),
-        ],
-        centerTitle: true,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Image.asset(
-              "./assets/images/alaevLogoClean.png",
-              scale: 11,
-            ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          // leading: IconButton(
+          //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+          //     onPressed: () {
+          //       Scaffold.of(context).openDrawer();
+          //     }),
+          actions: <Widget>[
+            SizedBox(width: 15),
+            IconButton(
+                icon: Icon(Icons.search, color: Theme.of(context).primaryColor),
+                onPressed: () {
+                  _drawerKey.currentState.openEndDrawer();
+                }),
+            _isFirma
+                ? IconButton(
+                    icon: Icon(
+                      Icons.list,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: () {
+                      _pushNamedPage(context, MyJobAdvsScreen.routeName);
+                    })
+                : SizedBox(),
+            _isFirma
+                ? IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onPressed: () {
+                      _pushNamedPage(context, AddNewJobAdvScreen.routeName);
+                    })
+                : SizedBox(),
           ],
-        ),
-      ),
-      body: Container(
-          child: CardJobWidget(
-              onRefresh: () => fetchJobAdvs(_diplomaSelectedItem,
-                  _categorySelectedItem, _citySelectedItem),
-              items: jobAdvList,
-              routeName: JobAdvertisement.routeName)
-          // CardWidget(
-          //   isJobPage: true,
-          //   onRefresh: fetchJobAdvs,
-          //   items: jobAdvList,
-          //   isFirebase: true,
-          //   isMyPage: false,
-          //   routeName: JobAdvertisement.routeName,
-          // ),
+          centerTitle: true,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.asset(
+                "./assets/images/alaevLogoClean.png",
+                scale: 11,
+              ),
+            ],
           ),
+        ),
+        body: Container(
+            child: CardJobWidget(
+                onRefresh: () => fetchJobAdvs(_diplomaSelectedItem,
+                    _categorySelectedItem, _citySelectedItem),
+                items: jobAdvList,
+                routeName: JobAdvertisement.routeName)
+            // CardWidget(
+            //   isJobPage: true,
+            //   onRefresh: fetchJobAdvs,
+            //   items: jobAdvList,
+            //   isFirebase: true,
+            //   isMyPage: false,
+            //   routeName: JobAdvertisement.routeName,
+            // ),
+            ),
+      ),
     );
   }
 }

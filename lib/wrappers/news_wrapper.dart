@@ -65,37 +65,63 @@ class _NewsWrapperState extends State<NewsWrapper> {
 
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            buttonPadding: EdgeInsets.all(15),
+            title: new Text('Emin misin?'),
+            content: new Text('Uygulamayı kapatmak istiyor musun'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("HAYIR"),
+              ),
+              SizedBox(width: 16),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Text("EVET"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: _drawerKey,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          // leading: IconButton(
-          //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
-          //     onPressed: () {
-          //       Scaffold.of(context).openDrawer();
-          //     }),
-          title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Image.asset(
-              "./assets/images/alaevLogoClean.png",
-              scale: 11,
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+          key: _drawerKey,
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            // leading: IconButton(
+            //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+            //     onPressed: () {
+            //       Scaffold.of(context).openDrawer();
+            //     }),
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.asset(
+                  "./assets/images/alaevLogoClean.png",
+                  scale: 11,
+                ),
+              ],
             ),
-          ],
-        ),
-        ),
-        body: Container(
-          child: CardWidget(
-            isJobPage: false,
-            items: newsList,
-            onRefresh: fetchNews,
-            isFirebase: false,
-            isMyPage: false,
-            routeName: NewsDetailScreen.routeName,
           ),
-        ));
+          body: Container(
+            child: CardWidget(
+              isJobPage: false,
+              items: newsList,
+              onRefresh: fetchNews,
+              isFirebase: false,
+              isMyPage: false,
+              routeName: NewsDetailScreen.routeName,
+            ),
+          )),
+    );
   }
 }
