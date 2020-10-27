@@ -32,7 +32,6 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
             "companyDiscount": element["companyDiscount"],
             "companyAdress": element["companyAdress"],
             "companyPhone": element["companyPhone"],
-
           });
         });
       });
@@ -66,9 +65,9 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
         ),
       ),
       body: CardDiscountedPlaces(
-            onRefresh: getDiscountedPlaces,
-            items: discountedPlacesList,
-            routeName: CompanyDetailScreen.routeName),
+          onRefresh: getDiscountedPlaces,
+          items: discountedPlacesList,
+          routeName: CompanyDetailScreen.routeName),
     );
   }
 }

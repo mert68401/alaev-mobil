@@ -1,6 +1,9 @@
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/screens/company_list_screen.dart';
+import 'package:alaev/screens/user_list_screen.dart';
 import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../screens/login_screen.dart';
 import '../wrappers/home_wrapper.dart';
@@ -18,28 +21,84 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
+void customLaunch(command) async {
+  if (await canLaunch(command)) {
+    await launch(command);
+  } else {
+    print(' could not launch $command');
+  }
+}
+
 class HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 2;
+
   // int get selectedIndex => _selectedIndex;
   // set selectedIndex(int val) {
   //   _selectedIndex = val;
   //   notifyListeners();//
   // }
+
+  // final List<Map<String, dynamic>> mainPages = [
+  //   {
+  //     'name': "ALAEV İSTEKLER",
+  //     'color': [
+  //       Colors.yellow,
+  //       Colors.red,
+  //     ],
+  //     'icon': './assets/images/phone.png'
+  //   },
+  //   {
+  //     'name': "DUYURULAR",
+  //     'color': [
+  //       Colors.red,
+  //       Colors.green,
+  //     ],
+  //     'icon': './assets/images/announcement.png'
+  //   },
+  //   {
+  //     'name': "İŞ İLANLARI",
+  //     'color': [
+  //       Colors.blue,
+  //       Colors.green,
+  //     ],
+  //     'icon': './assets/images/job-seeker.png',
+  //   },
+  //   {
+  //     'name': "ALAEV İSTEKLER",
+  //     'color': [
+  //       Colors.purple,
+  //       Colors.red,
+  //     ],
+  //     'icon': './assets/images/building.png',
+  //   },
+  //   {
+  //     'name': "PROFİLİM",
+  //     'color': [
+  //       Colors.purple,
+  //       Colors.red,
+  //     ],
+  //     'icon': './assets/images/profile.png',
+  //   },
+  // ];
+
   final List<String> pageTitles = [
     "ALAEV İSTEKLER",
     "DUYURULAR",
     "İŞ İLANLARI",
     "ANLAŞMALI KURUMLAR",
     "PROFİLİM",
+    "ÜYELERİMİZ",
+    "WEBSİTEMİZ",
   ];
+
   final List<List<Color>> colors = [
     [
       Colors.yellow,
       Colors.red,
     ],
     [
-      Colors.red,
-      Colors.green,
+      Colors.purpleAccent,
+      Colors.lightBlueAccent,
     ],
     [
       Colors.blue,
@@ -50,21 +109,26 @@ class HomeScreenState extends State<HomeScreen> {
       Colors.red,
     ],
     [
-      Colors.purple,
-      Colors.red,
+      Colors.deepPurple,
+      Colors.blueGrey,
     ],
     [
-      Colors.purple,
-      Colors.red,
+      Colors.indigo,
+      Colors.teal,
+    ],
+    [
+      Colors.yellow,
+      Colors.redAccent,
     ]
   ];
   final List<String> icons = [
     './assets/images/phone.png',
+    './assets/images/announcement.png',
+    './assets/images/job-seeker.png',
     './assets/images/building.png',
-    './assets/images/phone.png',
-    './assets/images/phone.png',
-    './assets/images/phone.png',
-    './assets/images/phone.png',
+    './assets/images/profile.png',
+    './assets/images/community.png',
+    './assets/images/worldwide.png',
   ];
   PageController _pageController;
   final double _iconSize = 20;
@@ -113,7 +177,7 @@ class HomeScreenState extends State<HomeScreen> {
       ];
     }
     return Scaffold(
-      drawer: DrawerWidget(),
+      // drawer: DrawerWidget(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).primaryColor,
@@ -124,7 +188,7 @@ class HomeScreenState extends State<HomeScreen> {
             title: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: Text(
-                'İhaleler',
+                'İstekler',
                 style: TextStyle(
                     color: _selectedIndex == 0
                         ? Theme.of(context).accentColor
@@ -242,6 +306,13 @@ class HomeScreenState extends State<HomeScreen> {
     if (index == 4 && !widget.loggedIn) {
       Navigator.of(context).pushNamed(LoginScreen.routeName);
       return;
+    } else if (index == 5) {
+      Navigator.of(context).pushNamed(UserListScreen.routeName);
+      return;
+    } else if (index == 6) {
+      Navigator.of(context).pushNamed(HomeScreen.routeName);
+      customLaunch('http://alaev.org.tr');
+      return;
     }
     setState(() {
       _selectedIndex = index;
@@ -276,24 +347,37 @@ class HomeScreenState extends State<HomeScreen> {
             physics: BouncingScrollPhysics(),
             itemCount: pageTitles.length,
             gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
+                childAspectRatio: 1.15, crossAxisCount: 2),
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
-                onTap: () => _onItemTapped(index),
+                onTap: () => {
+                  if (index == 2)
+                    {index = 3}
+                  else if (index == 3)
+                    {
+                      index = 2,
+                      Navigator.of(context)
+                          .pushNamed(CompanyListScreen.routeName)
+                    }
+                  else if (index == 6)
+                    {Navigator.pop(context)},
+                  _onItemTapped(index)
+                },
                 child: Stack(children: [
                   Container(
                     margin: EdgeInsets.all(28),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(80.0),
+                      shape: BoxShape.circle,
                       gradient: LinearGradient(colors: colors[index]),
                       image: DecorationImage(
                         alignment: Alignment.center,
-                        scale: 10 / 2,
+                        scale: 10 / 1.4,
                         image: ExactAssetImage(icons[index]),
                       ),
                     ),
                   ),
                   Container(
+                    margin: EdgeInsets.only(bottom: 5),
                     child: Text(
                       pageTitles[index],
                       style: TextStyle(fontWeight: FontWeight.bold),

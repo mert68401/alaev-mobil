@@ -22,6 +22,7 @@ environment:
 
 dependencies:
     http: ^0.12.1
+    flutter_dotenv: ^2.1.0
     flutter_html: ^1.0.0
     firebase_core: ^0.4.4+3
     firebase_storage: ^3.1.6
@@ -64,6 +65,7 @@ flutter:
 
     # To add assets to your application, add an assets section, like this:
     assets:
+        - .env
         - assets/images/slide04.jpg
         - assets/images/logo.jpg
         - assets/images/slide01.jpg
@@ -78,6 +80,13 @@ flutter:
         - assets/images/empty.png
         - assets/images/phone.png
         - assets/images/building.png
+        - assets/images/profile.png
+        - assets/images/job-seeker.png
+        - assets/images/announcement.png
+        - assets/images/community.png
+        - assets/images/worldwide.png
+
+
 
 
     # An image asset can refer to one or more resolution-specific "variants", see

@@ -29,10 +29,12 @@ import 'screens/company_adv/company_adv_detail_screen.dart';
 import './screens/cv_screen.dart';
 import './screens/user_list_screen.dart';
 import './screens/user_list_detail_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PushNotificationsManager().init();
+  await DotEnv().load('.env');
   runApp(MyApp());
 }
 

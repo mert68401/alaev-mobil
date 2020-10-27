@@ -72,11 +72,11 @@ class _NewsWrapperState extends State<NewsWrapper> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              }),
+          // leading: IconButton(
+          //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+          //     onPressed: () {
+          //       Scaffold.of(context).openDrawer();
+          //     }),
           title: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

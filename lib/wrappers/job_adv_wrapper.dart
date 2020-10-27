@@ -246,11 +246,11 @@ class _JobAdvertisementWrapperState extends State<JobAdvertisementWrapper> {
       ),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            }),
+        // leading: IconButton(
+        //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+        //     onPressed: () {
+        //       Scaffold.of(context).openDrawer();
+        //     }),
         actions: <Widget>[
           SizedBox(width: 15),
           IconButton(

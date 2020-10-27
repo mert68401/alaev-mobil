@@ -93,11 +93,11 @@ class MapScreenState extends State<ProfileWrapper>
     return Scaffold(
         key: _drawerKey,
         appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              }),
+          // leading: IconButton(
+          //     icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
+          //     onPressed: () {
+          //       Scaffold.of(context).openDrawer();
+          //     }),
           backgroundColor: Colors.white,
           actions: <Widget>[
             IconButton(
