@@ -5,7 +5,7 @@ class PostDetailScreen extends StatefulWidget {
   @override
   _PostDetailScreenState createState() => _PostDetailScreenState();
 }
-//
+//as
 class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   Widget build(BuildContext context) {
