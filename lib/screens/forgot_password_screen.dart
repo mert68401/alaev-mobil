@@ -52,22 +52,23 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 60),
                 Container(
-                    margin: EdgeInsets.only(left: 200),
-                    width: MediaQuery.of(context).devicePixelRatio * 50,
-                    child: RaisedButton(
-                      child: const Text("Gönder"),
-                      textColor: Colors.white,
-                      color: Colors.green,
-                      onPressed: () {
-                        if (email.text != '') {
-                          forgotPasswordRequest(email: email.text);
-                        } else {
-                          showToastError('Lütfen Mailinizi giriniz!');
-                        }
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                    )),
+                  margin: EdgeInsets.only(left: 200),
+                  width: MediaQuery.of(context).devicePixelRatio * 50,
+                  child: RaisedButton(
+                    child: const Text("Gönder"),
+                    textColor: Colors.white,
+                    color: Colors.green,
+                    onPressed: () {
+                      if (email.text != '') {
+                        forgotPasswordRequest(email: email.text);
+                      } else {
+                        showToastError('Lütfen Mailinizi giriniz!');
+                      }
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                  ),
+                ),
               ],
             ),
           ),

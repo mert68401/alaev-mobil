@@ -31,6 +31,7 @@ function connectToMongo() {
                 }, 5000);
                 return;
             }
+            app.locals.database = client.db("alaev");
             database = client.db("alaev");
             console.log("Connected to MongoDB Server!");
         }

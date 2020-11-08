@@ -243,3 +243,62 @@ Future<String> getDiscountFromQr(
     return "";
   }
 }
+
+Future<void> createPost(
+  String imageUrl,
+  String content,
+) async {
+  getToken().then((token) async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final response = await http.post(
+      'http://' + ServerIP().other + ':2000/api/social-media/createPost',
+      headers: headers,
+      body: jsonEncode(<String, String>{
+        "imageUrl": imageUrl,
+        "content": content,
+        "token": token,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      showToastSuccess(jsonDecode(response.body)['message']);
+    } else if (response.statusCode == 401) {
+      showToastError(jsonDecode(response.body)['message'].toString());
+    }
+  });
+}
+
+Future<dynamic> getAllPosts() async {
+  final List<Map<String, dynamic>> postList = [];
+  Map<String, String> headers = {"Content-type": "application/json"};
+  final response = await http.post(
+    'http://' + ServerIP().other + ':2000/api/social-media/getPosts',
+    headers: headers,
+    body: jsonEncode(
+      <String, dynamic>{
+        "filter": {},
+        "params": {
+          "sort": {"createdAt": -1}
+        }
+      },
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    List<dynamic> body = jsonDecode(response.body);
+    body.forEach((element) {
+      postList.add({
+        "_id": element["_id"],
+        "imageUrl": element["imageUrl"],
+        "content": element["content"],
+        "likesArray": element["likesArray"],
+        "commentsArray": element['commentsArray']
+      });
+    });
+    return postList;
+    //showToastSuccess(jsonDecode(response.body)['message']);
+  } else if (response.statusCode == 401) {
+    showToastError(jsonDecode(response.body)['message'].toString());
+    return [];
+  }
+}

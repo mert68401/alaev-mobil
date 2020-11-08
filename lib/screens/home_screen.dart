@@ -1,9 +1,12 @@
 import 'dart:ui';
 
 import 'package:alaev/functions/functions.dart';
+import 'package:alaev/functions/requests.dart';
+import 'package:alaev/screens/posts/post_create_screen.dart';
 // import 'package:alaev/screens/company_list_screen.dart';
 import 'package:alaev/screens/posts/post_detail_screen.dart';
 import 'package:alaev/screens/user_list_screen.dart';
+import 'package:alaev/widgets/card_post_widget.dart';
 // import 'package:alaev/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,7 +23,6 @@ import '../wrappers/company_adv_wrapper.dart';
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
   final bool loggedIn;
-
   HomeScreen({@required this.loggedIn});
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -36,6 +38,7 @@ void customLaunch(command) async {
 
 class HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 2;
+  List<Map<String, dynamic>> postList = [];
 
   final List<String> pageTitles = [
     "ALAEV İSTEKLER",
@@ -99,6 +102,14 @@ class HomeScreenState extends State<HomeScreen> {
         if (value == null) {
           Navigator.of(context).pushNamed(LoginScreen.routeName);
         }
+      });
+      getAllPosts().then((list) {
+        setState(() {
+          if (mounted) {
+            postList = list;
+            print(postList);
+          }
+        });
       });
     }
   }
@@ -308,6 +319,15 @@ class HomeScreenState extends State<HomeScreen> {
       child: WillPopScope(
         onWillPop: _onBackPressed,
         child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: Theme.of(context).accentColor,
+              onPressed: () {
+                Navigator.pushNamed(context, CreatePostScreen.routeName);
+              },
+              child: Icon(Icons.add),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
             appBar: AppBar(
               iconTheme: IconThemeData(
                 color: Theme.of(context).primaryColor, //change your color here
@@ -327,118 +347,9 @@ class HomeScreenState extends State<HomeScreen> {
             //grid
             body: ListView.builder(
                 physics: BouncingScrollPhysics(),
-                itemCount: 2,
+                itemCount: postList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    elevation: 4,
-                    margin: EdgeInsets.all(10),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.all(5),
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Eren Doğruca',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                          ),
-                        ),
-                        ClipRRect(
-                          child: Image.asset("./assets/images/1.jpg"),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: [
-                                  InkWell(
-                                      onTap: () {
-                                        print('adsasd');
-                                      },
-                                      child: FaIcon(FontAwesomeIcons.heart)),
-                                  SizedBox(width: 30),
-                                  InkWell(
-                                      onTap: () {
-                                        print('adsasd');
-                                      },
-                                      child: FaIcon(FontAwesomeIcons.comment))
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '20 beğenme',
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 5),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          'Eren Doğruca' + ' ',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Flexible(
-                                        flex: 2,
-                                        child: Text(
-                                          'TestBaş lıkasdddddddddd ddadsdsadsaaasdsaddsadsadsdsadsadsadsadsadsadsadsadsdsdssadsds',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 3,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed(
-                                          PostDetailScreen.routeName);
-                                    },
-                                    child: Text(
-                                      'Diğer yorumlar',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(color: Colors.grey[600]),
-                                    ),
-                                  ),
-                                  Text(
-                                    DateFormat('kk:mm').format(DateTime.now()),
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  return PostCardWidget(postList[index]);
                 })),
       ),
     );
