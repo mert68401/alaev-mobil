@@ -4,15 +4,18 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const mongoClient = require("mongodb").MongoClient;
-//var url = "mongodb://localhost:27017/alaev";
-var url =
-  "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
+var url = "mongodb://localhost:27017/alaev";
+// var url =
+//   "mongodb+srv://devAccount:NzJECdw6qyT534CZ@cluster0.8khb6.mongodb.net/alaev?retryWrites=true&w=majority";
 var database = null;
 const nodemailer = require("nodemailer");
 const fs = require("fs");
 const util = require("util");
 const activationMail = require("./email-templates/activation-mail");
 const forgotPasswordMail = require("./email-templates/forgot-password");
+const auth = require("./middleware/auth");
+
+var path = require("path");
 
 require("dotenv").config();
 const log_file = fs.createWriteStream(__dirname + "/debug.log", { flags: "a" });
@@ -39,6 +42,8 @@ function connectToMongo() {
 }
 
 const app = express();
+app.use(express.static("uploads"));
+
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -66,6 +71,70 @@ app.get("/", function (req, res) {
   res.end(); //end the response
 });
 var router = express.Router();
+
+var multer = require("multer");
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/photos");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); //Appending extension
+  },
+});
+
+var desti = multer({
+  storage: storage,
+  fileFilter: function (_req, file, cb) {
+    checkFileType(file, cb);
+  },
+});
+var file = desti.single("photo");
+
+function checkFileType(file, cb) {
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png|gif/;
+  // Check ext
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  // Check mime
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb("Error: Images Only!");
+  }
+}
+
+router.post("/makePost", auth, async (req, res) => {
+  const userId = req.user._id;
+  try {
+    file(req, res, function (err) {
+      const photo = req.file;
+      if (photo) {
+        const content = req.body.content;
+        if (err instanceof multer.MulterError) {
+          console.log(err);
+          return res.send("A Multer error occurred when uploading1.");
+        } else if (err) {
+          console.log(err);
+          return res.send("Lütfen resim dosyası yükleyiniz!");
+        }
+        database.collection("posts").insertOne({
+          userId: userId,
+          photo: "/photos/" + photo.filename,
+          content: content,
+          createdAt: new Date(),
+        });
+
+        return res.send("Resim yüklendi!");
+      } else {
+        return res.send("Resim alınamadı!");
+      }
+    });
+  } catch (error) {
+    return res.send(error.message);
+  }
+});
 
 /*
 // Register
@@ -522,41 +591,45 @@ router.post("/setCvPage", function (req, res) {
 //Get getDiscountedtPlaces
 */
 router.post("/getUserAccounts", function (req, res) {
-    var body = req.body;
-    var params = body.params;
-    var regex = body.regex;
-    var filter = body.filter;
-    var projection = params.projection ? { projection: params.projection } : {};
-    var data = database.collection("userAccounts").find(
+  var body = req.body;
+  var params = body.params;
+  var regex = body.regex;
+  var filter = body.filter;
+  var projection = params.projection ? { projection: params.projection } : {};
+  var data = database.collection("userAccounts").find(
+    {
+      $or: [
+        { fullName: { $regex: new RegExp(regex, "i") }, ...filter },
         {
-            $or: [
-                { fullName: { $regex: new RegExp(regex, "i") }, ...filter },
-                { phone: { $regex: new RegExp(regex, "i") }, showPhone: true, ...filter },
-                { job: { $regex: new RegExp(regex, "i") }, ...filter },
-                { university: { $regex: new RegExp(regex, "i") }, ...filter },
-                { graduateYear: { $regex: new RegExp(regex, "i") }, ...filter },
-                { city: { $regex: new RegExp(regex, "i") }, ...filter },
-            ],
+          phone: { $regex: new RegExp(regex, "i") },
+          showPhone: true,
+          ...filter,
         },
-        projection
-    );
-    if (params.sort) {
-        data = data.sort(params.sort);
-    }
-    if (params.limit) {
-        data = data.limit(params.limit);
-    }
+        { job: { $regex: new RegExp(regex, "i") }, ...filter },
+        { university: { $regex: new RegExp(regex, "i") }, ...filter },
+        { graduateYear: { $regex: new RegExp(regex, "i") }, ...filter },
+        { city: { $regex: new RegExp(regex, "i") }, ...filter },
+      ],
+    },
+    projection
+  );
+  if (params.sort) {
+    data = data.sort(params.sort);
+  }
+  if (params.limit) {
+    data = data.limit(params.limit);
+  }
 
-    data.toArray(function (err, docs) {
-        if (err) {
-            res.status(401).send({
-                success: false,
-                message: "An error occured!",
-            });
-            return;
-        }
-        res.json(docs);
-    });
+  data.toArray(function (err, docs) {
+    if (err) {
+      res.status(401).send({
+        success: false,
+        message: "An error occured!",
+      });
+      return;
+    }
+    res.json(docs);
+  });
 });
 
 /*
@@ -1204,28 +1277,28 @@ router.post("/getAppliedUserData", function (req, res) {
         if (docs && docs.appliedUsers) {
           database
             .collection("cvForms")
-            .find({ userId: { $in: docs.appliedUsers } }, function (
-              error,
-              result
-            ) {
-              if (error) {
-                res.status(401).send({
-                  success: false,
-                  message: "Cv Bulunamadı",
-                });
-              } else {
-                result.toArray(function (error, result) {
-                  if (error) {
-                    res.status(401).send({
-                      success: false,
-                      message: "An error occured!",
-                    });
-                    return;
-                  }
-                  res.json(result);
-                });
+            .find(
+              { userId: { $in: docs.appliedUsers } },
+              function (error, result) {
+                if (error) {
+                  res.status(401).send({
+                    success: false,
+                    message: "Cv Bulunamadı",
+                  });
+                } else {
+                  result.toArray(function (error, result) {
+                    if (error) {
+                      res.status(401).send({
+                        success: false,
+                        message: "An error occured!",
+                      });
+                      return;
+                    }
+                    res.json(result);
+                  });
+                }
               }
-            });
+            );
         } else {
           console.log("ads1");
           res.status(401).send({
@@ -2152,55 +2225,56 @@ router.post("/productCategories", isAuthenticated, function (req, res) {
   });
 });
 
-router.post("/getProductsByCategoryAlias", isAuthenticated, function (
-  req,
-  res
-) {
-  var body = req.body;
-  var filter = body.filter;
-  var params = body.params;
-  if (!filter.alias || !filter.language) {
-    missingParams(res);
-  }
-  database
-    .collection("productCategories")
-    .findOne({
-      alias: filter.alias,
-    })
-    .then(function (doc) {
-      if (!doc) {
-        res.status(401).send({
-          success: false,
-          message: "Product category not found!",
-        });
-        return false;
-      }
-      var data = database.collection("products").find({
-        cat: doc._id,
-        language: filter.language,
-      });
-      if (params.sort) {
-        data = data.sort(params.sort);
-      }
-      if (params.limit) {
-        data = data.limit(params.limit);
-      }
-      data.toArray(function (err, docs) {
-        if (err) {
+router.post(
+  "/getProductsByCategoryAlias",
+  isAuthenticated,
+  function (req, res) {
+    var body = req.body;
+    var filter = body.filter;
+    var params = body.params;
+    if (!filter.alias || !filter.language) {
+      missingParams(res);
+    }
+    database
+      .collection("productCategories")
+      .findOne({
+        alias: filter.alias,
+      })
+      .then(function (doc) {
+        if (!doc) {
           res.status(401).send({
             success: false,
-            message: "An error occured!",
+            message: "Product category not found!",
           });
-          return;
+          return false;
         }
-        res.json(
-          Object.assign(doc, {
-            products: docs,
-          })
-        );
+        var data = database.collection("products").find({
+          cat: doc._id,
+          language: filter.language,
+        });
+        if (params.sort) {
+          data = data.sort(params.sort);
+        }
+        if (params.limit) {
+          data = data.limit(params.limit);
+        }
+        data.toArray(function (err, docs) {
+          if (err) {
+            res.status(401).send({
+              success: false,
+              message: "An error occured!",
+            });
+            return;
+          }
+          res.json(
+            Object.assign(doc, {
+              products: docs,
+            })
+          );
+        });
       });
-    });
-});
+  }
+);
 
 router.post("/getProductsByCategoryId", isAuthenticated, function (req, res) {
   var body = req.body;
@@ -2340,55 +2414,56 @@ router.post("/solutionCategories", isAuthenticated, function (req, res) {
     res.json(docs);
   });
 });
-router.post("/getSolutionsByCategoryAlias", isAuthenticated, function (
-  req,
-  res
-) {
-  var body = req.body;
-  var filter = body.filter;
-  var params = body.params;
-  if (!filter.alias || !filter.language) {
-    missingParams(res);
-  }
-  database
-    .collection("solutionCategories")
-    .findOne({
-      alias: filter.alias,
-    })
-    .then(function (doc) {
-      if (!doc) {
-        res.status(401).send({
-          success: false,
-          message: "Solution category not found!",
-        });
-        return false;
-      }
-      var data = database.collection("solutions").find({
-        cat: doc._id,
-        language: filter.language,
-      });
-      if (params.sort) {
-        data = data.sort(params.sort);
-      }
-      if (params.limit) {
-        data = data.limit(params.limit);
-      }
-      data.toArray(function (err, docs) {
-        if (err) {
+router.post(
+  "/getSolutionsByCategoryAlias",
+  isAuthenticated,
+  function (req, res) {
+    var body = req.body;
+    var filter = body.filter;
+    var params = body.params;
+    if (!filter.alias || !filter.language) {
+      missingParams(res);
+    }
+    database
+      .collection("solutionCategories")
+      .findOne({
+        alias: filter.alias,
+      })
+      .then(function (doc) {
+        if (!doc) {
           res.status(401).send({
             success: false,
-            message: "An error occured!",
+            message: "Solution category not found!",
           });
-          return;
+          return false;
         }
-        res.json(
-          Object.assign(doc, {
-            solutions: docs,
-          })
-        );
+        var data = database.collection("solutions").find({
+          cat: doc._id,
+          language: filter.language,
+        });
+        if (params.sort) {
+          data = data.sort(params.sort);
+        }
+        if (params.limit) {
+          data = data.limit(params.limit);
+        }
+        data.toArray(function (err, docs) {
+          if (err) {
+            res.status(401).send({
+              success: false,
+              message: "An error occured!",
+            });
+            return;
+          }
+          res.json(
+            Object.assign(doc, {
+              solutions: docs,
+            })
+          );
+        });
       });
-    });
-});
+  }
+);
 
 /*
 //Search
