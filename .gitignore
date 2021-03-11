@@ -55,3 +55,4 @@ app.*.map.json
 /api/package.json
 /app-release.apk
 /package-lock.json
+.env.zip
