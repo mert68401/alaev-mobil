@@ -14,7 +14,7 @@ const util = require("util");
 const activationMail = require("./email-templates/activation-mail");
 const forgotPasswordMail = require("./email-templates/forgot-password");
 const auth = require("./middleware/auth");
-
+var ObjectId = require("mongodb").ObjectId;
 var path = require("path");
 
 require("dotenv").config();
@@ -87,6 +87,9 @@ var desti = multer({
   fileFilter: function (_req, file, cb) {
     checkFileType(file, cb);
   },
+  limits: {
+    fieldSize: 5048576,
+  },
 });
 var file = desti.single("photo");
 
@@ -105,10 +108,20 @@ function checkFileType(file, cb) {
   }
 }
 
+/* ---------------------------------------------------------------- Post Endpoints start ---------------------------------------------------------------- */
+
+/*
+// Make Post
+*/
+
 router.post("/makePost", auth, async (req, res) => {
   const userId = req.user._id;
+
   try {
-    file(req, res, function (err) {
+    const user = await database
+      .collection("userAccounts")
+      .findOne({ _id: userId });
+    file(req, res, async function (err) {
       const photo = req.file;
       if (photo) {
         const content = req.body.content;
@@ -119,22 +132,233 @@ router.post("/makePost", auth, async (req, res) => {
           console.log(err);
           return res.send("Lütfen resim dosyası yükleyiniz!");
         }
-        database.collection("posts").insertOne({
-          userId: userId,
+        const post = await database.collection("posts").insertOne({
+          SenderUser: { fullName: user.fullName, userId: userId },
           photo: "/photos/" + photo.filename,
           content: content,
           createdAt: new Date(),
+          likes: [],
+          comments: [],
         });
 
-        return res.send("Resim yüklendi!");
+        return res.send(post.ops[0]);
       } else {
         return res.send("Resim alınamadı!");
       }
     });
   } catch (error) {
+    console.log(error);
     return res.send(error.message);
   }
 });
+
+/*
+// Delete post
+*/
+
+router.post("/removePost", auth, async (req, res) => {
+  const userId = req.user._id;
+  const postId = req.body.postId;
+  try {
+    const post = await database
+      .collection("posts")
+      .findOne({ _id: ObjectId(postId) });
+    if (post) {
+      if (userId == post.SenderUser.userId) {
+        const path = "./uploads" + post.photo;
+        fs.unlinkSync(path);
+        await database.collection("posts").deleteOne({ _id: ObjectId(postId) });
+        res.send("Post silindi!");
+      } else {
+        res.send("Bu başkasına ait bir post!");
+      }
+    } else {
+      res.send("Post bulunamadı!");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.send(error.message);
+  }
+});
+
+/*
+// Like/Unlike post
+*/
+
+router.post("/likePost", auth, async (req, res) => {
+  const userId = req.user._id;
+  const postId = req.body.postId;
+  try {
+    const post = await database
+      .collection("posts")
+      .findOne({ _id: ObjectId(postId) });
+    if (post) {
+      const user = await database
+        .collection("userAccounts")
+        .findOne({ _id: userId });
+      const bool = post.likes.some((like) => like.userId == userId);
+      if (!bool) {
+        await database.collection("posts").updateOne(
+          { _id: ObjectId(postId) },
+          {
+            $push: {
+              likes: { userId: userId, fullName: user.fullName },
+            },
+          }
+        );
+        const newPost = await database
+          .collection("posts")
+          .findOne({ _id: ObjectId(postId) });
+        return res.send(newPost);
+      } else {
+        await database.collection("posts").updateOne(
+          { _id: ObjectId(postId) },
+          {
+            $pull: {
+              likes: { userId: userId, fullName: user.fullName },
+            },
+          }
+        );
+        const newPost = await database
+          .collection("posts")
+          .findOne({ _id: ObjectId(postId) });
+        return res.send(newPost);
+      }
+    } else {
+      res.send("Post bulunamadı!");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.send(error.message);
+  }
+});
+
+/*
+// Add Comment
+*/
+
+router.post("/addComment", auth, async (req, res) => {
+  const userId = req.user._id;
+  const postId = req.body.postId;
+  const content = req.body.content;
+  try {
+    const post = await database
+      .collection("posts")
+      .findOne({ _id: ObjectId(postId) });
+
+    if (post) {
+      const user = await database
+        .collection("userAccounts")
+        .findOne({ _id: userId });
+      const commentObj = {
+        id: makeid(),
+        content: content,
+        senderUser: {
+          userId: userId,
+          fullName: user.fullName,
+        },
+        createdAt: new Date(),
+      };
+      await database.collection("posts").updateOne(
+        { _id: ObjectId(postId) },
+        {
+          $push: {
+            comments: commentObj,
+          },
+        }
+      );
+      res.send(commentObj);
+    } else {
+      res.send("Post bulunamadı!");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.send(error.message);
+  }
+});
+
+/*
+// GetCommentsByPost
+*/
+
+router.post("/getCommentsByPost", async (req, res) => {
+  const postId = req.body.postId;
+  try {
+    const post = await database
+      .collection("posts")
+      .findOne({ _id: ObjectId(postId) });
+
+    if (post) {
+      res.send(post.comments);
+    } else {
+      res.send("Post bulunamadı!");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.send(error.message);
+  }
+});
+
+/*
+// getPosts
+*/
+
+router.post("/getPosts", async (req, res) => {
+  const pageSize = req.body.pageSize;
+  const p = req.body.page;
+  try {
+    database
+      .collection("posts")
+      .find()
+      .sort({ createdAt: -1 })
+      .toArray()
+      .then((posts) => {
+        const pageCount = Math.ceil(posts.length / parseInt(pageSize));
+        let page = parseInt(p);
+        if (!page) {
+          page = 1;
+        }
+        if (page > pageCount) {
+          page = pageCount;
+        }
+        res.json({
+          page: page,
+          pageCount: pageCount,
+          posts: posts.slice(
+            page * parseInt(pageSize) - parseInt(pageSize),
+            page * parseInt(pageSize)
+          ),
+        });
+      });
+  } catch (error) {
+    console.log(error);
+    return res.send(error.message);
+  }
+});
+
+/*
+// GetPostById
+*/
+
+router.post("/getPostById", async (req, res) => {
+  const postId = req.body.postId;
+  try {
+    const post = await database
+      .collection("posts")
+      .findOne({ _id: ObjectId(postId) });
+
+    if (post) {
+      res.send(post);
+    } else {
+      res.send("Post bulunamadı!");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.send(error.message);
+  }
+});
+
+/* ---------------------------------------------------------------- Post Endpoints end ----------------------------------------------------------------*/
 
 /*
 // Register
