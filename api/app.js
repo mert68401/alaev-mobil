@@ -75,7 +75,7 @@ var router = express.Router();
 var multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/photos");
+    cb(null, "uploads");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); //Appending extension
@@ -108,6 +108,14 @@ function checkFileType(file, cb) {
   }
 }
 
+function createDir() {
+  var dir = "./uploads";
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, 0744);
+  }
+}
+createDir();
+
 /* ---------------------------------------------------------------- Post Endpoints start ---------------------------------------------------------------- */
 
 /*
@@ -121,6 +129,7 @@ router.post("/makePost", auth, async (req, res) => {
     const user = await database
       .collection("userAccounts")
       .findOne({ _id: userId });
+
     file(req, res, async function (err) {
       const photo = req.file;
       if (photo) {

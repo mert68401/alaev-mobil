@@ -56,3 +56,5 @@ app.*.map.json
 /app-release.apk
 /package-lock.json
 .env.zip
+alaev-yapılacaklar.txt
+uploads
