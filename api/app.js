@@ -143,7 +143,7 @@ router.post("/makePost", auth, async (req, res) => {
         }
         const post = await database.collection("posts").insertOne({
           SenderUser: { fullName: user.fullName, userId: userId },
-          photo: "/photos/" + photo.filename,
+          photo: "/" + photo.filename,
           content: content,
           createdAt: new Date(),
           likes: [],
